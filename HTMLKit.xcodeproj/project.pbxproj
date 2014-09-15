@@ -26,6 +26,9 @@
 		625A150819C78ABA00AD0C32 /* HTMLInputStreamReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */; };
 		625A150919C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */; };
 		625A150A19C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */; };
+		625A150D19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A150B19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h */; };
+		625A150E19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */; };
+		625A150F19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,8 @@
 		625A14EC19C7834100AD0C32 /* HTMLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLInputStreamReader.h; sourceTree = "<group>"; };
 		625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReader.m; sourceTree = "<group>"; };
+		625A150B19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLInputStreamReaderErrors.h; sourceTree = "<group>"; };
+		625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReaderErrors.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +175,8 @@
 				625A14BD19C7829400AD0C32 /* HTMLKit.m */,
 				625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */,
 				625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */,
+				625A150B19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h */,
+				625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
 			);
 			name = "Source Code";
@@ -212,6 +219,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625A150D19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h in Headers */,
 				625A150419C783EB00AD0C32 /* HTMLKit.h in Headers */,
 				625A150819C78ABA00AD0C32 /* HTMLInputStreamReader.h in Headers */,
 			);
@@ -359,6 +367,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625A150F19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m in Sources */,
 				625A150A19C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				625A14BE19C7829400AD0C32 /* HTMLKit.m in Sources */,
 			);
@@ -376,6 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625A150E19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m in Sources */,
 				625A150919C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				625A150219C783DE00AD0C32 /* HTMLKit.m in Sources */,
 			);
