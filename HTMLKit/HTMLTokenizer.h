@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLInputStreamReader.h"
 
+/**
+ * HTML Tokenizer
+ * https://html.spec.whatwg.org/multipage/syntax.html#tokenization
+ */
 @interface HTMLTokenizer : NSObject
 
 @end
