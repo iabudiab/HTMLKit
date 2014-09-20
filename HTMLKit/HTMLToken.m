@@ -8,6 +8,46 @@
 
 #import "HTMLToken.h"
 
+@interface HTMLToken ()
+{
+	HTMLTokenType _type;
+}
+
+@property (nonatomic, assign) HTMLTokenType type;
+
+@end
+
 @implementation HTMLToken
+@synthesize type = _type;
+
+- (BOOL)isDoctypeToken
+{
+	return _type == HTMLTokenTypeDoctype;
+}
+
+- (BOOL)isStartTagToken
+{
+	return _type == HTMLTokenTypeStartTag;
+}
+
+- (BOOL)isEndTagToken
+{
+	return _type == HTMLTokenTypeEndTag;
+}
+
+- (BOOL)isCommentToken
+{
+	return _type == HTMLTokenTypeComment;
+}
+
+- (BOOL)isCharacterToken
+{
+	return _type == HTMLTokenTypeCharacter;
+}
+
+- (BOOL)isEOFToken
+{
+	return _type == HTMLTokenTypeEOF;
+}
 
 @end
