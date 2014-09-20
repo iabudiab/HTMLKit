@@ -23,4 +23,10 @@
 - (UTF32Char)currentInputCharacter;
 - (UTF32Char)nextInputCharacter;
 
+- (UTF32Char)consumeNextInputCharacter;
+- (void)unconsumeCurrentInputCharacter;
+
+- (void)markCurrentLocation;
+- (void)rewindToMarkedLocation;
+
 @end

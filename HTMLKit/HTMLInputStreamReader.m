@@ -65,6 +65,7 @@ NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
 	NSScanner *_scanner;
 	CFStringInlineBuffer _buffer;
 	NSUInteger _location;
+	NSUInteger _mark;
 	UTF32Char _currentInputCharacter;
 	NSUInteger _consume;
 	HTMLStreamReaderErrorCallback _errorCallback;
@@ -150,6 +151,18 @@ NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
 {
 	_location -= _consume;
 	_scanner.scanLocation = _location;
+	_consume = 0;
+}
+
+- (void)markCurrentLocation
+{
+	_mark = _location;
+}
+
+- (void)rewindToMarkedLocation
+{
+	_location = _mark;
+	_scanner.scanLocation = _mark;
 	_consume = 0;
 }
 
