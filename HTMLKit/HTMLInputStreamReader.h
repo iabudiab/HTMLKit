@@ -26,6 +26,10 @@
 - (UTF32Char)consumeNextInputCharacter;
 - (void)unconsumeCurrentInputCharacter;
 
+- (BOOL)consumeCharacter:(UTF32Char)character;
+- (BOOL)consumeUnsignedInt:(unsigned int *)result;
+- (BOOL)consumeHexInt:(unsigned int *)result;
+
 - (void)markCurrentLocation;
 - (void)rewindToMarkedLocation;
 

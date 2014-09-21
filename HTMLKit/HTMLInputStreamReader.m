@@ -147,6 +147,44 @@ NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
 	return nextInputCharacter;
 }
 
+- (BOOL)consumeCharacter:(UTF32Char)character
+{
+	UTF32Char nextInputCharacter = [self nextInputCharacter];
+	if (nextInputCharacter == character) {
+		_location += _consume;
+		_scanner.scanLocation = _location;
+		_currentInputCharacter = nextInputCharacter;
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)consumeUnsignedInt:(unsigned int *)result
+{
+	long long scanned;
+	BOOL success = [_scanner scanLongLong:&scanned];
+	if (success == NO || scanned < 0) return NO;
+	if (result != NULL) {
+		*result = MIN(UINT_MAX, (unsigned int)scanned);
+	}
+	_location = _scanner.scanLocation;
+	return success;
+}
+
+- (BOOL)consumeHexInt:(unsigned int *)result
+{
+	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"0123456789ABCDEFabcdef"];
+
+	NSString *string = nil;
+	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];
+	if (success == NO) return NO;
+	if (result != NULL) {
+		*result = MIN(UINT_MAX, (unsigned int)strtoull(string.UTF8String, NULL, 16));
+	}
+	_location = _scanner.scanLocation;
+	return success;
+}
+
 - (void)unconsumeCurrentInputCharacter
 {
 	_location -= _consume;
