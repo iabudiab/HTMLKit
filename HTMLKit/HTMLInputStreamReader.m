@@ -7,55 +7,7 @@
 //
 
 #import "HTMLInputStreamReader.h"
-
-#pragma mark Constants & Inlines
-
-static UTF32Char const REPLACEMENT		= 0xFFFD;
-static UTF32Char const LINE_FEED		= 0x000A;
-static UTF32Char const CARRIAGE_RETURN	= 0x000D;
-
-NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
-{
-	return ((character >= 0x0001 && character <= 0x0008) ||
-            (character >= 0x000E && character <= 0x001F) ||
-            (character >= 0x007F && character <= 0x009F) ||
-            (character >= 0xFDD0 && character <= 0xFDEF) ||
-            character == 0x000B ||
-            character == 0xFFFE ||
-            character == 0xFFFF ||
-            character == 0x1FFFE ||
-            character == 0x1FFFF ||
-            character == 0x2FFFE ||
-            character == 0x2FFFF ||
-            character == 0x3FFFE ||
-            character == 0x3FFFF ||
-            character == 0x4FFFE ||
-            character == 0x4FFFF ||
-            character == 0x5FFFE ||
-            character == 0x5FFFF ||
-            character == 0x6FFFE ||
-            character == 0x6FFFF ||
-            character == 0x7FFFE ||
-            character == 0x7FFFF ||
-            character == 0x8FFFE ||
-            character == 0x8FFFF ||
-            character == 0x9FFFE ||
-            character == 0x9FFFF ||
-            character == 0xAFFFE ||
-            character == 0xAFFFF ||
-            character == 0xBFFFE ||
-            character == 0xBFFFF ||
-            character == 0xCFFFE ||
-            character == 0xCFFFF ||
-            character == 0xDFFFE ||
-            character == 0xDFFFF ||
-            character == 0xEFFFE ||
-            character == 0xEFFFF ||
-            character == 0xFFFFE ||
-            character == 0xFFFFF ||
-            character == 0x10FFFE ||
-            character == 0x10FFFF);
-}
+#import "HTMLTokenizerCharacters.h"
 
 #pragma mark - HTMLInputStreamReader
 
@@ -113,7 +65,7 @@ NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
 		[HTMLInputStreamReaderErrors reportParseError:HTMLStreamReaderErrorIsolatedLowSurrogate
 										   atLocation:_location
 										  andCallback:_errorCallback];
-		return REPLACEMENT;
+		return REPLACEMENT_CHAR;
 	}
 
 	if (CFStringIsSurrogateHighCharacter(nextInputCharacter)) {
@@ -122,7 +74,7 @@ NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
 			[HTMLInputStreamReaderErrors reportParseError:HTMLStreamReaderErrorIsolatedHighSurrogate
 										  atLocation:_location
 										 andCallback:_errorCallback];
-			return REPLACEMENT;
+			return REPLACEMENT_CHAR;
 		}
 
 		nextInputCharacter = CFStringGetLongCharacterForSurrogatePair(nextInputCharacter, surrogateLow);
