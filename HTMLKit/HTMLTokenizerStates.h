@@ -84,7 +84,7 @@ typedef NS_ENUM(NSUInteger, HTMLTokenizerState)
 #undef STATE_ENTRY
 };
 
-static NSString* HTMLTokenizerStatesTable[] = {
+static NSString * HTMLTokenizerStatesTable[] = {
 #define STATE_ENTRY( name, value ) [name] = @#name,
 	TOKENIZER_STATES
 #undef STATE_ENTRY

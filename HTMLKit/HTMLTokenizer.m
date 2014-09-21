@@ -128,7 +128,49 @@
 
 - (NSString *)consumeNumberCharacterReference
 {
-	return nil;
+	[_inputStreamReader markCurrentLocation];
+
+	[_inputStreamReader consumeNextInputCharacter];
+
+	UTF32Char character = [_inputStreamReader nextInputCharacter];
+	unsigned int number;
+	BOOL success;
+
+	switch (character) {
+		case LATIN_CAPITAL_LETTER_X:
+		case LATIN_SMALL_LETTER_X:
+			[_inputStreamReader consumeNextInputCharacter];
+			success = [_inputStreamReader consumeHexInt:&number];
+			break;
+		default:
+			success = [_inputStreamReader consumeHexInt:&number];
+			break;
+	}
+
+	if (success == NO) {
+		[_inputStreamReader rewindToMarkedLocation];
+		[self emitParseError:@"Invalid characters in numeric entity"];
+		return nil;
+	}
+	success = [_inputStreamReader consumeCharacter:SEMICOLON];
+	if (success == NO) {
+		[self emitParseError:@"Missing semicolon in numeric entity"];
+	}
+
+	unichar numericReplacement = NumericReplacementCharacter(character);
+	if (numericReplacement != NULL_CHAR) {
+		[self emitParseError:@"Invalid numeric entity (a defenied replacement exists)"];
+		return StringFromUniChar(numericReplacement);
+	}
+	if (isValidNumericRange(character)) {
+		[self emitParseError:@"Invalid numeric entity (invalid Unicode range)"];
+		return StringFromUniChar(REPLACEMENT_CHAR);
+	}
+	if (isControlOrUndefinedCharacter(character)) {
+		[self emitParseError:@"Invalid numeric entity (control or undefined character)"];
+	}
+
+	return StringFromUTF32Char(character);
 }
 
 #pragma mark - States
