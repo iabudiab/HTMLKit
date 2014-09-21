@@ -65,6 +65,39 @@
 {
 	_currentState = state;
 }
+
+#pragma mark - Emits
+
+- (void)emitToken:(HTMLToken *)token
+{
+	[_tokens addObject:token];
+}
+
+- (void)emitEOFToken
+{
+	[self emitToken:[HTMLEOFToken new]];
+}
+
+- (void)emitCharacterToken:(UTF32Char)character
+{
+	HTMLEOFToken *previousToken = [_tokens lastObject];
+	if ([previousToken isCharacterToken]) {
+		[(HTMLCharacterToken *)previousToken appendCharacter:character];
+	} else {
+		[self emitToken:[[HTMLCharacterToken alloc] initWithCharacter:character]];
+	}
+}
+
+- (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
+{
+	va_list args;
+	va_start(args, format);
+	NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
+	va_end(args);
+	HTMLParseErrorToken *token = [[HTMLParseErrorToken alloc] initWithReasonMessage:message];
+	[self emitToken:token];
+}
+
 #pragma mark - States
 
 - (void)HTMLTokenizerStateData
