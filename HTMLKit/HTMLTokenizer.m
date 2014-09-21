@@ -98,6 +98,39 @@
 	[self emitToken:token];
 }
 
+#pragma mark - Consume Character Reference
+
+- (NSString *)consumeCharachterReferenceWithAddtionalAllowedCharacter:(UTF32Char)additionalAllowedCharacter
+{
+	UTF32Char character = [_inputStreamReader nextInputCharacter];
+	if (additionalAllowedCharacter != (UTF32Char)EOF && character == additionalAllowedCharacter) {
+		return nil;
+	}
+
+	switch (character) {
+		case CHARACTER_TABULATION:
+		case LINE_FEED:
+		case FORM_FEED:
+		case SPACE:
+		case LESS_THAN_SIGN:
+		case AMPERSAND:
+		case EOF:
+			return nil;
+		case NUMBER_SIGN:
+		{
+			NSString *numberReference = [self consumeNumberCharacterReference];
+			return numberReference;
+		}
+		default:
+			return nil;
+	}
+}
+
+- (NSString *)consumeNumberCharacterReference
+{
+	return nil;
+}
+
 #pragma mark - States
 
 - (void)HTMLTokenizerStateData
