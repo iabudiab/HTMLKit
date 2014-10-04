@@ -29,6 +29,8 @@
 - (BOOL)consumeCharacter:(UTF32Char)character;
 - (BOOL)consumeUnsignedInt:(unsigned int *)result;
 - (BOOL)consumeHexInt:(unsigned int *)result;
+- (BOOL)consumeString:(NSString *)string caseSensitive:(BOOL)caseSensitive;
+- (NSString *)consumeCharactersUpToCharactersInString:(NSString *)characters;
 
 - (void)markCurrentLocation;
 - (void)rewindToMarkedLocation;

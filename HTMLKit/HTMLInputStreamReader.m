@@ -137,6 +137,32 @@
 	return success;
 }
 
+- (BOOL)consumeString:(NSString *)string caseSensitive:(BOOL)caseSensitive
+{
+	_scanner.caseSensitive = caseSensitive;
+	BOOL success = [_scanner scanString:string intoString:nil];
+	_location = _scanner.scanLocation;
+	return success;
+}
+
+- (NSString *)consumeCharactersUpToCharactersInString:(NSString *)characters
+{
+	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:characters];
+
+	NSMutableString *consumed = [NSMutableString string];
+
+	while (YES) {
+		UTF32Char nextCharacter = [self consumeNextInputCharacter];
+		if ([set longCharacterIsMember:nextCharacter] || nextCharacter == EOF) {
+			break;
+		}
+		[consumed appendString:StringFromUTF32Char(nextCharacter)];
+	}
+	[self unconsumeCurrentInputCharacter];
+
+	return consumed.length > 0 ? consumed : nil;
+}
+
 - (void)unconsumeCurrentInputCharacter
 {
 	_location -= _consume;
