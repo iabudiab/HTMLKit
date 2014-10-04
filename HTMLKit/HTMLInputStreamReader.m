@@ -62,18 +62,18 @@
 		return LINE_FEED;
 	}
 	if (CFStringIsSurrogateLowCharacter(nextInputCharacter)) {
-		[HTMLInputStreamReaderErrors reportParseError:HTMLStreamReaderErrorIsolatedLowSurrogate
-										   atLocation:_location
-										  andCallback:_errorCallback];
+		[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorIsolatedLowSurrogate
+										 atLocation:_location
+										andCallback:_errorCallback];
 		return REPLACEMENT_CHAR;
 	}
 
 	if (CFStringIsSurrogateHighCharacter(nextInputCharacter)) {
 		UniChar surrogateLow = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + 1);
 		if (CFStringIsSurrogateLowCharacter(surrogateLow) == NO) {
-			[HTMLInputStreamReaderErrors reportParseError:HTMLStreamReaderErrorIsolatedHighSurrogate
-										  atLocation:_location
-										 andCallback:_errorCallback];
+			[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorIsolatedHighSurrogate
+											 atLocation:_location
+											andCallback:_errorCallback];
 			return REPLACEMENT_CHAR;
 		}
 
@@ -81,9 +81,9 @@
 	}
 
 	if (isControlOrUndefinedCharacter(nextInputCharacter)) {
-		[HTMLInputStreamReaderErrors reportParseError:HTMLStreamReaderErrorControlOrUndefined
-									  atLocation:_location
-									 andCallback:_errorCallback];
+		[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorControlOrUndefined
+										 atLocation:_location
+										andCallback:_errorCallback];
 	}
 
 	return nextInputCharacter;
@@ -95,7 +95,6 @@
 	_location += _consume;
 	_scanner.scanLocation = _location;
 	_currentInputCharacter = nextInputCharacter;
-
 	return nextInputCharacter;
 }
 

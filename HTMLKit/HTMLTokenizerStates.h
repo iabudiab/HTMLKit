@@ -79,7 +79,7 @@
 
 typedef NS_ENUM(NSUInteger, HTMLTokenizerState)
 {
-#define STATE_ENTRY( name, value )	name value,
+#define STATE_ENTRY( name, value ) name value,
 	TOKENIZER_STATES
 #undef STATE_ENTRY
 };
