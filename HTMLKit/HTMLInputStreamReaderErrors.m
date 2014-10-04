@@ -26,7 +26,7 @@ static inline NSString * ReasonStringForError(HTMLStreamReaderError error)
 
 @implementation HTMLInputStreamReaderErrors
 
-+ (void)reportParseError:(HTMLStreamReaderError)parseError atLocation:(NSUInteger)location andCallback:(HTMLStreamReaderErrorCallback)callback
++ (void)emitParseError:(HTMLStreamReaderError)parseError atLocation:(NSUInteger)location andCallback:(HTMLStreamReaderErrorCallback)callback
 {
 	if (callback == nil) return;
 
@@ -38,7 +38,7 @@ static inline NSString * ReasonStringForError(HTMLStreamReaderError error)
 	NSError *error = [[NSError alloc] initWithDomain:HTMLStreamReaderErrorDomain
 												code:parseError
 											userInfo:userInfo];
-	callback(error);
+	if (callback) callback(error);
 }
 
 @end

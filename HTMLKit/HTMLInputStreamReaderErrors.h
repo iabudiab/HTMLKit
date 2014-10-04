@@ -21,8 +21,8 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSError *error);
 
 @interface HTMLInputStreamReaderErrors : NSObject
 
-+ (void)reportParseError:(HTMLStreamReaderError)parseError
-			  atLocation:(NSUInteger)location
-			 andCallback:(HTMLStreamReaderErrorCallback)callback;
++ (void)emitParseError:(HTMLStreamReaderError)parseError
+			atLocation:(NSUInteger)location
+		   andCallback:(HTMLStreamReaderErrorCallback)callback;
 
 @end
