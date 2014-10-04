@@ -162,6 +162,14 @@
 	return consumed.length > 0 ? consumed : nil;
 }
 
+- (NSString *)consumeCharactersUpToString:(NSString *)string
+{
+	NSString *consumed = [NSString string];
+	[_scanner scanUpToString:string intoString:&consumed];
+	_location = _scanner.scanLocation;
+	return consumed;
+}
+
 - (void)unconsumeCurrentInputCharacter
 {
 	_location -= _consume;
