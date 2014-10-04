@@ -50,15 +50,15 @@
 
 - (UTF32Char)nextInputCharacter
 {
-	if (_location >= _string.length) return EOF;
-
-	_consume = 1;
+	_consume = 0;
 	UTF32Char nextInputCharacter = CFStringGetCharacterFromInlineBuffer(&_buffer, _location);
 
-	if (nextInputCharacter == 0) return EOF;
+	if (nextInputCharacter == 0 && _location >= _string.length) return EOF;
+
+	_consume = 1;
 	if (nextInputCharacter == CARRIAGE_RETURN) {
 		UniChar next = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + 1);
-		if (next == LINE_FEED) _consume++;
+		if (next == LINE_FEED) _consume = 2;
 		return LINE_FEED;
 	}
 	if (CFStringIsSurrogateLowCharacter(nextInputCharacter)) {
