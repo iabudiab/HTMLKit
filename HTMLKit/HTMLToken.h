@@ -47,6 +47,14 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
  */
 @interface HTMLDOCTYPEToken : HTMLToken
 
+@property (nonatomic, strong) NSMutableString *publicIdentifier;
+@property (nonatomic, strong) NSMutableString *systemIdentifier;
+@property (nonatomic, assign) BOOL forceQuirks;
+
+- (instancetype)initWithName:(NSString *)string;
+
+- (void)appendCharacterToName:(UTF32Char)character;
+
 @end
 
 #pragma mark - HTMLTagToken
@@ -56,6 +64,13 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
  ##################################
  */
 @interface HTMLTagToken : HTMLToken
+
+@property (nonatomic, copy) NSString *tagName;
+@property (nonatomic, assign) BOOL selfClosing;
+
+- (instancetype)initWithTagName:(NSString *)tagName;
+
+- (void)appendCharacterToTagName:(UTF32Char)character;
 
 @end
 
@@ -87,6 +102,11 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
  */
 @interface HTMLCommentToken : HTMLToken
 
+- (instancetype)initWithData:(NSString *)data;
+
+- (void)appendCharacterToData:(UTF32Char)character;
+- (void)appendStringToData:(NSString *)string;
+
 @end
 
 #pragma mark - HTMLCharacterToken
@@ -98,7 +118,10 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
 @interface HTMLCharacterToken : HTMLToken
 
 - (instancetype)initWithCharacter:(UTF32Char)character;
+- (instancetype)initWithString:(NSString *)string;
+
 - (void)appendCharacter:(UTF32Char)character;
+- (void)appendString:(NSString *)string;
 
 @end
 
