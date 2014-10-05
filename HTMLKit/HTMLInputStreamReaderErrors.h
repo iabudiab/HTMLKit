@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const HTMLStreamReaderErrorDomain;
+extern NSString * const HTMLInputStreamReaderErrorDomain;
 
 typedef NS_ENUM(NSUInteger, HTMLStreamReaderError)
 {

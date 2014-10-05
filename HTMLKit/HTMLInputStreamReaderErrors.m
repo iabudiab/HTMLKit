@@ -8,7 +8,7 @@
 
 #import "HTMLInputStreamReaderErrors.h"
 
-NSString * const HTMLStreamReaderErrorDomain = @"HTMLStreamReaderErrorDomain";
+NSString * const HTMLInputStreamReaderErrorDomain = @"HTMLInputStreamReaderErrorDomain";
 
 static inline NSString * ReasonStringForError(HTMLStreamReaderError error)
 {
@@ -31,11 +31,11 @@ static inline NSString * ReasonStringForError(HTMLStreamReaderError error)
 	if (callback == nil) return;
 
 	NSDictionary *userInfo = @{
-							   NSLocalizedDescriptionKey : [NSString stringWithFormat:@"HTML Stream parse error at [%ld]", location],
+							   NSLocalizedDescriptionKey : [NSString stringWithFormat:@"HTML Input Stream error at [%ld]", location],
 							   NSLocalizedFailureReasonErrorKey : ReasonStringForError(parseError)
 							   };
 
-	NSError *error = [[NSError alloc] initWithDomain:HTMLStreamReaderErrorDomain
+	NSError *error = [[NSError alloc] initWithDomain:HTMLInputStreamReaderErrorDomain
 												code:parseError
 											userInfo:userInfo];
 	if (callback) callback(error);
