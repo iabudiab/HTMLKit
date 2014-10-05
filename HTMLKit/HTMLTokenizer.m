@@ -93,6 +93,13 @@
 	[self switchToState:state];
 }
 
+#pragma mark - Fast Enumeration 
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len
+{
+	return [_tokens countByEnumeratingWithState:state objects:buffer count:len];
+}
+
 #pragma mark - Emits
 
 - (void)emitToken:(HTMLToken *)token
