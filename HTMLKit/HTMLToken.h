@@ -66,7 +66,8 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
 @interface HTMLTagToken : HTMLToken
 
 @property (nonatomic, copy) NSString *tagName;
-@property (nonatomic, assign) BOOL selfClosing;
+@property (nonatomic, strong) id attributes;
+@property (nonatomic, assign, getter = isSelfClosing) BOOL selfClosing;
 
 - (instancetype)initWithTagName:(NSString *)tagName;
 

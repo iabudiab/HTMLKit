@@ -34,6 +34,7 @@
 	HTMLDOCTYPEToken *_currentDoctypeToken;
 	NSMutableString	*_currentAttributeName;
 	NSMutableString *_currentAttributeValue;
+	BOOL _selfClosingFlagAknowledged;
 
 	/* Aux */
 	NSString *_lastStartTagName;
@@ -67,7 +68,7 @@
 	}
 }
 
-#pragma mark - 
+#pragma mark - State Machine
 
 - (void)read
 {
@@ -105,10 +106,6 @@
 - (void)emitToken:(HTMLToken *)token
 {
 	[_tokens addObject:token];
-
-	if (token.isStartTagToken) {
-		_lastStartTagName = [(HTMLStartTagToken *)token tagName];
-	}
 }
 
 - (void)emitEOFToken
@@ -119,6 +116,26 @@
 - (void)emitCurrentTagToken
 {
 	[self finalizeCurrentAttribute];
+
+	switch (_currentTagToken.type) {
+		case HTMLTokenTypeStartTag:
+			_lastStartTagName = _currentTagToken.tagName;
+			if (_currentTagToken.isSelfClosing) {
+				_selfClosingFlagAknowledged = NO;
+			}
+			break;
+		case HTMLTokenTypeEndTag:
+			if (_currentTagToken.attributes != nil) {
+				[self emitParseError:@"End Tag Token [%@] has attributes", _currentTagToken.tagName];
+			}
+			if (_currentTagToken.isSelfClosing) {
+				[self emitParseError:@"End Tag Token [%@] has self-closing flag", _currentTagToken.tagName];
+			}
+			break;
+		default:
+			break;
+	}
+
 	[self emitToken:_currentTagToken];
 	_currentTagToken = nil;
 }
