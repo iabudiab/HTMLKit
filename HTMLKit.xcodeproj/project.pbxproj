@@ -98,6 +98,7 @@
 		625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReader.m; sourceTree = "<group>"; };
 		625A150B19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLInputStreamReaderErrors.h; sourceTree = "<group>"; };
 		625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReaderErrors.m; sourceTree = "<group>"; };
+		6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParserInsertionModes.h; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
 		62F873E919E088C90062683C /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		62F873EA19E088C90062683C /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 				624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */,
 				62F873E919E088C90062683C /* HTMLParser.h */,
 				62F873EA19E088C90062683C /* HTMLParser.m */,
+				6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
 			);
 			name = "Source Code";
