@@ -147,7 +147,7 @@
 
 - (void)emitCharacterTokenWithString:(NSString *)string
 {
-	HTMLEOFToken *previousToken = [_tokens lastObject];
+	HTMLToken *previousToken = [_tokens lastObject];
 	if ([previousToken isCharacterToken]) {
 		[(HTMLCharacterToken *)previousToken appendString:string];
 	} else {
