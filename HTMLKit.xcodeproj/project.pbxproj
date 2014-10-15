@@ -35,6 +35,9 @@
 		625A150D19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A150B19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h */; };
 		625A150E19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */; };
 		625A150F19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */; };
+		62F31FDD19E9DCCF007F0657 /* HTMLTokenizerEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */; };
+		62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
+		62F31FDF19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
 		62F873EB19E088C90062683C /* HTMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F873E919E088C90062683C /* HTMLParser.h */; };
 		62F873EC19E088C90062683C /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F873EA19E088C90062683C /* HTMLParser.m */; };
 		62F873ED19E088C90062683C /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F873EA19E088C90062683C /* HTMLParser.m */; };
@@ -100,6 +103,8 @@
 		625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReaderErrors.m; sourceTree = "<group>"; };
 		6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParserInsertionModes.h; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
+		62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerEntities.h; sourceTree = "<group>"; };
+		62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerEntities.m; sourceTree = "<group>"; };
 		62F873E919E088C90062683C /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		62F873EA19E088C90062683C /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,6 +204,8 @@
 				624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */,
 				624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */,
 				62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */,
+				62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */,
+				62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */,
 				624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */,
 				624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */,
 				62F873E919E088C90062683C /* HTMLParser.h */,
@@ -248,6 +255,7 @@
 			files = (
 				62F873EB19E088C90062683C /* HTMLParser.h in Headers */,
 				624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */,
+				62F31FDD19E9DCCF007F0657 /* HTMLTokenizerEntities.h in Headers */,
 				625A150D19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h in Headers */,
 				624493A619CCC54100BCDDF4 /* HTMLTokenizer.h in Headers */,
 				625A150419C783EB00AD0C32 /* HTMLKit.h in Headers */,
@@ -403,6 +411,7 @@
 				625A150A19C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				624493A819CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */,
 				625A14BE19C7829400AD0C32 /* HTMLKit.m in Sources */,
+				62F31FDF19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +433,7 @@
 				625A150919C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				624493A719CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */,
 				625A150219C783DE00AD0C32 /* HTMLKit.m in Sources */,
+				62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
