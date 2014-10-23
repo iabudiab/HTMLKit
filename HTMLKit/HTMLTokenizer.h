@@ -15,4 +15,6 @@
  */
 @interface HTMLTokenizer : NSObject <NSFastEnumeration>
 
+- (instancetype)initWithString:(NSString *)string;
+
 @end

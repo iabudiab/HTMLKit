@@ -53,7 +53,7 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)init
+- (instancetype)initWithString:(NSString *)string
 {
 	self = [super init];
 	if (self) {
@@ -62,6 +62,8 @@
 		[self setupStateMachine];
 
 		_tokens = [NSMutableArray new];
+
+		_inputStreamReader = [[HTMLInputStreamReader alloc] initWithString:string];
 	}
 	return self;
 }
