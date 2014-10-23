@@ -201,18 +201,7 @@
 			children = (
 				625A14BC19C7829400AD0C32 /* HTMLKit.h */,
 				625A14BD19C7829400AD0C32 /* HTMLKit.m */,
-				625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */,
-				625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */,
-				625A150B19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h */,
-				625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */,
-				624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */,
-				624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */,
-				624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */,
-				62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */,
-				62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */,
-				62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */,
-				624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */,
-				624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */,
+				62AE593219F97CCA0043F069 /* Tokenizing */,
 				62F873E919E088C90062683C /* HTMLParser.h */,
 				62F873EA19E088C90062683C /* HTMLParser.m */,
 				6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */,
@@ -251,6 +240,25 @@
 				625A14CD19C7829400AD0C32 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		62AE593219F97CCA0043F069 /* Tokenizing */ = {
+			isa = PBXGroup;
+			children = (
+				625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */,
+				625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */,
+				625A150B19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.h */,
+				625A150C19C78BE900AD0C32 /* HTMLInputStreamReaderErrors.m */,
+				624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */,
+				624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */,
+				624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */,
+				62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */,
+				62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */,
+				62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */,
+				624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */,
+				624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */,
+			);
+			name = Tokenizing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
