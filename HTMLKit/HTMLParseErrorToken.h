@@ -12,7 +12,8 @@
 @interface HTMLParseErrorToken : HTMLToken
 
 @property (nonatomic, copy) NSString *reason;
+@property (nonatomic, assign) NSUInteger location;
 
-- (instancetype)initWithReasonMessage:(NSString *)reason;
+- (instancetype)initWithReasonMessage:(NSString *)reason andStreamLocation:(NSUInteger)location;
 
 @end

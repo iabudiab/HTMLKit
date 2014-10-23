@@ -166,7 +166,8 @@
 	va_start(args, format);
 	NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
 	va_end(args);
-	HTMLParseErrorToken *token = [[HTMLParseErrorToken alloc] initWithReasonMessage:message];
+	HTMLParseErrorToken *token = [[HTMLParseErrorToken alloc] initWithReasonMessage:message
+																  andStreamLocation:_inputStreamReader.currentLocation];
 	[self emitToken:token];
 }
 
