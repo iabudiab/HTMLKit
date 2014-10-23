@@ -16,6 +16,7 @@
 @interface HTMLInputStreamReader : NSObject
 
 @property (nonatomic, readonly) NSString *string;
+@property (nonatomic, readonly) NSUInteger currentLocation;
 @property (nonatomic, copy) HTMLStreamReaderErrorCallback errorCallback;
 
 - (id)initWithString:(NSString *)string;

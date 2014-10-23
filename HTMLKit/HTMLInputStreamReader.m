@@ -26,6 +26,7 @@
 
 @implementation HTMLInputStreamReader
 @synthesize string = _string;
+@synthesize currentLocation = _location;
 @synthesize errorCallback = _errorCallback;
 
 #pragma mark - Lifecycle
