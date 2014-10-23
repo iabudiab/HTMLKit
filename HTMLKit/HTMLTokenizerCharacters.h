@@ -168,5 +168,5 @@ NS_INLINE NSString * StringFromUniChar(unichar character)
 
 NS_INLINE NSString * StringFromUTF32Char(UTF32Char character)
 {
-	return [[NSString alloc] initWithBytes:&character length:sizeof(character) encoding:NSUTF32StringEncoding];
+	return [[NSString alloc] initWithBytes:&character length:sizeof(character) encoding:NSUTF32LittleEndianStringEncoding];
 }
