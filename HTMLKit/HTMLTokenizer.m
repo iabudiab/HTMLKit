@@ -11,6 +11,7 @@
 #import "HTMLToken.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokenizerCharacters.h"
+#import "HTMLTokenizerEntities.h"
 
 @interface HTMLTokenizer ()
 {
@@ -182,10 +183,11 @@
 
 #pragma mark - Consume Character Reference
 
-- (NSString *)attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:(UTF32Char)additionalAllowedCharacter
+- (NSString *)attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:(UTF32Char)additional
+																   inAttribute:(BOOL)inAttribute
 {
 	UTF32Char character = [_inputStreamReader nextInputCharacter];
-	if (additionalAllowedCharacter != (UTF32Char)EOF && character == additionalAllowedCharacter) {
+	if (additional != (UTF32Char)EOF && character == additional) {
 		return nil;
 	}
 
@@ -206,8 +208,10 @@
 			return numberReference;
 		}
 		default:
-#warning Implement named entity replacement
-			return nil;
+		{
+			NSString *namedEntity = [self attemptToConsumeNamedCharacterReferenceInAttribute:inAttribute];
+			return namedEntity;
+		}
 	}
 }
 
@@ -256,6 +260,62 @@
 	return StringFromUTF32Char(character);
 }
 
+- (NSString *)attemptToConsumeNamedCharacterReferenceInAttribute:(BOOL)inAttribute
+{
+	[_inputStreamReader markCurrentLocation];
+
+	NSString *entityName = nil;
+
+	UTF32Char inputCharacter = [_inputStreamReader currentInputCharacter];
+	NSArray *names = [HTMLTokenizerEntities entityNames];
+	NSMutableString *name = [NSMutableString stringWithString:StringFromUTF32Char(inputCharacter)];
+
+	while (YES) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH %@", name];
+		names = [names filteredArrayUsingPredicate:predicate];
+		if (names.count == 0) break;
+
+		inputCharacter = [_inputStreamReader consumeNextInputCharacter];
+		[name appendString:StringFromUTF32Char(inputCharacter)];
+
+		if ([names containsObject:name]) {
+			entityName = [name copy];
+			if ([entityName hasSuffix:@";"]) {
+				break;
+			}
+		}
+	}
+
+	if (entityName == nil) {
+		if ([_inputStreamReader consumeAlphanumericCharacters] != nil) {
+			if ([_inputStreamReader consumeString:@";" caseSensitive:NO]) {
+				[self emitParseError:@"Undefined named entity with semicolon found"];
+			}
+		}
+		[_inputStreamReader rewindToMarkedLocation];
+		return nil;
+	}
+
+	NSString *replacement = [HTMLTokenizerEntities replacementForNamedCharacterEntity:entityName];
+
+	if (inAttribute && [entityName hasSuffix:@";"] == NO) {
+		UTF32Char nextCharacter = [_inputStreamReader nextInputCharacter];
+		if (nextCharacter == EQUALS_SIGN || isAlphanumeric(nextCharacter)) {
+			[_inputStreamReader rewindToMarkedLocation];
+			if (nextCharacter == EQUALS_SIGN) {
+				[self emitParseError:@"Named entity in attribute ending with equal-sign"];
+			}
+			return nil;
+		}
+	}
+
+	if ([entityName hasSuffix:@";"] == NO) {
+		[self emitParseError:@"Named entity without semicolon"];
+	}
+
+	return replacement;
+}
+
 #pragma mark - States
 
 - (void)HTMLTokenizerStateData
@@ -285,7 +345,8 @@
 {
 	[self switchToState:HTMLTokenizerStateData];
 
-	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:_additionalAllowedCharacter];
+	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:_additionalAllowedCharacter
+																							  inAttribute:NO];
 	if (characterReference == nil) {
 		[self emitCharacterToken:AMPERSAND];
 	} else {
@@ -320,7 +381,8 @@
 {
 	[self switchToState:HTMLTokenizerStateRCDATA];
 
-	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:(UTF32Char)EOF];
+	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:(UTF32Char)EOF
+																							  inAttribute:NO];
 	if (characterReference == nil) {
 		[self emitCharacterToken:AMPERSAND];
 	} else {
@@ -1368,7 +1430,8 @@
 
 - (void)HTMLTokenizerStateCharacterReferenceInAttributeValue
 {
-	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:_additionalAllowedCharacter];
+	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:_additionalAllowedCharacter
+																							  inAttribute:YES];
 	if (characterReference == nil) {
 		[_currentAttributeValue appendString:StringFromUniChar(AMPERSAND)];
 	} else {

@@ -137,6 +137,13 @@ NS_INLINE BOOL isHexDigit(UTF32Char character)
 			(character >= LATIN_SMALL_LETTER_A && character <= LATIN_SMALL_LETTER_F));
 }
 
+NS_INLINE BOOL isAlphanumeric(UTF32Char character)
+{
+	return ((character >= DIGIT_ZERO && character <= DIGIT_NINE) ||
+			(character >= LATIN_CAPITAL_LETTER_A && character <= LATIN_CAPITAL_LETTER_Z) ||
+			(character >= LATIN_SMALL_LETTER_A && character <= LATIN_SMALL_LETTER_Z));
+}
+
 NS_INLINE BOOL isValidNumericRange(UTF32Char character)
 {
 	return ((character >= 0xD800 && character <= 0xDFFF) ||

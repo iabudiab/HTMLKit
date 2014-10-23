@@ -32,6 +32,7 @@
 - (BOOL)consumeString:(NSString *)string caseSensitive:(BOOL)caseSensitive;
 - (NSString *)consumeCharactersUpToCharactersInString:(NSString *)characters;
 - (NSString *)consumeCharactersUpToString:(NSString *)string;
+- (NSString *)consumeAlphanumericCharacters;
 
 - (void)markCurrentLocation;
 - (void)rewindToMarkedLocation;

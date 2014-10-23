@@ -2241,34 +2241,38 @@
 	NAMED_CHARACTER_REFERENCE( "zwj;", "\U0000200d" ) \
 	NAMED_CHARACTER_REFERENCE( "zwnj;", "\U0000200c" )
 
-static CFStringRef NamedReferencesNames[] = {
-#define NAMED_CHARACTER_REFERENCE( name, value ) CFSTR(name),
-	NAMED_CHARACTER_REFERENCES
-#undef 	NAMED_CHARACTER_REFERENCE
-};
-
-static CFStringRef NamedReferencesValues[] = {
-#define NAMED_CHARACTER_REFERENCE( name, value ) CFSTR(value),
-	NAMED_CHARACTER_REFERENCES
-#undef 	NAMED_CHARACTER_REFERENCE
-};
-
-static CFDictionaryRef _entities;
+static NSDictionary *_entities;
 
 @implementation HTMLTokenizerEntities
 
 + (void)initialize
 {
 	if (self == [HTMLTokenizerEntities class]) {
-		CFIndex numValues = sizeof(NamedReferencesNames) / sizeof(NamedReferencesNames[0]);
-		_entities = CFDictionaryCreate(NULL, (const void **) &NamedReferencesNames, (const void **) &NamedReferencesValues, numValues,
-									   &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+
+		NSArray * NamedReferencesNames = @[
+#define NAMED_CHARACTER_REFERENCE( name, value ) @(name),
+			NAMED_CHARACTER_REFERENCES
+#undef 	NAMED_CHARACTER_REFERENCE
+		];
+
+		NSArray * NamedReferencesValues = @[
+#define NAMED_CHARACTER_REFERENCE( name, value ) @(value),
+			NAMED_CHARACTER_REFERENCES
+#undef 	NAMED_CHARACTER_REFERENCE
+		];
+
+		_entities = [[NSDictionary alloc] initWithObjects:NamedReferencesValues forKeys:NamedReferencesNames];
 	}
+}
+
++ (NSArray *)entityNames
+{
+	return [_entities allKeys];
 }
 
 + (NSString *)replacementForNamedCharacterEntity:(NSString *)entity
 {
-	NSString *replacement = (NSString *) CFDictionaryGetValue(_entities, (__bridge const void *)(entity));
+	NSString *replacement = [_entities objectForKey:entity];
 	return replacement;
 }
 

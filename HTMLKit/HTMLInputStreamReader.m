@@ -170,6 +170,16 @@
 	return consumed;
 }
 
+- (NSString *)consumeAlphanumericCharacters
+{
+	NSCharacterSet *set = [NSCharacterSet alphanumericCharacterSet];
+	NSString *consumed = nil;
+
+	[_scanner scanCharactersFromSet:set intoString:&consumed];
+	_location = _scanner.scanLocation;
+	return consumed;
+}
+
 - (void)unconsumeCurrentInputCharacter
 {
 	_location -= _consume;
