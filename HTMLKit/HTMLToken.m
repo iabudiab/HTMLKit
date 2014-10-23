@@ -13,8 +13,6 @@
 	HTMLTokenType _type;
 }
 
-@property (nonatomic, assign) HTMLTokenType type;
-
 @end
 
 @implementation HTMLToken
@@ -48,6 +46,11 @@
 - (BOOL)isEOFToken
 {
 	return _type == HTMLTokenTypeEOF;
+}
+
+- (BOOL)isParseError
+{
+	return _type == HTMLTokenTypeParseError;
 }
 
 @end

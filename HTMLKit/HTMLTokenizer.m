@@ -9,6 +9,12 @@
 #import "HTMLTokenizer.h"
 #import "HTMLParser.h"
 #import "HTMLToken.h"
+#import "HTMLCharacterToken.h"
+#import "HTMLCommentToken.h"
+#import "HTMLDOCTYPEToken.h"
+#import "HTMLEOFToken.h"
+#import "HTMLParseErrorToken.h"
+#import "HTMLTagToken.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokenizerCharacters.h"
 #import "HTMLTokenizerEntities.h"
@@ -148,12 +154,8 @@
 
 - (void)emitCharacterTokenWithString:(NSString *)string
 {
-	HTMLToken *previousToken = [_tokens lastObject];
-	if ([previousToken isCharacterToken]) {
-		[(HTMLCharacterToken *)previousToken appendString:string];
-	} else {
-		[self emitToken:[[HTMLCharacterToken alloc] initWithString:string]];
-	}
+	HTMLToken *token = [[HTMLCharacterToken alloc] initWithString:string];
+	[self emitToken:token];
 }
 
 - (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
@@ -524,18 +526,18 @@
 			[self emitCurrentTagToken];
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:(character + 0x0020)];
+			[_currentTagToken appendStringToTagName:StringFromUTF32Char(character + 0x0020)];
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"0x0000 NULL character in Tag Name state"];
-			[_currentTagToken appendCharacterToTagName:REPLACEMENT_CHAR];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Tag Name state"];
 			[_inputStreamReader	unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentTagToken appendCharacterToTagName:character];
+			[_currentTagToken appendStringToTagName:StringFromUTF32Char(character)];
 			break;
 	}
 }
@@ -605,11 +607,11 @@
 			}
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:(character + 0x0020)];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character + 0x0020)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:character];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 	}
@@ -685,11 +687,11 @@
 			}
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:(character + 0x0020)];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character + 0x0020)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:character];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 	}
@@ -769,11 +771,11 @@
 			}
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:(character + 0x0020)];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character + 0x0020)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:character];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 	}
@@ -977,11 +979,11 @@
 			}
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:(character + 0x0020)];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character + 0x0020)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
-			[_currentTagToken appendCharacterToTagName:character];
+			[_currentTagToken appendStringToTagName:StringFromUniChar(character)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
 			return;
 	}
@@ -1531,7 +1533,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"0x0000 NULL character in Comment Start state"];
-			[_currentCommentToken appendCharacterToData:REPLACEMENT_CHAR];
+			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 		case GREATER_THAN_SIGN:
@@ -1546,7 +1548,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentCommentToken appendCharacterToData:character];
+			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 	}
@@ -1561,8 +1563,8 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"0x0000 NULL character in Comment Start Dash state"];
-			[_currentCommentToken appendCharacterToData:HYPHEN_MINUS];
-			[_currentCommentToken appendCharacterToData:REPLACEMENT_CHAR];
+			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
+			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 		case GREATER_THAN_SIGN:
@@ -1577,8 +1579,8 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentCommentToken appendCharacterToData:HYPHEN_MINUS];
-			[_currentCommentToken appendCharacterToData:character];
+			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
+			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 	}
@@ -1593,7 +1595,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"0x0000 NULL character in Comment state"];
-			[_currentCommentToken appendCharacterToData:REPLACEMENT_CHAR];
+			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Comment state"];
@@ -1602,7 +1604,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentCommentToken appendCharacterToData:character];
+			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			break;
 	}
 }
@@ -1626,8 +1628,8 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentCommentToken appendCharacterToData:HYPHEN_MINUS];
-			[_currentCommentToken appendCharacterToData:character];
+			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
+			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 	}
@@ -1652,7 +1654,7 @@
 			break;
 		case HYPHEN_MINUS:
 			[self emitParseError:@"0x002D unexpected - in Comment End state"];
-			[_currentCommentToken appendCharacterToData:HYPHEN_MINUS];
+			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Comment End state"];
@@ -1663,7 +1665,7 @@
 		default:
 			[self emitParseError:@"%@ unexpected character in Comment End state", StringFromUTF32Char(character)];
 			[_currentCommentToken appendStringToData:@"--"];
-			[_currentCommentToken appendCharacterToData:character];
+			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 	}
@@ -1695,7 +1697,7 @@
 		default:
 			[self emitParseError:@"%@ unexpected character in Comment End state", StringFromUTF32Char(character)];
 			[_currentCommentToken appendStringToData:@"--!"];
-			[_currentCommentToken appendCharacterToData:character];
+			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 	}
@@ -1782,11 +1784,11 @@
 			[self emitToken:_currentDoctypeToken];
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[_currentDoctypeToken appendCharacterToName:(character + 0x0020)];
+			[_currentDoctypeToken appendStringToName:StringFromUTF32Char(character + 0x0020)];
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"0x0000 NULL character in DOCTYPE Name state"];
-			[_currentDoctypeToken appendCharacterToName:REPLACEMENT_CHAR];
+			[_currentDoctypeToken appendStringToName:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in DOCTYPE Name state"];
@@ -1796,7 +1798,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentDoctypeToken appendCharacterToName:character];
+			[_currentDoctypeToken appendStringToName:StringFromUTF32Char(character)];
 			break;
 	}
 }
