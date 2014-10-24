@@ -423,7 +423,7 @@
 			[self switchToState:HTMLTokenizerStateScriptDataLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"U+0000 NULL character in Script Data state"];
+			[self emitParseError:@"NULL character (U+0000) in Script Data state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -440,7 +440,7 @@
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case NULL_CHAR:
-			[self emitParseError:@"U+0000 NULL character in PLAINTEXT state"];
+			[self emitParseError:@"NULL character (U+0000) in PLAINTEXT state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -471,11 +471,11 @@
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case QUESTION_MARK:
-			[self emitParseError:@"0x003F Bogus ? in Tag Open state"];
+			[self emitParseError:@"Bogus (0x003F, ?) in Tag Open state"];
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			break;
 		default:
-			[self emitParseError:@"%X Unexpected character in Tag Open state", character];
+			[self emitParseError:@"Unexpected character (%X) in Tag Open state", character];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCharacterToken:LESS_THAN_SIGN];
 			[_inputStreamReader unconsumeCurrentInputCharacter];
@@ -532,7 +532,7 @@
 			[_currentTagToken appendStringToTagName:StringFromUTF32Char(character + 0x0020)];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Tag Name state"];
+			[self emitParseError:@"NULL character (0x0000) in Tag Name state"];
 			[_currentTagToken appendStringToTagName:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
@@ -831,7 +831,7 @@
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Script Data Escaped state"];
+			[self emitParseError:@"NULL character (0x0000) in Script Data Escaped state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -857,7 +857,7 @@
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Script Data Escaped Dash state"];
+			[self emitParseError:@"NULL character (0x0000) in Script Data Escaped Dash state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -887,7 +887,7 @@
 			[self emitCharacterToken:character];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Script Data Escaped Dash Dash state"];
+			[self emitParseError:@"NULL character (0x0000) in Script Data Escaped Dash Dash state"];
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
@@ -1042,7 +1042,7 @@
 			[self emitCharacterToken:character];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Script Data Double Escaped state"];
+			[self emitParseError:@"NULL character (0x0000) in Script Data Double Escaped state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -1069,7 +1069,7 @@
 			[self emitCharacterToken:character];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Script Data Double Escaped Dash state"];
+			[self emitParseError:@"NULL character (0x0000) in Script Data Double Escaped Dash state"];
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
@@ -1101,7 +1101,7 @@
 			[self emitCharacterToken:character];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Script Data Double Escaped Dash Dash state"];
+			[self emitParseError:@"NULL character (0x0000) in Script Data Double Escaped Dash Dash state"];
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
@@ -1187,7 +1187,7 @@
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Before Attribute Name state"];
+			[self emitParseError:@"NULL character (0x0000) in Before Attribute Name state"];
 			_currentAttributeName = [[NSMutableString alloc] initWithString:StringFromUniChar(REPLACEMENT_CHAR)];
 			_currentAttributeValue = [NSMutableString new];
 			[self switchToState:HTMLTokenizerStateAttributeName];
@@ -1196,7 +1196,7 @@
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
 		case EQUALS_SIGN:
-			[self emitParseError:@"%C unexpected character in Before Attribute Name state", (unichar)character];
+			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Before Attribute Name state"];
@@ -1235,13 +1235,13 @@
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Before Attribute Name state"];
+			[self emitParseError:@"NULL character (0x0000) in Before Attribute Name state"];
 			[_currentAttributeName appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUESTION_MARK:
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
-			[self emitParseError:@"%C unexpected character in Before Attribute Name state", (unichar)character];
+			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Name state"];
@@ -1278,14 +1278,14 @@
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in After Attribute Name state"];
+			[self emitParseError:@"NULL character (0x0000) in After Attribute Name state"];
 			[_currentAttributeName appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			_currentAttributeValue = [NSMutableString new];
 			return;
 		case QUESTION_MARK:
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
-			[self emitParseError:@"%C unexpected character in Before Attribute Name state", (unichar)character];
+			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in After Attribute Name state"];
@@ -1308,7 +1308,7 @@
 		case FORM_FEED:
 		case SPACE:
 			return;
-		case QUESTION_MARK:
+		case QUOTATION_MARK:
 			[self switchToState:HTMLTokenizerStateAttributeValueDoubleQuoted];
 			return;
 		case AMPERSAND:
@@ -1319,19 +1319,19 @@
 			[self switchToState:HTMLTokenizerStateAttributeValueSingleQuoted];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in After Attribute Value state"];
+			[self emitParseError:@"NULL character (0x0000) in After Attribute Value state"];
 			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
 			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in Before Attribute Value state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in Before Attribute Value state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCurrentTagToken];
 			return;
 		case LESS_THAN_SIGN:
 		case EQUALS_SIGN:
 		case GRAVE_ACCENT:
-			[self emitParseError:@"%C unexpected character in Before Attribute Value state", (unichar)character];
+			[self emitParseError:@"Unexpected character (%C) in Before Attribute Value state", (unichar)character];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Before Attribute Value state"];
@@ -1348,14 +1348,14 @@
 {
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
-		case QUESTION_MARK:
+		case QUOTATION_MARK:
 			[self switchToState:HTMLTokenizerStateAfterAttributeValueQuoted];
 			break;
 		case AMPERSAND:
 			[self switchToState:HTMLTokenizerStateCharacterReferenceInAttributeValue withAdditionalAllowedCharacter:QUOTATION_MARK];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Attribute Value Double-Quoted state"];
+			[self emitParseError:@"NULL character (0x0000) in Attribute Value Double-Quoted state"];
 			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
@@ -1380,7 +1380,7 @@
 			[self switchToState:HTMLTokenizerStateCharacterReferenceInAttributeValue withAdditionalAllowedCharacter:APOSTROPHE];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Attribute Value Single-Quoted state"];
+			[self emitParseError:@"NULL character (0x0000) in Attribute Value Single-Quoted state"];
 			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
@@ -1413,7 +1413,7 @@
 			[self emitCurrentTagToken];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Attribute Value Unquoted state"];
+			[self emitParseError:@"NULL character (0x0000) in Attribute Value Unquoted state"];
 			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUOTATION_MARK:
@@ -1421,7 +1421,7 @@
 		case LESS_THAN_SIGN:
 		case EQUALS_SIGN:
 		case GRAVE_ACCENT:
-			[self emitParseError:@"%C unexpected character in Attribute Value Unquoted state", (unichar)character];
+			[self emitParseError:@"Unexpected character (%C) in Attribute Value Unquoted state", (unichar)character];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Value Unquoted state"];
@@ -1469,7 +1469,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in After Attribute Value Quoted state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in After Attribute Value Quoted state", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
@@ -1491,7 +1491,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in Self Closing Start Tag state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in Self Closing Start Tag state", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
@@ -1535,12 +1535,12 @@
 			[self switchToState:HTMLTokenizerStateCommentStartDash];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Comment Start state"];
+			[self emitParseError:@"NULL character (0x0000) in Comment Start state"];
 			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpeted > character in Comment Start state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in Comment Start state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
 			break;
@@ -1565,13 +1565,13 @@
 			[self switchToState:HTMLTokenizerStateCommentEnd];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Comment Start Dash state"];
+			[self emitParseError:@"NULL character (0x0000) in Comment Start Dash state"];
 			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
 			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpeted > character in Comment Start Dash state"];
+			[self emitParseError:@"Unexpeted character (0x003E, >) in Comment Start Dash state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
 			break;
@@ -1597,7 +1597,7 @@
 			[self switchToState:HTMLTokenizerStateCommentEndDash];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Comment state"];
+			[self emitParseError:@"NULL character (0x0000) in Comment state"];
 			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
@@ -1620,7 +1620,7 @@
 			[self switchToState:HTMLTokenizerStateCommentEnd];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Comment End Dash state"];
+			[self emitParseError:@"NULL character (0x0000) in Comment End Dash state"];
 			[_currentCommentToken appendStringToData:@"-\uFFFD"];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
@@ -1647,16 +1647,16 @@
 			[self emitToken:_currentCommentToken];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Comment End state"];
+			[self emitParseError:@"NULL character (0x0000) in Comment End state"];
 			[_currentCommentToken appendStringToData:@"--\uFFFD"];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
 		case EXCLAMATION_MARK:
-			[self emitParseError:@"0x0021 unexpected ! in Comment End state"];
+			[self emitParseError:@"Unexpected character (0x0021, !) in Comment End state"];
 			[self switchToState:HTMLTokenizerStateCommentEndBang];
 			break;
 		case HYPHEN_MINUS:
-			[self emitParseError:@"0x002D unexpected - in Comment End state"];
+			[self emitParseError:@"Unexpected character (0x002D, -) in Comment End state"];
 			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
 			break;
 		case EOF:
@@ -1666,7 +1666,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in Comment End state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in Comment End state", StringFromUTF32Char(character)];
 			[_currentCommentToken appendStringToData:@"--"];
 			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
@@ -1687,7 +1687,7 @@
 			[self emitToken:_currentCommentToken];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Comment End Bang state"];
+			[self emitParseError:@"NULL character (0x0000) in Comment End Bang state"];
 			[_currentCommentToken appendStringToData:@"--!\uFFFD"];
 			[self switchToState:HTMLTokenizerStateComment];
 			break;
@@ -1698,7 +1698,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in Comment End state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in Comment End state", StringFromUTF32Char(character)];
 			[_currentCommentToken appendStringToData:@"--!"];
 			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
@@ -1725,7 +1725,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in DOCTYPE state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in DOCTYPE state", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPEName];
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
@@ -1746,12 +1746,12 @@
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in Before DOCTYPE Name state"];
+			[self emitParseError:@"NULL character (0x0000) in Before DOCTYPE Name state"];
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in Before DOCTYPE Name state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE Name state"];
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
@@ -1790,7 +1790,7 @@
 			[_currentDoctypeToken appendStringToName:StringFromUTF32Char(character + 0x0020)];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in DOCTYPE Name state"];
+			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Name state"];
 			[_currentDoctypeToken appendStringToName:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
@@ -1835,7 +1835,7 @@
 				[self switchToState:HTMLTokenizerStateAfterDOCTYPESystemKeyword];
 			} else {
 				[_inputStreamReader consumeNextInputCharacter];
-				[self emitParseError:@"%@ unexpected character in After DOCTYPE Name state", StringFromUTF32Char(character)];
+				[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Name state", StringFromUTF32Char(character)];
 				_currentDoctypeToken.forceQuirks = YES;
 				[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			}
@@ -1855,17 +1855,17 @@
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPEPublicIdentifier];
 			break;
 		case QUOTATION_MARK:
-			[self emitParseError:@"0x0022 unexpected \" character in After DOCTYPE Public Keyword state"];
+			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE Public Keyword state"];
 			[_currentDoctypeToken.publicIdentifier setString:@""];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
-			[self emitParseError:@"0x0027 unexpected ' character in After DOCTYPE Public Keyword state"];
+			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE Public Keyword state"];
 			[_currentDoctypeToken.publicIdentifier setString:@""];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in After DOCTYPE Public Keyword state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in After DOCTYPE Public Keyword state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -1878,7 +1878,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in After DOCTYPE Public Keyword state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Keyword state", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			break;
@@ -1903,7 +1903,7 @@
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in Before DOCTYPE Public Identifier state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE Public Identifier state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -1916,7 +1916,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			break;
@@ -1931,11 +1931,11 @@
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPEPublicIdentifier];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in DOCTYPE Public Identifier Double-Quoted state"];
+			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Public Identifier Double-Quoted state"];
 			[_currentDoctypeToken.publicIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in DOCTYPE Public Identifier Double-Quoted state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in DOCTYPE Public Identifier Double-Quoted state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -1961,11 +1961,11 @@
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPEPublicIdentifier];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in DOCTYPE Public Identifier Single-Quoted state"];
+			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Public Identifier Single-Quoted state"];
 			[_currentDoctypeToken.publicIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in DOCTYPE Public Identifier Single-Quoted state"];
+			[self emitParseError:@"Unexpected > character (0x003E, >) in DOCTYPE Public Identifier Single-Quoted state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -1998,12 +1998,12 @@
 			[self emitToken:_currentDoctypeToken];
 			break;
 		case QUOTATION_MARK:
-			[self emitParseError:@"0x0022 unexpected \" character in After DOCTYPE Public Identifier state"];
+			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE Public Identifier state"];
 			[_currentDoctypeToken.publicIdentifier setString:@""];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
-			[self emitParseError:@"0x0027 unexpected ' character in After DOCTYPE Public Identifier state"];
+			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE Public Identifier state"];
 			[_currentDoctypeToken.publicIdentifier setString:@""];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
@@ -2015,7 +2015,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			break;
@@ -2051,7 +2051,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in Between DOCTYPE Public And System Identifiers state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in Between DOCTYPE Public And System Identifiers state", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			break;
@@ -2069,17 +2069,17 @@
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPESystemIdentifier];
 			break;
 		case QUOTATION_MARK:
-			[self emitParseError:@"0x0022 unexpected \" character in After DOCTYPE System Keyword state"];
+			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE System Keyword state"];
 			[_currentDoctypeToken.publicIdentifier setString:@""];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
-			[self emitParseError:@"0x0027 unexpected ' character in After DOCTYPE System Keyword state"];
+			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE System Keyword state"];
 			[_currentDoctypeToken.publicIdentifier setString:@""];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in After DOCTYPE System Keyword state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) character in After DOCTYPE System Keyword state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -2092,7 +2092,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in After DOCTYPE System Keyword state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE System Keyword state", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			break;
@@ -2117,7 +2117,7 @@
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in Before DOCTYPE System Identifier state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -2130,7 +2130,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in Before DOCTYPE System Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in Before DOCTYPE System Identifier state", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			break;
@@ -2145,11 +2145,11 @@
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPESystemIdentifier];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in DOCTYPE System Identifier Double-Quoted state"];
+			[self emitParseError:@"NULL character (0x0000) in DOCTYPE System Identifier Double-Quoted state"];
 			[_currentDoctypeToken.systemIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in Before DOCTYPE System Identifier Double-Quoted state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier Double-Quoted state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -2175,11 +2175,11 @@
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPESystemIdentifier];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"0x0000 NULL character in DOCTYPE System Identifier Single-Quoted state"];
+			[self emitParseError:@"NULL character (0x0000) in DOCTYPE System Identifier Single-Quoted state"];
 			[_currentDoctypeToken.systemIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"0x003E unexpected > character in Before DOCTYPE System Identifier Single-Quoted state"];
+			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier Single-Quoted state"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
@@ -2218,7 +2218,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"%@ unexpected character in After DOCTYPE System Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE System Identifier state", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
 			break;
 	}
