@@ -13,7 +13,6 @@
 
 @property (nonatomic, copy) NSString *characters;
 
-- (instancetype)initWithCharacter:(UTF32Char)character;
 - (instancetype)initWithString:(NSString *)string;
 
 @end

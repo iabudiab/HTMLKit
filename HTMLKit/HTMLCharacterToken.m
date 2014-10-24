@@ -11,19 +11,17 @@
 @interface HTMLCharacterToken ()
 {
 #warning Find a better solution. Single characters vs String of multiple characters
-	UTF32Char _character;
 	NSString *_characters;
 }
 @end
 
 @implementation HTMLCharacterToken
 
-- (instancetype)initWithCharacter:(UTF32Char)character
+- (instancetype)initWithString:(NSString *)string
 {
 	self = [super init];
 	if (self) {
-		self.type = HTMLTokenTypeCharacter;
-		_character = character;
+		_characters = [string copy];
 	}
 	return self;
 }
