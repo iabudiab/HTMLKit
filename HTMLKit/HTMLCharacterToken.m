@@ -26,13 +26,9 @@
 	return self;
 }
 
-- (instancetype)initWithString:(NSString *)string
+- (NSString *)description
 {
-	self = [super init];
-	if (self) {
-		_characters = [string copy];
-	}
-	return self;
+	return [NSString stringWithFormat:@"<%@: %p Characters=%@>", self.class, self, _characters];
 }
 
 @end

@@ -19,4 +19,9 @@
 	return self;
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p EOF>", self.class, self];
+}
+
 @end

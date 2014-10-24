@@ -48,6 +48,11 @@
 	return self;
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p TagName=%@>", self.class, self, self.tagName];
+}
+
 @end
 
 @implementation HTMLEndTagToken
@@ -59,6 +64,11 @@
 		self.type = HTMLTokenTypeEndTag;
 	}
 	return self;
+}
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p TagName=%@>", self.class, self, self.tagName];
 }
 
 @end

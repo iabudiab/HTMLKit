@@ -33,4 +33,9 @@
 	[_name appendString:string];
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p Name=%@>", self.class, self, _name];
+}
+
 @end

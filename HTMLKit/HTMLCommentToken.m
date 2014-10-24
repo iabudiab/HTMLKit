@@ -32,4 +32,9 @@
 	[_data appendString:string];
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p Data=%@>", self.class, self, _data];
+}
+
 @end
