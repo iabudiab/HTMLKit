@@ -13,7 +13,7 @@
  * HTML Tokenizer
  * https://html.spec.whatwg.org/multipage/syntax.html#tokenization
  */
-@interface HTMLTokenizer : NSObject <NSFastEnumeration>
+@interface HTMLTokenizer : NSObject
 
 - (instancetype)initWithString:(NSString *)string;
 
