@@ -13,6 +13,9 @@
 		624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */; };
 		624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */; };
 		624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */; };
+		624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */ = {isa = PBXBuildFile; fileRef = 624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */; };
+		624AC90119FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */; };
+		624AC90219FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */; };
 		625A14B019C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14BA19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14B819C7829400AD0C32 /* InfoPlist.strings */; };
 		625A14BE19C7829400AD0C32 /* HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A14BD19C7829400AD0C32 /* HTMLKit.m */; };
@@ -56,6 +59,8 @@
 		62AE594E19F9A17A0043F069 /* HTMLEOFToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 62AE594C19F9A17A0043F069 /* HTMLEOFToken.h */; };
 		62AE594F19F9A17A0043F069 /* HTMLEOFToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AE594D19F9A17A0043F069 /* HTMLEOFToken.m */; };
 		62AE595019F9A17A0043F069 /* HTMLEOFToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AE594D19F9A17A0043F069 /* HTMLEOFToken.m */; };
+		62D8345919FB1AC4009205A9 /* HTML5LibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTest.m */; };
+		62D8345A19FB1AC4009205A9 /* HTML5LibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTest.m */; };
 		62F31FDD19E9DCCF007F0657 /* HTMLTokenizerEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */; };
 		62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
 		62F31FDF19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
@@ -100,6 +105,8 @@
 		624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerStates.h; sourceTree = "<group>"; };
 		624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLToken.h; sourceTree = "<group>"; };
 		624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLToken.m; sourceTree = "<group>"; };
+		624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokens.h; sourceTree = "<group>"; };
+		624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerTests.m; sourceTree = "<group>"; };
 		625A14AC19C7829400AD0C32 /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14AF19C7829400AD0C32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		625A14B219C7829400AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -137,6 +144,8 @@
 		62AE594819F9948A0043F069 /* HTMLCharacterToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLCharacterToken.m; sourceTree = "<group>"; };
 		62AE594C19F9A17A0043F069 /* HTMLEOFToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEOFToken.h; sourceTree = "<group>"; };
 		62AE594D19F9A17A0043F069 /* HTMLEOFToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEOFToken.m; sourceTree = "<group>"; };
+		62D8345719FB1AC4009205A9 /* HTML5LibTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTML5LibTest.h; sourceTree = "<group>"; };
+		62D8345819FB1AC4009205A9 /* HTML5LibTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTML5LibTest.m; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
 		62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerEntities.h; sourceTree = "<group>"; };
 		62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerEntities.m; sourceTree = "<group>"; };
@@ -256,6 +265,9 @@
 		625A14CA19C7829400AD0C32 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				62D8345719FB1AC4009205A9 /* HTML5LibTest.h */,
+				62D8345819FB1AC4009205A9 /* HTML5LibTest.m */,
+				624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */,
 				625A14D019C7829400AD0C32 /* HTMLKitTests.m */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
 			);
@@ -285,6 +297,7 @@
 				62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */,
 				62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */,
 				62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */,
+				624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */,
 				624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */,
 				624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */,
 				62AE594719F9948A0043F069 /* HTMLCharacterToken.h */,
@@ -311,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				62F873EB19E088C90062683C /* HTMLParser.h in Headers */,
+				624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */,
 				62AE594419F992F30043F069 /* HTMLCommentToken.h in Headers */,
 				62AE594E19F9A17A0043F069 /* HTMLEOFToken.h in Headers */,
 				624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */,
@@ -490,6 +504,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				624AC90219FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */,
+				62D8345A19FB1AC4009205A9 /* HTML5LibTest.m in Sources */,
 				625A14D119C7829400AD0C32 /* HTMLKitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -519,6 +535,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				624AC90119FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */,
+				62D8345919FB1AC4009205A9 /* HTML5LibTest.m in Sources */,
 				625A150519C783FD00AD0C32 /* HTMLKitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
