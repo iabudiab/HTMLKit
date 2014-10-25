@@ -46,6 +46,8 @@
 	/* Aux */
 	NSString *_lastStartTagName;
 	NSMutableString *_temporaryBuffer;
+
+	BOOL _eof;
 }
 @end
 
@@ -119,7 +121,7 @@
 
 - (void)emitEOFToken
 {
-	[self emitToken:[HTMLEOFToken new]];
+	_eof = YES;
 }
 
 - (void)emitCurrentTagToken

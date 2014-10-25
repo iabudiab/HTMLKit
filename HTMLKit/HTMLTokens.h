@@ -10,6 +10,5 @@
 #import "HTMLCharacterToken.h"
 #import "HTMLCommentToken.h"
 #import "HTMLDOCTYPEToken.h"
-#import "HTMLEOFToken.h"
 #import "HTMLParseErrorToken.h"
 #import "HTMLTagToken.h"
