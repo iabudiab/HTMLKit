@@ -18,7 +18,7 @@
 @implementation HTMLDOCTYPEToken
 @synthesize name = _name;
 
- - (instancetype)initWithName:(NSString *)name
+- (instancetype)initWithName:(NSString *)name
 {
 	self = [super init];
 	if (self) {
@@ -33,9 +33,29 @@
 	[_name appendString:string];
 }
 
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)other
+{
+	if ([other isKindOfClass:[self class]]) {
+		HTMLDOCTYPEToken *token = (HTMLDOCTYPEToken *)other;
+		return (
+				[self.name isEqualToString:token.name] &&
+				[self.publicIdentifier isEqualToString:token.publicIdentifier] &&
+				[self.systemIdentifier isEqualToString:token.systemIdentifier]
+				);
+	}
+	return NO;
+}
+
+- (NSUInteger)hash
+{
+	return self.name.hash + self.publicIdentifier.hash + self.systemIdentifier.hash;
+}
+
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Name=%@>", self.class, self, _name];
+	return [NSString stringWithFormat:@"<%@: %p Name='%@' Public='%@' System='%@'>", self.class, self, _name, _publicIdentifier, _systemIdentifier];
 }
 
 @end

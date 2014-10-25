@@ -32,9 +32,25 @@
 	[_data appendString:string];
 }
 
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)other
+{
+	if ([other isKindOfClass:[self class]]) {
+		HTMLCommentToken *token = (HTMLCommentToken *)other;
+		return [self.data isEqualToString:token.data];
+	}
+	return NO;
+}
+
+- (NSUInteger)hash
+{
+	return self.data.hash;
+}
+
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Data=%@>", self.class, self, _data];
+	return [NSString stringWithFormat:@"<%@: %p Data='%@'>", self.class, self, _data];
 }
 
 @end

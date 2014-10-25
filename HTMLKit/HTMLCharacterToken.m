@@ -26,9 +26,25 @@
 	return self;
 }
 
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)other
+{
+	if ([other isKindOfClass:[self class]]) {
+		HTMLCharacterToken *token = (HTMLCharacterToken *)other;
+		return [self.characters isEqualToString:token.characters];
+	}
+	return NO;
+}
+
+- (NSUInteger)hash
+{
+	return self.characters.hash;
+}
+
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Characters=%@>", self.class, self, _characters];
+	return [NSString stringWithFormat:@"<%@: %p Characters='%@'>", self.class, self, _characters];
 }
 
 @end

@@ -48,6 +48,25 @@
 	return self;
 }
 
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)other
+{
+	if ([other isKindOfClass:[self class]]) {
+		HTMLStartTagToken *token = (HTMLStartTagToken *)other;
+		return (
+				[self.tagName isEqualToString:token.tagName] &&
+				[self.attributes isEqualToDictionary:token.attributes]
+				);
+	}
+	return NO;
+}
+
+- (NSUInteger)hash
+{
+	return self.tagName.hash + self.attributes.hash;
+}
+
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"<%@: %p TagName=%@>", self.class, self, self.tagName];
@@ -64,6 +83,24 @@
 		self.type = HTMLTokenTypeEndTag;
 	}
 	return self;
+}
+
+#pragma mark - NSObject
+
+- (BOOL)isEqual:(id)other
+{
+	if ([other isKindOfClass:[self class]]) {
+		HTMLStartTagToken *token = (HTMLStartTagToken *)other;
+		return (
+				[self.tagName isEqualToString:token.tagName]
+				);
+	}
+	return NO;
+}
+
+- (NSUInteger)hash
+{
+	return self.tagName.hash;
 }
 
 - (NSString *)description
