@@ -106,6 +106,7 @@
 		624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLToken.m; sourceTree = "<group>"; };
 		624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokens.h; sourceTree = "<group>"; };
 		624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerTests.m; sourceTree = "<group>"; };
+		624AC90319FBFD1A00BD3C4A /* HTMLKitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLKitTests.h; sourceTree = "<group>"; };
 		624AC90419FBFE8A00BD3C4A /* html5lib-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "html5lib-tests"; sourceTree = "<group>"; };
 		625A14AC19C7829400AD0C32 /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14AF19C7829400AD0C32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -266,6 +267,7 @@
 				62D8345719FB1AC4009205A9 /* HTML5LibTest.h */,
 				62D8345819FB1AC4009205A9 /* HTML5LibTest.m */,
 				624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */,
+				624AC90319FBFD1A00BD3C4A /* HTMLKitTests.h */,
 				625A14D019C7829400AD0C32 /* HTMLKitTests.m */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
 			);
