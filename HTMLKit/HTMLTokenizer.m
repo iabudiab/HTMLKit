@@ -1423,7 +1423,6 @@
 			return;
 		case AMPERSAND:
 			[self switchToState:HTMLTokenizerStateCharacterReferenceInAttributeValue withAdditionalAllowedCharacter:GREATER_THAN_SIGN];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
 			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
