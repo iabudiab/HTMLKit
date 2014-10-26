@@ -296,6 +296,8 @@
 		if (names.count == 0) break;
 
 		inputCharacter = [_inputStreamReader consumeNextInputCharacter];
+		if (inputCharacter == EOF) break;
+
 		[name appendString:StringFromUTF32Char(inputCharacter)];
 
 		if ([names containsObject:name]) {
@@ -307,11 +309,18 @@
 	}
 
 	if (entityName == nil) {
-		if ([_inputStreamReader consumeAlphanumericCharacters] != nil) {
+		if ([name hasSuffix:@";"]) {
+			[self emitParseError:@"Undefined named entity with semicolon found"];
+		} else {
+			NSString *nextAlphanumeric = [_inputStreamReader consumeAlphanumericCharacters];
+			if (nextAlphanumeric != nil) {
+				[name appendString:nextAlphanumeric];
+			}
 			if ([_inputStreamReader consumeString:@";" caseSensitive:NO]) {
 				[self emitParseError:@"Undefined named entity with semicolon found"];
 			}
 		}
+
 		[_inputStreamReader rewindToMarkedLocation];
 		return nil;
 	}
@@ -319,7 +328,7 @@
 	NSString *replacement = [HTMLTokenizerEntities replacementForNamedCharacterEntity:entityName];
 
 	if (inAttribute && [entityName hasSuffix:@";"] == NO) {
-		UTF32Char nextCharacter = [_inputStreamReader nextInputCharacter];
+		unichar nextCharacter = [name characterAtIndex:entityName.length];
 		if (nextCharacter == EQUALS_SIGN || isAlphanumeric(nextCharacter)) {
 			[_inputStreamReader rewindToMarkedLocation];
 			if (nextCharacter == EQUALS_SIGN) {
