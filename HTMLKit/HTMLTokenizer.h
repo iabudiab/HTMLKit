@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTMLInputStreamReader.h"
+#import "HTMLToken.h"
+#import "HTMLTokenizerStates.h"
 
 /**
  * HTML Tokenizer
@@ -15,6 +16,11 @@
  */
 @interface HTMLTokenizer : NSObject
 
+@property (nonatomic, assign) HTMLTokenizerState state;
+
 - (instancetype)initWithString:(NSString *)string;
+
+- (HTMLToken *)nextToken;
+- (NSArray *)allTokens;
 
 @end

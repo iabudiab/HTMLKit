@@ -7,14 +7,9 @@
 //
 
 #import "HTMLTokenizer.h"
+#import "HTMLInputStreamReader.h"
+#import "HTMLTokens.h"
 #import "HTMLParser.h"
-#import "HTMLToken.h"
-#import "HTMLCharacterToken.h"
-#import "HTMLCommentToken.h"
-#import "HTMLDOCTYPEToken.h"
-#import "HTMLEOFToken.h"
-#import "HTMLParseErrorToken.h"
-#import "HTMLTagToken.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokenizerCharacters.h"
 #import "HTMLTokenizerEntities.h"
@@ -52,6 +47,7 @@
 @end
 
 @implementation HTMLTokenizer
+@synthesize state = _currentState;
 
 #pragma mark - Lifecycle
 
@@ -80,6 +76,26 @@
 }
 
 #pragma mark - State Machine
+
+- (HTMLToken *)nextToken
+{
+	while (_eof == NO && _tokens.count == 0) {
+		[self read];
+	}
+	HTMLToken *nextToken = [_tokens firstObject];
+	if (_tokens.count > 0) {
+		[_tokens removeObjectAtIndex:0];
+	}
+	return nextToken;
+}
+
+- (NSArray *)allTokens
+{
+	while (_eof == NO) {
+		[self read];
+	}
+	return _tokens;
+}
 
 - (void)read
 {
