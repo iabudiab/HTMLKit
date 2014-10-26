@@ -8,7 +8,6 @@
 
 #import "HTML5LibTest.h"
 #import "HTMLTokenizerStates.h"
-#import "HTMLTokenizerCharacters.h"
 #import "HTMLTokens.h"
 
 @implementation HTML5LibTest
@@ -38,9 +37,9 @@
 		// Test Output
 	NSMutableArray *tokens = [NSMutableArray array];
 	NSArray *outputs = fixture[@"output"];
-	for (id output in outputs) {
-		NSArray *processed = [self processOutputToken:output doubleEscaped:doubleEscaped];
-		[tokens addObjectsFromArray:processed];
+	for (NSArray *output in outputs) {
+		HTMLToken *token = [self processOutputToken:output doubleEscaped:doubleEscaped];
+		[tokens addObject:token];
 	}
 	self.output = tokens;
 
@@ -72,66 +71,42 @@
 	self.ignoreErrorOrder = [fixture[@"ignoreErrorOrder"] boolValue];
 }
 
-- (NSArray *)processOutputToken:(id)output doubleEscaped:(BOOL)doubleEscaped
+- (HTMLToken *)processOutputToken:(NSArray *)output doubleEscaped:(BOOL)doubleEscaped
 {
-	if ([output isKindOfClass:[NSString class]] && [output isEqualToString:@"ParseError"]) {
-		return @[ [HTMLParseErrorToken new] ];
-	}
-
 	NSString *type = [output firstObject];
 
 	NSString *data = nil;
-	if ([output count] > 1) {
-		data = [output lastObject];
+	if (output.count > 1) {
+		NSString *data = [output lastObject];
 		if (doubleEscaped) {
 			data = [self processDoubleEscaped:data];
 		}
 	}
 
 	if ([type isEqualToString:@"Character"]) {
-
-		NSMutableArray *characterTokens = [NSMutableArray array];
-
-		NSUInteger length = data.length;
-		unichar *buffer = malloc(sizeof(unichar) * length);
-		NSRange range = {0, length};
-		[data getCharacters:buffer range:range];
-		for(int i = 0; i < length; i++) {
-			unichar character = buffer[i];
-			HTMLToken *token = [[HTMLCharacterToken alloc] initWithString:StringFromUniChar(character)];
-			[characterTokens addObject:token];
-		}
-		return characterTokens;
-
+		return [[HTMLCharacterToken alloc] initWithString:data];
 	} else if ([type isEqualToString:@"Comment"]) {
-
-		return @[ [[HTMLCommentToken alloc] initWithData:data] ];
-
+		return [[HTMLCommentToken alloc] initWithData:data];
 	} else if ([type isEqualToString:@"DOCTYPE"]) {
-
 		HTMLDOCTYPEToken *token = [[HTMLDOCTYPEToken alloc] initWithName:data];
 		token.publicIdentifier = output[2];
 		token.systemIdentifier = output[3];
 		token.forceQuirks = ([output[4] boolValue] == NO);
-		return @[ token ];
-
+		return token;
 	} else if ([type isEqualToString:@"EndTag"]) {
-
-		return @[ [[HTMLEndTagToken alloc] initWithTagName:data] ];
-
+		return [[HTMLEndTagToken alloc] initWithTagName:data];
+	} else if ([type isEqualToString:@"ParseError"]) {
+		return [HTMLParseErrorToken new];
 	} else if ([type isEqualToString:@"StartTag"]) {
-
 		HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:data];
 		NSDictionary *attributes = output[2];
 		for (NSString *name in attributes) {
 			NSString *value = [attributes objectForKey:name];
 			[token.attributes setObject:value  forKey:name];
 		}
-		token.selfClosing = ([output count] == 4);
-		return @[ token ];
-
+		token.selfClosing = (output.count == 4);
+		return token;
 	}
-
 	return nil;
 }
 
