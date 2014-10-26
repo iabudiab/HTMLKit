@@ -85,7 +85,7 @@ NUMERIC_REPLACEMENT_CHARACTERS
 NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
 {
 	return ((character >= 0x0001 && character <= 0x0008) ||
-			(character >= 0x000E && character <= 0x001F) ||
+			(character >= 0x000D && character <= 0x001F) ||
 			(character >= 0x007F && character <= 0x009F) ||
 			(character >= 0xFDD0 && character <= 0xFDEF) ||
 			character == 0x000B ||
@@ -144,7 +144,14 @@ NS_INLINE BOOL isAlphanumeric(UTF32Char character)
 			(character >= LATIN_SMALL_LETTER_A && character <= LATIN_SMALL_LETTER_Z));
 }
 
-NS_INLINE BOOL isValidNumericRange(UTF32Char character)
+NS_INLINE BOOL isStringAlphanumeric(NSString *string)
+{
+	NSCharacterSet *set = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
+
+	return ([string rangeOfCharacterFromSet:set].location == NSNotFound);
+}
+
+NS_INLINE BOOL isInvalidNumericRange(UTF32Char character)
 {
 	return ((character >= 0xD800 && character <= 0xDFFF) ||
 			character > 0x10FFFF);
@@ -157,7 +164,7 @@ NS_INLINE unichar NumericReplacementCharacter(UTF32Char character)
 	} else if (character >= 0x0080 && character <= 0x009F) {
 		return NumericReplacementTable[character - 0x0080];
 	} else {
-		return character;
+		return NULL_CHAR;
 	}
 }
 

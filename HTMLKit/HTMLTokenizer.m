@@ -264,20 +264,20 @@
 		[self emitParseError:@"Missing semicolon in numeric entity"];
 	}
 
-	unichar numericReplacement = NumericReplacementCharacter(character);
+	unichar numericReplacement = NumericReplacementCharacter(number);
 	if (numericReplacement != NULL_CHAR) {
 		[self emitParseError:@"Invalid numeric entity (a defenied replacement exists)"];
 		return StringFromUniChar(numericReplacement);
 	}
-	if (isValidNumericRange(character)) {
+	if (isInvalidNumericRange(number)) {
 		[self emitParseError:@"Invalid numeric entity (invalid Unicode range)"];
 		return StringFromUniChar(REPLACEMENT_CHAR);
 	}
-	if (isControlOrUndefinedCharacter(character)) {
+	if (isControlOrUndefinedCharacter(number)) {
 		[self emitParseError:@"Invalid numeric entity (control or undefined character)"];
 	}
 
-	return StringFromUTF32Char(character);
+	return StringFromUTF32Char(number);
 }
 
 - (NSString *)attemptToConsumeNamedCharacterReferenceInAttribute:(BOOL)inAttribute
