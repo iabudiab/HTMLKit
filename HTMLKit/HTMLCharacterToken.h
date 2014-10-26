@@ -15,4 +15,6 @@
 
 - (instancetype)initWithString:(NSString *)string;
 
+- (void)appendString:(NSString *)string;
+
 @end

@@ -10,8 +10,7 @@
 
 @interface HTMLCharacterToken ()
 {
-#warning Find a better solution. Single characters vs String of multiple characters
-	NSString *_characters;
+	NSMutableString *_characters;
 }
 @end
 
@@ -21,9 +20,14 @@
 {
 	self = [super init];
 	if (self) {
-		_characters = [string copy];
+		_characters = [[NSMutableString alloc] initWithString:string];
 	}
 	return self;
+}
+
+- (void)appendString:(NSString *)string
+{
+	[_characters appendString:string];
 }
 
 #pragma mark - NSObject

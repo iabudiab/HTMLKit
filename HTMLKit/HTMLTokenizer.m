@@ -167,8 +167,12 @@
 
 - (void)emitCharacterTokenWithString:(NSString *)string
 {
-	HTMLToken *token = [[HTMLCharacterToken alloc] initWithString:string];
-	[self emitToken:token];
+	HTMLToken *previousToken = [_tokens lastObject];
+	if ([previousToken isCharacterToken]) {
+		[(HTMLCharacterToken *)previousToken appendString:string];
+	} else {
+		[self emitToken:[[HTMLCharacterToken alloc] initWithString:string]];
+	}
 }
 
 - (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
