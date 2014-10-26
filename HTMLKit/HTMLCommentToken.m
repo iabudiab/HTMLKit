@@ -38,7 +38,7 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLCommentToken *token = (HTMLCommentToken *)other;
-		return [self.data isEqualToString:token.data];
+		return nilOrEqual(self.data, token.data);
 	}
 	return NO;
 }

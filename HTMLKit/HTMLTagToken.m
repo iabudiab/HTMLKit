@@ -54,10 +54,9 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLStartTagToken *token = (HTMLStartTagToken *)other;
-		return (
-				[self.tagName isEqualToString:token.tagName] &&
-				[self.attributes isEqualToDictionary:token.attributes]
-				);
+
+		return (nilOrEqual(self.tagName, token.tagName) &&
+				nilOrEqual(self.attributes, token.attributes));
 	}
 	return NO;
 }
@@ -91,9 +90,7 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLStartTagToken *token = (HTMLStartTagToken *)other;
-		return (
-				[self.tagName isEqualToString:token.tagName]
-				);
+		return nilOrEqual(self.tagName, token.tagName);
 	}
 	return NO;
 }

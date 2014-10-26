@@ -36,7 +36,7 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLCharacterToken *token = (HTMLCharacterToken *)other;
-		return [self.characters isEqualToString:token.characters];
+		return nilOrEqual(self.characters, token.characters);
 	}
 	return NO;
 }

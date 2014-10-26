@@ -39,11 +39,10 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLDOCTYPEToken *token = (HTMLDOCTYPEToken *)other;
-		return (
-				[self.name isEqualToString:token.name] &&
-				[self.publicIdentifier isEqualToString:token.publicIdentifier] &&
-				[self.systemIdentifier isEqualToString:token.systemIdentifier]
-				);
+		return (nilOrEqual(self.name, token.name) &&
+				nilOrEqual(self.publicIdentifier, token.publicIdentifier) &&
+				nilOrEqual(self.systemIdentifier, token.systemIdentifier) &&
+				self.forceQuirks == token.forceQuirks);
 	}
 	return NO;
 }
@@ -55,7 +54,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Name='%@' Public='%@' System='%@'>", self.class, self, _name, _publicIdentifier, _systemIdentifier];
+	return [NSString stringWithFormat:@"<%@: %p Name='%@' Public='%@' System='%@' ForceQuirks='%@'>", self.class, self, _name, _publicIdentifier, _systemIdentifier, @(_forceQuirks)];
 }
 
 @end

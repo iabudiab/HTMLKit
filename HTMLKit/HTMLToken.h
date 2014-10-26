@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+NS_INLINE BOOL nilOrEqual(id first, id second) {
+	return (first == nil && second == nil) || ([first isEqual:second]);
+}
+
 typedef NS_ENUM(NSUInteger, HTMLTokenType)
 {
 	HTMLTokenTypeCharacter,
