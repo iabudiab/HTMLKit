@@ -488,6 +488,7 @@
 		case QUESTION_MARK:
 			[self emitParseError:@"Bogus (0x003F, ?) in Tag Open state"];
 			[self switchToState:HTMLTokenizerStateBogusComment];
+			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%X) in Tag Open state", character];
@@ -522,6 +523,7 @@
 		default:
 			[self emitParseError:@"%X Unexpected character in End Tag Open state", character];
 			[self switchToState:HTMLTokenizerStateBogusComment];
+			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 	}
 }
