@@ -282,7 +282,7 @@
 
 	NSString *entityName = nil;
 
-	UTF32Char inputCharacter = [_inputStreamReader currentInputCharacter];
+	UTF32Char inputCharacter = [_inputStreamReader consumeNextInputCharacter];
 	NSArray *names = [HTMLTokenizerEntities entityNames];
 	NSMutableString *name = [NSMutableString stringWithString:StringFromUTF32Char(inputCharacter)];
 
