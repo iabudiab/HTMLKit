@@ -71,13 +71,17 @@
 	self.ignoreErrorOrder = [fixture[@"ignoreErrorOrder"] boolValue];
 }
 
-- (HTMLToken *)processOutputToken:(NSArray *)output doubleEscaped:(BOOL)doubleEscaped
+- (HTMLToken *)processOutputToken:(id)output doubleEscaped:(BOOL)doubleEscaped
 {
+	if ([output isKindOfClass:[NSString class]] && [output isEqualToString:@"ParseError"]) {
+		return [HTMLParseErrorToken new];
+	}
+
 	NSString *type = [output firstObject];
 
 	NSString *data = nil;
-	if (output.count > 1) {
-		NSString *data = [output lastObject];
+	if ([output count] > 1) {
+		data = [output lastObject];
 		if (doubleEscaped) {
 			data = [self processDoubleEscaped:data];
 		}
@@ -104,7 +108,7 @@
 			NSString *value = [attributes objectForKey:name];
 			[token.attributes setObject:value  forKey:name];
 		}
-		token.selfClosing = (output.count == 4);
+		token.selfClosing = ([output count] == 4);
 		return token;
 	}
 	return nil;
