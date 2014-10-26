@@ -12,31 +12,31 @@
 
 @implementation HTML5LibTest
 
-- (instancetype)initWithFixture:(NSDictionary *)fixture
+- (instancetype)initWithTestDictionary:(NSDictionary *)dictionary
 {
 	self = [super init];
 	if (self) {
-		[self loadFixture:fixture];
+		[self loadTest:dictionary];
 	}
 	return self;
 }
 
-- (void)loadFixture:(NSDictionary *)fixture
+- (void)loadTest:(NSDictionary *)test
 {
-	BOOL doubleEscaped = [fixture[@"doubleEscaped"] boolValue];
+	BOOL doubleEscaped = [test[@"doubleEscaped"] boolValue];
 
 		// Test Description
-	self.description = fixture[@"description"];
+	self.description = test[@"description"];
 
 		// Test Input
-	self.input = fixture[@"input"];
+	self.input = test[@"input"];
 	if (doubleEscaped) {
 		self.input = [self processDoubleEscaped:self.input];
 	}
 
 		// Test Output
 	NSMutableArray *tokens = [NSMutableArray array];
-	NSArray *outputs = fixture[@"output"];
+	NSArray *outputs = test[@"output"];
 	for (NSArray *output in outputs) {
 		HTMLToken *token = [self processOutputToken:output doubleEscaped:doubleEscaped];
 		[tokens addObject:token];
@@ -46,7 +46,7 @@
 		// Test Initial States
 	NSMutableArray *initialStates = [NSMutableArray array];
 
-	NSArray *states = fixture[@"initialStates"];
+	NSArray *states = test[@"initialStates"];
 	for (NSString *name in states) {
 		HTMLTokenizerState state = HTMLTokenizerStateData;
 		if ([name isEqualToString:@"PLAINTEXT state"]) {
@@ -65,10 +65,10 @@
 	self.initialStates = initialStates;
 
 		// Test Last Start Tag
-	self.lastStartTag = fixture[@"lastStartTag"];
+	self.lastStartTag = test[@"lastStartTag"];
 
 		// Ignore Error Order
-	self.ignoreErrorOrder = [fixture[@"ignoreErrorOrder"] boolValue];
+	self.ignoreErrorOrder = [test[@"ignoreErrorOrder"] boolValue];
 }
 
 - (HTMLToken *)processOutputToken:(id)output doubleEscaped:(BOOL)doubleEscaped
@@ -81,7 +81,7 @@
 
 	NSString *data = nil;
 	if ([output count] > 1) {
-		data = [output lastObject];
+		data = output[1];
 		if (doubleEscaped) {
 			data = [self processDoubleEscaped:data];
 		}

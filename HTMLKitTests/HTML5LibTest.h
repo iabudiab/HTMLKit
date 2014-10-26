@@ -17,6 +17,6 @@
 @property (nonatomic, strong) NSString *lastStartTag;
 @property (nonatomic, assign) BOOL ignoreErrorOrder;
 
-- (instancetype)initWithFixture:(NSDictionary *)fixture;
+- (instancetype)initWithTestDictionary:(NSDictionary *)dictionary;
 
 @end

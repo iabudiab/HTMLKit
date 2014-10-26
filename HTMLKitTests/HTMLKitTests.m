@@ -27,7 +27,7 @@ static NSString * const HTML5LibTests = @"html5lib-tests";
 
 	NSMutableArray *tests = [NSMutableArray array];
 	for (NSDictionary *test in jsonTests) {
-		[tests addObject:[[HTML5LibTest alloc] initWithFixture:test]];
+		[tests addObject:[[HTML5LibTest alloc] initWithTestDictionary:test]];
 	}
 	return tests;
 }
