@@ -125,18 +125,18 @@
 
 	for(NSTextCheckingResult *match in [matches reverseObjectEnumerator]) {
 
-		NSRange hexRange = [match rangeAtIndex:2];
+		NSRange hexRange = [match rangeAtIndex:1];
 		NSString *hexString = [string substringWithRange:hexRange];
 		NSScanner *scanner = [NSScanner scannerWithString:hexString];
 		unsigned int codepint;
 		[scanner scanHexInt:&codepint];
 		NSString *replacement = [NSString stringWithFormat:@"%C", (unichar)codepint];
 
-		NSRange matchRange = [match rangeAtIndex:1];
+		NSRange matchRange = [match rangeAtIndex:0];
 		string = [string stringByReplacingCharactersInRange:matchRange withString:replacement];
 	}
 
-	return nil;
+	return string;
 }
 
 @end
