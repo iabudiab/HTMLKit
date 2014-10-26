@@ -93,8 +93,8 @@
 		return [[HTMLCommentToken alloc] initWithData:data];
 	} else if ([type isEqualToString:@"DOCTYPE"]) {
 		HTMLDOCTYPEToken *token = [[HTMLDOCTYPEToken alloc] initWithName:data];
-		token.publicIdentifier = output[2];
-		token.systemIdentifier = output[3];
+		token.publicIdentifier = [[NSNull null] isEqual:output[2]] ? nil : output[2];
+		token.systemIdentifier = [[NSNull null] isEqual:output[3]] ? nil : output[3];
 		token.forceQuirks = ([output[4] boolValue] == NO);
 		return token;
 	} else if ([type isEqualToString:@"EndTag"]) {
