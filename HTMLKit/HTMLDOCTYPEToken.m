@@ -23,13 +23,16 @@
 	self = [super init];
 	if (self) {
 		self.type = HTMLTokenTypeDoctype;
-		_name = [[NSMutableString alloc] initWithString:name];
+		_name = [name mutableCopy];
 	}
 	return self;
 }
 
 - (void)appendStringToName:(NSString *)string
 {
+	if (_name == nil) {
+		_name = [NSMutableString new];
+	}
 	[_name appendString:string];
 }
 

@@ -24,13 +24,16 @@
 {
 	self = [super init];
 	if (self) {
-		_tagName = [[NSMutableString alloc] initWithString:tagName];
+		_tagName = [tagName mutableCopy];
 	}
 	return self;
 }
 
 - (void)appendStringToTagName:(NSString *)string
 {
+	if (_tagName == nil) {
+		_tagName = [NSMutableString new];
+	}
 	[_tagName appendString:string];
 }
 
@@ -68,7 +71,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p TagName=%@>", self.class, self, self.tagName];
+	return [NSString stringWithFormat:@"<%@: %p TagName=%@ Attributes=%@>", self.class, self, self.tagName, self.attributes];
 }
 
 @end
@@ -102,7 +105,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p TagName=%@>", self.class, self, self.tagName];
+	return [NSString stringWithFormat:@"<%@: %p TagName=%@ Attributes=%@>", self.class, self, self.tagName, self.attributes];
 }
 
 @end

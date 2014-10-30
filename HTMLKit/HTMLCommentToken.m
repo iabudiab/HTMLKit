@@ -22,13 +22,16 @@
 	self = [super init];
 	if (self) {
 		self.type = HTMLTokenTypeComment;
-		_data = [[NSMutableString alloc] initWithString:data];
+		_data = [data mutableCopy];
 	}
 	return self;
 }
 
 - (void)appendStringToData:(NSString *)string
 {
+	if (_data == nil) {
+		_data = [NSMutableString new];
+	}
 	[_data appendString:string];
 }
 

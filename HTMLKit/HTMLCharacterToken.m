@@ -20,13 +20,16 @@
 {
 	self = [super init];
 	if (self) {
-		_characters = [[NSMutableString alloc] initWithString:string];
+		_characters = [string mutableCopy];
 	}
 	return self;
 }
 
 - (void)appendString:(NSString *)string
 {
+	if (_characters == nil) {
+		_characters = [NSMutableString new];
+	}
 	[_characters appendString:string];
 }
 
