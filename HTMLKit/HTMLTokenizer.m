@@ -196,6 +196,22 @@
 
 #pragma mark - Attributes
 
+- (void)appendToCurrentAttributeName:(NSString *)string
+{
+	if (_currentAttributeName == nil) {
+		_currentAttributeName = [NSMutableString new];
+	}
+	[_currentAttributeName appendString:string];
+}
+
+- (void)appendToCurrentAttributeValue:(NSString *)string
+{
+	if (_currentAttributeValue == nil) {
+		_currentAttributeValue = [NSMutableString new];
+	}
+	[_currentAttributeValue appendString:string];
+}
+
 - (void)finalizeCurrentAttribute
 {
 #warning Implement attributes for Tag Tokens
@@ -1208,14 +1224,14 @@
 			[self emitCharacterToken:character];
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			_currentAttributeName = [[NSMutableString alloc] initWithString:StringFromUniChar(character + 0x0020)];
-			_currentAttributeValue = [NSMutableString new];
+			[self finalizeCurrentAttribute];
+			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in Before Attribute Name state"];
-			_currentAttributeName = [[NSMutableString alloc] initWithString:StringFromUniChar(REPLACEMENT_CHAR)];
-			_currentAttributeValue = [NSMutableString new];
+			[self finalizeCurrentAttribute];
+			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case QUESTION_MARK:
@@ -1231,8 +1247,8 @@
 			return;
 	}
 
-	_currentAttributeName = [[NSMutableString alloc] initWithString:StringFromUTF32Char(character)];
-	_currentAttributeValue = [NSMutableString new];
+	[self finalizeCurrentAttribute];
+	[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
 	[self switchToState:HTMLTokenizerStateAttributeName];
 }
 
@@ -1257,12 +1273,14 @@
 			[self emitCurrentTagToken];
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[_currentAttributeName appendString:StringFromUniChar(character + 0x0020)];
+			[self finalizeCurrentAttribute];
+			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in Before Attribute Name state"];
-			[_currentAttributeName appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[self finalizeCurrentAttribute];
+			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUESTION_MARK:
 		case APOSTROPHE:
@@ -1276,7 +1294,7 @@
 			return;
 	}
 
-	[_currentAttributeName appendString:StringFromUTF32Char(character)];
+	[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
 }
 
 - (void)HTMLTokenizerStateAfterAttributeName
@@ -1299,14 +1317,14 @@
 			[self emitCurrentTagToken];
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			_currentAttributeName = [[NSMutableString alloc] initWithString:StringFromUniChar(character + 0x0020)];
-			_currentAttributeValue = [NSMutableString new];
+			[self finalizeCurrentAttribute];
+			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in After Attribute Name state"];
-			[_currentAttributeName appendString:StringFromUniChar(REPLACEMENT_CHAR)];
-			_currentAttributeValue = [NSMutableString new];
+			[self finalizeCurrentAttribute];
+			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUESTION_MARK:
 		case APOSTROPHE:
@@ -1320,8 +1338,8 @@
 			return;
 	}
 
-	[_currentAttributeName appendString:StringFromUTF32Char(character)];
-	_currentAttributeValue = [NSMutableString new];
+	[self finalizeCurrentAttribute];
+	[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
 	[self switchToState:HTMLTokenizerStateAttributeName];
 }
 
@@ -1346,7 +1364,7 @@
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in After Attribute Value state"];
-			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
 			return;
 		case GREATER_THAN_SIGN:
@@ -1366,7 +1384,7 @@
 			return;
 	}
 
-	[_currentAttributeValue appendString:StringFromUTF32Char(character)];
+	[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
 	[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
 }
 
@@ -1382,7 +1400,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in Attribute Value Double-Quoted state"];
-			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Value Double-Quoted state"];
@@ -1390,7 +1408,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentAttributeValue appendString:StringFromUTF32Char(character)];
+			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
 			break;
 	}
 }
@@ -1407,7 +1425,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in Attribute Value Single-Quoted state"];
-			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Value Single-Quoted state"];
@@ -1415,7 +1433,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentAttributeValue appendString:StringFromUTF32Char(character)];
+			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
 			break;
 	}
 }
@@ -1439,7 +1457,7 @@
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in Attribute Value Unquoted state"];
-			[_currentAttributeValue appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUOTATION_MARK:
 		case APOSTROPHE:
@@ -1455,17 +1473,18 @@
 			return;
 	}
 
-	[_currentAttributeValue appendString:StringFromUTF32Char(character)];
+	[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
 }
 
 - (void)HTMLTokenizerStateCharacterReferenceInAttributeValue
 {
 	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:_additionalAllowedCharacter
 																							  inAttribute:YES];
+
 	if (characterReference == nil) {
-		[_currentAttributeValue appendString:StringFromUniChar(AMPERSAND)];
+		[self appendToCurrentAttributeValue:StringFromUniChar(AMPERSAND)];
 	} else {
-		[_currentAttributeValue appendString:characterReference];
+		[self appendToCurrentAttributeValue:characterReference];
 	}
 
 	[self switchToState:_previousTokenizerState];
