@@ -214,7 +214,19 @@
 
 - (void)finalizeCurrentAttribute
 {
-#warning Implement attributes for Tag Tokens
+	if (_currentAttributeName != nil) {
+		if (_currentTagToken.attributes == nil) {
+			_currentTagToken.attributes = [NSMutableDictionary new];
+		}
+
+		if (_currentTagToken.attributes[_currentAttributeName] != nil) {
+			[self emitParseError:@"Tag token [%@] already contains an attrbitue with name [%@]", _currentTagToken, _currentAttributeName];
+		} else {
+			_currentTagToken.attributes[_currentAttributeName] = _currentAttributeValue ?: @"";
+		}
+	}
+	_currentAttributeName = nil;
+	_currentAttributeValue = nil;
 }
 
 #pragma mark - Consume Character Reference
