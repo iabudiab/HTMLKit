@@ -268,17 +268,17 @@
 	[_inputStreamReader consumeNextInputCharacter];
 
 	UTF32Char character = [_inputStreamReader nextInputCharacter];
-	unsigned int number;
+	unsigned long long number;
 	BOOL success;
 
 	switch (character) {
 		case LATIN_CAPITAL_LETTER_X:
 		case LATIN_SMALL_LETTER_X:
 			[_inputStreamReader consumeNextInputCharacter];
-			success = [_inputStreamReader consumeHexInt:&number];
+			success = [_inputStreamReader consumeHexNumber:&number];
 			break;
 		default:
-			success = [_inputStreamReader consumeUnsignedInt:&number];
+			success = [_inputStreamReader consumeNumber:&number];
 			break;
 	}
 
@@ -292,20 +292,23 @@
 		[self emitParseError:@"Missing semicolon in numeric entity"];
 	}
 
-	unichar numericReplacement = NumericReplacementCharacter(number);
-	if (numericReplacement != NULL_CHAR) {
-		[self emitParseError:@"Invalid numeric entity (a defenied replacement exists)"];
-		return StringFromUniChar(numericReplacement);
-	}
 	if (isInvalidNumericRange(number)) {
 		[self emitParseError:@"Invalid numeric entity (invalid Unicode range)"];
 		return StringFromUniChar(REPLACEMENT_CHAR);
 	}
-	if (isControlOrUndefinedCharacter(number)) {
+
+	UTF32Char numericChar = (UTF32Char)number;
+	unichar numericReplacement = NumericReplacementCharacter(numericChar);
+	if (numericReplacement != NULL_CHAR) {
+		[self emitParseError:@"Invalid numeric entity (a defenied replacement exists)"];
+		return StringFromUniChar(numericReplacement);
+	}
+
+	if (isControlOrUndefinedCharacter(numericChar)) {
 		[self emitParseError:@"Invalid numeric entity (control or undefined character)"];
 	}
 
-	return StringFromUTF32Char(number);
+	return StringFromUTF32Char(numericChar);
 }
 
 - (NSString *)attemptToConsumeNamedCharacterReferenceInAttribute:(BOOL)inAttribute

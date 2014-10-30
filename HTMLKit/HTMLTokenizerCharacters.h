@@ -151,10 +151,10 @@ NS_INLINE BOOL isStringAlphanumeric(NSString *string)
 	return ([string rangeOfCharacterFromSet:set].location == NSNotFound);
 }
 
-NS_INLINE BOOL isInvalidNumericRange(UTF32Char character)
+NS_INLINE BOOL isInvalidNumericRange(unsigned long long numeric)
 {
-	return ((character >= 0xD800 && character <= 0xDFFF) ||
-			character > 0x10FFFF);
+	return ((numeric >= 0xD800 && numeric <= 0xDFFF) ||
+			numeric > 0x10FFFF);
 }
 
 NS_INLINE unichar NumericReplacementCharacter(UTF32Char character)

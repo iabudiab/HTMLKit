@@ -111,28 +111,27 @@
 	return NO;
 }
 
-- (BOOL)consumeUnsignedInt:(unsigned int *)result
+- (BOOL)consumeNumber:(unsigned long long *)result
 {
-	long long scanned;
-	BOOL success = [_scanner scanLongLong:&scanned];
-	if (success == NO || scanned < 0) return NO;
-	if (result != NULL) {
-		*result = MIN(UINT_MAX, (unsigned int)scanned);
-	}
+	unsigned long long scanned;
+	BOOL success = [_scanner scanUnsignedLongLong:&scanned];
+	if (success == NO) return NO;
+
+	*result = scanned;
 	_location = _scanner.scanLocation;
 	return success;
 }
 
-- (BOOL)consumeHexInt:(unsigned int *)result
+- (BOOL)consumeHexNumber:(unsigned long long *)result
 {
 	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"0123456789ABCDEFabcdef"];
 
 	NSString *string = nil;
 	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];
 	if (success == NO) return NO;
-	if (result != NULL) {
-		*result = MIN(UINT_MAX, (unsigned int)strtoull(string.UTF8String, NULL, 16));
-	}
+
+	unsigned long long scanned = strtoull(string.UTF8String, NULL, 16);
+	*result = scanned;
 	_location = _scanner.scanLocation;
 	return success;
 }
