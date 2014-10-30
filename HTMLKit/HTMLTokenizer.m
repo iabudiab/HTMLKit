@@ -1273,7 +1273,7 @@
 		case LINE_FEED:
 		case FORM_FEED:
 		case SPACE:
-			[self switchToState:HTMLTokenizerStateAttributeName];
+			[self switchToState:HTMLTokenizerStateAfterAttributeName];
 			return;
 		case SOLIDUS:
 			[self switchToState:HTMLTokenizerStateSelfClosingStartTag];
