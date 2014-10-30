@@ -1250,7 +1250,7 @@
 			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
-		case QUESTION_MARK:
+		case QUOTATION_MARK:
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
 		case EQUALS_SIGN:
@@ -1298,7 +1298,7 @@
 			[self finalizeCurrentAttribute];
 			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
-		case QUESTION_MARK:
+		case QUOTATION_MARK:
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
 			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
@@ -1342,7 +1342,7 @@
 			[self finalizeCurrentAttribute];
 			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
-		case QUESTION_MARK:
+		case QUOTATION_MARK:
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
 			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
