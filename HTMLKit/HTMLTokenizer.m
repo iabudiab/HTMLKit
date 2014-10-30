@@ -579,6 +579,7 @@
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Tag Name state"];
+			[self switchToState:HTMLTokenizerStateData];
 			[_inputStreamReader	unconsumeCurrentInputCharacter];
 			break;
 		default:
