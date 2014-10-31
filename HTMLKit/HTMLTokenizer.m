@@ -316,11 +316,11 @@
 	[_inputStreamReader markCurrentLocation];
 
 	NSString *entityName = nil;
+	NSString *entityReplacement = nil;
 
 #warning Improve Named Entity Search
 	UTF32Char inputCharacter = [_inputStreamReader consumeNextInputCharacter];
-//	NSArray *names = [HTMLTokenizerEntities entityNames];
-	NSArray *names = NAMES();
+	NSArray *names = [HTMLTokenizerEntities entities];
 	NSMutableString *name = [NSMutableString stringWithString:StringFromUTF32Char(inputCharacter)];
 
 	NSUInteger searchIndex = 0;
@@ -337,6 +337,7 @@
 
 		if ([[names objectAtIndex:searchIndex] isEqualToString:name]) {
 			entityName = [name copy];
+			entityReplacement = [HTMLTokenizerEntities replacementAtIndex:searchIndex];
 		}
 
 		if ([name hasSuffix:@";"]) break;
@@ -360,8 +361,6 @@
 		return nil;
 	}
 
-	NSString *replacement = [HTMLTokenizerEntities replacementForNamedCharacterEntity:entityName];
-
 	if (inAttribute && [entityName hasSuffix:@";"] == NO) {
 		unichar nextCharacter = [name characterAtIndex:entityName.length];
 		if (nextCharacter == EQUALS_SIGN || isAlphanumeric(nextCharacter)) {
@@ -377,7 +376,7 @@
 		[self emitParseError:@"Named entity without semicolon"];
 	}
 
-	return replacement;
+	return entityReplacement;
 }
 
 #pragma mark - States

@@ -2241,17 +2241,20 @@
 	NAMED_CHARACTER_REFERENCE( "zwj;", "\U0000200d" ) \
 	NAMED_CHARACTER_REFERENCE( "zwnj;", "\U0000200c" )
 
-static NSDictionary *_entities;
+static NSArray *_entities;
+static NSArray *_values;
 
-static NSString * x[] = {
+static NSString * NamedEntityNames[] = {
 #define NAMED_CHARACTER_REFERENCE( name, value ) @name,
 	NAMED_CHARACTER_REFERENCES
 #undef 	NAMED_CHARACTER_REFERENCE
 };
 
-NSArray * NAMES() {
-	return [[NSArray alloc] initWithObjects:x count:2231];
-}
+static NSString * NamedEntityValues[] = {
+#define NAMED_CHARACTER_REFERENCE( name, value ) @value,
+		NAMED_CHARACTER_REFERENCES
+#undef 	NAMED_CHARACTER_REFERENCE
+};
 
 @implementation HTMLTokenizerEntities
 
@@ -2259,31 +2262,22 @@ NSArray * NAMES() {
 {
 	if (self == [HTMLTokenizerEntities class]) {
 
-		NSArray * NamedReferencesNames = @[
-#define NAMED_CHARACTER_REFERENCE( name, value ) @(name),
-			NAMED_CHARACTER_REFERENCES
-#undef 	NAMED_CHARACTER_REFERENCE
-		];
+		NSUInteger count = sizeof(NamedEntityNames) / sizeof(NamedEntityNames[0]);
 
-		NSArray * NamedReferencesValues = @[
-#define NAMED_CHARACTER_REFERENCE( name, value ) @(value),
-			NAMED_CHARACTER_REFERENCES
-#undef 	NAMED_CHARACTER_REFERENCE
-		];
+		_entities = [[NSArray alloc] initWithObjects:NamedEntityNames count:count];
+		_values = [[NSArray alloc] initWithObjects:NamedEntityValues count:count];
 
-		_entities = [[NSDictionary alloc] initWithObjects:NamedReferencesValues forKeys:NamedReferencesNames];
 	}
 }
 
-+ (NSArray *)entityNames
++ (NSArray *)entities
 {
-	return [_entities allKeys];
+	return _entities;
 }
 
-+ (NSString *)replacementForNamedCharacterEntity:(NSString *)entity
++ (NSString *)replacementAtIndex:(NSUInteger)index
 {
-	NSString *replacement = [_entities objectForKey:entity];
-	return replacement;
+	return [_values objectAtIndex:index];
 }
 
 @end

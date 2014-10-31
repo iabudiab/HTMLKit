@@ -10,9 +10,7 @@
 
 @interface HTMLTokenizerEntities : NSObject
 
-+ (NSArray *)entityNames;
-+ (NSString *)replacementForNamedCharacterEntity:(NSString *)entity;
++ (NSArray *)entities;
++ (NSString *)replacementAtIndex:(NSUInteger)index;
 
 @end
-
-extern NSArray * NAMES();
