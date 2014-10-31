@@ -175,5 +175,7 @@ NS_INLINE NSString * StringFromUniChar(unichar character)
 
 NS_INLINE NSString * StringFromUTF32Char(UTF32Char character)
 {
-	return [[NSString alloc] initWithBytes:&character length:sizeof(character) encoding:NSUTF32LittleEndianStringEncoding];
+	unichar pair[2];
+	Boolean isPair = CFStringGetSurrogatePairForLongCharacter(character, pair);
+	return [[NSString alloc] initWithCharacters:(const unichar *)&pair length:(isPair ? 2 : 1)];
 }

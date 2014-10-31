@@ -66,7 +66,7 @@
 		[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorIsolatedLowSurrogate
 										 atLocation:_location
 										andCallback:_errorCallback];
-		return REPLACEMENT_CHAR;
+		return nextInputCharacter;
 	}
 
 	if (CFStringIsSurrogateHighCharacter(nextInputCharacter)) {
@@ -75,7 +75,7 @@
 			[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorIsolatedHighSurrogate
 											 atLocation:_location
 											andCallback:_errorCallback];
-			return REPLACEMENT_CHAR;
+			return nextInputCharacter;
 		}
 
 		nextInputCharacter = CFStringGetLongCharacterForSurrogatePair(nextInputCharacter, surrogateLow);
