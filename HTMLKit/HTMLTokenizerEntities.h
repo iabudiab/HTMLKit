@@ -14,3 +14,5 @@
 + (NSString *)replacementForNamedCharacterEntity:(NSString *)entity;
 
 @end
+
+extern NSArray * NAMES();

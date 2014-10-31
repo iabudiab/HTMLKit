@@ -317,36 +317,40 @@
 
 	NSString *entityName = nil;
 
+#warning Improve Named Entity Search
 	UTF32Char inputCharacter = [_inputStreamReader consumeNextInputCharacter];
-	NSArray *names = [HTMLTokenizerEntities entityNames];
+//	NSArray *names = [HTMLTokenizerEntities entityNames];
+	NSArray *names = NAMES();
 	NSMutableString *name = [NSMutableString stringWithString:StringFromUTF32Char(inputCharacter)];
 
+	NSUInteger searchIndex = 0;
+
 	while (YES) {
-		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH %@", name];
-		names = [names filteredArrayUsingPredicate:predicate];
-		if (names.count == 0) break;
+		searchIndex= [names indexOfObject:name
+							inSortedRange:NSMakeRange(searchIndex, names.count - searchIndex)
+								  options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual
+						  usingComparator:^NSComparisonResult(id obj1, id obj2) {
+									return [obj1 compare:obj2];
+								}];
+
+		if (searchIndex >= names.count) break;
+
+		if ([[names objectAtIndex:searchIndex] isEqualToString:name]) {
+			entityName = [name copy];
+		}
+
+		if ([name hasSuffix:@";"]) break;
 
 		inputCharacter = [_inputStreamReader consumeNextInputCharacter];
 		if (inputCharacter == EOF) break;
 
 		[name appendString:StringFromUTF32Char(inputCharacter)];
-
-		if ([names containsObject:name]) {
-			entityName = [name copy];
-			if ([entityName hasSuffix:@";"]) {
-				break;
-			}
-		}
 	}
 
 	if (entityName == nil) {
-		if ([name hasSuffix:@";"]) {
-			[self emitParseError:@"Undefined named entity with semicolon found"];
-		} else {
-			NSString *nextAlphanumeric = [_inputStreamReader consumeAlphanumericCharacters];
-			if (nextAlphanumeric != nil) {
-				[name appendString:nextAlphanumeric];
-			}
+		[_inputStreamReader rewindToMarkedLocation];
+
+		if ([_inputStreamReader consumeAlphanumericCharacters] != nil) {
 			if ([_inputStreamReader consumeString:@";" caseSensitive:NO]) {
 				[self emitParseError:@"Undefined named entity with semicolon found"];
 			}

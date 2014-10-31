@@ -2243,6 +2243,16 @@
 
 static NSDictionary *_entities;
 
+static NSString * x[] = {
+#define NAMED_CHARACTER_REFERENCE( name, value ) @name,
+	NAMED_CHARACTER_REFERENCES
+#undef 	NAMED_CHARACTER_REFERENCE
+};
+
+NSArray * NAMES() {
+	return [[NSArray alloc] initWithObjects:x count:2231];
+}
+
 @implementation HTMLTokenizerEntities
 
 + (void)initialize
