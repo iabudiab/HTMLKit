@@ -392,7 +392,7 @@
 			[self switchToState:HTMLTokenizerStateTagOpen];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"U+0000 NULL character in Data State"];
+			[self emitParseError:@"NULL character (U+0000) in Data State"];
 			[self emitCharacterToken:character];
 			break;
 		case EOF:
@@ -428,7 +428,7 @@
 			[self switchToState:HTMLTokenizerStateRCDATALessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"U+0000 NULL character in RCDATA state"];
+			[self emitParseError:@"NULL character (U+0000)in RCDATA state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -461,7 +461,7 @@
 			[self switchToState:HTMLTokenizerStateRAWTEXTLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"U+0000 NULL character in RAWTEXT state"];
+			[self emitParseError:@"NULL character (U+0000) in RAWTEXT state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
