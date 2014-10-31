@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTMLInputStreamReaderErrors.h"
+
+typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 
 /**
  * HTML Input Stream Reader processor conforming to the HTML standard

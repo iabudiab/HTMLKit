@@ -42,6 +42,15 @@
 	return self;
 }
 
+#pragma mark - Errors
+
+- (void)emitParseError:(NSString *)reason
+{
+	if (self.errorCallback) {
+		self.errorCallback(reason);
+	}
+}
+
 #pragma mark - Stream Processing
 
 - (UTF32Char)currentInputCharacter
@@ -59,32 +68,32 @@
 	_consume = 1;
 	if (nextInputCharacter == CARRIAGE_RETURN) {
 		UniChar next = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + 1);
-		if (next == LINE_FEED) _consume = 2;
+		if (next == LINE_FEED) {
+			_consume = 2;
+		}
 		return LINE_FEED;
 	}
 	if (CFStringIsSurrogateLowCharacter(nextInputCharacter)) {
-		[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorIsolatedLowSurrogate
-										 atLocation:_location
-										andCallback:_errorCallback];
+		NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated low surrogate: %X)", nextInputCharacter];
+		[self emitParseError:reason];
 		return nextInputCharacter;
 	}
 
 	if (CFStringIsSurrogateHighCharacter(nextInputCharacter)) {
 		UniChar surrogateLow = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + 1);
 		if (CFStringIsSurrogateLowCharacter(surrogateLow) == NO) {
-			[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorIsolatedHighSurrogate
-											 atLocation:_location
-											andCallback:_errorCallback];
+			NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated high surrogate: %X)", nextInputCharacter];
+			[self emitParseError:reason];
 			return nextInputCharacter;
 		}
 
+		_consume = 2;
 		nextInputCharacter = CFStringGetLongCharacterForSurrogatePair(nextInputCharacter, surrogateLow);
 	}
 
 	if (isControlOrUndefinedCharacter(nextInputCharacter)) {
-		[HTMLInputStreamReaderErrors emitParseError:HTMLStreamReaderErrorControlOrUndefined
-										 atLocation:_location
-										andCallback:_errorCallback];
+		NSString *reason = [NSString stringWithFormat:@"A control/undefined character found: %X", nextInputCharacter];
+		[self emitParseError:reason];
 	}
 
 	return nextInputCharacter;

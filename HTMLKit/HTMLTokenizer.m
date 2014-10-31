@@ -62,6 +62,10 @@
 		_tokens = [NSMutableArray new];
 
 		_inputStreamReader = [[HTMLInputStreamReader alloc] initWithString:string];
+		__weak HTMLTokenizer *weakSelf = self;
+		_inputStreamReader.errorCallback = ^ (NSString *reason) {
+			[weakSelf emitParseError:@"%@", reason];
+		};
 	}
 	return self;
 }
