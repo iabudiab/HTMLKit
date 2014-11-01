@@ -399,7 +399,7 @@
 			[self switchToState:HTMLTokenizerStateTagOpen];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (U+0000) in Data State"];
+			[self emitParseError:@"NULL character (0x0000) in Data State"];
 			[self emitCharacterToken:character];
 			break;
 		case EOF:
@@ -435,7 +435,7 @@
 			[self switchToState:HTMLTokenizerStateRCDATALessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (U+0000)in RCDATA state"];
+			[self emitParseError:@"NULL character (0x0000)in RCDATA state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -468,7 +468,7 @@
 			[self switchToState:HTMLTokenizerStateRAWTEXTLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (U+0000) in RAWTEXT state"];
+			[self emitParseError:@"NULL character (0x0000) in RAWTEXT state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -488,7 +488,7 @@
 			[self switchToState:HTMLTokenizerStateScriptDataLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (U+0000) in Script Data state"];
+			[self emitParseError:@"NULL character (0x0000) in Script Data state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -505,7 +505,7 @@
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (U+0000) in PLAINTEXT state"];
+			[self emitParseError:@"NULL character (0x0000) in PLAINTEXT state"];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -541,7 +541,7 @@
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"Unexpected character (%X) in Tag Open state", character];
+			[self emitParseError:@"Unexpected character (0x%X) in Tag Open state", character];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCharacterToken:LESS_THAN_SIGN];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
@@ -572,7 +572,7 @@
 			[_inputStreamReader	reconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"Unexpected character (%X) in End Tag Open state", character];
+			[self emitParseError:@"Unexpected character (0x%X) in End Tag Open state", character];
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
@@ -1596,7 +1596,7 @@
 #warning Implement HTML Elements and check for namespace in the _parser.adjustedCurrentNode.namespace
 		[self switchToState:HTMLTokenizerStateCDATASection];
 	} else {
-		[self emitParseError:@"%@ unexpected/invalid character in Markup Declaration Open state", StringFromUTF32Char([_inputStreamReader nextInputCharacter])];
+		[self emitParseError:@"Unexpected character in Markup Declaration Open state"];
 		[self switchToState:HTMLTokenizerStateBogusComment];
 	}
 }

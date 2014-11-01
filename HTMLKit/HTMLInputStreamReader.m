@@ -81,7 +81,7 @@
 		return LINE_FEED;
 	}
 	if (CFStringIsSurrogateLowCharacter(nextInputCharacter)) {
-		NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated low surrogate: %X)", nextInputCharacter];
+		NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated low surrogate: 0x%X)", nextInputCharacter];
 		[self emitParseError:reason];
 		return nextInputCharacter;
 	}
@@ -89,7 +89,7 @@
 	if (CFStringIsSurrogateHighCharacter(nextInputCharacter)) {
 		UniChar surrogateLow = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + 1);
 		if (CFStringIsSurrogateLowCharacter(surrogateLow) == NO) {
-			NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated high surrogate: %X)", nextInputCharacter];
+			NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated high surrogate: 0x%X)", nextInputCharacter];
 			[self emitParseError:reason];
 			return nextInputCharacter;
 		}
@@ -99,7 +99,7 @@
 	}
 
 	if (isControlOrUndefinedCharacter(nextInputCharacter)) {
-		NSString *reason = [NSString stringWithFormat:@"A control/undefined character found: %X", nextInputCharacter];
+		NSString *reason = [NSString stringWithFormat:@"A control/undefined character found: (0x%X)", nextInputCharacter];
 		[self emitParseError:reason];
 	}
 
