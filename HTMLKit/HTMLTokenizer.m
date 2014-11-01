@@ -1900,13 +1900,14 @@
 			break;
 		default:
 		{
+			[_inputStreamReader markCurrentLocation];
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			if ([_inputStreamReader consumeString:@"PUBLIC" caseSensitive:NO]) {
 				[self switchToState:HTMLTokenizerStateAfterDOCTYPEPublicKeyword];
 			} else if ([_inputStreamReader consumeString:@"SYSTEM" caseSensitive:NO]) {
 				[self switchToState:HTMLTokenizerStateAfterDOCTYPESystemKeyword];
 			} else {
-				[_inputStreamReader consumeNextInputCharacter];
+				[_inputStreamReader rewindToMarkedLocation];
 				[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Name state", StringFromUTF32Char(character)];
 				_currentDoctypeToken.forceQuirks = YES;
 				[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
