@@ -380,6 +380,9 @@
 		[self emitParseError:@"Named entity without semicolon"];
 	}
 
+	[_inputStreamReader rewindToMarkedLocation];
+	[_inputStreamReader consumeString:entityName caseSensitive:YES];
+
 	return entityReplacement;
 }
 
