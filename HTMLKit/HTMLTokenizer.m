@@ -1571,12 +1571,16 @@
 
 - (void)HTMLTokenizerStateBogusComment
 {
+	NSMutableString *comment = [NSMutableString string];
 	NSString *characters = [_inputStreamReader consumeCharactersUpToCharactersInString:@">"];
-	characters = [characters stringByReplacingOccurrencesOfString:@"\0" withString:@"0xFFFD"];
-	_currentCommentToken = [[HTMLCommentToken alloc] initWithData:characters];
+	characters = [characters stringByReplacingOccurrencesOfString:@"\0" withString:StringFromUniChar(REPLACEMENT_CHAR)];
+	if (characters != nil) {
+		[comment appendString:characters];
+	}
+	_currentCommentToken = [[HTMLCommentToken alloc] initWithData:comment];
 	[self emitToken:_currentCommentToken];
 	[self switchToState:HTMLTokenizerStateData];
-#warning Check if necessary
+
 	if ([_inputStreamReader consumeNextInputCharacter] == (UTF32Char)EOF) {
 		[_inputStreamReader reconsumeCurrentInputCharacter];
 	}
