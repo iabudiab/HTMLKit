@@ -538,13 +538,13 @@
 		case QUESTION_MARK:
 			[self emitParseError:@"Bogus (0x003F, ?) in Tag Open state"];
 			[self switchToState:HTMLTokenizerStateBogusComment];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%X) in Tag Open state", character];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCharacterToken:LESS_THAN_SIGN];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -569,12 +569,12 @@
 			[self emitParseError:@"EOF reached in End Tag Open state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCharacterTokenWithString:@"</"];
-			[_inputStreamReader	unconsumeCurrentInputCharacter];
+			[_inputStreamReader	reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%X) in End Tag Open state", character];
 			[self switchToState:HTMLTokenizerStateBogusComment];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -606,7 +606,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Tag Name state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader	unconsumeCurrentInputCharacter];
+			[_inputStreamReader	reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentTagToken appendStringToTagName:StringFromUTF32Char(character)];
@@ -625,7 +625,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateRCDATA];
 			[self emitCharacterToken:LESS_THAN_SIGN];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -647,7 +647,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateRCDATA];
 			[self emitCharacterTokenWithString:@"</"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -691,7 +691,7 @@
 	[self switchToState:HTMLTokenizerStateRCDATA];
 	[self emitCharacterTokenWithString:@"</"];
 	[self emitCharacterTokenWithString:_temporaryBuffer];
-	[_inputStreamReader unconsumeCurrentInputCharacter];
+	[_inputStreamReader reconsumeCurrentInputCharacter];
 }
 
 - (void)HTMLTokenizerStateRAWTEXTLessThanSign
@@ -705,7 +705,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateRAWTEXT];
 			[self emitCharacterToken:LESS_THAN_SIGN];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -727,7 +727,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateRAWTEXT];
 			[self emitCharacterTokenWithString:@"</"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -771,7 +771,7 @@
 	[self switchToState:HTMLTokenizerStateRAWTEXT];
 	[self emitCharacterTokenWithString:@"</"];
 	[self emitCharacterTokenWithString:_temporaryBuffer];
-	[_inputStreamReader unconsumeCurrentInputCharacter];
+	[_inputStreamReader reconsumeCurrentInputCharacter];
 }
 
 - (void)HTMLTokenizerStateScriptDataLessThanSign
@@ -789,7 +789,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateScriptData];
 			[self emitCharacterToken:LESS_THAN_SIGN];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -811,7 +811,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateScriptData];
 			[self emitCharacterTokenWithString:@"</"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -855,7 +855,7 @@
 	[self switchToState:HTMLTokenizerStateScriptData];
 	[self emitCharacterTokenWithString:@"</"];
 	[self emitCharacterTokenWithString:_temporaryBuffer];
-	[_inputStreamReader unconsumeCurrentInputCharacter];
+	[_inputStreamReader reconsumeCurrentInputCharacter];
 }
 
 - (void)HTMLTokenizerStateScriptDataEscapeStart
@@ -868,7 +868,7 @@
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -883,7 +883,7 @@
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -906,7 +906,7 @@
 		case EOF:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitParseError:@"EOF reached in Script Data Escaped state"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitCharacterToken:character];
@@ -932,7 +932,7 @@
 		case EOF:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitParseError:@"EOF reached in Script Data Escaped Dash state"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
@@ -963,7 +963,7 @@
 		case EOF:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitParseError:@"EOF reached in Script Data Escaped Dash Dash state"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
@@ -997,7 +997,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
 			[self emitCharacterToken:LESS_THAN_SIGN];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1019,7 +1019,7 @@
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
 			[self emitCharacterTokenWithString:@"</"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1063,7 +1063,7 @@
 	[self switchToState:HTMLTokenizerStateScriptDataEscaped];
 	[self emitCharacterTokenWithString:@"</"];
 	[self emitCharacterTokenWithString:_temporaryBuffer];
-	[_inputStreamReader unconsumeCurrentInputCharacter];
+	[_inputStreamReader reconsumeCurrentInputCharacter];
 }
 
 - (void)HTMLTokenizerStateScriptDataDoubleEscapeStart
@@ -1093,7 +1093,7 @@
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1117,7 +1117,7 @@
 		case EOF:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitParseError:@"EOF reached in Script Data Double Escaped state"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitCharacterToken:character];
@@ -1145,7 +1145,7 @@
 		case EOF:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitParseError:@"EOF reached in Script Data Double Escaped Dash state"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
@@ -1177,7 +1177,7 @@
 		case EOF:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitParseError:@"EOF reached in Script Data Double Escaped Dash Dash state"];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
@@ -1197,7 +1197,7 @@
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1229,7 +1229,7 @@
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1270,7 +1270,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Before Attribute Name state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
 
@@ -1317,7 +1317,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Name state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
 
@@ -1361,7 +1361,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in After Attribute Name state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
 
@@ -1384,7 +1384,7 @@
 			return;
 		case AMPERSAND:
 			[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 		case APOSTROPHE:
 			[self switchToState:HTMLTokenizerStateAttributeValueSingleQuoted];
@@ -1407,7 +1407,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Before Attribute Value state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
 
@@ -1432,7 +1432,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Value Double-Quoted state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
@@ -1457,7 +1457,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Value Single-Quoted state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
@@ -1496,7 +1496,7 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Value Unquoted state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
 
@@ -1537,12 +1537,12 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in After Attribute Value Quoted state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in After Attribute Value Quoted state", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1559,12 +1559,12 @@
 		case EOF:
 			[self emitParseError:@"EOF reached in Self Closing Start Tag state"];
 			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in Self Closing Start Tag state", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1578,7 +1578,7 @@
 	[self switchToState:HTMLTokenizerStateData];
 #warning Check if necessary
 	if ([_inputStreamReader consumeNextInputCharacter] == (UTF32Char)EOF) {
-		[_inputStreamReader unconsumeCurrentInputCharacter];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
 	}
 }
 
@@ -1619,7 +1619,7 @@
 			[self emitParseError:@"EOF reached in Comment Start state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
@@ -1650,7 +1650,7 @@
 			[self emitParseError:@"EOF reached in Comment Start Dash state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
@@ -1675,7 +1675,7 @@
 			[self emitParseError:@"EOF reached in Comment state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
@@ -1699,7 +1699,7 @@
 			[self emitParseError:@"EOF reached in Comment End Dash state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
@@ -1734,7 +1734,7 @@
 			[self emitParseError:@"EOF reached in Comment End state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in Comment End state", StringFromUTF32Char(character)];
@@ -1766,7 +1766,7 @@
 			[self emitParseError:@"EOF reached in Comment End Bang state"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in Comment End state", StringFromUTF32Char(character)];
@@ -1793,12 +1793,12 @@
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in DOCTYPE state", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPEName];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 	}
 }
@@ -1834,7 +1834,7 @@
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUTF32Char(character)];
@@ -1869,7 +1869,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentDoctypeToken appendStringToName:StringFromUTF32Char(character)];
@@ -1895,7 +1895,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 		{
@@ -1946,7 +1946,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Keyword state", StringFromUTF32Char(character)];
@@ -1984,7 +1984,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
@@ -2016,7 +2016,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUTF32Char(character)];
@@ -2046,7 +2046,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUTF32Char(character)];
@@ -2083,7 +2083,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
@@ -2119,7 +2119,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in Between DOCTYPE Public And System Identifiers state", StringFromUTF32Char(character)];
@@ -2160,7 +2160,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE System Keyword state", StringFromUTF32Char(character)];
@@ -2198,7 +2198,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in Before DOCTYPE System Identifier state", StringFromUTF32Char(character)];
@@ -2230,7 +2230,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUTF32Char(character)];
@@ -2260,7 +2260,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUTF32Char(character)];
@@ -2286,7 +2286,7 @@
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE System Identifier state", StringFromUTF32Char(character)];
@@ -2306,7 +2306,7 @@
 		case EOF:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
 			break;
@@ -2320,9 +2320,8 @@
 	NSString *characters = [_inputStreamReader consumeCharactersUpToString:@"]]>"];
 	[self emitCharacterTokenWithString:characters];
 
-#warning Check if necessary
 	if ([_inputStreamReader consumeNextInputCharacter] == (UTF32Char)EOF) {
-		[_inputStreamReader unconsumeCurrentInputCharacter];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
 	}
 }
 

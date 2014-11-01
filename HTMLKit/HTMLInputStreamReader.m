@@ -21,6 +21,8 @@
 	UTF32Char _currentInputCharacter;
 	NSUInteger _consume;
 	HTMLStreamReaderErrorCallback _errorCallback;
+
+	BOOL _reconsume;
 }
 @end
 
@@ -60,6 +62,11 @@
 
 - (UTF32Char)nextInputCharacter
 {
+	if (_reconsume) {
+		_reconsume = NO;
+		return _currentInputCharacter;
+	}
+
 	_consume = 0;
 	UTF32Char nextInputCharacter = CFStringGetCharacterFromInlineBuffer(&_buffer, _location);
 
@@ -101,6 +108,11 @@
 
 - (UTF32Char)consumeNextInputCharacter
 {
+	if (_reconsume) {
+		_reconsume = NO;
+		return _currentInputCharacter;
+	}
+
 	UTF32Char nextInputCharacter = [self nextInputCharacter];
 	_location += _consume;
 	_scanner.scanLocation = _location;
@@ -187,6 +199,11 @@
 	[_scanner scanCharactersFromSet:set intoString:&consumed];
 	_location = _scanner.scanLocation;
 	return consumed;
+}
+
+- (void)reconsumeCurrentInputCharacter
+{
+	_reconsume = YES;
 }
 
 - (void)unconsumeCurrentInputCharacter

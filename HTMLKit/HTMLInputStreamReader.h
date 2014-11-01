@@ -26,6 +26,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 - (UTF32Char)nextInputCharacter;
 
 - (UTF32Char)consumeNextInputCharacter;
+- (void)reconsumeCurrentInputCharacter;
 - (void)unconsumeCurrentInputCharacter;
 
 - (BOOL)consumeCharacter:(UTF32Char)character;
