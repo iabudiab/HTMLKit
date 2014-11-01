@@ -1304,14 +1304,13 @@
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Before Attribute Name state"];
-			[self finalizeCurrentAttribute];
+			[self emitParseError:@"NULL character (0x0000) in Attribute Name state"];
 			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUOTATION_MARK:
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
+			[self emitParseError:@"Unexpected character (%C) in Attribute Name state", (unichar)character];
 			break;
 		case EOF:
 			[self emitParseError:@"EOF reached in Attribute Name state"];
