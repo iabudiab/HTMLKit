@@ -1248,7 +1248,7 @@
 			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
-			[self emitCharacterToken:character];
+			[self emitCurrentTagToken];
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			[self finalizeCurrentAttribute];
