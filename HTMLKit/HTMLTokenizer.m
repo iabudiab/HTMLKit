@@ -1769,7 +1769,6 @@
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in Comment End state", StringFromUTF32Char(character)];
 			[_currentCommentToken appendStringToData:@"--!"];
 			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
