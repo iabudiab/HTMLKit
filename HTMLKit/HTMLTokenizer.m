@@ -1300,7 +1300,6 @@
 			[self emitCurrentTagToken];
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[self finalizeCurrentAttribute];
 			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
 			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
