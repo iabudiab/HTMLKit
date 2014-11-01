@@ -559,7 +559,7 @@
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected 0x003E > in End Tag Open state"];
+			[self emitParseError:@"Unexpected (0x003E, >) in End Tag Open state"];
 			[self switchToState:HTMLTokenizerStateData];
 			break;
 		case EOF:
@@ -567,8 +567,9 @@
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCharacterTokenWithString:@"</"];
 			[_inputStreamReader	unconsumeCurrentInputCharacter];
+			break;
 		default:
-			[self emitParseError:@"%X Unexpected character in End Tag Open state", character];
+			[self emitParseError:@"Unexpected character (%X) in End Tag Open state", character];
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
