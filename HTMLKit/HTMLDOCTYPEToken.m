@@ -36,6 +36,22 @@
 	[_name appendString:string];
 }
 
+- (void)appendStringToPublicIdentifier:(NSString *)string
+{
+	if (_publicIdentifier == nil) {
+		_publicIdentifier = [NSMutableString new];
+	}
+	[_publicIdentifier appendString:string];
+}
+
+- (void)appendStringToSystemIdentifier:(NSString *)string
+{
+	if (_systemIdentifier == nil) {
+		_systemIdentifier = [NSMutableString new];
+	}
+	[_systemIdentifier appendString:string];
+}
+
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)other

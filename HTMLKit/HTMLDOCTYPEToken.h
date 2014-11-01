@@ -19,5 +19,7 @@
 - (instancetype)initWithName:(NSString *)name;
 
 - (void)appendStringToName:(NSString *)string;
+- (void)appendStringToPublicIdentifier:(NSString *)string;
+- (void)appendStringToSystemIdentifier:(NSString *)string;
 
 @end

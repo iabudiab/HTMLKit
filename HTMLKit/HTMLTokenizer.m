@@ -1923,12 +1923,12 @@
 			break;
 		case QUOTATION_MARK:
 			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE Public Keyword state"];
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.publicIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
 			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE Public Keyword state"];
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.publicIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
@@ -1962,11 +1962,11 @@
 		case SPACE:
 			break;
 		case QUOTATION_MARK:
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.publicIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.publicIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
@@ -1999,7 +1999,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Public Identifier Double-Quoted state"];
-			[_currentDoctypeToken.publicIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
 			[self emitParseError:@"Unexpected character (0x003E, >) in DOCTYPE Public Identifier Double-Quoted state"];
@@ -2015,7 +2015,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentDoctypeToken.publicIdentifier appendString:StringFromUTF32Char(character)];
+			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUTF32Char(character)];
 			break;
 	}
 }
@@ -2029,7 +2029,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Public Identifier Single-Quoted state"];
-			[_currentDoctypeToken.publicIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
 			[self emitParseError:@"Unexpected > character (0x003E, >) in DOCTYPE Public Identifier Single-Quoted state"];
@@ -2045,7 +2045,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentDoctypeToken.publicIdentifier appendString:StringFromUTF32Char(character)];
+			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUTF32Char(character)];
 			break;
 	}
 }
@@ -2066,12 +2066,12 @@
 			break;
 		case QUOTATION_MARK:
 			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE Public Identifier state"];
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
 			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE Public Identifier state"];
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
 		case EOF:
@@ -2103,11 +2103,11 @@
 			[self emitToken:_currentDoctypeToken];
 			break;
 		case QUOTATION_MARK:
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
 		case EOF:
@@ -2137,12 +2137,12 @@
 			break;
 		case QUOTATION_MARK:
 			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE System Keyword state"];
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
 			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE System Keyword state"];
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
@@ -2176,11 +2176,11 @@
 		case SPACE:
 			break;
 		case QUOTATION_MARK:
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
 			break;
 		case APOSTROPHE:
-			[_currentDoctypeToken.publicIdentifier setString:@""];
+			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
@@ -2213,7 +2213,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in DOCTYPE System Identifier Double-Quoted state"];
-			[_currentDoctypeToken.systemIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
 			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier Double-Quoted state"];
@@ -2229,7 +2229,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentDoctypeToken.systemIdentifier appendString:StringFromUTF32Char(character)];
+			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUTF32Char(character)];
 			break;
 	}
 }
@@ -2243,7 +2243,7 @@
 			break;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in DOCTYPE System Identifier Single-Quoted state"];
-			[_currentDoctypeToken.systemIdentifier appendString:StringFromUniChar(REPLACEMENT_CHAR)];
+			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
 			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier Single-Quoted state"];
@@ -2259,7 +2259,7 @@
 			[_inputStreamReader unconsumeCurrentInputCharacter];
 			break;
 		default:
-			[_currentDoctypeToken.systemIdentifier appendString:StringFromUTF32Char(character)];
+			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUTF32Char(character)];
 			break;
 	}
 }
