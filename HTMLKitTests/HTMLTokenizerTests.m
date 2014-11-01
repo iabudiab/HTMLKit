@@ -15,6 +15,8 @@
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
 
+static NSString * const TOKENIZER = @"tokenizer";
+
 @implementation HTMLParseErrorToken (Testing)
 
 - (BOOL)isEqual:(id)object
@@ -42,13 +44,95 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (void)runTests:(NSString *)testsFile
+{
+	NSArray *tests = [self loadTests:testsFile forComponent:TOKENIZER];
+	for (HTML5LibTest *test in tests) {
+
+		HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:test.input];
+		[tokenizer setValue:test.lastStartTag forKey:@"_lastStartTagName"];
+
+		for (NSNumber *state in test.initialStates) {
+
+			tokenizer.state = [state integerValue];
+
+			NSArray *expectedTokens = test.output;
+			NSArray *tokens = [tokenizer allTokens];
+			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", test.description);
+		}
+	}
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
+- (void)test_contentModelFlags
+{
+	[self runTests:@"contentModelFlags.test"];
+}
+
+- (void)test_domjs
+{
+	[self runTests:@"domjs.test"];
+}
+
+- (void)test_entities
+{
+	[self runTests:@"entities.test"];
+}
+
+- (void)test_escapeFlag
+{
+	[self runTests:@"escapeFlag.test"];
+}
+
+- (void)test_namedEntities
+{
+	[self runTests:@"namedEntities.test"];
+}
+
+- (void)test_numericEntities
+{
+	[self runTests:@"numericEntities.test"];
+}
+
+- (void)test_pendingSpecChanges
+{
+	[self runTests:@"pendingSpecChanges.test" ];
+}
+
+- (void)test_test1
+{
+	[self runTests:@"test1.test" ];
+}
+
+- (void)test_test2
+{
+	[self runTests:@"test2.test" ];
+}
+
+- (void)test_test3
+{
+	[self runTests:@"test3.test" ];
+}
+
+- (void)test_test4
+{
+	[self runTests:@"test4.test" ];
+}
+
+- (void)test_unicodeChars
+{
+	[self runTests:@"unicodeChars.test" ];
+}
+
+- (void)test_unicodeCharsProblematic
+{
+	[self runTests:@"unicodeCharsProblematic.test" ];
+}
+
+- (void)test_xmlViolation
+{
+	[self runTests:@"xmlViolation.test" ];
+}
+
 - (void)testTokenizerPerformance
 {
 	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
