@@ -73,7 +73,7 @@
 - (void)setupStateMachine
 {
 	for (NSUInteger i = 0; i < HTMLTokenizerStatesCount; i++) {
-		NSString *selectorName = NSStringFromState(i);
+		NSString *selectorName = HTMLTokenizerStatesTable[i];
 		SEL selector = NSSelectorFromString(selectorName);
 		[_states setObject:[NSValue valueWithPointer:selector] forKey:@(i)];
 	}

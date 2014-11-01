@@ -89,7 +89,3 @@ static NSString * HTMLTokenizerStatesTable[] = {
 	TOKENIZER_STATES
 #undef STATE_ENTRY
 };
-
-static NSString * NSStringFromState(HTMLTokenizerState state) {
-	return HTMLTokenizerStatesTable[state];
-}
