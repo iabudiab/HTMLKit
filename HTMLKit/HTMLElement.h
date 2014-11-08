@@ -10,4 +10,6 @@
 
 @interface HTMLElement : NSObject
 
+@property (nonatomic, strong, readonly) NSString *tagName;
+
 @end
