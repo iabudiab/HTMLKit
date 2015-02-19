@@ -10,7 +10,7 @@
 
 @interface HTML5LibTest : NSObject
 
-@property (nonatomic, strong) NSString *description;
+@property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *input;
 @property (nonatomic, strong) NSArray *output;
 @property (nonatomic, strong) NSArray *initialStates;

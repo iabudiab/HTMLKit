@@ -12,6 +12,7 @@
 
 @implementation HTML5LibTest
 
+
 - (instancetype)initWithTestDictionary:(NSDictionary *)dictionary
 {
 	self = [super init];
@@ -25,8 +26,8 @@
 {
 	BOOL doubleEscaped = [test[@"doubleEscaped"] boolValue];
 
-		// Test Description
-	self.description = test[@"description"];
+		// Test Title
+	self.title = test[@"description"];
 
 		// Test Input
 	self.input = test[@"input"];
