@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLNamespaces.h"
 
 @interface HTMLElement : NSObject
 
 @property (nonatomic, strong, readonly) NSString *tagName;
+@property (nonatomic, assign, readonly) HTMLNamespace namespace;
 
 @end

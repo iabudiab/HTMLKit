@@ -98,6 +98,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6223211D1A969B9300BACED5 /* HTMLElementTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElementTypes.h; sourceTree = "<group>"; };
 		624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
 		624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
 		624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerStates.h; sourceTree = "<group>"; };
@@ -242,6 +243,7 @@
 				62F873E919E088C90062683C /* HTMLParser.h */,
 				62F873EA19E088C90062683C /* HTMLParser.m */,
 				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
+				6223211D1A969B9300BACED5 /* HTMLElementTypes.h */,
 				6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */,
 				6279F87219E1808D00F12EE5 /* HTMLElement.h */,
 				6279F87319E1808D00F12EE5 /* HTMLElement.m */,
