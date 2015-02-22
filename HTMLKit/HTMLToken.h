@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class HTMLDOCTYPEToken;
+@class HTMLStartTagToken;
+@class HTMLEndTagToken;
+@class HTMLCommentToken;
+@class HTMLCharacterToken;
+@class HTMLParseErrorToken;
+
 NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return (first == nil && second == nil) || ([first isEqual:second]);
 }
@@ -34,5 +41,12 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
 - (BOOL)isCharacterToken;
 - (BOOL)isEOFToken;
 - (BOOL)isParseError;
+
+- (HTMLDOCTYPEToken *)asDoctypeToken;
+- (HTMLStartTagToken *)asStartTagToken;
+- (HTMLEndTagToken *)asEndTagToken;
+- (HTMLCommentToken *)asCommentToken;
+- (HTMLCharacterToken *)asCharacterToken;
+- (HTMLParseErrorToken *)asParseError;
 
 @end

@@ -53,4 +53,34 @@
 	return _type == HTMLTokenTypeParseError;
 }
 
+- (HTMLDOCTYPEToken *)asDoctypeToken
+{
+	return (HTMLDOCTYPEToken *)self;
+}
+
+- (HTMLStartTagToken *)asStartTagToken
+{
+	return (HTMLStartTagToken *)self;
+}
+
+- (HTMLEndTagToken *)asEndTagToken
+{
+	return (HTMLEndTagToken *)self;
+}
+
+- (HTMLCommentToken *)asCommentToken
+{
+	return (HTMLCommentToken *)self;
+}
+
+- (HTMLCharacterToken *)asCharacterToken
+{
+	return (HTMLCharacterToken *)self;
+}
+
+- (HTMLParseErrorToken *)asParseError
+{
+	return (HTMLParseErrorToken *)self;
+}
+
 @end
