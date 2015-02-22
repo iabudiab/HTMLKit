@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong, readonly) NSString *tagName;
 @property (nonatomic, assign, readonly) HTMLNamespace namespace;
+@property (nonatomic, strong, readonly) id parentNode;
 
 @end

@@ -33,6 +33,12 @@
 	[_characters appendString:string];
 }
 
+- (BOOL)isWhitespaceToken
+{
+	NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@" \t\n\f"] invertedSet];
+	return [_characters rangeOfCharacterFromSet:set].location == NSNotFound;
+}
+
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)other

@@ -9,6 +9,7 @@
 #import "HTMLParser.h"
 #import "HTMLTokenizer.h"
 #import "HTMLTokens.h"
+#import "HTMLCharacterToken.h"
 #import "HTMLParserInsertionModes.h"
 #import "HTMLElement.h"
 #import "HTMLElementTypes.h"
@@ -16,6 +17,8 @@
 @interface HTMLParser ()
 {
 	HTMLTokenizer *_tokenizer;
+
+	NSMutableArray *_errors;
 
 	NSMutableDictionary *_insertionModes;
 	HTMLInsertionMode _insertionMode;
@@ -31,6 +34,7 @@
 
 	BOOL _scriptingFlag;
 	BOOL _fragmentParsingAlgorithm;
+	BOOL _fosterParting;
 }
 @end
 
@@ -42,6 +46,8 @@
 {
 	self = [super init];
 	if (self) {
+		_errors = [NSMutableArray new];
+
 		_insertionModes = [NSMutableDictionary new];
 		_insertionMode = HTMLInsertionModeInitial;
 		[self setupStateMachine];
@@ -74,6 +80,17 @@
 		return _contextElement;
 	}
 	return [self currentNode];
+}
+
+#pragma mark - Emits
+
+- (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
+{
+	va_list args;
+	va_start(args, format);
+	NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
+	[_errors addObject:message];
+	va_end(args);
 }
 
 #pragma mark - State Machine
@@ -206,12 +223,13 @@
 - (id)parse
 {
 	for (HTMLToken *token in _tokenizer) {
-		[self handleToken:token];
+		[self processToken:token];
 	}
 	return nil;
 }
 
-- (void)handleToken:(HTMLToken *)token
+
+- (void)processToken:(HTMLToken *)token
 {
 	BOOL (^ treeConstructionDispatcher)(HTMLElement *node) = ^BOOL(HTMLElement *node){
 
@@ -245,13 +263,18 @@
 	};
 
 	if (treeConstructionDispatcher(self.adjustedCurrentNode)) {
-		[self handleToken:token byApplyingRulesForInsertionMode:_insertionMode];
+		[self processToken:token byApplyingRulesForInsertionMode:_insertionMode];
 	} else {
-		[self handleTokenByApplyingRulesForParsingTokensInForeignContent:token];
+		[self processTokenByApplyingRulesForParsingTokensInForeignContent:token];
 	}
 }
 
-- (void)handleToken:(HTMLToken *)token byApplyingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
+- (void)reprocessToken:(HTMLToken *)token
+{
+	[self processToken:token];
+}
+
+- (void)processToken:(HTMLToken *)token byApplyingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
 {
 	SEL selector = [[_insertionModes objectForKey:@(_insertionMode)] pointerValue];
 	if ([self respondsToSelector:selector]) {
@@ -263,9 +286,49 @@
 	}
 }
 
-- (void)handleTokenByApplyingRulesForParsingTokensInForeignContent:(HTMLToken *)token
+- (void)processTokenByApplyingRulesForParsingTokensInForeignContent:(HTMLToken *)token
 {
 	
+
+#pragma mark - 
+
+- (HTMLElement *)appropriatePlaceForInsertingANodeWithOverrideTarget:(id)overrideTarget
+{
+	HTMLElement *target = self.currentNode;
+	if (overrideTarget == nil) {
+		target = overrideTarget;
+	}
+
+	if (_fosterParting && matches(target.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr")) {
+		HTMLElement *lastTemplate = nil;
+		HTMLElement *lastTable = nil;
+		for (HTMLElement *element in _stackOfOpenElements.reverseObjectEnumerator) {
+			if ([element.tagName isEqualToString:@"template"]) {
+				lastTemplate = element;
+				break;
+			}
+			if ([element.tagName isEqualToString:@"table"]) {
+				lastTable = element;
+				break;
+			}
+		}
+		if (lastTemplate != nil) {
+#warning Implement HTML Template
+			return nil;
+		}
+		if (lastTable == nil) {
+			HTMLElement *htmlElement = _stackOfOpenElements.firstObject;
+			return htmlElement;
+		}
+		if (lastTable.parentNode != nil) {
+			return lastTable.parentNode;
+		}
+		NSUInteger lastTableIndex = [_stackOfOpenElements indexOfObject:lastTable];
+		HTMLElement *previousNode = _stackOfOpenElements[lastTableIndex];
+		return previousNode;
+	} else {
+		return target;
+	}
 }
 
 #pragma mark - Insertion Modes

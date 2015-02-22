@@ -29,11 +29,19 @@
 	MODE_ENTRY( HTMLInsertionModeInFrameset, ) \
 	MODE_ENTRY( HTMLInsertionModeAfterFrameset, ) \
 	MODE_ENTRY( HTMLInsertionModeAfterAfterBody, ) \
-	MODE_ENTRY( HTMLInsertionModeAfterAfterFrameset, )
+	MODE_ENTRY( HTMLInsertionModeAfterAfterFrameset, ) \
+	MODE_ENTRY( HTMLInsertionModeCurrentTemplate, ) \
+	MODE_ENTRY( HTMLInsertionModesCount, )
 
 typedef NS_ENUM(NSUInteger, HTMLInsertionMode)
 {
 #define MODE_ENTRY( name, value ) name value,
+	INSERTION_MODES
+#undef MODE_ENTRY
+};
+
+static NSString * HTMLInsertionModesTable[] = {
+#define MODE_ENTRY( name, value ) [name] = @#name,
 	INSERTION_MODES
 #undef MODE_ENTRY
 };
