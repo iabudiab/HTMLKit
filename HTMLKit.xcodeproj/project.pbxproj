@@ -13,6 +13,9 @@
 		623857961A9E8606003A45D9 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 623857941A9E8606003A45D9 /* HTMLDocumentType.h */; };
 		623857971A9E8606003A45D9 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 623857951A9E8606003A45D9 /* HTMLDocumentType.m */; };
 		623857981A9E8606003A45D9 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 623857951A9E8606003A45D9 /* HTMLDocumentType.m */; };
+		6238579B1A9E8934003A45D9 /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 623857991A9E8934003A45D9 /* HTMLComment.h */; };
+		6238579C1A9E8934003A45D9 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238579A1A9E8934003A45D9 /* HTMLComment.m */; };
+		6238579D1A9E8934003A45D9 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238579A1A9E8934003A45D9 /* HTMLComment.m */; };
 		624493A619CCC54100BCDDF4 /* HTMLTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */; };
 		624493A719CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */; };
 		624493A819CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */; };
@@ -109,6 +112,8 @@
 		6234584D1A9D2FA4009BD491 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
 		623857941A9E8606003A45D9 /* HTMLDocumentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocumentType.h; sourceTree = "<group>"; };
 		623857951A9E8606003A45D9 /* HTMLDocumentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocumentType.m; sourceTree = "<group>"; };
+		623857991A9E8934003A45D9 /* HTMLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLComment.h; sourceTree = "<group>"; };
+		6238579A1A9E8934003A45D9 /* HTMLComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLComment.m; sourceTree = "<group>"; };
 		624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
 		624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
 		624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerStates.h; sourceTree = "<group>"; };
@@ -261,6 +266,8 @@
 				6279F87319E1808D00F12EE5 /* HTMLElement.m */,
 				623857941A9E8606003A45D9 /* HTMLDocumentType.h */,
 				623857951A9E8606003A45D9 /* HTMLDocumentType.m */,
+				623857991A9E8934003A45D9 /* HTMLComment.h */,
+				6238579A1A9E8934003A45D9 /* HTMLComment.m */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
 			);
 			name = "Source Code";
@@ -348,6 +355,7 @@
 				62AE593A19F97E1C0043F069 /* HTMLDOCTYPEToken.h in Headers */,
 				625A150419C783EB00AD0C32 /* HTMLKit.h in Headers */,
 				625A150819C78ABA00AD0C32 /* HTMLInputStreamReader.h in Headers */,
+				6238579B1A9E8934003A45D9 /* HTMLComment.h in Headers */,
 				62AE593519F97D880043F069 /* HTMLParseErrorToken.h in Headers */,
 				62AE594919F9948A0043F069 /* HTMLCharacterToken.h in Headers */,
 				623857961A9E8606003A45D9 /* HTMLDocumentType.h in Headers */,
@@ -501,6 +509,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6238579D1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				62AE594119F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594619F992F30043F069 /* HTMLCommentToken.m in Sources */,
@@ -532,6 +541,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6238579C1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				62AE594019F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594519F992F30043F069 /* HTMLCommentToken.m in Sources */,

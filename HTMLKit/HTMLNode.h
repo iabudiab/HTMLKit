@@ -51,9 +51,9 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, strong, readonly) HTMLNode *nextSibling;
 
-@property (nonatomic, copy) NSString *value;
-
 @property (nonatomic, copy) NSString *textContent;
+
+- (instancetype)initWithName:(NSString *)name type:(HTMLNodeType)type;
 
 - (BOOL)hasChildNodes;
 
