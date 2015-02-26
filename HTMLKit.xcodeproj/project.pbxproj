@@ -10,6 +10,9 @@
 		6234584E1A9D2FA4009BD491 /* HTMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6234584C1A9D2FA4009BD491 /* HTMLNode.h */; };
 		6234584F1A9D2FA4009BD491 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234584D1A9D2FA4009BD491 /* HTMLNode.m */; };
 		623458501A9D2FA4009BD491 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234584D1A9D2FA4009BD491 /* HTMLNode.m */; };
+		62362A3C1A9FA70400301989 /* HTMLText.h in Headers */ = {isa = PBXBuildFile; fileRef = 62362A3A1A9FA70400301989 /* HTMLText.h */; };
+		62362A3D1A9FA70400301989 /* HTMLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 62362A3B1A9FA70400301989 /* HTMLText.m */; };
+		62362A3E1A9FA70400301989 /* HTMLText.m in Sources */ = {isa = PBXBuildFile; fileRef = 62362A3B1A9FA70400301989 /* HTMLText.m */; };
 		623857961A9E8606003A45D9 /* HTMLDocumentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 623857941A9E8606003A45D9 /* HTMLDocumentType.h */; };
 		623857971A9E8606003A45D9 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 623857951A9E8606003A45D9 /* HTMLDocumentType.m */; };
 		623857981A9E8606003A45D9 /* HTMLDocumentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 623857951A9E8606003A45D9 /* HTMLDocumentType.m */; };
@@ -110,6 +113,8 @@
 		6223211D1A969B9300BACED5 /* HTMLElementTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElementTypes.h; sourceTree = "<group>"; };
 		6234584C1A9D2FA4009BD491 /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
 		6234584D1A9D2FA4009BD491 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		62362A3A1A9FA70400301989 /* HTMLText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLText.h; sourceTree = "<group>"; };
+		62362A3B1A9FA70400301989 /* HTMLText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLText.m; sourceTree = "<group>"; };
 		623857941A9E8606003A45D9 /* HTMLDocumentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocumentType.h; sourceTree = "<group>"; };
 		623857951A9E8606003A45D9 /* HTMLDocumentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocumentType.m; sourceTree = "<group>"; };
 		623857991A9E8934003A45D9 /* HTMLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLComment.h; sourceTree = "<group>"; };
@@ -268,6 +273,8 @@
 				623857951A9E8606003A45D9 /* HTMLDocumentType.m */,
 				623857991A9E8934003A45D9 /* HTMLComment.h */,
 				6238579A1A9E8934003A45D9 /* HTMLComment.m */,
+				62362A3A1A9FA70400301989 /* HTMLText.h */,
+				62362A3B1A9FA70400301989 /* HTMLText.m */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
 			);
 			name = "Source Code";
@@ -359,6 +366,7 @@
 				62AE593519F97D880043F069 /* HTMLParseErrorToken.h in Headers */,
 				62AE594919F9948A0043F069 /* HTMLCharacterToken.h in Headers */,
 				623857961A9E8606003A45D9 /* HTMLDocumentType.h in Headers */,
+				62362A3C1A9FA70400301989 /* HTMLText.h in Headers */,
 				6234584E1A9D2FA4009BD491 /* HTMLNode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,6 +517,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62362A3E1A9FA70400301989 /* HTMLText.m in Sources */,
 				6238579D1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				62AE594119F9907C0043F069 /* HTMLTagToken.m in Sources */,
@@ -541,6 +550,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62362A3D1A9FA70400301989 /* HTMLText.m in Sources */,
 				6238579C1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				62AE594019F9907C0043F069 /* HTMLTagToken.m in Sources */,
