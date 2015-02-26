@@ -10,4 +10,24 @@
 
 @implementation HTMLElement
 
+- (instancetype)init
+{
+	return [self initWithTagName:nil];
+}
+
+- (instancetype)initWithTagName:(NSString *)tagName
+{
+	self = [super initWithName:tagName type:HTMLNodeElement];
+	if (self) {
+		_tagName = tagName;
+	}
+	return self;
+}
+
+- (NSString *)textContent
+{
+#warning Implement Traversing
+	return nil;
+}
+
 @end

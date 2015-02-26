@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import "HTMLNamespaces.h"
+#import "HTMLNode.h"
 
-@interface HTMLElement : NSObject
+@interface HTMLElement : HTMLNode
 
-@property (nonatomic, strong, readonly) NSString *tagName;
 @property (nonatomic, assign, readonly) HTMLNamespace namespace;
-@property (nonatomic, strong, readonly) id parentNode;
+
+@property (nonatomic, copy, readonly) NSString *tagName;
+
+@property (nonatomic, copy)	NSString *id;
+
+@property (nonatomic, copy)	NSString *className;
 
 @end
