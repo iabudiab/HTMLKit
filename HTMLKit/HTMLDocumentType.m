@@ -14,7 +14,7 @@
 			publicIdentifier:(NSString *)publicIdentifier
 			systemIdentifier:(NSString *)systemIdentifier
 {
-	self = [super initWithName:name type:HTMLDocumentTypeNode];
+	self = [super initWithName:name type:HTMLNodeDocumentType];
 	if (self) {
 		_publicIdentifier = [publicIdentifier copy] ?: @"";
 		_systemIdentifier = [systemIdentifier copy] ?: @"";

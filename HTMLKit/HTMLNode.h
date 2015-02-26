@@ -10,18 +10,18 @@
 
 typedef NS_ENUM(short, HTMLNodeType)
 {
-	HTMLElementNode = 1,
-	HTMLAttributeNode = 2, // historical
-	HTMLTextNode = 3,
-	HTMLCDATASectionNode = 4, // historical
-	HTMLEntityReferenceNode = 5, // historical
-	HTMLEntityNode = 6, // historical
-	HTMLProcessingInstructionNode = 7,
-	HTMLCommentNode = 8,
-	HTMLDocumentNode = 9,
-	HTMLDocumentTypeNode = 10,
-	HTMLDocumentFragmentNode = 11,
-	HTMLNotationNode = 12 // historical
+	HTMLNodeElement = 1,
+	HTMLNodeAttribute = 2, // historical
+	HTMLNodeText = 3,
+	HTMLNodeCDATASection = 4, // historical
+	HTMLNodeEntityReference = 5, // historical
+	HTMLNodeEntity = 6, // historical
+	HTMLNodeProcessingInstruction = 7,
+	HTMLNodeComment = 8,
+	HTMLNodeDocument = 9,
+	HTMLNodeDocumentType = 10,
+	HTMLNodeDocumentFragment = 11,
+	HTMLNodeNotation = 12 // historical
 };
 
 @class HTMLDocument;

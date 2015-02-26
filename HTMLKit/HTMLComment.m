@@ -12,7 +12,7 @@
 
 - (instancetype)initWithData:(NSString *)data
 {
-	self = [super initWithName:@"#comment" type:HTMLCommentNode];
+	self = [super initWithName:@"#comment" type:HTMLNodeComment];
 	if (self) {
 		self.data = data ?: @"";
 	}
