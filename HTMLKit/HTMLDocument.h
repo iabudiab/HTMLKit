@@ -8,13 +8,7 @@
 
 #import "HTMLNode.h"
 #import "HTMLDocumentType.h"
-
-typedef NS_ENUM(short, HTMLQuirksMode)
-{
-	HTMLQuirksModeNoQuirks,
-	HTMLQuirksModeQuirks,
-	HTMLQuirksModeLimitedQuirks
-};
+#import "HTMLQuirksMode.h"
 
 @interface HTMLDocument : HTMLNode
 

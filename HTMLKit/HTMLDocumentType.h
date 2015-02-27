@@ -7,6 +7,7 @@
 //
 
 #import "HTMLNode.h"
+#import "HTMLQuirksMode.h"
 
 @interface HTMLDocumentType : HTMLNode
 
@@ -17,5 +18,8 @@
 - (instancetype)initWithName:(NSString *)name
 			publicIdentifier:(NSString *)publicIdentifier
 			systemIdentifier:(NSString *)systemIdentifier;
+
+- (BOOL)isValid;
+- (HTMLQuirksMode)quirksMode;
 
 @end
