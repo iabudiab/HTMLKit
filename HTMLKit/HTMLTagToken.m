@@ -58,8 +58,8 @@
 	if ([other isKindOfClass:[self class]]) {
 		HTMLStartTagToken *token = (HTMLStartTagToken *)other;
 
-		return (nilOrEqual(self.tagName, token.tagName) &&
-				nilOrEqual(self.attributes, token.attributes));
+		return (bothNilOrEqual(self.tagName, token.tagName) &&
+				bothNilOrEqual(self.attributes, token.attributes));
 	}
 	return NO;
 }
@@ -93,7 +93,7 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLStartTagToken *token = (HTMLStartTagToken *)other;
-		return nilOrEqual(self.tagName, token.tagName);
+		return bothNilOrEqual(self.tagName, token.tagName);
 	}
 	return NO;
 }

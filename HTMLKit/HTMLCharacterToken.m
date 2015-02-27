@@ -45,7 +45,7 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLCharacterToken *token = (HTMLCharacterToken *)other;
-		return nilOrEqual(self.characters, token.characters);
+		return bothNilOrEqual(self.characters, token.characters);
 	}
 	return NO;
 }

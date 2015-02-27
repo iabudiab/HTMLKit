@@ -58,9 +58,9 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLDOCTYPEToken *token = (HTMLDOCTYPEToken *)other;
-		return (nilOrEqual(self.name, token.name) &&
-				nilOrEqual(self.publicIdentifier, token.publicIdentifier) &&
-				nilOrEqual(self.systemIdentifier, token.systemIdentifier) &&
+		return (bothNilOrEqual(self.name, token.name) &&
+				bothNilOrEqual(self.publicIdentifier, token.publicIdentifier) &&
+				bothNilOrEqual(self.systemIdentifier, token.systemIdentifier) &&
 				self.forceQuirks == token.forceQuirks);
 	}
 	return NO;

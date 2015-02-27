@@ -15,7 +15,7 @@
 @class HTMLCharacterToken;
 @class HTMLParseErrorToken;
 
-NS_INLINE BOOL nilOrEqual(id first, id second) {
+NS_INLINE BOOL bothNilOrEqual(id first, id second) {
 	return (first == nil && second == nil) || ([first isEqual:second]);
 }
 

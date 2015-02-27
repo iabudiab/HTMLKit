@@ -41,7 +41,7 @@
 {
 	if ([other isKindOfClass:[self class]]) {
 		HTMLCommentToken *token = (HTMLCommentToken *)other;
-		return nilOrEqual(self.data, token.data);
+		return bothNilOrEqual(self.data, token.data);
 	}
 	return NO;
 }
