@@ -43,9 +43,9 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, strong, readonly) NSOrderedSet *childNodes;
 
-@property (nonatomic, strong, readonly) HTMLNode *firstNode;
+@property (nonatomic, strong, readonly) HTMLNode *firstChiledNode;
 
-@property (nonatomic, strong, readonly) HTMLNode *lastNode;
+@property (nonatomic, strong, readonly) HTMLNode *lastChildNode;
 
 @property (nonatomic, strong, readonly) HTMLNode *previousSibling;
 
