@@ -35,6 +35,7 @@
 
 - (BOOL)isWhitespaceToken
 {
+#warning Cache Character Set
 	NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@" \t\n\f"] invertedSet];
 	return [_characters rangeOfCharacterFromSet:set].location == NSNotFound;
 }

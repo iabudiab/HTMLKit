@@ -18,4 +18,5 @@
 - (void)appendString:(NSString *)string;
 
 - (BOOL)isWhitespaceToken;
+
 @end
