@@ -229,6 +229,28 @@
 	return nil;
 }
 
+- (id)parseFragment
+{
+	if (_contextElement != nil) {
+		if (matches(_contextElement.tagName, @"title", @"textarea")) {
+			_tokenizer.state = HTMLTokenizerStateRCDATA;
+		} else if (matches(_contextElement.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
+			_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+		} else if ([_contextElement.tagName isEqualToString:@"script"]) {
+			_tokenizer.state = HTMLTokenizerStateScriptData;
+		} else if ([_contextElement.tagName isEqualToString:@"noscript"]) {
+			if (_scriptingFlag) {
+				_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+			}
+		} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
+			_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
+		} else {
+			_tokenizer = HTMLTokenizerStateData;
+		}
+	}
+
+	return nil;
+}
 
 - (void)processToken:(HTMLToken *)token
 {
@@ -289,7 +311,24 @@
 
 - (void)processTokenByApplyingRulesForParsingTokensInForeignContent:(HTMLToken *)token
 {
-	
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+
+			break;
+		case HTMLTokenTypeComment:
+
+			break;
+		case HTMLTokenTypeDoctype:
+
+			break;
+		case HTMLTokenTypeStartTag:
+
+			break;
+		case HTMLTokenTypeEndTag:
+
+			break;
+	}
+}
 
 #pragma mark - 
 
