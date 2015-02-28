@@ -347,7 +347,47 @@
 
 - (void)HTMLInsertionModeInitial:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeComment:
+		{
+			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			 return;
+		}
+		case HTMLTokenTypeDoctype:
+		{
+			HTMLDOCTYPEToken *doctypeToken = token.asDoctypeToken;
 
+			HTMLDocumentType *doctype = [[HTMLDocumentType alloc] initWithName:doctypeToken.name
+															  publicIdentifier:doctypeToken.publicIdentifier
+															  systemIdentifier:doctypeToken.systemIdentifier];
+
+			if (!doctype.isValid) {
+				[self emitParseError:@"Invalid DOCTYPE"];
+			}
+
+			_document.documentType = doctype;
+			_document.quirksMode = doctype.quirksMode;
+
+			if (doctypeToken.forceQuirks) {
+				_document.quirksMode = HTMLQuirksModeQuirks;
+			}
+			[self switchInsertionMode:HTMLInsertionModeBeforeHTML];
+			return;
+		}
+		default:
+			break;
+	}
+
+#warning Check "iframe srcdoc"
+	[self switchInsertionMode:HTMLInsertionModeBeforeHTML];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeBeforeHTML:(HTMLToken *)token
