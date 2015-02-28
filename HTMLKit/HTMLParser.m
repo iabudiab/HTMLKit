@@ -9,9 +9,8 @@
 #import "HTMLParser.h"
 #import "HTMLTokenizer.h"
 #import "HTMLTokens.h"
-#import "HTMLCharacterToken.h"
 #import "HTMLParserInsertionModes.h"
-#import "HTMLElement.h"
+#import "HTMLNodes.h"
 #import "HTMLElementTypes.h"
 
 @interface HTMLParser ()
@@ -25,6 +24,8 @@
 	HTMLInsertionMode _originalInsertionMode;
 
 	NSMutableArray *_stackOfOpenElements;
+
+	HTMLDocument *_document;
 
 	HTMLElement *_contextElement;
 	HTMLElement *_currentElement;
@@ -292,7 +293,7 @@
 
 #pragma mark - 
 
-- (HTMLElement *)appropriatePlaceForInsertingANodeWithOverrideTarget:(id)overrideTarget
+- (HTMLNode *)appropriatePlaceForInsertingANodeWithOverrideTarget:(HTMLElement *)overrideTarget
 {
 	HTMLElement *target = self.currentNode;
 	if (overrideTarget == nil) {
@@ -329,6 +330,17 @@
 	} else {
 		return target;
 	}
+}
+
+- (void)insertComment:(HTMLCommentToken *)token asChildOfNode:(HTMLNode *)node
+{
+	HTMLNode *parent = node;
+	if (parent == nil) {
+		parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
+	}
+
+	HTMLComment *comment = [[HTMLComment alloc] initWithData:token.data];
+	[parent appendChildNode:comment];
 }
 
 #pragma mark - Insertion Modes
