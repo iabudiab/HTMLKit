@@ -12,6 +12,13 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return (first == nil) || ([first isEqual:second]);
 }
 
+@interface HTMLDocumentType ()
+{
+	NSString *_publicIdentifier;
+	NSString *_systemIdentifier;
+}
+@end
+
 @implementation HTMLDocumentType
 
 - (instancetype)initWithName:(NSString *)name
@@ -20,10 +27,20 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 {
 	self = [super initWithName:name type:HTMLNodeDocumentType];
 	if (self) {
-		_publicIdentifier = [publicIdentifier copy] ?: @"";
-		_systemIdentifier = [systemIdentifier copy] ?: @"";
+		_publicIdentifier = [publicIdentifier copy];
+		_systemIdentifier = [systemIdentifier copy];
 	}
 	return self;
+}
+
+- (NSString *)publicIdentifier
+{
+	return _publicIdentifier ?: @"";
+}
+
+- (NSString *)systemIdentifier
+{
+	return _systemIdentifier ?: @"";
 }
 
 - (BOOL)isValid
