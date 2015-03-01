@@ -407,6 +407,13 @@
 	return element;
 }
 
+- (void)insertCharacters:(NSString *)characters
+{
+	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
+	if (adjustedInsertionLocation.type != HTMLNodeDocument) {
+#warning Implement inserting string into node (https://html.spec.whatwg.org/multipage/syntax.html#insert-a-character)
+	}
+}
 #pragma mark - Insertion Modes
 
 - (void)HTMLInsertionModeInitial:(HTMLToken *)token
