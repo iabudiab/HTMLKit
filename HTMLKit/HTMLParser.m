@@ -508,7 +508,7 @@
 			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
 				[self HTMLInsertionModeInBody:token];
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"head"]) {
-				HTMLElement *head = [[HTMLElement alloc] initWithTagName:@"head"];
+				HTMLElement *head = [self insertElementForToken:token.asTagToken];
 				_headElementPointer = head;
 				[self switchInsertionMode:HTMLInsertionModeInHead];
 			}
