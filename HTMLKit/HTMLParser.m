@@ -34,8 +34,9 @@
 	HTMLElement *_formElementPointer;
 
 	BOOL _scriptingFlag;
+	BOOL _framesetOkFlag;
 	BOOL _fragmentParsingAlgorithm;
-	BOOL _fosterParting;
+	BOOL _fosterParenting;
 }
 @end
 
@@ -55,6 +56,11 @@
 
 		_stackOfOpenElements = [NSMutableArray new];
 		_tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+
+		_scriptingFlag = NO;
+		_framesetOkFlag = YES;
+		_fragmentParsingAlgorithm = NO;
+		_fosterParenting = NO;
 	}
 	return self;
 }
@@ -339,7 +345,7 @@
 		target = overrideTarget;
 	}
 
-	if (_fosterParting && matches(target.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr")) {
+	if (_fosterParenting && matches(target.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr")) {
 		HTMLElement *lastTemplate = nil;
 		HTMLElement *lastTable = nil;
 		for (HTMLElement *element in _stackOfOpenElements.reverseObjectEnumerator) {
