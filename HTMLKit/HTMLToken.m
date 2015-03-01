@@ -58,6 +58,11 @@
 	return (HTMLDOCTYPEToken *)self;
 }
 
+- (HTMLTagToken *)asTagToken
+{
+	return (HTMLTagToken *)self;
+}
+
 - (HTMLStartTagToken *)asStartTagToken
 {
 	return (HTMLStartTagToken *)self;

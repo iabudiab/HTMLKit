@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class HTMLDOCTYPEToken;
+@class HTMLTagToken;
 @class HTMLStartTagToken;
 @class HTMLEndTagToken;
 @class HTMLCommentToken;
@@ -43,6 +44,7 @@ typedef NS_ENUM(NSUInteger, HTMLTokenType)
 - (BOOL)isParseError;
 
 - (HTMLDOCTYPEToken *)asDoctypeToken;
+- (HTMLTagToken *)asTagToken;
 - (HTMLStartTagToken *)asStartTagToken;
 - (HTMLEndTagToken *)asEndTagToken;
 - (HTMLCommentToken *)asCommentToken;
