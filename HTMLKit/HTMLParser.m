@@ -532,17 +532,186 @@
 
 - (void)HTMLInsertionModeInHead:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self insertCharacters:leadingWhiteSpace.characters];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in <head>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+				return;
+			} else if (matches(token.asStartTagToken.tagName, @"base", @"basefont", @"bgsound", @"link")) {
+				[self insertElementForToken:token.asStartTagToken];
+				[_stackOfOpenElements removeLastObject];
+				return;
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"meta"]) {
+				[self insertElementForToken:token.asStartTagToken];
+				[_stackOfOpenElements removeLastObject];
+				return;
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"title"]) {
+				[self applyGenericParsingAlgorithmForToken:token.asStartTagToken withTokenizerState:HTMLTokenizerStateRCDATA];
+				return;
+			} else if (matches(token.asStartTagToken.tagName, @"noscript", @"noframes", @"style")) {
+				[self applyGenericParsingAlgorithmForToken:token.asStartTagToken withTokenizerState:HTMLTokenizerStateRAWTEXT];
+				return;
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"script"]) {
+				HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
+				HTMLElement *script = [self createElementForToken:token.asStartTagToken inNamespace:HTMLNamespaceHTML];
+#warning Script Element Flags (https://html.spec.whatwg.org/multipage/scripting.html#parser-inserted)
+				[adjustedInsertionLocation appendChildNode:script];
+				[_stackOfOpenElements addObject:script];
+				_tokenizer.state = HTMLTokenizerStateScriptData;
+				_originalInsertionMode = _insertionMode;
+				[self switchInsertionMode:HTMLInsertionModeText];
+				return;
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"head"]) {
+				[self emitParseError:@"Unexpected Start Tag Token (head) in <head>"];
+				return;
+			}
+			break;
+#warning Implement HTML Template
+		case HTMLTokenTypeEndTag:
+			if ([token.asEndTagToken.tagName isEqualToString:@"head"]) {
+				[_stackOfOpenElements removeLastObject];
+				[self switchInsertionMode:HTMLInsertionModeAfterHead];
+				return;
+			} else if (matches(token.asEndTagToken.tagName, @"body", @"html", @"br")) {
+				break;
+			} else {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <head>", token.asEndTagToken.tagName];
+				return;
+			}
+			break;
+		default:
+			break;
+	}
 
+	[_stackOfOpenElements removeLastObject];
+	[self switchInsertionMode:HTMLInsertionModeAfterHead];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeInHeadNoscript:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in <head><noscript>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+				return;
+			} else if (matches(token.asStartTagToken.tagName, @"basefont", @"bgsound", @"link", @"meta", @"noframes", @"style")) {
+				[self HTMLInsertionModeInHead:token];
+				return;
+			} else if (matches(token.asStartTagToken.tagName, @"head", @"noscript")) {
+				[self emitParseError:@"Unexpected Start Tag Token (%@) in <head><noscript>", token.asStartTagToken.tagName];
+				return;
+			}
+			break;
+		case HTMLTokenTypeEndTag:
+			if ([token.asEndTagToken.tagName isEqualToString:@"noscript"]) {
+				[_stackOfOpenElements removeLastObject];
+				[self switchInsertionMode:HTMLInsertionModeInHead];
+				return;
+			} else if ([token.asEndTagToken.tagName isEqualToString:@"br"]) {
+				break;
+			} else {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <head><noscript>", token.asEndTagToken.tagName];
+				return;
+			}
+			break;
+		case HTMLTokenTypeCharacter:
+		case HTMLTokenTypeComment:
+			[self HTMLInsertionModeInHead:token];
+			return;
+		default:
+			break;
+	}
 
+	[self emitParseError:@"Unexpected Tag Token (%@) in <head><noscript>", token.asTagToken.tagName];
+	[_stackOfOpenElements removeLastObject];
+	[self switchInsertionMode:HTMLInsertionModeInHead];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeAfterHead:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self insertCharacters:leadingWhiteSpace.characters];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token after <head>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+				return;
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"body"]) {
+				[self insertElementForToken:token.asTagToken];
+				_framesetOkFlag = NO;
+				[self switchInsertionMode:HTMLInsertionModeInBody];
+				return;
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"body"]) {
+				[self insertElementForToken:token.asTagToken];
+				[self switchInsertionMode:HTMLInsertionModeInFrameset];
+				return;
+			} else if (matches(token.asStartTagToken.tagName, @"base", @"basefont", @"bgsound", @"link", @"meta", @"noframes", @"script", @"style", @"template", @"title")) {
+				[self emitParseError:@"Unexpected Start Tag Token (%@) after <head>", token.asStartTagToken.tagName];
+				[_stackOfOpenElements addObject:_headElementPointer];
+				[self HTMLInsertionModeInHead:token];
+				[_stackOfOpenElements removeObject:_headElementPointer];
+				return;
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
+				[self emitParseError:@"Unexpected Start Tag Token (head) after <head>"];
+				return;
+			}
+			break;
+		case HTMLTokenTypeEndTag:
+			if ([token.asEndTagToken.tagName  isEqualToString:@"template"]) {
+#warning Implement HTML Template
+				[self HTMLInsertionModeInHead:token];
+			} else if (matches(token.asEndTagToken.tagName, @"body", @"html", @"br")) {
+				break;
+			} else {
+				[self emitParseError:@"Unexpected End Tag Token (%@) after <head>", token.asEndTagToken.tagName];
+				return;
+			}
+			break;
+		default:
+			break;
+	}
 
+	HTMLStartTagToken *bodyToken = [[HTMLStartTagToken alloc] initWithTagName:@"body"];
+	[self insertElementForToken:bodyToken];
+	[self switchInsertionMode:HTMLInsertionModeInBody];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeInBody:(HTMLToken *)token
