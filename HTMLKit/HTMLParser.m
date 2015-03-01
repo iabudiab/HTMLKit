@@ -414,6 +414,15 @@
 #warning Implement inserting string into node (https://html.spec.whatwg.org/multipage/syntax.html#insert-a-character)
 	}
 }
+
+- (void)applyGenericParsingAlgorithmForToken:(HTMLStartTagToken *)token withTokenizerState:(HTMLTokenizerState)state
+{
+	[self insertElementForToken:token];
+	_tokenizer.state = state;
+	_originalInsertionMode = _insertionMode;
+	[self switchInsertionMode:HTMLInsertionModeText];
+}
+
 #pragma mark - Insertion Modes
 
 - (void)HTMLInsertionModeInitial:(HTMLToken *)token
