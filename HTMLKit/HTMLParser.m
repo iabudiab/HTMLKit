@@ -401,7 +401,7 @@
 - (HTMLElement *)insertElementForToken:(HTMLTagToken *)token
 {
 	HTMLElement *element = [self createElementForToken:token inNamespace:HTMLNamespaceHTML];
-	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:element];
+	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
 	[adjustedInsertionLocation appendChildNode:element];
 	[_stackOfOpenElements addObject:element];
 	return element;
