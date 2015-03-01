@@ -20,4 +20,8 @@
 
 @property (nonatomic, copy)	NSString *className;
 
+- (instancetype)initWithTagName:(NSString *)tagName;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(id)attributes;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(id)attributes namespace:(HTMLNamespace)namespace;
+
 @end
