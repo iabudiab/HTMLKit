@@ -8,6 +8,19 @@
 
 #import "HTMLCharacterToken.h"
 
+NS_INLINE BOOL isHtmlWhitespace(char c)
+{
+	return c == ' ' || c == '\t' || c == '\n' || c == '\f' || c == '\r';
+}
+
+NS_INLINE size_t LeadingWhitespaceLength(NSString *string)
+{
+	const char *str = string.UTF8String;
+	size_t idx = 0;
+	while (isHtmlWhitespace(*str)) { str++; idx++; }
+	return idx;
+}
+
 @interface HTMLCharacterToken ()
 {
 	NSMutableString *_characters;
@@ -38,6 +51,26 @@
 #warning Cache Character Set
 	NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@" \t\n\f"] invertedSet];
 	return [_characters rangeOfCharacterFromSet:set].location == NSNotFound;
+}
+
+- (HTMLCharacterToken *)tokenByRetainingLeadingWhitespace
+{
+	size_t index = LeadingWhitespaceLength(_characters);
+	if (index > 0) {
+		NSString *leading = [_characters substringToIndex:index];
+		return [[HTMLCharacterToken alloc] initWithString:leading];
+	}
+	return nil;
+}
+
+- (HTMLCharacterToken *)tokenByTrimmingLeadingWhitespace
+{
+	size_t index = LeadingWhitespaceLength(_characters);
+	if (index < _characters.length) {
+		NSString *remaining = [_characters substringFromIndex:index];
+		return [[HTMLCharacterToken alloc] initWithString:remaining];
+	}
+	return nil;
 }
 
 #pragma mark - NSObject

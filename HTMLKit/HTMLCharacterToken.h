@@ -18,5 +18,7 @@
 - (void)appendString:(NSString *)string;
 
 - (BOOL)isWhitespaceToken;
+- (HTMLCharacterToken *)tokenByRetainingLeadingWhitespace;
+- (HTMLCharacterToken *)tokenByTrimmingLeadingWhitespace;
 
 @end
