@@ -382,6 +382,25 @@
 	[parent appendChildNode:comment];
 }
 
+#pragma mark - Elements
+
+- (HTMLElement *)createElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)namespace
+{
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:token.tagName
+													 attributes:token.attributes
+													  namespace:namespace];
+	return element;
+}
+
+- (HTMLElement *)insertElementForToken:(HTMLTagToken *)token
+{
+	HTMLElement *element = [self createElementForToken:token inNamespace:HTMLNamespaceHTML];
+	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:element];
+	[adjustedInsertionLocation appendChildNode:element];
+	[_stackOfOpenElements addObject:element];
+	return element;
+}
+
 #pragma mark - Insertion Modes
 
 - (void)HTMLInsertionModeInitial:(HTMLToken *)token
