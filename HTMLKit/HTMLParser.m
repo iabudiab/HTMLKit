@@ -407,17 +407,13 @@
 {
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
-		{
 			if ([token.asCharacterToken isWhitespaceToken]) {
 				return;
 			}
 			break;
-		}
 		case HTMLTokenTypeComment:
-		{
 			[self insertComment:token.asCommentToken asChildOfNode:_document];
 			 return;
-		}
 		case HTMLTokenTypeDoctype:
 		{
 			HTMLDOCTYPEToken *doctypeToken = token.asDoctypeToken;
@@ -450,12 +446,82 @@
 
 - (void)HTMLInsertionModeBeforeHTML:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token before <html>"];
+			return;
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			return;
+		case HTMLTokenTypeCharacter:
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		case HTMLTokenTypeStartTag:
+			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
+				HTMLElement *html = [self createElementForToken:token.asTagToken inNamespace:HTMLNamespaceHTML];
+				[_document appendChildNode:html];
+				[_stackOfOpenElements addObject:html];
+				[self switchInsertionMode:HTMLInsertionModeBeforeHead];
+				return;
+			}
+			break;
+		case HTMLTokenTypeEndTag:
+			if (!matches(token.asEndTagToken.tagName, @"head", @"body", @"html", @"br")) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) before <html>", token.asEndTagToken.tagName];
+				return;
+			}
+			break;
+		default:
+			break;
+	}
 
+	HTMLElement *html = [[HTMLElement alloc] initWithTagName:@"html"];
+	[_document appendChildNode:html];
+	[_stackOfOpenElements addObject:html];
+	[self switchInsertionMode:HTMLInsertionModeBeforeHead];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeBeforeHead:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token before <head>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"head"]) {
+				HTMLElement *head = [[HTMLElement alloc] initWithTagName:@"head"];
+				_headElementPointer = head;
+				[self switchInsertionMode:HTMLInsertionModeInHead];
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if (!matches(token.asEndTagToken.tagName, @"head", @"body", @"html", @"br")) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) before <head>", token.asEndTagToken.tagName];
+				return;
+			}
+			break;
+		default:
+			break;
+	}
 
+	HTMLStartTagToken *headToken = [[HTMLStartTagToken alloc] initWithTagName:@"head"];
+	HTMLElement *head = [self insertElementForToken:headToken];
+	_headElementPointer	= head;
+	[self switchInsertionMode:HTMLInsertionModeInHead];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeInHead:(HTMLToken *)token
