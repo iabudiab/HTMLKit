@@ -34,6 +34,12 @@ NS_INLINE BOOL isHtmlWhitespaceChar(char c)
 	return [self rangeOfCharacterFromSet:set].location == NSNotFound;
 }
 
+- (BOOL)containsHTMLWhitespace
+{
+	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" \t\n\f\r"];
+	return [self rangeOfCharacterFromSet:set].location != NSNotFound;
+}
+
 - (NSUInteger)leadingWhitespaceLength
 {
 	const char *str = self.UTF8String;

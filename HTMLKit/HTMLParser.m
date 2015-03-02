@@ -789,7 +789,30 @@
 
 - (void)HTMLInsertionModeInBody:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			NSMutableString *charactes = [token.asCharacterToken.characters mutableCopy];
+			NSUInteger nullCount = [charactes replaceOccurrencesOfString:@"\0"
+															  withString:@""
+																 options:NSLiteralSearch
+																   range:NSMakeRange(0, charactes.length)];
+			for (int i = 0; i < nullCount; i++) {
+				[self emitParseError:@"Unexpected Character (0x0000) in <body>"];
+			}
 
+			if (charactes.length > 0) {
+				[self reconstructActiveFormattingElements];
+				[self insertCharacters:charactes];
+				if ([charactes containsHTMLWhitespace]) {
+					_framesetOkFlag = NO;
+				}
+			}
+			return;
+		}
+		default:
+			break;
+	}
 }
 
 - (void)HTMLInsertionModeText:(HTMLToken *)token

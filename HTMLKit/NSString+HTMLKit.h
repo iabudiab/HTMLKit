@@ -12,6 +12,7 @@
 
 - (BOOL)isEqualToAny:(NSString *)first, ... NS_REQUIRES_NIL_TERMINATION;
 - (BOOL)isHTMLWhitespaceString;
+- (BOOL)containsHTMLWhitespace;
 - (NSUInteger)leadingWhitespaceLength;
 
 @end
