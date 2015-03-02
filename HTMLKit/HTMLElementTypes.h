@@ -8,12 +8,11 @@
 
 #import	"HTMLElement.h"
 #import "HTMLNamespaces.h"
-
-#define matches(x, ...)  [[NSSet setWithObjects:__VA_ARGS__, nil] containsObject:x]
+#import "NSString+HTMLKit.h"
 
 NS_INLINE BOOL IsNodeMathMLTextIntegrationPoint(HTMLElement *node)
 {
-	return (node.namespace == HTMLNamespaceMathML && matches(node.tagName, @"mi", @"mo", @"mn", @"ms", @"mtext"));
+	return (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToAny:@"mi", @"mo", @"mn", @"ms", @"mtext", nil]);
 }
 
 NS_INLINE BOOL IsNodeHTMLIntegrationPoint(HTMLElement *node)
@@ -21,7 +20,7 @@ NS_INLINE BOOL IsNodeHTMLIntegrationPoint(HTMLElement *node)
 	if (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
 #warning Implement HTML Element Attributes
 	} else if (node.namespace == HTMLNamespaceSVG) {
-		return matches(node.tagName, @"foreignObject", @"desc", @"title");
+		return [node.tagName isEqualToAny:@"foreignObject", @"desc", @"title", nil];
 	}
 	return NO;
 }

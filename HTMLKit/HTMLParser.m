@@ -12,6 +12,7 @@
 #import "HTMLParserInsertionModes.h"
 #import "HTMLNodes.h"
 #import "HTMLElementTypes.h"
+#import "NSString+HTMLKit.h"
 
 @interface HTMLParser ()
 {
@@ -153,7 +154,7 @@
 		}
 
 		if (last == NO) {
-			if (matches(node.tagName, @"td", @"th")) {
+			if ([node.tagName isEqualToAny:@"td", @"th", nil]) {
 				[self switchInsertionMode:HTMLInsertionModeInCell];
 				return;
 			}
@@ -164,7 +165,7 @@
 			return;
 		}
 
-		if (matches(node.tagName, @"tbody", @"thead", @"tfoot")) {
+		if ([node.tagName isEqualToAny:@"tbody", @"thead", @"tfoot", nil]) {
 			[self switchInsertionMode:HTMLInsertionModeInTableBody];
 			return;
 		}
@@ -238,9 +239,9 @@
 - (id)parseFragment
 {
 	if (_contextElement != nil) {
-		if (matches(_contextElement.tagName, @"title", @"textarea")) {
+		if ([_contextElement.tagName isEqualToAny:@"title", @"textarea", nil]) {
 			_tokenizer.state = HTMLTokenizerStateRCDATA;
-		} else if (matches(_contextElement.tagName, @"style", @"xmp", @"iframe", @"noembed", @"noframes")) {
+		} else if ([_contextElement.tagName isEqualToAny:@"style", @"xmp", @"iframe", @"noembed", @"noframes", nil]) {
 			_tokenizer.state = HTMLTokenizerStateRAWTEXT;
 		} else if ([_contextElement.tagName isEqualToString:@"script"]) {
 			_tokenizer.state = HTMLTokenizerStateScriptData;
@@ -251,7 +252,7 @@
 		} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
 			_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
 		} else {
-			_tokenizer = HTMLTokenizerStateData;
+			_tokenizer.state = HTMLTokenizerStateData;
 		}
 	}
 
@@ -270,7 +271,7 @@
 		}
 		if (IsNodeMathMLTextIntegrationPoint(node)) {
 			if (token.type == HTMLTokenTypeStartTag) {
-				return !matches([(HTMLStartTagToken *)token tagName], @"mglyph", @"malignmark");
+				return ![token.asStartTagToken.tagName isEqualToAny:@"mglyph", @"malignmark", nil];
 			}
 			if (token.type == HTMLTokenTypeCharacter) {
 				return YES;
@@ -345,7 +346,7 @@
 		target = overrideTarget;
 	}
 
-	if (_fosterParenting && matches(target.tagName, @"table", @"tbody", @"tfoot", @"thead", @"tr")) {
+	if (_fosterParenting && [target.tagName isEqualToAny:@"table", @"tbody", @"tfoot", @"thead", @"tr", nil]) {
 		HTMLElement *lastTemplate = nil;
 		HTMLElement *lastTable = nil;
 		for (HTMLElement *element in _stackOfOpenElements.reverseObjectEnumerator) {
@@ -490,7 +491,7 @@
 			}
 			break;
 		case HTMLTokenTypeEndTag:
-			if (!matches(token.asEndTagToken.tagName, @"head", @"body", @"html", @"br")) {
+			if (![token.asEndTagToken.tagName isEqualToAny:@"head", @"body", @"html", @"br", nil]) {
 				[self emitParseError:@"Unexpected End Tag Token (%@) before <html>", token.asEndTagToken.tagName];
 				return;
 			}
@@ -530,7 +531,7 @@
 			}
 			return;
 		case HTMLTokenTypeEndTag:
-			if (!matches(token.asEndTagToken.tagName, @"head", @"body", @"html", @"br")) {
+			if (![token.asEndTagToken.tagName isEqualToAny:@"head", @"body", @"html", @"br", nil]) {
 				[self emitParseError:@"Unexpected End Tag Token (%@) before <head>", token.asEndTagToken.tagName];
 				return;
 			}
@@ -570,7 +571,7 @@
 			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
 				[self HTMLInsertionModeInBody:token];
 				return;
-			} else if (matches(token.asStartTagToken.tagName, @"base", @"basefont", @"bgsound", @"link")) {
+			} else if ([token.asStartTagToken.tagName isEqualToAny:@"base", @"basefont", @"bgsound", @"link", nil]) {
 				[self insertElementForToken:token.asStartTagToken];
 				[_stackOfOpenElements removeLastObject];
 				return;
@@ -581,7 +582,7 @@
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"title"]) {
 				[self applyGenericParsingAlgorithmForToken:token.asStartTagToken withTokenizerState:HTMLTokenizerStateRCDATA];
 				return;
-			} else if (matches(token.asStartTagToken.tagName, @"noscript", @"noframes", @"style")) {
+			} else if ([token.asStartTagToken.tagName isEqualToAny:@"noscript", @"noframes", @"style", nil]) {
 				[self applyGenericParsingAlgorithmForToken:token.asStartTagToken withTokenizerState:HTMLTokenizerStateRAWTEXT];
 				return;
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"script"]) {
@@ -605,7 +606,7 @@
 				[_stackOfOpenElements removeLastObject];
 				[self switchInsertionMode:HTMLInsertionModeAfterHead];
 				return;
-			} else if (matches(token.asEndTagToken.tagName, @"body", @"html", @"br")) {
+			} else if ([token.asEndTagToken.tagName isEqualToAny:@"body", @"html", @"br", nil]) {
 				break;
 			} else {
 				[self emitParseError:@"Unexpected End Tag Token (%@) in <head>", token.asEndTagToken.tagName];
@@ -631,10 +632,10 @@
 			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
 				[self HTMLInsertionModeInBody:token];
 				return;
-			} else if (matches(token.asStartTagToken.tagName, @"basefont", @"bgsound", @"link", @"meta", @"noframes", @"style")) {
+			} else if ([token.asStartTagToken.tagName isEqualToAny:@"basefont", @"bgsound", @"link", @"meta", @"noframes", @"style", nil]) {
 				[self HTMLInsertionModeInHead:token];
 				return;
-			} else if (matches(token.asStartTagToken.tagName, @"head", @"noscript")) {
+			} else if ([token.asStartTagToken.tagName isEqualToAny:@"head", @"noscript", nil]) {
 				[self emitParseError:@"Unexpected Start Tag Token (%@) in <head><noscript>", token.asStartTagToken.tagName];
 				return;
 			}
@@ -698,7 +699,7 @@
 				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInFrameset];
 				return;
-			} else if (matches(token.asStartTagToken.tagName, @"base", @"basefont", @"bgsound", @"link", @"meta", @"noframes", @"script", @"style", @"template", @"title")) {
+			} else if ([token.asStartTagToken.tagName isEqualToAny:@"base", @"basefont", @"bgsound", @"link", @"meta", @"noframes", @"script", @"style", @"template", @"title", nil]) {
 				[self emitParseError:@"Unexpected Start Tag Token (%@) after <head>", token.asStartTagToken.tagName];
 				[_stackOfOpenElements addObject:_headElementPointer];
 				[self HTMLInsertionModeInHead:token];
@@ -713,7 +714,7 @@
 			if ([token.asEndTagToken.tagName  isEqualToString:@"template"]) {
 #warning Implement HTML Template
 				[self HTMLInsertionModeInHead:token];
-			} else if (matches(token.asEndTagToken.tagName, @"body", @"html", @"br")) {
+			} else if ([token.asEndTagToken.tagName isEqualToAny:@"body", @"html", @"br", nil]) {
 				break;
 			} else {
 				[self emitParseError:@"Unexpected End Tag Token (%@) after <head>", token.asEndTagToken.tagName];
