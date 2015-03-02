@@ -17,6 +17,7 @@
 @property (nonatomic, assign, getter = isSelfClosing) BOOL selfClosing;
 
 - (instancetype)initWithTagName:(NSString *)tagName;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSMutableDictionary *)attributes;
 
 - (void)appendStringToTagName:(NSString *)string;
 

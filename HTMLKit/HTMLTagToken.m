@@ -22,9 +22,18 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName
 {
+	return [self initWithTagName:tagName attributes:nil];
+}
+
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSMutableDictionary *)attributes
+{
 	self = [super init];
 	if (self) {
 		_tagName = [tagName mutableCopy];
+		_attributes = [NSMutableDictionary new];
+		if (attributes != nil) {
+			[_attributes addEntriesFromDictionary:attributes];
+		}
 	}
 	return self;
 }
@@ -44,7 +53,12 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName
 {
-	self = [super initWithTagName:tagName];
+	return [self initWithTagName:tagName attributes:nil];
+}
+
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSMutableDictionary *)attributes
+{
+	self = [super initWithTagName:tagName attributes:attributes];
 	if (self) {
 		self.type = HTMLTokenTypeStartTag;
 	}
@@ -80,7 +94,12 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName
 {
-	self = [super initWithTagName:tagName];
+	return [self initWithTagName:tagName attributes:nil];
+}
+
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSMutableDictionary *)attributes
+{
+	self = [super initWithTagName:tagName attributes:attributes];
 	if (self) {
 		self.type = HTMLTokenTypeEndTag;
 	}

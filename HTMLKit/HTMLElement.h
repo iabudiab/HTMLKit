@@ -16,6 +16,8 @@
 
 @property (nonatomic, copy, readonly) NSString *tagName;
 
+@property (nonatomic, strong) NSMutableDictionary *attributes;
+
 @property (nonatomic, copy)	NSString *id;
 
 @property (nonatomic, copy)	NSString *className;

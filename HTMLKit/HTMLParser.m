@@ -12,6 +12,7 @@
 #import "HTMLParserInsertionModes.h"
 #import "HTMLNodes.h"
 #import "HTMLElementTypes.h"
+#import "HTMLMarker.h"
 #import "NSString+HTMLKit.h"
 
 @interface HTMLParser ()
@@ -25,6 +26,7 @@
 	HTMLInsertionMode _originalInsertionMode;
 
 	NSMutableArray *_stackOfOpenElements;
+	NSMutableArray *_listOfActiveFormattingElements;
 
 	HTMLDocument *_document;
 
@@ -56,6 +58,7 @@
 		[self setupStateMachine];
 
 		_stackOfOpenElements = [NSMutableArray new];
+		_listOfActiveFormattingElements = [NSMutableArray new];
 		_tokenizer = [[HTMLTokenizer alloc] initWithString:string];
 
 		_scriptingFlag = NO;
@@ -422,6 +425,59 @@
 	_tokenizer.state = state;
 	_originalInsertionMode = _insertionMode;
 	[self switchInsertionMode:HTMLInsertionModeText];
+}
+
+- (void)reconstructActiveFormattingElements
+{
+	if (_listOfActiveFormattingElements.count == 0) {
+		return;
+	}
+
+	id last = _listOfActiveFormattingElements.lastObject;
+	if (last == [HTMLMarker marker] || [_stackOfOpenElements containsObject:last]) {
+		return;
+	}
+
+	__block NSUInteger index = _listOfActiveFormattingElements.count - 1;
+	__block id entry = _listOfActiveFormattingElements[index];
+
+	// Reconstruct the active formatting elements
+	// https://html.spec.whatwg.org/multipage/syntax.html#reconstruct-the-active-formatting-elements
+	// No cycles ~> blocks instead of gotos
+
+	dispatch_block_t advance = ^{
+		entry = _listOfActiveFormattingElements[index++];
+	};
+
+	dispatch_block_t create = ^{
+		HTMLElement *entry = _listOfActiveFormattingElements[index];
+		HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:entry.tagName
+																   attributes:entry.attributes];
+		HTMLElement *element = [self insertElementForToken:token];
+		[_listOfActiveFormattingElements replaceObjectAtIndex:index withObject:element];
+		if (index++ != _listOfActiveFormattingElements.count) {
+			advance();
+		}
+	};
+
+	dispatch_block_t rewind = ^{
+		if (index == 0) {
+			create();
+		}
+		entry = _listOfActiveFormattingElements[index--];
+		if (entry != [HTMLMarker marker] && ![_stackOfOpenElements containsObject:entry]) {
+			rewind();
+		}
+	};
+
+	rewind();
+}
+
+- (void)clearListOfActiveFormattingElementsUptoLastMarker
+{
+	while (_listOfActiveFormattingElements.lastObject != [HTMLMarker marker]) {
+		[_listOfActiveFormattingElements removeLastObject];
+	}
 }
 
 #pragma mark - Insertion Modes
