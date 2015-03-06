@@ -480,6 +480,69 @@
 	}
 }
 
+- (HTMLElement *)hasElementWithTagNameInSpecificScope:(NSString *)tagName
+								  withAdditionalTypes:(NSDictionary *)additional
+{
+	NSMutableDictionary *elementTypes = [NSMutableDictionary dictionaryWithDictionary:additional];
+	[elementTypes addEntriesFromDictionary:@{
+											 @"applet": @(HTMLNamespaceHTML),
+											 @"caption": @(HTMLNamespaceHTML),
+											 @"html": @(HTMLNamespaceHTML),
+											 @"table": @(HTMLNamespaceHTML),
+											 @"td": @(HTMLNamespaceHTML),
+											 @"th": @(HTMLNamespaceHTML),
+											 @"marquee": @(HTMLNamespaceHTML),
+											 @"object": @(HTMLNamespaceHTML),
+											 @"template": @(HTMLNamespaceHTML),
+											 @"mi": @(HTMLNamespaceMathML),
+											 @"mo": @(HTMLNamespaceMathML),
+											 @"mn": @(HTMLNamespaceMathML),
+											 @"ms": @(HTMLNamespaceMathML),
+											 @"mtext": @(HTMLNamespaceMathML),
+											 @"annotation-xml": @(HTMLNamespaceMathML),
+											 @"foreignObject": @(HTMLNamespaceSVG),
+											 @"desc": @(HTMLNamespaceSVG),
+											 @"title": @(HTMLNamespaceSVG)
+											 }];
+
+	for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator) {
+		if ([node.tagName isEqualToString:tagName]) {
+			return node;
+		}
+		if ([elementTypes[node.tagName] isEqual:@(node.namespace)]) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)hasElementWithTagNameInButtonScope:(NSString *)tagName
+{
+	return [self hasElementWithTagNameInSpecificScope:tagName
+								  withAdditionalTypes:@{@"ol": @(HTMLNamespaceHTML),
+														@"ul": @(HTMLNamespaceHTML)}];
+}
+
+- (HTMLElement *)hasElementWithTagNameInListScope:(NSString *)tagName
+{
+	return [self hasElementWithTagNameInSpecificScope:tagName
+								  withAdditionalTypes:@{@"button": @(HTMLNamespaceHTML)}];
+}
+
+- (HTMLElement *)hasElementWithTagNameInTableScope:(NSString *)tagName
+{
+	return [self hasElementWithTagNameInSpecificScope:tagName
+								  withAdditionalTypes:@{@"html": @(HTMLNamespaceHTML),
+														@"table": @(HTMLNamespaceHTML),
+														@"template": @(HTMLNamespaceHTML)}];
+}
+
+- (HTMLElement *)hasElementWithTagNameInSelectScope:(NSString *)tagName
+{
+	return [self hasElementWithTagNameInSpecificScope:tagName
+								  withAdditionalTypes:@{@"optgroup": @(HTMLNamespaceHTML),
+														@"option": @(HTMLNamespaceHTML)}];
+}
 #pragma mark - Insertion Modes
 
 - (void)HTMLInsertionModeInitial:(HTMLToken *)token
