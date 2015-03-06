@@ -20,5 +20,6 @@
 - (BOOL)isWhitespaceToken;
 - (HTMLCharacterToken *)tokenByRetainingLeadingWhitespace;
 - (HTMLCharacterToken *)tokenByTrimmingLeadingWhitespace;
+- (HTMLCharacterToken *)tokenByTrimmingFormIndex:(NSUInteger)index;
 
 @end

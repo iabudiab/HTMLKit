@@ -59,6 +59,11 @@
 	return nil;
 }
 
+- (HTMLCharacterToken *)tokenByTrimmingFormIndex:(NSUInteger)index
+{
+	return [[HTMLCharacterToken alloc] initWithString:[_characters substringFromIndex:index]];
+}
+
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)other
