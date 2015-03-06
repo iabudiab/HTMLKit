@@ -543,6 +543,27 @@
 								  withAdditionalTypes:@{@"optgroup": @(HTMLNamespaceHTML),
 														@"option": @(HTMLNamespaceHTML)}];
 }
+
+- (void)generateImpliedEndTagsExceptForElement:(NSString *)tagName
+{
+	while ([self.currentNode.tagName isEqualToAny:@"dd", @"dt", @"li", @"option", @"optgroup", @"p", @"rp", @"rt", nil] &&
+		   ![self.currentNode.tagName isEqualToString:tagName]) {
+		[_stackOfOpenElements removeLastObject];
+	}
+}
+
+- (void)closePElement
+{
+	[self generateImpliedEndTagsExceptForElement:@"p"];
+	if (![self.currentNode.tagName isEqualToString:@"p"]) {
+		[self emitParseError:@"Current node being closed is not a <p> element"];
+	}
+	while (![self.currentNode.tagName isEqualToString:@"p"]) {
+		[_stackOfOpenElements removeLastObject];
+	}
+	[_stackOfOpenElements removeLastObject];
+}
+
 #pragma mark - Insertion Modes
 
 - (void)HTMLInsertionModeInitial:(HTMLToken *)token
