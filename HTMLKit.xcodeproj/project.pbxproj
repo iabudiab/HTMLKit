@@ -10,6 +10,9 @@
 		6234584E1A9D2FA4009BD491 /* HTMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6234584C1A9D2FA4009BD491 /* HTMLNode.h */; };
 		6234584F1A9D2FA4009BD491 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234584D1A9D2FA4009BD491 /* HTMLNode.m */; };
 		623458501A9D2FA4009BD491 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234584D1A9D2FA4009BD491 /* HTMLNode.m */; };
+		6234BEEE1AABBF1400DEB15F /* HTMLStackOfOpenElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 6234BEEC1AABBF1400DEB15F /* HTMLStackOfOpenElements.h */; };
+		6234BEEF1AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */; };
+		6234BEF01AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */; };
 		6235CE9B1AA509430026937B /* NSString+HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6235CE991AA509430026937B /* NSString+HTMLKit.h */; };
 		6235CE9C1AA509430026937B /* NSString+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235CE9A1AA509430026937B /* NSString+HTMLKit.m */; };
 		6235CE9D1AA509430026937B /* NSString+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235CE9A1AA509430026937B /* NSString+HTMLKit.m */; };
@@ -122,6 +125,8 @@
 		6223211D1A969B9300BACED5 /* HTMLElementTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElementTypes.h; sourceTree = "<group>"; };
 		6234584C1A9D2FA4009BD491 /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
 		6234584D1A9D2FA4009BD491 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		6234BEEC1AABBF1400DEB15F /* HTMLStackOfOpenElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLStackOfOpenElements.h; sourceTree = "<group>"; };
+		6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLStackOfOpenElements.m; sourceTree = "<group>"; };
 		6235CE991AA509430026937B /* NSString+HTMLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTMLKit.h"; sourceTree = "<group>"; };
 		6235CE9A1AA509430026937B /* NSString+HTMLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTMLKit.m"; sourceTree = "<group>"; };
 		6235CE9E1AA5170A0026937B /* HTMLMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLMarker.h; sourceTree = "<group>"; };
@@ -300,6 +305,8 @@
 				62AE593219F97CCA0043F069 /* Tokenizing */,
 				62F873E919E088C90062683C /* HTMLParser.h */,
 				62F873EA19E088C90062683C /* HTMLParser.m */,
+				6234BEEC1AABBF1400DEB15F /* HTMLStackOfOpenElements.h */,
+				6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */,
 				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
 				6223211D1A969B9300BACED5 /* HTMLElementTypes.h */,
 				6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */,
@@ -391,6 +398,7 @@
 				624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */,
 				6235CEA01AA5170A0026937B /* HTMLMarker.h in Headers */,
 				62F31FDD19E9DCCF007F0657 /* HTMLTokenizerEntities.h in Headers */,
+				6234BEEE1AABBF1400DEB15F /* HTMLStackOfOpenElements.h in Headers */,
 				6279F87419E1808D00F12EE5 /* HTMLElement.h in Headers */,
 				62AE593F19F9907C0043F069 /* HTMLTagToken.h in Headers */,
 				623857911A9E772B003A45D9 /* HTMLDocument.h in Headers */,
@@ -556,6 +564,7 @@
 				62362A3E1A9FA70400301989 /* HTMLText.m in Sources */,
 				6235CE9D1AA509430026937B /* NSString+HTMLKit.m in Sources */,
 				6238579D1A9E8934003A45D9 /* HTMLComment.m in Sources */,
+				6234BEF01AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */,
 				624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				6235CEA21AA5170A0026937B /* HTMLMarker.m in Sources */,
 				62AE594119F9907C0043F069 /* HTMLTagToken.m in Sources */,
@@ -592,6 +601,7 @@
 				62362A3D1A9FA70400301989 /* HTMLText.m in Sources */,
 				6235CE9C1AA509430026937B /* NSString+HTMLKit.m in Sources */,
 				6238579C1A9E8934003A45D9 /* HTMLComment.m in Sources */,
+				6234BEEF1AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */,
 				624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				6235CEA11AA5170A0026937B /* HTMLMarker.m in Sources */,
 				62AE594019F9907C0043F069 /* HTMLTagToken.m in Sources */,

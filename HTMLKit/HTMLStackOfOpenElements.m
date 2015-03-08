@@ -1,0 +1,201 @@
+//
+//  HTMLStackOfOpenElements.m
+//  HTMLKit
+//
+//  Created by Iska on 08/03/15.
+//  Copyright (c) 2015 BrainCookie. All rights reserved.
+//
+
+#import "HTMLStackOfOpenElements.h"
+#import "NSString+HTMLKit.h"
+
+@interface HTMLStackOfOpenElements ()
+{
+	NSMutableArray *_stack;
+	NSDictionary *_specificScopeElementTypes;
+}
+@end
+
+@implementation HTMLStackOfOpenElements
+
+#pragma mark - Init
+
+- (instancetype)init
+{
+	self = [super init];
+	if (self) {
+		_specificScopeElementTypes = @{
+									   @"applet": @(HTMLNamespaceHTML),
+									   @"caption": @(HTMLNamespaceHTML),
+									   @"html": @(HTMLNamespaceHTML),
+									   @"table": @(HTMLNamespaceHTML),
+									   @"td": @(HTMLNamespaceHTML),
+									   @"th": @(HTMLNamespaceHTML),
+									   @"marquee": @(HTMLNamespaceHTML),
+									   @"object": @(HTMLNamespaceHTML),
+									   @"template": @(HTMLNamespaceHTML),
+									   @"mi": @(HTMLNamespaceMathML),
+									   @"mo": @(HTMLNamespaceMathML),
+									   @"mn": @(HTMLNamespaceMathML),
+									   @"ms": @(HTMLNamespaceMathML),
+									   @"mtext": @(HTMLNamespaceMathML),
+									   @"annotation-xml": @(HTMLNamespaceMathML),
+									   @"foreignObject": @(HTMLNamespaceSVG),
+									   @"desc": @(HTMLNamespaceSVG),
+									   @"title": @(HTMLNamespaceSVG)
+									   };
+	}
+	return self;
+}
+
+#pragma mark - Node Access
+
+- (HTMLElement *)currentNode
+{
+	return _stack.lastObject;
+}
+
+- (HTMLElement *)firstNode
+{
+	return _stack.lastObject;
+}
+
+- (HTMLElement *)lastNode
+{
+	return _stack.firstObject;
+}
+
+- (id)objectAtIndexedSubscript:(NSUInteger)index;
+{
+	return [_stack objectAtIndex:index];
+}
+
+- (NSUInteger)indexOfElement:(id)node
+{
+	return [_stack indexOfObject:node];
+}
+
+- (void)pushElement:(HTMLElement *)element
+{
+	[_stack addObject:element];
+}
+
+- (void)removeElement:(id)element
+{
+	[_stack removeObject:element];
+}
+
+- (BOOL)constainsElement:(id)element
+{
+	return [_stack containsObject:element];
+}
+
+#pragma mark - Pops
+
+- (void)popCurrentNode
+{
+	[_stack removeLastObject];
+}
+
+- (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName
+{
+	while (![self.currentNode.tagName isEqualToString:tagName]) {
+		[_stack removeLastObject];
+	}
+	[_stack removeLastObject];
+}
+
+#pragma mark - Element Scope
+
+- (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName
+{
+	return [self hasElementInSpecificScopeWithTagName:tagName andElementTypes:_specificScopeElementTypes];
+}
+
+- (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName
+{
+	NSMutableDictionary *elementTypes = [NSMutableDictionary dictionaryWithDictionary:_specificScopeElementTypes];
+	[elementTypes addEntriesFromDictionary:@{@"ol": @(HTMLNamespaceHTML),
+											 @"ul": @(HTMLNamespaceHTML)}];
+
+	return [self hasElementInSpecificScopeWithTagName:tagName
+									  andElementTypes:elementTypes];
+}
+
+- (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName
+{
+	NSMutableDictionary *elementTypes = [NSMutableDictionary dictionaryWithDictionary:_specificScopeElementTypes];
+	[elementTypes addEntriesFromDictionary:@{@"button": @(HTMLNamespaceHTML)}];
+
+	return [self hasElementInSpecificScopeWithTagName:tagName
+									  andElementTypes:elementTypes];
+}
+
+- (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName
+{
+	return [self hasElementInSpecificScopeWithTagName:tagName
+									  andElementTypes:@{@"html": @(HTMLNamespaceHTML),
+														@"table": @(HTMLNamespaceHTML),
+														@"template": @(HTMLNamespaceHTML)}];
+}
+
+- (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if ([node.tagName isEqualToString:tagName]) {
+			return node;
+		}
+		if (!(node.namespace == HTMLNamespaceHTML &&
+			  [node.tagName isEqualToAny:@"optgroup", @"option", nil])) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName
+									  andElementTypes:(NSDictionary *)elementTypes
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if ([node.tagName isEqualToString:tagName]) {
+			return node;
+		}
+		if ([elementTypes[node.tagName] isEqual:@(node.namespace)]) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+#pragma mark - Count
+
+- (NSUInteger)count
+{
+	return _stack.count;
+}
+
+- (BOOL)isEmpy
+{
+	return _stack.count == 0;
+}
+
+#pragma mark - Enumeraiton
+
+- (NSEnumerator *)enumerator
+{
+	return _stack.objectEnumerator;
+}
+
+- (NSEnumerator *)reverseObjectEnumerator
+{
+	return _stack.reverseObjectEnumerator;
+}
+
+#pragma mark - NSFastEnumeration
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len
+{
+	return [_stack countByEnumeratingWithState:state objects:buffer count:len];
+}
+
+@end
