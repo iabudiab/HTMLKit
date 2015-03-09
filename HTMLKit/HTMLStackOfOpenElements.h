@@ -16,14 +16,19 @@
 - (HTMLElement *)lastNode;
 
 - (id)objectAtIndexedSubscript:(NSUInteger)index;
+- (void)setObject:(id)obj atIndexedSubscript:(NSUInteger)idx;
 - (NSUInteger)indexOfElement:(id)node;
 
 - (void)pushElement:(HTMLElement *)element;
 - (void)removeElement:(id)element;
 - (BOOL)constainsElement:(id)element;
 
+- (void)insertElement:(HTMLElement *)element atIndex:(NSUInteger)index;
+- (void)replaceElementAtIndex:(NSUInteger)index withElement:(HTMLElement *)element;
+
 - (void)popCurrentNode;
 - (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName;
+- (void)popElementsUntilElementPopped:(HTMLElement *)element;
 
 - (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName;

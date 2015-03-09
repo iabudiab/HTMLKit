@@ -70,6 +70,11 @@
 	return [_stack objectAtIndex:index];
 }
 
+- (void)setObject:(id)obj atIndexedSubscript:(NSUInteger)idx
+{
+	[_stack setObject:obj atIndexedSubscript:idx];
+}
+
 - (NSUInteger)indexOfElement:(id)node
 {
 	return [_stack indexOfObject:node];
@@ -90,6 +95,16 @@
 	return [_stack containsObject:element];
 }
 
+- (void)insertElement:(HTMLElement *)element atIndex:(NSUInteger)index
+{
+	[_stack insertObject:element atIndex:index];
+}
+
+- (void)replaceElementAtIndex:(NSUInteger)index withElement:(HTMLElement *)element
+{
+	[_stack replaceObjectAtIndex:index withObject:element];
+}
+
 #pragma mark - Pops
 
 - (void)popCurrentNode
@@ -100,6 +115,14 @@
 - (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName
 {
 	while (![self.currentNode.tagName isEqualToString:tagName]) {
+		[_stack removeLastObject];
+	}
+	[_stack removeLastObject];
+}
+
+- (void)popElementsUntilElementPopped:(HTMLElement *)element
+{
+	while (![self.currentNode isEqual:element]) {
 		[_stack removeLastObject];
 	}
 	[_stack removeLastObject];
