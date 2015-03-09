@@ -545,7 +545,7 @@
 			return YES;
 		}
 
-		if (![_stackOfOpenElements hasElementInSpecificScopeWithTagName:formattingElement.tagName]) {
+		if (![_stackOfOpenElements hasElementInScopeWithTagName:formattingElement.tagName]) {
 			[self emitParseError:@"Formatting element is not in scope"];
 			return YES;
 		}
@@ -1094,7 +1094,7 @@
 		[self insertElementForToken:token];
 		_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
 	} else if ([tagName isEqualToString:@"button"]) {
-		if ([_stackOfOpenElements hasElementInSpecificScopeWithTagName:@"button"]) {
+		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"button"]) {
 			[self emitParseError:@"Unexpected nested Start Tag (button) tag in <body>"];
 			[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"button"];
 		}
@@ -1130,7 +1130,7 @@
 		[_listOfActiveFormattingElements addObject:element];
 	} else if ([tagName isEqualToString:@"nobr"]) {
 		[self reconstructActiveFormattingElements];
-		if ([_stackOfOpenElements hasElementInSpecificScopeWithTagName:@"nobr"]) {
+		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"nobr"]) {
 			[self emitParseError:@"Unexpected nested Start Tag (nobr) in <body>"];
 			if (![self performAdoptionAgencyAlgorithmForTagName:@"nobr"]) {
 #warning Handle Any Other End Tag Token
@@ -1266,7 +1266,7 @@
 			[self reconstructActiveFormattingElements];
 			[self insertElementForToken:token];
 		} else if ([tagName isEqualToAny:@"rp", @"rt", nil]) {
-			if ([_stackOfOpenElements hasElementInSpecificScopeWithTagName:@"ruby"]) {
+			if ([_stackOfOpenElements hasElementInScopeWithTagName:@"ruby"]) {
 				[self generateImpliedEndTagsExceptForElement:nil];
 				if (![self.currentNode.tagName isEqualToString:@"ruby"]) {
 					[self emitParseError:@"Unexpected Start Tag Token (%@) not in <ruby> in <body>", tagName];

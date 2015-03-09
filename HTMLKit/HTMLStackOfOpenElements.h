@@ -30,7 +30,9 @@
 - (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName;
 - (void)popElementsUntilElementPopped:(HTMLElement *)element;
 
-- (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName;
+- (void)popAll;
+
+- (HTMLElement *)hasElementInScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName;

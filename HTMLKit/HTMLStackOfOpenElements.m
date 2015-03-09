@@ -128,9 +128,14 @@
 	[_stack removeLastObject];
 }
 
+- (void)popAll
+{
+	[_stack removeAllObjects];
+}
+
 #pragma mark - Element Scope
 
-- (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName
+- (HTMLElement *)hasElementInScopeWithTagName:(NSString *)tagName;
 {
 	return [self hasElementInSpecificScopeWithTagName:tagName andElementTypes:_specificScopeElementTypes];
 }
