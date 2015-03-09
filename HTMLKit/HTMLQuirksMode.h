@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
+#import "NSString+HTMLKit.h"
+
 typedef NS_ENUM(short, HTMLQuirksMode)
 {
 	HTMLQuirksModeNoQuirks,
@@ -76,20 +78,10 @@ static NSString * HTMLQuirksModePrefixes[] = {
 #undef QUIRKS_ENTRY
 };
 
-NS_INLINE BOOL isEqualCaseInsensitive(NSString *first, NSString *second) {
-	return [first caseInsensitiveCompare:second] == NSOrderedSame;
-}
-
-NS_INLINE BOOL hasPrefixCaseInsensitive(NSString *string, NSString *prefix) {
-	NSRange reange = [string rangeOfString:prefix
-								   options:NSAnchoredSearch|NSCaseInsensitiveSearch];
-	return reange.location != NSNotFound;
-}
-
 NS_INLINE BOOL QuirksModePrefixMatch(NSString *publicIdentifier)
 {
 	for (int i = 0; i < sizeof(HTMLQuirksModePrefixes) / sizeof(HTMLQuirksModePrefixes[0]); i++) {
-		if (hasPrefixCaseInsensitive(publicIdentifier, HTMLQuirksModePrefixes[i])) {
+		if ([publicIdentifier hasPrefixIgnoringCase:HTMLQuirksModePrefixes[i]]) {
 			return YES;
 		}
 	}

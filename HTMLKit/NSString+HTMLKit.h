@@ -10,7 +10,9 @@
 
 @interface NSString (HTMLKit)
 
+- (BOOL)isEqualToStringIgnoringCase:(NSString *)aString;
 - (BOOL)isEqualToAny:(NSString *)first, ... NS_REQUIRES_NIL_TERMINATION;
+- (BOOL)hasPrefixIgnoringCase:(NSString *)aString;
 - (BOOL)isHTMLWhitespaceString;
 - (BOOL)containsHTMLWhitespace;
 - (NSUInteger)leadingWhitespaceLength;

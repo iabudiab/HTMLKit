@@ -15,6 +15,11 @@ NS_INLINE BOOL isHtmlWhitespaceChar(char c)
 
 @implementation NSString (HTMLKit)
 
+- (BOOL)isEqualToStringIgnoringCase:(NSString *)aString
+{
+	return [self caseInsensitiveCompare:aString] == NSOrderedSame;
+}
+
 - (BOOL)isEqualToAny:(NSString *)first, ... NS_REQUIRES_NIL_TERMINATION
 {
 	va_list list;
@@ -26,6 +31,13 @@ NS_INLINE BOOL isHtmlWhitespaceChar(char c)
 	}
 	va_end(list);
 	return NO;
+}
+
+- (BOOL)hasPrefixIgnoringCase:(NSString *)aString
+{
+	NSRange reange = [self rangeOfString:aString
+								 options:NSAnchoredSearch|NSCaseInsensitiveSearch];
+	return reange.location != NSNotFound;
 }
 
 - (BOOL)isHTMLWhitespaceString

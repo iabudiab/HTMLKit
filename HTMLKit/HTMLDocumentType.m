@@ -7,6 +7,7 @@
 //
 
 #import "HTMLDocumentType.h"
+#import "NSString+HTMLKit.h"
 
 NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return (first == nil) || ([first isEqual:second]);
@@ -86,13 +87,13 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 		return HTMLQuirksModeQuirks;
 	}
 
-	if (isEqualCaseInsensitive(_publicIdentifier, @"-//W3O//DTD W3 HTML Strict 3.0//EN//") ||
-		isEqualCaseInsensitive(_publicIdentifier, @"-/W3C/DTD HTML 4.0 Transitional/EN") ||
-		isEqualCaseInsensitive(_publicIdentifier, @"HTML")) {
+	if ([_publicIdentifier isEqualToStringIgnoringCase:@"-//W3O//DTD W3 HTML Strict 3.0//EN//"] ||
+		[_publicIdentifier isEqualToStringIgnoringCase:@"-/W3C/DTD HTML 4.0 Transitional/EN"] ||
+		[_publicIdentifier isEqualToStringIgnoringCase:@"HTML"]) {
 		return HTMLQuirksModeQuirks;
 	}
 	
-	if (isEqualCaseInsensitive(_systemIdentifier, @"http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd")) {
+	if ([_publicIdentifier isEqualToStringIgnoringCase:@"http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"]) {
 		return HTMLQuirksModeQuirks;
 	}
 
@@ -101,21 +102,21 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 	}
 
 	if (_systemIdentifier == nil) {
-		if (hasPrefixCaseInsensitive(_publicIdentifier, @"-//W3C//DTD HTML 4.01 Frameset//") ||
-			hasPrefixCaseInsensitive(_publicIdentifier, @"-//W3C//DTD HTML 4.01 Transitional//")) {
+		if ([_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD HTML 4.01 Frameset//"] ||
+			[_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD HTML 4.01 Transitional//"]) {
 			return HTMLQuirksModeQuirks;
 		}
 	}
 
 #warning Check "iframe srcdoc"
-	if (hasPrefixCaseInsensitive(_publicIdentifier, @"-//W3C//DTD XHTML 1.0 Frameset//") ||
-		hasPrefixCaseInsensitive(_publicIdentifier, @"-//W3C//DTD XHTML 1.0 Transitional//")) {
+	if ([_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD XHTML 1.0 Frameset//"] ||
+		[_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD XHTML 1.0 Transitional//"]) {
 		return HTMLQuirksModeLimitedQuirks;
 	}
 
 	if (_systemIdentifier != nil) {
-		if (hasPrefixCaseInsensitive(_publicIdentifier, @"-//W3C//DTD HTML 4.01 Frameset//") ||
-			hasPrefixCaseInsensitive(_publicIdentifier, @"-//W3C//DTD HTML 4.01 Transitional//")) {
+		if ([_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD HTML 4.01 Frameset//"] ||
+			[_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD HTML 4.01 Transitional//"]) {
 			return HTMLQuirksModeLimitedQuirks;
 		}
 	}
