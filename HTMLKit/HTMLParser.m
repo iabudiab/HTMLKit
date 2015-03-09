@@ -498,12 +498,12 @@
 	[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"p"];
 }
 
-- (void)performAdoptionAgencyAlgorithmForTagName:(NSString *)tagName
+- (BOOL)performAdoptionAgencyAlgorithmForTagName:(NSString *)tagName
 {
 	if ([self.currentNode.tagName isEqualTo:tagName] &&
 		![_listOfActiveFormattingElements containsObject:self.currentNode]) {
 		[_stackOfOpenElements popCurrentNode];
-		return;
+		return YES;
 	}
 
 	for (int outerLoopCounter = 0; outerLoopCounter < 8; outerLoopCounter++) {
@@ -519,18 +519,18 @@
 		}();
 
 		if (formattingElement == nil) {
-			return;
+			return NO;
 		}
 
 		if (![_stackOfOpenElements constainsElement:formattingElement]) {
 			[self emitParseError:@"Formatting element is not in the Stack of Open Elements"];
 			[_listOfActiveFormattingElements removeObject:formattingElement];
-			return;
+			return YES;
 		}
 
 		if (![_stackOfOpenElements hasElementInSpecificScopeWithTagName:formattingElement.tagName]) {
 			[self emitParseError:@"Formatting element is not in scope"];
-			return;
+			return YES;
 		}
 
 		if (![formattingElement isEqual:self.currentNode]) {
@@ -552,7 +552,7 @@
 		if (furthestBlock == nil) {
 			[_stackOfOpenElements popElementsUntilElementPopped:formattingElement];
 			[_listOfActiveFormattingElements removeObject:formattingElement];
-			return;
+			return YES;
 		}
 
 		HTMLElement *commonAncestor = _stackOfOpenElements[formattingElementIndex - 1];
@@ -603,6 +603,7 @@
 		NSUInteger furthestBlockIndex = [_stackOfOpenElements indexOfElement:furthestBlock];
 		[_stackOfOpenElements insertElement:newElement atIndex:furthestBlockIndex];
 	}
+	return YES;
 }
 
 #pragma mark - Insertion Modes
