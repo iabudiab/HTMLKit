@@ -353,6 +353,12 @@
 	}
 }
 
+- (void)stopParsing
+{
+	[_stackOfOpenElements popAll];
+#warning Finalize
+}
+
 #pragma mark - 
 
 - (HTMLNode *)appropriatePlaceForInsertingANodeWithOverrideTarget:(HTMLElement *)overrideTarget
@@ -966,6 +972,16 @@
 			return;
 		case HTMLTokenTypeEndTag:
 			[self processEndTagTokenInBody:token.asEndTagToken];
+			return;
+		case HTMLTokenTypeEOF:
+			for (HTMLElement *node in _stackOfOpenElements) {
+				if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
+					 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
+					[self emitParseError:@"EOF reached with unclosed element (%@)", node.tagName];
+					break;
+				}
+			}
+			[self stopParsing];
 			return;
 		default:
 			break;
