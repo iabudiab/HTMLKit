@@ -964,6 +964,9 @@
 		case HTMLTokenTypeStartTag:
 			[self processStartTagTokenInBody:token.asStartTagToken];
 			return;
+		case HTMLTokenTypeEndTag:
+			[self processEndTagTokenInBody:token.asEndTagToken];
+			return;
 		default:
 			break;
 	}
@@ -1114,7 +1117,7 @@
 		if (element != nil) {
 			[self emitParseError:@"Unexpected nested Start Tag (a) in <body>"];
 			if ([self runAdoptionAgencyAlgorithmForTagName:@"a"]) {
-#warning Handle Any Other End Tag Token
+				[self processAnyOtherEndTagTokenInBody:token];
 				return;
 			}
 			[_listOfActiveFormattingElements removeObject:element];
@@ -1133,7 +1136,7 @@
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"nobr"]) {
 			[self emitParseError:@"Unexpected nested Start Tag (nobr) in <body>"];
 			if ([self runAdoptionAgencyAlgorithmForTagName:@"nobr"]) {
-#warning Handle Any Other End Tag Token
+				[self processAnyOtherEndTagTokenInBody:token];
 				return;
 			}
 			[self reconstructActiveFormattingElements];
@@ -1142,7 +1145,7 @@
 		} else if ([token.tagName isEqualToAny:@"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr",
 					@"s", @"small", @"strike", @"strong", @"tt", @"u", nil]) {
 			if ([self runAdoptionAgencyAlgorithmForTagName:tagName]) {
-#warning Handle Any Other End Tag Token
+				[self processAnyOtherEndTagTokenInBody:token];
 				return;
 			}
 		} else if ([tagName isEqualToAny:@"applet", @"marquee", nil]) {
@@ -1296,6 +1299,145 @@
 			[self reconstructActiveFormattingElements];
 			[self insertElementForToken:token];
 		}
+	}
+}
+
+- (void)processEndTagTokenInBody:(HTMLEndTagToken *)token
+{
+	NSString *tagName = token.tagName;
+
+	if ([tagName isEqualToString:@"template"]) {
+#warning Implement HTML Template
+	} else if ([tagName isEqualToAny:@"body", @"html", nil]) {
+		// End tags "body" & "html" are identical, expect for the reprocessing step
+		if (![_stackOfOpenElements hasElementInScopeWithTagName:@"body"]) {
+			[self emitParseError:@"End Tag (body) without body element in scope in <body>"];
+		}
+		for (HTMLElement *node in _stackOfOpenElements) {
+			if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
+				 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
+				[self emitParseError:@"End Tag (%@) with open element (%@) in <body>", tagName, node.tagName];
+				break;
+			}
+		}
+		[self switchInsertionMode:HTMLInsertionModeAfterBody];
+		if ([tagName isEqualToString:@"html"]) {
+			[self reprocessToken:token];
+		}
+	} else if ([tagName isEqualToAny:@"address", @"article", @"aside", @"blockquote", @"button",
+				@"center", @"details", @"dialog", @"dir", @"div", @"dl", @"fieldset", @"figcaption",
+				@"figure", @"footer", @"header", @"hgroup", @"listing", @"main", @"menu", @"nav",
+				@"ol", @"pre", @"section", @"summary", @"ul", nil]) {
+		if ([_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
+			[self emitParseError:@"End Tag (%@) with open element in <body>", tagName];
+			return;
+		}
+		[self generateImpliedEndTagsExceptForElement:nil];
+		if (![self.currentNode.tagName isEqualToString:tagName]) {
+			[self emitParseError:@"Unexpected End Tag Token (%@) in <body>", tagName];
+		}
+		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
+	} else if ([tagName isEqualToString:@"form"]) {
+#warning Implement HTML Template
+		HTMLElement *node = _formElementPointer;
+		_formElementPointer = nil;
+		if (node == nil || ![_stackOfOpenElements hasElementInScopeWithTagName:node.tagName]) {
+			[self emitParseError:@"Unexpected closed (form) element in <body>"];
+			return;
+		}
+		[self generateImpliedEndTagsExceptForElement:nil];
+		if ([self.currentNode isEqual:node]) {
+			[self emitParseError:@"Unexpected nested (form) element in <body>"];
+		}
+		[_stackOfOpenElements removeElement:node];
+	} else if ([tagName isEqualToString:@"p"]) {
+		if (![_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
+			[self emitParseError:@"Unexpected End Tag Token (p) in <body>"];
+			HTMLEndTagToken *pToken = [[HTMLEndTagToken alloc] initWithTagName:@"p"];
+			[self insertElementForToken:pToken];
+		}
+		[self closePElement];
+	} else if ([tagName isEqualToString:@"li"]) {
+		if (![_stackOfOpenElements hasElementInScopeWithTagName:@"li"]) {
+			[self emitParseError:@"Unexpected closed (li) element in <body>"];
+			return;
+		}
+		[self generateImpliedEndTagsExceptForElement:nil];
+		if ([self.currentNode.tagName isEqualToString:@"li"]) {
+			[self emitParseError:@"Unexpected nested (li) element in <body>"];
+		}
+		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"li"];
+	} else if ([tagName isEqualToAny:@"dd", @"dt", nil]) {
+		if (![_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
+			[self emitParseError:@"Unexpected closed (%@) element in <body>", tagName];
+			return;
+		}
+		[self generateImpliedEndTagsExceptForElement:tagName];
+		if ([self.currentNode.tagName isEqualToString:@"li"]) {
+			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
+		}
+		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
+	} else if ([tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
+		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"h1", @"h2", @"h3", @"h4", @"h5", @"h6"]]) {
+			[self emitParseError:@"Unexpected closed (%@) element in <body>", tagName];
+			return;
+		}
+		[self generateImpliedEndTagsExceptForElement:nil];
+		if (![self.currentNode.tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
+			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
+		}
+		[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"h1", @"h2", @"h3", @"h4", @"h5", @"h6"]];
+	} else if ([tagName isEqualToString:@"sarcasm"]) {
+			// Taking a Deep Breath
+		[self processAnyOtherEndTagTokenInBody:token];
+		return;
+	} else if ([tagName isEqualToAny:@"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr", @"s", @"small", @"strike",
+				@"strong", @"tt", @"u", nil]) {
+		if ([self runAdoptionAgencyAlgorithmForTagName:tagName]) {
+			[self processAnyOtherEndTagTokenInBody:token];
+			return;
+		}
+	} else if ([tagName isEqualToAny:@"applet", @"marquee", @"object", nil]) {
+		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]]) {
+			[self emitParseError:@"Unexpected closed (%@) element in <body>", tagName];
+			return;
+		}
+		[self generateImpliedEndTagsExceptForElement:nil];
+		if (![self.currentNode.tagName isEqualToAny:@"applet", @"marquee", @"object", nil]) {
+			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
+		}
+		[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]];
+		while (![_listOfActiveFormattingElements.lastObject isEqual:[HTMLMarker marker]]) {
+			[_listOfActiveFormattingElements removeLastObject];
+		}
+		[_listOfActiveFormattingElements removeLastObject];
+	} else if ([tagName isEqualToString:@"br"]) {
+		[self emitParseError:@"Unexpected End Tag Token (br) in <body>"];
+		HTMLStartTagToken *brToken = [[HTMLStartTagToken alloc] initWithTagName:@"br"];
+		[self processStartTagTokenInBody:brToken];
+	} else {
+		[self processAnyOtherEndTagTokenInBody:token];
+	}
+}
+
+- (void)processAnyOtherEndTagTokenInBody:(HTMLEndTagToken *)token
+{
+	HTMLElement *node = _stackOfOpenElements.currentNode;
+	NSUInteger index = _stackOfOpenElements.count - 1;
+
+	while (YES) {
+		if ([node.tagName isEqualToString:token.tagName]) {
+			[self generateImpliedEndTagsExceptForElement:token.tagName];
+			if (![node.tagName isEqualToString:self.currentNode.tagName]) {
+				[self emitParseError:@"Unexpected nested End Tag Token (%@) in <body>", node.tagName];
+			}
+			[_stackOfOpenElements popElementsUntilElementPopped:node];
+			break;
+		} else if (IsSpecialElement(node)) {
+			[self emitParseError:@"Unexpected End Tag Token (%@) in <body>", node.tagName];
+			return;
+		}
+		node = _stackOfOpenElements[--index];
 	}
 }
 

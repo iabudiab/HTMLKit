@@ -28,11 +28,13 @@
 
 - (void)popCurrentNode;
 - (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName;
+- (void)popElementsUntilAnElementPoppedWithAnyOfTagNames:(NSArray *)tagNames;
 - (void)popElementsUntilElementPopped:(HTMLElement *)element;
 
 - (void)popAll;
 
 - (HTMLElement *)hasElementInScopeWithTagName:(NSString *)tagName;
+- (HTMLElement *)hasAnyElementInScopeWithAnyOfTagNames:(NSArray *)tagNames;
 - (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName;

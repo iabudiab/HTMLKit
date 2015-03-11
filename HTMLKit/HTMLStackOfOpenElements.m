@@ -120,6 +120,14 @@
 	[_stack removeLastObject];
 }
 
+- (void)popElementsUntilAnElementPoppedWithAnyOfTagNames:(NSArray *)tagNames
+{
+	while (![tagNames containsObject:self.currentNode.tagName]) {
+		[_stack removeLastObject];
+	}
+	[_stack removeLastObject];
+}
+
 - (void)popElementsUntilElementPopped:(HTMLElement *)element
 {
 	while (![self.currentNode isEqual:element]) {
@@ -137,7 +145,12 @@
 
 - (HTMLElement *)hasElementInScopeWithTagName:(NSString *)tagName;
 {
-	return [self hasElementInSpecificScopeWithTagName:tagName andElementTypes:_specificScopeElementTypes];
+	return [self hasAnyElementInSpecificScopeWithTagNames:@[tagName] andElementTypes:_specificScopeElementTypes];
+}
+
+- (HTMLElement *)hasAnyElementInScopeWithAnyOfTagNames:(NSArray *)tagNames
+{
+	return [self hasAnyElementInSpecificScopeWithTagNames:tagNames andElementTypes:_specificScopeElementTypes];
 }
 
 - (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName
@@ -167,25 +180,17 @@
 														@"template": @(HTMLNamespaceHTML)}];
 }
 
-- (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName
-{
-	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
-		if ([node.tagName isEqualToString:tagName]) {
-			return node;
-		}
-		if (!(node.namespace == HTMLNamespaceHTML &&
-			  [node.tagName isEqualToAny:@"optgroup", @"option", nil])) {
-			return nil;
-		}
-	}
-	return nil;
-}
-
 - (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName
 									  andElementTypes:(NSDictionary *)elementTypes
 {
+	return [self hasAnyElementInSpecificScopeWithTagNames:@[tagName] andElementTypes:elementTypes];
+}
+
+- (HTMLElement *)hasAnyElementInSpecificScopeWithTagNames:(NSArray *)tagNames
+										  andElementTypes:(NSDictionary *)elementTypes
+{
 	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
-		if ([node.tagName isEqualToString:tagName]) {
+		if ([tagNames containsObject:node.tagName]) {
 			return node;
 		}
 		if ([elementTypes[node.tagName] isEqual:@(node.namespace)]) {
