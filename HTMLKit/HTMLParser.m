@@ -515,12 +515,12 @@
 	[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"p"];
 }
 
-- (BOOL)performAdoptionAgencyAlgorithmForTagName:(NSString *)tagName
+- (BOOL)runAdoptionAgencyAlgorithmForTagName:(NSString *)tagName
 {
 	if ([self.currentNode.tagName isEqualTo:tagName] &&
 		![_listOfActiveFormattingElements containsObject:self.currentNode]) {
 		[_stackOfOpenElements popCurrentNode];
-		return YES;
+		return NO;
 	}
 
 	for (int outerLoopCounter = 0; outerLoopCounter < 8; outerLoopCounter++) {
@@ -536,18 +536,18 @@
 		}();
 
 		if (formattingElement == nil) {
-			return NO;
+			return YES;
 		}
 
 		if (![_stackOfOpenElements constainsElement:formattingElement]) {
 			[self emitParseError:@"Formatting element is not in the Stack of Open Elements"];
 			[_listOfActiveFormattingElements removeObject:formattingElement];
-			return YES;
+			return NO;
 		}
 
 		if (![_stackOfOpenElements hasElementInScopeWithTagName:formattingElement.tagName]) {
 			[self emitParseError:@"Formatting element is not in scope"];
-			return YES;
+			return NO;
 		}
 
 		if (![formattingElement isEqual:self.currentNode]) {
@@ -569,7 +569,7 @@
 		if (furthestBlock == nil) {
 			[_stackOfOpenElements popElementsUntilElementPopped:formattingElement];
 			[_listOfActiveFormattingElements removeObject:formattingElement];
-			return YES;
+			return NO;
 		}
 
 		HTMLElement *commonAncestor = _stackOfOpenElements[formattingElementIndex - 1];
@@ -620,7 +620,7 @@
 		NSUInteger furthestBlockIndex = [_stackOfOpenElements indexOfElement:furthestBlock];
 		[_stackOfOpenElements insertElement:newElement atIndex:furthestBlockIndex];
 	}
-	return YES;
+	return NO;
 }
 
 #pragma mark - Insertion Modes
@@ -1113,7 +1113,7 @@
 		}();
 		if (element != nil) {
 			[self emitParseError:@"Unexpected nested Start Tag (a) in <body>"];
-			if (![self performAdoptionAgencyAlgorithmForTagName:@"a"]) {
+			if ([self runAdoptionAgencyAlgorithmForTagName:@"a"]) {
 #warning Handle Any Other End Tag Token
 				return;
 			}
@@ -1132,7 +1132,7 @@
 		[self reconstructActiveFormattingElements];
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"nobr"]) {
 			[self emitParseError:@"Unexpected nested Start Tag (nobr) in <body>"];
-			if (![self performAdoptionAgencyAlgorithmForTagName:@"nobr"]) {
+			if ([self runAdoptionAgencyAlgorithmForTagName:@"nobr"]) {
 #warning Handle Any Other End Tag Token
 				return;
 			}
@@ -1141,7 +1141,7 @@
 			[_listOfActiveFormattingElements addObject:nobr];
 		} else if ([token.tagName isEqualToAny:@"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr",
 					@"s", @"small", @"strike", @"strong", @"tt", @"u", nil]) {
-			if (![self performAdoptionAgencyAlgorithmForTagName:tagName]) {
+			if ([self runAdoptionAgencyAlgorithmForTagName:tagName]) {
 #warning Handle Any Other End Tag Token
 				return;
 			}
