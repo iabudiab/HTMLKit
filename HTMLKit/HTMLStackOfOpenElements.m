@@ -136,6 +136,13 @@
 	[_stack removeLastObject];
 }
 
+- (void)clearBackToTableContext
+{
+	while (![self.currentNode.tagName isEqualToAny:@"table", @"template", @"html", nil]) {
+		[_stack removeLastObject];
+	}
+}
+
 - (void)popAll
 {
 	[_stack removeAllObjects];

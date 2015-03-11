@@ -37,6 +37,8 @@
 	HTMLElement *_headElementPointer;
 	HTMLElement *_formElementPointer;
 
+	id _pendingTableCharacterTokens;
+
 	BOOL _scriptingFlag;
 	BOOL _framesetOkFlag;
 	BOOL _fragmentParsingAlgorithm;
@@ -1459,12 +1461,114 @@
 
 - (void)HTMLInsertionModeText:(HTMLToken *)token
 {
-
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+			[self insertCharacters:token.asCharacterToken.characters];
+			break;
+		case HTMLTokenTypeEOF:
+			[self emitParseError:@"Unexpected EOF Token reached in 'text' insertion mode"];
+			[_stackOfOpenElements popCurrentNode];
+			[self switchInsertionMode:_originalInsertionMode];
+			[self reprocessToken:token];
+			break;
+		case HTMLTokenTypeEndTag:
+			[_stackOfOpenElements popCurrentNode];
+			[self switchInsertionMode:_originalInsertionMode];
+		default:
+			break;
+	}
 }
 
 - (void)HTMLInsertionModeInTable:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+			if ([self.currentNode.tagName isEqualToAny:@"table", @"tbody", @"thead", @"tr", nil]) {
+				_pendingTableCharacterTokens = nil;
+				_originalInsertionMode = _insertionMode;
+				[self switchInsertionMode:HTMLInsertionModeInTableText];
+			}
+			return;
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in <table>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"caption"]) {
+				[_stackOfOpenElements clearBackToTableContext];
+				[self switchInsertionMode:HTMLInsertionModeInColumnGroup];
+			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
+				[_stackOfOpenElements clearBackToTableContext];
+				HTMLStartTagToken *colgroupToken = [[HTMLStartTagToken alloc] initWithTagName:@"colgroup"];
+				[self insertElementForToken:colgroupToken];
+				[self switchInsertionMode:HTMLInsertionModeInColumnGroup];
+				[self reprocessToken:token];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"tbody", @"tfoot", @"thead", nil]) {
+				[_stackOfOpenElements clearBackToTableContext];
+				[self switchInsertionMode:HTMLInsertionModeInTableBody];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"td", @"th", @"tr", nil]) {
+				[_stackOfOpenElements clearBackToTableContext];
+				HTMLStartTagToken *tbodyToken = [[HTMLStartTagToken alloc] initWithTagName:@"tbody"];
+				[self insertElementForToken:tbodyToken];
+				[self switchInsertionMode:HTMLInsertionModeInTableBody];
+				[self reprocessToken:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"table"]) {
+				[self emitParseError:@"Unexpected nested Start Tag Token (table) in <table>"];
+				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"table"]) {
+					return;
+				}
+				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"table"];
+				[self resetInsertionModeAppropriately];
+				[self reprocessToken:token];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"style", @"script", @"template", nil]) {
+				[self HTMLInsertionModeInHead:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"input"]) {
+				NSString *type = token.asTagToken.attributes[@"type"];
+				if (type == nil || ![type isEqualToStringIgnoringCase:@"hidden"]) {
+					break;
+				} else {
+					[self emitParseError:@"Unexpected non-hidden Start Tag Token (input) in <table>"];
+					[self insertElementForToken:token.asTagToken];
+					[_stackOfOpenElements popCurrentNode];
+				}
+			} else if ([token.asTagToken.tagName isEqualToString:@"form"]) {
+				[self emitParseError:@"Unexpected Start Tag Token (form) in <table>"];
+#warning Implement HTML Template
+				if (_formElementPointer != nil) {
+					return;
+				}
+				HTMLElement *form = [self insertElementForToken:token.asTagToken];
+				_formElementPointer = form;
+				[_stackOfOpenElements popCurrentNode];
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"table"]) {
+				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"table"]) {
+					[self emitParseError:@"Unexpected End Tag Token (table) for element in <table>"];
+					return;
+				}
+				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"table"];
+				[self resetInsertionModeAppropriately];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup", @"html",
+						@"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <table>", token.asTagToken.tagName];
+			}
+#warning Implement HTML Template
+			return;
+		case HTMLTokenTypeEOF:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		default:
+			break;
+	}
 
+	[self emitParseError:@"Unexpected Token foster parenting in <table>"];
+	_fosterParenting = YES;
+	[self HTMLInsertionModeInBody:token];
+	_fosterParenting = NO;
 }
 
 - (void)HTMLInsertionModeInTableText:(HTMLToken *)token
