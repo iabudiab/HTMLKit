@@ -37,7 +37,7 @@
 	HTMLElement *_headElementPointer;
 	HTMLElement *_formElementPointer;
 
-	id _pendingTableCharacterTokens;
+	HTMLCharacterToken *_pendingTableCharacterTokens;
 
 	BOOL _scriptingFlag;
 	BOOL _framesetOkFlag;
@@ -64,6 +64,8 @@
 		_stackOfOpenElements = [HTMLStackOfOpenElements new];
 		_listOfActiveFormattingElements = [NSMutableArray new];
 		_tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+
+		_pendingTableCharacterTokens = [[HTMLCharacterToken alloc] initWithString:@""];
 
 		_scriptingFlag = NO;
 		_framesetOkFlag = YES;
@@ -331,27 +333,6 @@
 		 value on its own */
 		IMP method = [self methodForSelector:selector];
 		((void (*)(id, SEL, id))method)(self, selector, token);
-	}
-}
-
-- (void)processTokenByApplyingRulesForParsingTokensInForeignContent:(HTMLToken *)token
-{
-	switch (token.type) {
-		case HTMLTokenTypeCharacter:
-
-			break;
-		case HTMLTokenTypeComment:
-
-			break;
-		case HTMLTokenTypeDoctype:
-
-			break;
-		case HTMLTokenTypeStartTag:
-
-			break;
-		case HTMLTokenTypeEndTag:
-
-			break;
 	}
 }
 
@@ -631,6 +612,25 @@
 	return NO;
 }
 
+- (void)clearListOfActiveFormattingElementsUpToLastMarker
+{
+	while (![_listOfActiveFormattingElements.lastObject isEqual:[HTMLMarker marker]]) {
+		[_listOfActiveFormattingElements removeLastObject];
+	}
+	[_listOfActiveFormattingElements removeLastObject];
+}
+
+- (void)closeTheCell
+{
+	[self generateImpliedEndTagsExceptForElement:nil];
+	if (![self.currentNode.tagName isEqualToAny:@"td", @"th", nil]) {
+		[self emitParseError:@"Misnested Cell"];
+	}
+	[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"td", @"th"]];
+	[self clearListOfActiveFormattingElementsUpToLastMarker];
+	[self switchInsertionMode:HTMLInsertionModeInRow];
+}
+
 #pragma mark - Insertion Modes
 
 - (void)HTMLInsertionModeInitial:(HTMLToken *)token
@@ -735,6 +735,8 @@
 				HTMLElement *head = [self insertElementForToken:token.asTagToken];
 				_headElementPointer = head;
 				[self switchInsertionMode:HTMLInsertionModeInHead];
+			} else {
+				break;
 			}
 			return;
 		case HTMLTokenTypeEndTag:
@@ -777,21 +779,16 @@
 		case HTMLTokenTypeStartTag:
 			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
 				[self HTMLInsertionModeInBody:token];
-				return;
 			} else if ([token.asStartTagToken.tagName isEqualToAny:@"base", @"basefont", @"bgsound", @"link", nil]) {
 				[self insertElementForToken:token.asStartTagToken];
 				[_stackOfOpenElements popCurrentNode];
-				return;
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"meta"]) {
 				[self insertElementForToken:token.asStartTagToken];
 				[_stackOfOpenElements popCurrentNode];
-				return;
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"title"]) {
 				[self applyGenericParsingAlgorithmForToken:token.asStartTagToken withTokenizerState:HTMLTokenizerStateRCDATA];
-				return;
 			} else if ([token.asStartTagToken.tagName isEqualToAny:@"noscript", @"noframes", @"style", nil]) {
 				[self applyGenericParsingAlgorithmForToken:token.asStartTagToken withTokenizerState:HTMLTokenizerStateRAWTEXT];
-				return;
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"script"]) {
 				HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
 				HTMLElement *script = [self createElementForToken:token.asStartTagToken inNamespace:HTMLNamespaceHTML];
@@ -801,25 +798,24 @@
 				_tokenizer.state = HTMLTokenizerStateScriptData;
 				_originalInsertionMode = _insertionMode;
 				[self switchInsertionMode:HTMLInsertionModeText];
-				return;
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"head"]) {
 				[self emitParseError:@"Unexpected Start Tag Token (head) in <head>"];
-				return;
+			} else {
+				break;
 			}
-			break;
+			return;
 #warning Implement HTML Template
 		case HTMLTokenTypeEndTag:
 			if ([token.asEndTagToken.tagName isEqualToString:@"head"]) {
 				[_stackOfOpenElements popCurrentNode];
 				[self switchInsertionMode:HTMLInsertionModeAfterHead];
-				return;
 			} else if ([token.asEndTagToken.tagName isEqualToAny:@"body", @"html", @"br", nil]) {
 				break;
 			} else {
 				[self emitParseError:@"Unexpected End Tag Token (%@) in <head>", token.asEndTagToken.tagName];
 				return;
 			}
-			break;
+			return;
 		default:
 			break;
 	}
@@ -846,8 +842,10 @@
 			} else if ([token.asStartTagToken.tagName isEqualToAny:@"head", @"noscript", nil]) {
 				[self emitParseError:@"Unexpected Start Tag Token (%@) in <head><noscript>", token.asStartTagToken.tagName];
 				return;
+			} else {
+				break;
 			}
-			break;
+			return;
 		case HTMLTokenTypeEndTag:
 			if ([token.asEndTagToken.tagName isEqualToString:@"noscript"]) {
 				[_stackOfOpenElements popCurrentNode];
@@ -859,7 +857,7 @@
 				[self emitParseError:@"Unexpected End Tag Token (%@) in <head><noscript>", token.asEndTagToken.tagName];
 				return;
 			}
-			break;
+			return;
 		case HTMLTokenTypeCharacter:
 		case HTMLTokenTypeComment:
 			[self HTMLInsertionModeInHead:token];
@@ -917,19 +915,22 @@
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
 				[self emitParseError:@"Unexpected Start Tag Token (head) after <head>"];
 				return;
+			} else {
+				break;
 			}
-			break;
+			return;
 		case HTMLTokenTypeEndTag:
-			if ([token.asEndTagToken.tagName  isEqualToString:@"template"]) {
+			if ([token.asEndTagToken.tagName isEqualToString:@"template"]) {
 #warning Implement HTML Template
 				[self HTMLInsertionModeInHead:token];
+				return;
 			} else if ([token.asEndTagToken.tagName isEqualToAny:@"body", @"html", @"br", nil]) {
 				break;
 			} else {
 				[self emitParseError:@"Unexpected End Tag Token (%@) after <head>", token.asEndTagToken.tagName];
 				return;
 			}
-			break;
+			return;
 		default:
 			break;
 	}
@@ -1425,10 +1426,7 @@
 			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
 		}
 		[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]];
-		while (![_listOfActiveFormattingElements.lastObject isEqual:[HTMLMarker marker]]) {
-			[_listOfActiveFormattingElements removeLastObject];
-		}
-		[_listOfActiveFormattingElements removeLastObject];
+		[self clearListOfActiveFormattingElementsUpToLastMarker];
 	} else if ([tagName isEqualToString:@"br"]) {
 		[self emitParseError:@"Unexpected End Tag Token (br) in <body>"];
 		HTMLStartTagToken *brToken = [[HTMLStartTagToken alloc] initWithTagName:@"br"];
@@ -1464,16 +1462,17 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 			[self insertCharacters:token.asCharacterToken.characters];
-			break;
+			return;
 		case HTMLTokenTypeEOF:
 			[self emitParseError:@"Unexpected EOF Token reached in 'text' insertion mode"];
 			[_stackOfOpenElements popCurrentNode];
 			[self switchInsertionMode:_originalInsertionMode];
 			[self reprocessToken:token];
-			break;
+			return;
 		case HTMLTokenTypeEndTag:
 			[_stackOfOpenElements popCurrentNode];
 			[self switchInsertionMode:_originalInsertionMode];
+			return;
 		default:
 			break;
 	}
@@ -1484,9 +1483,12 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 			if ([self.currentNode.tagName isEqualToAny:@"table", @"tbody", @"thead", @"tr", nil]) {
-				_pendingTableCharacterTokens = nil;
+				_pendingTableCharacterTokens.characters = @"";
 				_originalInsertionMode = _insertionMode;
 				[self switchInsertionMode:HTMLInsertionModeInTableText];
+				return;
+			} else {
+				break;
 			}
 			return;
 		case HTMLTokenTypeComment:
@@ -1542,6 +1544,8 @@
 				HTMLElement *form = [self insertElementForToken:token.asTagToken];
 				_formElementPointer = form;
 				[_stackOfOpenElements popCurrentNode];
+			} else {
+				break;
 			}
 			return;
 		case HTMLTokenTypeEndTag:
@@ -1552,9 +1556,13 @@
 				}
 				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"table"];
 				[self resetInsertionModeAppropriately];
+				return;
 			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup", @"html",
 						@"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
 				[self emitParseError:@"Unexpected End Tag Token (%@) in <table>", token.asTagToken.tagName];
+				return;
+			} else {
+				break;
 			}
 #warning Implement HTML Template
 			return;
@@ -1565,6 +1573,11 @@
 			break;
 	}
 
+	[self processAnythingElseInTable:token];
+}
+
+- (void)processAnythingElseInTable:(HTMLToken *)token
+{
 	[self emitParseError:@"Unexpected Token foster parenting in <table>"];
 	_fosterParenting = YES;
 	[self HTMLInsertionModeInBody:token];
@@ -1573,77 +1586,776 @@
 
 - (void)HTMLInsertionModeInTableText:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			NSMutableString *characters = [token.asCharacterToken.characters mutableCopy];
+			NSUInteger nullCount = [characters replaceOccurrencesOfString:@"\0"
+															   withString:@""
+																  options:NSLiteralSearch
+																	range:NSMakeRange(0, characters.length)];
+			for (int i = 0; i < nullCount; i++) {
+				[self emitParseError:@"Unexpected Character (0x0000) in <table> text"];
+			}
 
+			if (characters.length > 0) {
+				[_pendingTableCharacterTokens appendString:characters];
+			}
+			return;
+		}
+		default:
+			if (![_pendingTableCharacterTokens isWhitespaceToken]) {
+				[self emitParseError:@"Non whitespace pending characters in <table> text"];
+				[self processAnythingElseInTable:token];
+			} else {
+				[self insertCharacters:_pendingTableCharacterTokens.characters];
+				[self switchInsertionMode:_originalInsertionMode];
+				[self reprocessToken:token];
+			}
+			break;
+	}
 }
 
 - (void)HTMLInsertionModeInCaption:(HTMLToken *)token
 {
+	void (^ common) (BOOL) = ^ (BOOL reprocess) {
+		if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"caption"]) {
+			[self emitParseError:@"Unexpected Tag Token (caption) for element in <caption>"];
+			return;
+		}
+		[self generateImpliedEndTagsExceptForElement:nil];
+		if (![self.currentNode.tagName isEqualToString:@"caption"]) {
+			[self emitParseError:@"Unexpected nested (caption) element in <caption>"];
+		}
+		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"caption"];
+		[self clearListOfActiveFormattingElementsUpToLastMarker];
+		[self switchInsertionMode:HTMLInsertionModeInTable];
 
+		if (reprocess) {
+			[self reprocessToken:token];
+		}
+	};
+
+	switch (token.type) {
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"caption"]) {
+				common(NO);
+			} else if ([token.asTagToken.tagName isEqualToString:@"table"]) {
+				common(YES);
+			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"col", @"colgroup", @"html",
+						@"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <caption>", token.asTagToken.tagName];
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", "@tbody", @"td",
+				 @"tfoot", @"th", @"thead", @"tr", nil]) {
+				common(YES);
+			} else {
+				break;
+			}
+			return;
+		default:
+			break;
+	}
+
+	[self HTMLInsertionModeInBody:token];
 }
 
 - (void)HTMLInsertionModeInColumnGroup:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self insertCharacters:leadingWhiteSpace.characters];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in <colgroup>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
+				[self insertElementForToken:token.asTagToken];
+				[_stackOfOpenElements popCurrentNode];
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"colgroup"]) {
+				if (![self.currentNode.tagName isEqualToString:@"colgroup"]) {
+					[self emitParseError:@"Unexpected nested (colgroup) element in <colgroup>"];
+					return;
+				} else {
+					[_stackOfOpenElements popCurrentNode];
+					[self switchInsertionMode:HTMLInsertionModeInTable];
+				}
+			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
+				[self emitParseError:@"Unexpected End Tag Token (col) in <colgroup>"];
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEOF:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		default:
+			break;
+	}
 
+	if (![self.currentNode.tagName isEqualToString:@"colgroup"]) {
+		[self emitParseError:@"Unexpected Token in <colgroup>"];
+		return;
+	}
+	[_stackOfOpenElements popCurrentNode];
+	[self switchInsertionMode:HTMLInsertionModeInTable];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeInTableBody:(HTMLToken *)token
 {
+	void (^ common) (BOOL) = ^ (BOOL reprocess) {
+		if ([token.asTagToken.tagName isEqualToAny:@"tbody", @"tfoot", @"thead", nil] &&
+			![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
+			[self emitParseError:@"Unexpected Tag Token (%@) for element in <tbody>", token.asTagToken.tagName];
+			return;
+		} else {
+			[_stackOfOpenElements clearBackToTableContext];
+			[_stackOfOpenElements popCurrentNode];
+			[self switchInsertionMode:HTMLInsertionModeInTable];
+		}
 
+		if (reprocess) {
+			[self reprocessToken:token];
+		}
+	};
+
+	switch (token.type) {
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"tr"]) {
+				[_stackOfOpenElements clearBackToTableContext];
+				[self insertElementForToken:token.asTagToken];
+				[self switchInsertionMode:HTMLInsertionModeInRow];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"th", @"td", nil]) {
+				[self emitParseError:@"Unexpected Start Tag Token (%@) in <tbody>", token.asTagToken.tagName];
+				[_stackOfOpenElements clearBackToTableContext];
+				HTMLStartTagToken *trToken = [[HTMLStartTagToken alloc] initWithTagName:@"tr"];
+				[self insertElementForToken:trToken];
+				[self switchInsertionMode:HTMLInsertionModeInRow];
+				[self reprocessToken:token];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", @"tbody",
+						@"tfoot", @"thead", nil]) {
+				common(YES);
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"tbody", @"tfoot", @"thead", nil]) {
+				common(NO);
+			} else if ([token.asTagToken.tagName isEqualToString:@"table"]) {
+				common(YES);
+			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup",
+						@"html", @"td", @"th", @"tr", nil]) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <tbody>", token.asTagToken.tagName];
+			} else {
+				break;
+			}
+			return;
+		default:
+			break;
+	}
+
+	[self HTMLInsertionModeInTable:token];
 }
 
 - (void)HTMLInsertionModeInRow:(HTMLToken *)token
 {
+	void (^ common) (NSString *, BOOL) = ^ (NSString *elementTagName, BOOL reprocess) {
+		if (![_stackOfOpenElements hasElementInTableScopeWithTagName:elementTagName]) {
+			[self emitParseError:@"Unexpected Tag Token (%@) for element (%@) in <tr>", token.asTagToken.tagName, elementTagName];
+			return;
+		} else {
+			[_stackOfOpenElements clearBackToTableContext];
+			[_stackOfOpenElements popCurrentNode];
+			[self switchInsertionMode:HTMLInsertionModeInTableBody];
+		}
 
+		if (reprocess) {
+			[self reprocessToken:token];
+		}
+	};
+
+	switch (token.type) {
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"th", @"td", nil]) {
+				[_stackOfOpenElements clearBackToTableContext];
+				[self insertElementForToken:token.asTagToken];
+				[self switchInsertionMode:HTMLInsertionModeInCell];
+				[_listOfActiveFormattingElements addObject:[HTMLMarker marker]];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", @"tbody",
+						@"tfoot", @"thead", @"tr", nil]) {
+				common(@"tr", YES);
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"tr"]) {
+				common(@"tr", NO);
+			} else if ([token.asTagToken.tagName isEqualToString:@"table"]) {
+				common(@"tr", YES);
+			} else if ([token.asTagToken.tagName isEqualToAny:@"tbody", @"tfoot", @"thead", nil]) {
+				common(token.asTagToken.tagName, NO);
+			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup",
+						@"html", @"td", @"th", nil]) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <tr>", token.asTagToken.tagName];
+			} else {
+				break;
+			}
+			return;
+		default:
+			break;
+	}
+
+	[self HTMLInsertionModeInTable:token];
 }
 
 - (void)HTMLInsertionModeInCell:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"td", @"th", nil]) {
+				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
+					[self emitParseError:@"Unexpected Tag Token (%@) for element in <td>", token.asTagToken.tagName];
+					return;
+				} else {
+					[self generateImpliedEndTagsExceptForElement:nil];
+					if (![self.currentNode.tagName isEqualToString:@"colgroup"]) {
+						[self emitParseError:@"Unexpected nested (%@) element in <td>", token.asTagToken.tagName];
+					}
+					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:token.asTagToken.tagName];
+					[self clearListOfActiveFormattingElementsUpToLastMarker];
+					[self switchInsertionMode:HTMLInsertionModeInRow];
+				}
+			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup",
+						@"html", nil]) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <td>", token.asTagToken.tagName];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"table", @"tbody", @"tfoot", @"thhead", @"tr", nil]) {
+				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
+					[self emitParseError:@"Unexpected End Tag Token (%@) for element in <td>", token.asTagToken.tagName];
+					return;
+				} else {
+					[self closeTheCell];
+				}
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", @"tbody",
+				 @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
+				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"td"] &&
+					![_stackOfOpenElements hasElementInTableScopeWithTagName:@"th"]) {
+					[self emitParseError:@"Unexpected Start Tag Token (%@) for element in <td>", token.asTagToken.tagName];
+					return;
+				} else {
+					[self closeTheCell];
+				}
+			} else {
+				break;
+			}
+			return;
+		default:
+			break;
+	}
 
+	[self HTMLInsertionModeInBody:token];
 }
 
 - (void)HTMLInsertionModeInSelect:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			NSMutableString *charactes = [token.asCharacterToken.characters mutableCopy];
+			NSUInteger nullCount = [charactes replaceOccurrencesOfString:@"\0"
+															  withString:@""
+																 options:NSLiteralSearch
+																   range:NSMakeRange(0, charactes.length)];
+			for (int i = 0; i < nullCount; i++) {
+				[self emitParseError:@"Unexpected Character (0x0000) in <select>"];
+			}
 
+			if (charactes.length > 0) {
+				[self insertCharacters:charactes];
+			}
+			return;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in <select>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"option"]) {
+				if ([self.currentNode.tagName isEqualToString:@"option"]) {
+					[_stackOfOpenElements popCurrentNode];
+				}
+				[self insertElementForToken:token.asTagToken];
+			} else if ([token.asTagToken.tagName isEqualToString:@"optgroup"]) {
+				if ([self.currentNode.tagName isEqualToString:@"option"]) {
+					[_stackOfOpenElements popCurrentNode];
+				}
+				if ([self.currentNode.tagName isEqualToString:@"optgroup"]) {
+					[_stackOfOpenElements popCurrentNode];
+				}
+				[self insertElementForToken:token.asTagToken];
+			} else if ([token.asTagToken.tagName isEqualToString:@"select"]) {
+				[self emitParseError:@"Unexpect Start Tag Token (select) in <select>"];
+				if (![_stackOfOpenElements hasElementInSelectScopeWithTagName:@"select"]) {
+					return;
+				} else {
+					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
+					[self resetInsertionModeAppropriately];
+				}
+			} else if ([token.asTagToken.tagName isEqualToAny:@"input", @"keygen", @"textarea", nil]) {
+				[self emitParseError:@"Unexpect Start Tag Token (%@) in <select>", token.asTagToken.tagName];
+				if (![_stackOfOpenElements hasElementInSelectScopeWithTagName:@"select"]) {
+					return;
+				} else {
+					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
+					[self resetInsertionModeAppropriately];
+					[self reprocessToken:token];
+				}
+			} else if ([token.asTagToken.tagName isEqualToString:@"script"]) {
+				[self HTMLInsertionModeInHead:token];
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"optgroup"]) {
+				HTMLElement *beforeCurrent = _stackOfOpenElements[_stackOfOpenElements.count - 2];
+				if ([self.currentNode.tagName isEqualToString:@"option"] &&
+					[beforeCurrent.tagName isEqualToString:@"optgroup"]) {
+					[_stackOfOpenElements popCurrentNode];
+				}
+				if ([self.currentNode.tagName isEqualToString:@"optgroup"]) {
+					[_stackOfOpenElements popCurrentNode];
+				} else {
+					[self emitParseError:@"Unexpected nested End Tag Token (optgroup) for element in <select>"];
+					return;
+				}
+			} else if ([token.asTagToken.tagName isEqualToString:@"option"]) {
+				if ([self.currentNode.tagName isEqualToString:@"option"]) {
+					[_stackOfOpenElements popCurrentNode];
+				} else {
+					[self emitParseError:@"Unexpected nested End Tag Token (option) for element in <select>"];
+					return;
+				}
+			} else if ([token.asTagToken.tagName isEqualToString:@"select"]) {
+				if (![_stackOfOpenElements hasElementInSelectScopeWithTagName:@"select"]) {
+					[self emitParseError:@"Unexpected End Tag Token (select) for element in <select>"];
+					return;
+				} else {
+					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
+					[self resetInsertionModeAppropriately];
+				}
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEOF:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		default:
+			break;
+	}
+
+	[self emitParseError:@"Unexpected Token in <select>"];
 }
 
 - (void)HTMLInsertionModeInSelectInTable:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"table", @"tbody", @"tfoot", @"thead",
+				 @"tr", @"td", @"th", nil]) {
+				[self emitParseError:@"Unexpected Start Tag Token (%@) in <select> in <table>", token.asTagToken.tagName];
+				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
+				[self resetInsertionModeAppropriately];
+				[self reprocessToken:token];
+			}
+			break;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"table", @"tbody", @"tfoot", @"thead",
+				 @"tr", @"td", @"th", nil]) {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <select> in <table>", token.asTagToken.tagName];
+				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
+					return;
+				}
+				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
+				[self resetInsertionModeAppropriately];
+				[self reprocessToken:token];
+			}
+			break;
+		default:
+			break;
+	}
 
-}
-
-- (void)HTMLInsertionModeInTemplate:(HTMLToken *)token
-{
-
+	[self HTMLInsertionModeInSelect:token];
 }
 
 - (void)HTMLInsertionModeAfterBody:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self insertCharacters:leadingWhiteSpace.characters];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:_stackOfOpenElements.firstNode];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token after <body>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+				return;
+			}
+			break;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				if (_fragmentParsingAlgorithm) {
+					[self emitParseError:@"Unexpected End Tag Token (html) fragment parsing afeter <body>"];
+					return;
+				}
+				[self switchInsertionMode:HTMLInsertionModeAfterAfterBody];
+				return;
+			}
+			break;
+		case HTMLTokenTypeEOF:
+			[self stopParsing];
+			return;
+		default:
+			break;
+	}
 
+	[self emitParseError:@"Unexpected Token after <body>"];
+	[self switchInsertionMode:HTMLInsertionModeInBody];
 }
 
 - (void)HTMLInsertionModeInFrameset:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self insertCharacters:leadingWhiteSpace.characters];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in <frameset>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"frameset"]) {
+				[self insertElementForToken:token.asTagToken];
+			} else if ([token.asTagToken.tagName isEqualToString:@"frame"]) {
+				[self insertElementForToken:token.asTagToken];
+				[_stackOfOpenElements popCurrentNode];
+			} else if ([token.asTagToken.tagName isEqualToString:@"noframes"]) {
+				[self HTMLInsertionModeInHead:token];
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"frameset"]) {
+				if (self.currentNode == _stackOfOpenElements.firstNode &&
+					[self.currentNode.tagName isEqualToString:@"html"]) {
+					[self emitParseError:@"Unexpected nested End Tag (frameset) in <frameset>"];
+					return;
+				} else {
+					[_stackOfOpenElements popCurrentNode];
+					if (!_fragmentParsingAlgorithm &&
+						![self.currentNode.tagName isEqualToString:@"frameset"]) {
+						[self switchInsertionMode:HTMLInsertionModeAfterFrameset];
+						return;
+					}
+				}
+			}
+			break;
+		case HTMLTokenTypeEOF:
+			if (self.currentNode == _stackOfOpenElements.firstNode &&
+				[self.currentNode.tagName isEqualToString:@"html"]) {
+				[self emitParseError:@"EOF reached in <frameset>"];
+			}
+			return;
+		default:
+			break;
+	}
 
+	[self emitParseError:@"Unexpected Token in <frameset>"];
 }
 
 - (void)HTMLInsertionModeAfterFrameset:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self insertCharacters:leadingWhiteSpace.characters];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in <frameset>"];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInHead:token];
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+				return;
+			}
+			break;
+		case HTMLTokenTypeEOF:
+			[self stopParsing];
+			return;
+		default:
+			break;
+	}
 
+	[self emitParseError:@"Unexpected Token after <frameset>"];
 }
 
 - (void)HTMLInsertionModeAfterAfterBody:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			return;
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self HTMLInsertionModeInBody:token];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeDoctype:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+			}
+			break;
+		case HTMLTokenTypeEOF:
+			[self stopParsing];
+			return;
+		default:
+			break;
+	}
 
+	[self emitParseError:@"Unexpected Token after after <body>"];
+	[self switchInsertionMode:HTMLInsertionModeInBody];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeAfterAfterFrameset:(HTMLToken *)token
 {
+	switch (token.type) {
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			return;
+		case HTMLTokenTypeCharacter:
+		{
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			if (leadingWhiteSpace) {
+				[self HTMLInsertionModeInBody:token];
+			}
+			if ([token.asCharacterToken isWhitespaceToken]) {
+				return;
+			}
+			break;
+		}
+		case HTMLTokenTypeDoctype:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+				[self HTMLInsertionModeInBody:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"noframes"]) {
+				[self HTMLInsertionModeInHead:token];
+			} else {
+				break;
+			}
+			return;
+		case HTMLTokenTypeEOF:
+			[self stopParsing];
+			return;
+		default:
+			break;
+	}
 
+	[self emitParseError:@"Unexpected Token after after <frameset>"];
+	[self switchInsertionMode:HTMLInsertionModeInBody];
+	[self reprocessToken:token];
 }
 
-- (void)HTMLInsertionModeCurrentTemplate:(HTMLToken *)token
+- (void)processTokenByApplyingRulesForParsingTokensInForeignContent:(HTMLToken *)token
 {
-	
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+		{
+			NSMutableString *charactes = [token.asCharacterToken.characters mutableCopy];
+			NSUInteger nullCount = [charactes replaceOccurrencesOfString:@"\0"
+															  withString:@"\uFFFD"
+																 options:NSLiteralSearch
+																   range:NSMakeRange(0, charactes.length)];
+			for (int i = 0; i < nullCount; i++) {
+				[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
+			}
+
+			[self insertCharacters:charactes];
+			if (![token.asCharacterToken isWhitespaceToken]) {
+				_framesetOkFlag = NO;
+			}
+			return;
+		}
+		case HTMLTokenTypeComment:
+			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self emitParseError:@"Unexpected DOCTYPE Token in foreign content"];
+			return;
+		case HTMLTokenTypeStartTag:
+		{
+			void (^ anythingElse)() = ^ {
+				if (self.adjustedCurrentNode.namespace == HTMLNamespaceMathML) {
+#warning Implement adjust MathML attributes
+				}
+				if (self.adjustedCurrentNode.namespace == HTMLNamespaceSVG) {
+#warning Implement adjust SVG attributes
+				}
+#warning Implement adjust foreign attributes
+				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.namespace];
+				if (token.asTagToken.selfClosing) {
+					[_stackOfOpenElements popCurrentNode];
+				}
+			};
+
+			void (^ matchedCase)() = ^ {
+				[self emitParseError:@"Unexpected Start Tag Token (%@) in foreign content", token.asTagToken.tagName];
+				if (_fragmentParsingAlgorithm) {
+					anythingElse();
+				} else {
+					[_stackOfOpenElements popCurrentNode];
+					while (!IsNodeMathMLTextIntegrationPoint(self.currentNode) &&
+						   !IsNodeHTMLIntegrationPoint(self.currentNode) &&
+						   self.currentNode.namespace != HTMLNamespaceHTML) {
+						[_stackOfOpenElements popCurrentNode];
+					}
+					[self reprocessToken:token];
+				}
+			};
+
+			if ([token.asTagToken.tagName isEqualToAny:@"b", @"big", @"blockquote", @"body", @"br",
+				 @"center", @"code", @"dd", @"div", @"dl", @"dt", @"em", @"embed", @"h1", @"h2",
+				 @"h3", @"h4", @"h5", @"h6", @"head", @"hr", @"i", @"img", @"li", @"listing",
+				 @"menu", @"meta", @"nobr", @"ol", @"p", @"pre", @"ruby", @"s", @"small", @"span",
+				 @"strong", @"strike", @"sub", @"sup", @"table", @"tt", @"u", @"ul", @"var", nil]) {
+				matchedCase();
+			} else if ([token.asTagToken.tagName isEqualToString:@"font"] && (token.asTagToken.attributes[@"color"] ||
+																			  token.asTagToken.attributes[@"face"] ||
+																			  token.asTagToken.attributes[@"size"])) {
+				matchedCase();
+			} else {
+				anythingElse();
+			}
+			return;
+		}
+		case HTMLTokenTypeEndTag:
+		{
+			HTMLElement *node = _stackOfOpenElements.currentNode;
+			NSUInteger index = _stackOfOpenElements.count - 1;
+
+			if (![node.tagName isEqualToStringIgnoringCase:token.asTagToken.tagName]) {
+				[self emitParseError:@"Unexpected nested End Tag Token (%@) in foreign content", token.asTagToken.tagName];
+			}
+
+			while (YES) {
+				if (node == _stackOfOpenElements.firstNode) {
+					break;
+				}
+				if ([node.tagName isEqualToStringIgnoringCase:token.asTagToken.tagName]) {
+					[_stackOfOpenElements popElementsUntilElementPopped:node];
+					break;
+				}
+				node = _stackOfOpenElements[--index];
+				if (node.namespace != HTMLNamespaceHTML) {
+					continue;
+				}
+				[self processToken:token byApplyingRulesForInsertionMode:_insertionMode];
+			}
+			return;
+		}
+		default:
+			break;
+	}
 }
 
 @end

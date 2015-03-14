@@ -57,12 +57,12 @@
 
 - (HTMLElement *)firstNode
 {
-	return _stack.lastObject;
+	return _stack.firstObject;
 }
 
 - (HTMLElement *)lastNode
 {
-	return _stack.firstObject;
+	return _stack.lastObject;
 }
 
 - (id)objectAtIndexedSubscript:(NSUInteger)index;
