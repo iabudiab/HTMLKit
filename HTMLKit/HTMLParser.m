@@ -190,6 +190,11 @@
 		return NO;
 	};
 
+	if (token.isParseError) {
+		[self emitParseError:@"Tokenizer Parser Error: %@", token.asParseError];
+		return;
+	}
+
 	if (_ignoreNextLineFeedCharacterToken) {
 		_ignoreNextLineFeedCharacterToken = NO;
 		if (token.isCharacterToken) {
