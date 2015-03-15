@@ -121,131 +121,6 @@
 	va_end(args);
 }
 
-#pragma mark - State Machine
-
-- (void)switchInsertionMode:(HTMLInsertionMode)mode
-{
-	if (mode == HTMLInsertionModeText || mode == HTMLInsertionModeInTableText) {
-		_originalInsertionMode = _insertionMode;
-	}
-	_insertionMode = mode;
-}
-
-- (void)resetInsertionModeAppropriately
-{
-	BOOL last = NO;
-	HTMLElement *node = _stackOfOpenElements.lastNode;
-	NSUInteger nodeIndex = _stackOfOpenElements.count - 1;
-
-	while (YES) {
-
-		if ([_stackOfOpenElements.firstNode isEqual:node]) {
-			last = YES;
-			if (_fragmentParsingAlgorithm) {
-				node = _contextElement;
-			}
-		}
-
-		if ([node.tagName isEqualToString:@"select"]) {
-			if (last == NO) {
-				HTMLElement *ancestor = node;
-				NSUInteger ancestorIndex = nodeIndex;
-
-				while (YES) {
-					if ([ancestor isEqual:_stackOfOpenElements.firstNode]) {
-						break;
-					}
-
-					ancestorIndex--;
-					ancestor = _stackOfOpenElements[ancestorIndex];
-
-					if ([ancestor.tagName isEqualToString:@"template"]) {
-						break;
-					}
-
-					if ([ancestor.tagName isEqualToString:@"table"]) {
-						[self switchInsertionMode:HTMLInsertionModeInTable];
-						return;
-					}
-				}
-			}
-			[self switchInsertionMode:HTMLInsertionModeInSelect];
-			return;
-		}
-
-		if (last == NO) {
-			if ([node.tagName isEqualToAny:@"td", @"th", nil]) {
-				[self switchInsertionMode:HTMLInsertionModeInCell];
-				return;
-			}
-		}
-
-		if ([node.tagName isEqualToString:@"tr"]) {
-			[self switchInsertionMode:HTMLInsertionModeInRow];
-			return;
-		}
-
-		if ([node.tagName isEqualToAny:@"tbody", @"thead", @"tfoot", nil]) {
-			[self switchInsertionMode:HTMLInsertionModeInTableBody];
-			return;
-		}
-
-		if ([node.tagName isEqualToString:@"caption"]) {
-			[self switchInsertionMode:HTMLInsertionModeInCaption];
-			return;
-		}
-
-		if ([node.tagName isEqualToString:@"colgroup"]) {
-			[self switchInsertionMode:HTMLInsertionModeInColumnGroup];
-			return;
-		}
-
-		if ([node.tagName isEqualToString:@"template"]) {
-			[self switchInsertionMode:HTMLInsertionModeCurrentTemplate];
-			return;
-		}
-
-		if ([node.tagName isEqualToString:@"table"]) {
-			[self switchInsertionMode:HTMLInsertionModeInTable];
-			return;
-		}
-
-		if (last == NO) {
-			if ([node.tagName isEqualToString:@"head"]) {
-				[self switchInsertionMode:HTMLInsertionModeInHead];
-				return;
-			}
-		}
-
-		if ([node.tagName isEqualToString:@"body"]) {
-			[self switchInsertionMode:HTMLInsertionModeInBody];
-			return;
-		}
-
-		if ([node.tagName isEqualToString:@"frameset"]) {
-			[self switchInsertionMode:HTMLInsertionModeInFrameset];
-			return;
-		}
-
-		if ([node.tagName isEqualToString:@"html"]) {
-			if (_headElementPointer == nil) {
-				[self switchInsertionMode:HTMLInsertionModeBeforeHead];
-			} else {
-				[self switchInsertionMode:HTMLInsertionModeAfterHead];
-			}
-			return;
-		}
-
-		if (last) {
-			[self switchInsertionMode:HTMLInsertionModeInBody];
-			return;
-		}
-
-		nodeIndex--;
-		node = _stackOfOpenElements[nodeIndex];
-	}
-}
-
 #pragma mark - Parse
 
 - (id)parse
@@ -642,6 +517,131 @@
 	[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"td", @"th"]];
 	[self clearListOfActiveFormattingElementsUpToLastMarker];
 	[self switchInsertionMode:HTMLInsertionModeInRow];
+}
+
+#pragma mark - State Machine
+
+- (void)switchInsertionMode:(HTMLInsertionMode)mode
+{
+	if (mode == HTMLInsertionModeText || mode == HTMLInsertionModeInTableText) {
+		_originalInsertionMode = _insertionMode;
+	}
+	_insertionMode = mode;
+}
+
+- (void)resetInsertionModeAppropriately
+{
+	BOOL last = NO;
+	HTMLElement *node = _stackOfOpenElements.lastNode;
+	NSUInteger nodeIndex = _stackOfOpenElements.count - 1;
+
+	while (YES) {
+
+		if ([_stackOfOpenElements.firstNode isEqual:node]) {
+			last = YES;
+			if (_fragmentParsingAlgorithm) {
+				node = _contextElement;
+			}
+		}
+
+		if ([node.tagName isEqualToString:@"select"]) {
+			if (last == NO) {
+				HTMLElement *ancestor = node;
+				NSUInteger ancestorIndex = nodeIndex;
+
+				while (YES) {
+					if ([ancestor isEqual:_stackOfOpenElements.firstNode]) {
+						break;
+					}
+
+					ancestorIndex--;
+					ancestor = _stackOfOpenElements[ancestorIndex];
+
+					if ([ancestor.tagName isEqualToString:@"template"]) {
+						break;
+					}
+
+					if ([ancestor.tagName isEqualToString:@"table"]) {
+						[self switchInsertionMode:HTMLInsertionModeInTable];
+						return;
+					}
+				}
+			}
+			[self switchInsertionMode:HTMLInsertionModeInSelect];
+			return;
+		}
+
+		if (last == NO) {
+			if ([node.tagName isEqualToAny:@"td", @"th", nil]) {
+				[self switchInsertionMode:HTMLInsertionModeInCell];
+				return;
+			}
+		}
+
+		if ([node.tagName isEqualToString:@"tr"]) {
+			[self switchInsertionMode:HTMLInsertionModeInRow];
+			return;
+		}
+
+		if ([node.tagName isEqualToAny:@"tbody", @"thead", @"tfoot", nil]) {
+			[self switchInsertionMode:HTMLInsertionModeInTableBody];
+			return;
+		}
+
+		if ([node.tagName isEqualToString:@"caption"]) {
+			[self switchInsertionMode:HTMLInsertionModeInCaption];
+			return;
+		}
+
+		if ([node.tagName isEqualToString:@"colgroup"]) {
+			[self switchInsertionMode:HTMLInsertionModeInColumnGroup];
+			return;
+		}
+
+		if ([node.tagName isEqualToString:@"template"]) {
+			[self switchInsertionMode:HTMLInsertionModeCurrentTemplate];
+			return;
+		}
+
+		if ([node.tagName isEqualToString:@"table"]) {
+			[self switchInsertionMode:HTMLInsertionModeInTable];
+			return;
+		}
+
+		if (last == NO) {
+			if ([node.tagName isEqualToString:@"head"]) {
+				[self switchInsertionMode:HTMLInsertionModeInHead];
+				return;
+			}
+		}
+
+		if ([node.tagName isEqualToString:@"body"]) {
+			[self switchInsertionMode:HTMLInsertionModeInBody];
+			return;
+		}
+
+		if ([node.tagName isEqualToString:@"frameset"]) {
+			[self switchInsertionMode:HTMLInsertionModeInFrameset];
+			return;
+		}
+
+		if ([node.tagName isEqualToString:@"html"]) {
+			if (_headElementPointer == nil) {
+				[self switchInsertionMode:HTMLInsertionModeBeforeHead];
+			} else {
+				[self switchInsertionMode:HTMLInsertionModeAfterHead];
+			}
+			return;
+		}
+
+		if (last) {
+			[self switchInsertionMode:HTMLInsertionModeInBody];
+			return;
+		}
+
+		nodeIndex--;
+		node = _stackOfOpenElements[nodeIndex];
+	}
 }
 
 #pragma mark - Insertion Modes
