@@ -1691,6 +1691,8 @@
 			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
 				[self insertElementForToken:token.asTagToken];
 				[_stackOfOpenElements popCurrentNode];
+			} else if ([token.asTagToken.tagName isEqualToString:@"template"]) {
+				[self HTMLInsertionModeInHead:token];
 			} else {
 				break;
 			}
@@ -1706,6 +1708,8 @@
 				}
 			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
 				[self emitParseError:@"Unexpected End Tag Token (col) in <colgroup>"];
+			} else if ([token.asTagToken.tagName isEqualToString:@"template"]) {
+				[self HTMLInsertionModeInHead:token];
 			} else {
 				break;
 			}
@@ -1945,7 +1949,7 @@
 					[self resetInsertionModeAppropriately];
 					[self reprocessToken:token];
 				}
-			} else if ([token.asTagToken.tagName isEqualToString:@"script"]) {
+			} else if ([token.asTagToken.tagName isEqualToAny:@"script", @"template", nil]) {
 				[self HTMLInsertionModeInHead:token];
 			} else {
 				break;
@@ -1979,6 +1983,8 @@
 					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
 					[self resetInsertionModeAppropriately];
 				}
+			} else if ([token.asTagToken.tagName isEqualToString:@"template"]) {
+				[self HTMLInsertionModeInHead:token];
 			} else {
 				break;
 			}
@@ -2022,6 +2028,11 @@
 	}
 
 	[self HTMLInsertionModeInSelect:token];
+}
+
+- (void)HTMLInsertionModeInTemplate:(HTMLToken *)token
+{
+#warning Implement HTML Template
 }
 
 - (void)HTMLInsertionModeAfterBody:(HTMLToken *)token
