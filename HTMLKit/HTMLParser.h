@@ -11,6 +11,5 @@
 
 @interface HTMLParser : NSObject
 
-- (HTMLElement *)adjustedCurrentNode;
 
 @end

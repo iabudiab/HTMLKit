@@ -14,13 +14,14 @@
 #import "HTMLTokenizerCharacters.h"
 #import "HTMLTokenizerEntities.h"
 
+@interface HTMLParser (Private)
+@property (nonatomic, strong, readonly) HTMLElement *adjustedCurrentNode;
+@end
+
 @interface HTMLTokenizer ()
 {
 	NSMutableDictionary *_states;
 	HTMLTokenizerState _currentState;
-
-	/* Parser */
-	HTMLParser *_parser;
 
 	/* Input Stream & Tokens Queue */
 	HTMLInputStreamReader *_inputStreamReader;
