@@ -156,6 +156,7 @@
 
 - (void)emitEOFToken
 {
+	[self emitToken:[HTMLEOFToken token]];
 	_eof = YES;
 }
 

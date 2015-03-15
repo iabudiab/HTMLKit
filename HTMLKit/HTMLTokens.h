@@ -12,3 +12,4 @@
 #import "HTMLDOCTYPEToken.h"
 #import "HTMLParseErrorToken.h"
 #import "HTMLTagToken.h"
+#import "HTMLEOFToken.h"

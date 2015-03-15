@@ -42,6 +42,7 @@
 		HTMLToken *token = [self processOutputToken:output doubleEscaped:doubleEscaped];
 		[tokens addObject:token];
 	}
+	[tokens addObject:[HTMLEOFToken token]];
 	self.output = tokens;
 
 		// Test Initial States
