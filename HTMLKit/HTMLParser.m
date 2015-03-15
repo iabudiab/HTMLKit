@@ -1297,16 +1297,16 @@
 			[self insertElementForToken:token];
 		} else if ([tagName isEqualToString:@"math"]) {
 			[self reconstructActiveFormattingElements];
-#warning Implement adjust MathML attributes
-#warning Implement adjust foreign attributes
+			AdjustMathMLAttributes(token);
+			// "Adjust foreign attributes": Attributes' namespace ignored
 			[self insertForeignElementForToken:token inNamespace:HTMLNamespaceMathML];
 			if (token.isSelfClosing) {
 				[_stackOfOpenElements popCurrentNode];
 			}
 		} else if ([tagName isEqualToString:@"svg"]) {
 			[self reconstructActiveFormattingElements];
-#warning Implement adjust SVG attributes
-#warning Implement adjust foreign attributes
+			AdjustSVGAttributes(token);
+			// "Adjust foreign attributes": Attributes' namespace ignored
 			[self insertForeignElementForToken:token inNamespace:HTMLNamespaceSVG];
 			if (token.isSelfClosing) {
 				[_stackOfOpenElements popCurrentNode];
@@ -2286,12 +2286,12 @@
 		{
 			void (^ anythingElse)() = ^ {
 				if (self.adjustedCurrentNode.namespace == HTMLNamespaceMathML) {
-#warning Implement adjust MathML attributes
+					AdjustMathMLAttributes(token.asTagToken);
 				}
 				if (self.adjustedCurrentNode.namespace == HTMLNamespaceSVG) {
-#warning Implement adjust SVG attributes
+					AdjustSVGAttributes(token.asTagToken);
 				}
-#warning Implement adjust foreign attributes
+				// "Adjust foreign attributes": Attributes' namespace ignored
 				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.namespace];
 				if (token.asTagToken.selfClosing) {
 					[_stackOfOpenElements popCurrentNode];
