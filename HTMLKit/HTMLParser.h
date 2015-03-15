@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLElement.h"
 
 @interface HTMLParser : NSObject
+
+- (HTMLElement *)adjustedCurrentNode;
 
 @end

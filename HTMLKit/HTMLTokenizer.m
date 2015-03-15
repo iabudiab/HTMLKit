@@ -1612,8 +1612,8 @@
 		[self switchToState:HTMLTokenizerStateCommentStart];
 	} else if ([_inputStreamReader consumeString:@"DOCTYPE" caseSensitive:NO]) {
 		[self switchToState:HTMLTokenizerStateDOCTYPE];
-	} else if ([_inputStreamReader consumeString:@"[CDATA[" caseSensitive:YES]) {
-#warning Implement HTML Elements and check for namespace in the _parser.adjustedCurrentNode.namespace
+	} else if (_parser.adjustedCurrentNode.namespace == HTMLNamespaceHTML &&
+			   [_inputStreamReader consumeString:@"[CDATA[" caseSensitive:YES]) {
 		[self switchToState:HTMLTokenizerStateCDATASection];
 	} else {
 		[self emitParseError:@"Unexpected character in Markup Declaration Open state"];
