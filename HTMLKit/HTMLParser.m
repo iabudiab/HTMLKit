@@ -1137,7 +1137,7 @@
 		if (element != nil) {
 			[self emitParseError:@"Unexpected nested Start Tag (a) in <body>"];
 			if ([self runAdoptionAgencyAlgorithmForTagName:@"a"]) {
-				[self processAnyOtherEndTagTokenInBody:token];
+				[self processAnyOtherEndTagTokenInBody:token.asTagToken];
 				return;
 			}
 			[_listOfActiveFormattingElements removeObject:element];
@@ -1156,7 +1156,7 @@
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"nobr"]) {
 			[self emitParseError:@"Unexpected nested Start Tag (nobr) in <body>"];
 			if ([self runAdoptionAgencyAlgorithmForTagName:@"nobr"]) {
-				[self processAnyOtherEndTagTokenInBody:token];
+				[self processAnyOtherEndTagTokenInBody:token.asTagToken];
 				return;
 			}
 			[self reconstructActiveFormattingElements];
@@ -1437,7 +1437,7 @@
 	}
 }
 
-- (void)processAnyOtherEndTagTokenInBody:(HTMLEndTagToken *)token
+- (void)processAnyOtherEndTagTokenInBody:(HTMLTagToken *)token
 {
 	HTMLElement *node = _stackOfOpenElements.currentNode;
 	NSUInteger index = _stackOfOpenElements.count - 1;
