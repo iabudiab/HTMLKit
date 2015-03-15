@@ -23,7 +23,7 @@
 @property (nonatomic, copy)	NSString *className;
 
 - (instancetype)initWithTagName:(NSString *)tagName;
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(id)attributes;
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(id)attributes namespace:(HTMLNamespace)namespace;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)namespace;
 
 @end

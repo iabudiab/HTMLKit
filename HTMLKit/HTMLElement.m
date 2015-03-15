@@ -7,6 +7,13 @@
 //
 
 #import "HTMLElement.h"
+#import "HTMLOrderedDictionary.h"
+
+@interface HTMLElement ()
+{
+	HTMLOrderedDictionary *_attributes;
+}
+@end
 
 @implementation HTMLElement
 
@@ -20,17 +27,20 @@
 	return [self initWithTagName:tagName attributes:nil];
 }
 
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(id)attributes
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
 {
 	return [self initWithTagName:tagName attributes:attributes namespace:HTMLNamespaceHTML];
 }
 
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(id)attributes namespace:(HTMLNamespace)namespace
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)namespace
 {
 	self = [super initWithName:tagName type:HTMLNodeElement];
 	if (self) {
 		_tagName = tagName;
-#warning Attributes
+		_attributes = [HTMLOrderedDictionary new];
+		if (attributes != nil) {
+			[_attributes addEntriesFromDictionary:attributes];
+		}
 		_namespace = namespace;
 	}
 	return self;
