@@ -13,6 +13,7 @@
 #import "HTMLParserInsertionModes.h"
 #import "HTMLNodes.h"
 #import "HTMLElementTypes.h"
+#import "HTMLElementAdjustment.h"
 #import "HTMLMarker.h"
 #import "NSString+HTMLKit.h"
 
