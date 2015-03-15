@@ -17,6 +17,11 @@
 #import "HTMLMarker.h"
 #import "NSString+HTMLKit.h"
 
+
+@interface HTMLDocument (Private)
+@property (nonatomic, assign) HTMLDocumentReadyState readyState;
+@end
+
 @interface HTMLParser ()
 {
 	HTMLTokenizer *_tokenizer;
@@ -242,6 +247,9 @@
 - (id)parse
 {
 	for (HTMLToken *token in _tokenizer) {
+		if (_document.readyState == HTMLDocumentComplete) {
+			break;
+		}
 		[self processToken:token];
 	}
 	return nil;
@@ -340,7 +348,7 @@
 - (void)stopParsing
 {
 	[_stackOfOpenElements popAll];
-#warning Finalize
+	_document.readyState =HTMLDocumentComplete;
 }
 
 #pragma mark - 

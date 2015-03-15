@@ -10,4 +10,13 @@
 
 @implementation HTMLDocument
 
+- (instancetype)init
+{
+	self = [super initWithName:@"#document" type:HTMLNodeDocument];
+	if (self) {
+		_readyState = HTMLDocumentLoading;
+	}
+	return self;
+}
+
 @end
