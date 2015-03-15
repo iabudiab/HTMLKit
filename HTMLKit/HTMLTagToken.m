@@ -11,8 +11,7 @@
 @interface HTMLTagToken ()
 {
 	NSMutableString *_tagName;
-#warning Implement Ordered Dictionary
-	NSMutableDictionary *_attributes;
+	HTMLOrderedDictionary *_attributes;
 }
 
 @end
@@ -30,8 +29,8 @@
 	self = [super init];
 	if (self) {
 		_tagName = [tagName mutableCopy];
-		_attributes = [NSMutableDictionary new];
 		if (attributes != nil) {
+			_attributes = [HTMLOrderedDictionary new];
 			[_attributes addEntriesFromDictionary:attributes];
 		}
 	}
@@ -48,6 +47,7 @@
 
 @end
 
+#pragma mark - Start Tag Token
 
 @implementation HTMLStartTagToken
 
@@ -64,8 +64,6 @@
 	}
 	return self;
 }
-
-#pragma mark - NSObject
 
 - (BOOL)isEqual:(id)other
 {
@@ -90,6 +88,8 @@
 
 @end
 
+#pragma mark - End Tag Token
+
 @implementation HTMLEndTagToken
 
 - (instancetype)initWithTagName:(NSString *)tagName
@@ -105,8 +105,6 @@
 	}
 	return self;
 }
-
-#pragma mark - NSObject
 
 - (BOOL)isEqual:(id)other
 {

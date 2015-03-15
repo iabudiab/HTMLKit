@@ -107,7 +107,7 @@
 		HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:data];
 		NSDictionary *attributes = output[2];
 		if (attributes && attributes.allKeys.count > 0) {
-			token.attributes = [NSMutableDictionary new];
+			token.attributes = [HTMLOrderedDictionary new];
 		}
 		for (NSString *name in attributes) {
 			NSString *value = [attributes objectForKey:name];

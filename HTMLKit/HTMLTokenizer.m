@@ -241,7 +241,7 @@
 {
 	if (_currentAttributeName != nil) {
 		if (_currentTagToken.attributes == nil) {
-			_currentTagToken.attributes = [NSMutableDictionary new];
+			_currentTagToken.attributes = [HTMLOrderedDictionary new];
 		}
 
 		if (_currentTagToken.attributes[_currentAttributeName] != nil) {

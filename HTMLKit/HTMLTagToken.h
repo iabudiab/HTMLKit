@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "HTMLToken.h"
+#import "HTMLOrderedDictionary.h"
 
 @interface HTMLTagToken : HTMLToken
 
 @property (nonatomic, copy) NSString *tagName;
-#warning Implement Ordered Dictionary
-@property (nonatomic, strong) NSMutableDictionary *attributes;
+@property (nonatomic, strong) HTMLOrderedDictionary *attributes;
 @property (nonatomic, assign, getter = isSelfClosing) BOOL selfClosing;
 
 - (instancetype)initWithTagName:(NSString *)tagName;

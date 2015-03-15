@@ -58,7 +58,7 @@ static NSString * const TOKENIZER = @"tokenizer";
 
 			NSArray *expectedTokens = test.output;
 			NSArray *tokens = [tokenizer allTokens];
-			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", test.description);
+			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", test.title);
 		}
 	}
 }
