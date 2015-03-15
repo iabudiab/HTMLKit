@@ -17,6 +17,9 @@
 #import "HTMLMarker.h"
 #import "NSString+HTMLKit.h"
 
+@interface HTMLTokenizer (Private)
+@property (nonatomic, weak) HTMLParser *parser;
+@end
 
 @interface HTMLDocument (Private)
 @property (nonatomic, assign) HTMLDocumentReadyState readyState;
@@ -70,6 +73,7 @@
 		_stackOfOpenElements = [HTMLStackOfOpenElements new];
 		_listOfActiveFormattingElements = [NSMutableArray new];
 		_tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+		_tokenizer.parser = self;
 
 		_pendingTableCharacterTokens = [[HTMLCharacterToken alloc] initWithString:@""];
 
