@@ -18,7 +18,8 @@ NS_INLINE BOOL IsNodeMathMLTextIntegrationPoint(HTMLElement *node)
 NS_INLINE BOOL IsNodeHTMLIntegrationPoint(HTMLElement *node)
 {
 	if (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
-#warning Implement HTML Element Attributes
+		NSString *encoding = node.attributes[@"encoding"];
+		return [encoding isEqualToStringIgnoringCase:@"text/html"] || [encoding isEqualToStringIgnoringCase:@"application/xhtml+xml"];
 	} else if (node.namespace == HTMLNamespaceSVG) {
 		return [node.tagName isEqualToAny:@"foreignObject", @"desc", @"title", nil];
 	}
