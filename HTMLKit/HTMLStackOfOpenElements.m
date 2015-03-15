@@ -187,6 +187,20 @@
 														@"template": @(HTMLNamespaceHTML)}];
 }
 
+- (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if ([node.tagName isEqualToString:tagName]) {
+			return node;
+		}
+		if (!(node.namespace == HTMLNamespaceHTML &&
+			  [node.tagName isEqualToAny:@"optgroup", @"option", nil])) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
 - (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName
 									  andElementTypes:(NSDictionary *)elementTypes
 {
