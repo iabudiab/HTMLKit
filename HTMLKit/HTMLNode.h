@@ -33,7 +33,7 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, strong, readonly) NSString *name;
 
-@property (nonatomic, strong, readonly) HTMLDocument *document;
+@property (nonatomic, strong, readonly) HTMLDocument *ownerDocument;
 
 @property (nonatomic, strong, readonly) NSString *baseURI;
 
@@ -57,16 +57,24 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 - (BOOL)hasChildNodes;
 
+- (BOOL)hasChildNodeOfType:(HTMLNodeType)type;
+
+- (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block;
+
+- (NSUInteger)childNodesCount;
+
 - (HTMLNode *)childNodeAtIndex:(NSUInteger)index;
 
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node;
 
-- (HTMLNode *)insertNodeBefore:(HTMLNode *)node;
+- (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child;
 
-- (HTMLNode *)appendChildNode:(HTMLNode *)node;
+- (HTMLNode *)appendNode:(HTMLNode *)node;
 
-- (HTMLNode *)replaceChildNode:(HTMLNode *)node;
+- (HTMLNode *)replaceChildNode:(HTMLNode *)node withNode:(HTMLNode *)replacement;
 
 - (HTMLNode *)removeChildNode:(HTMLNode *)node;
+
+- (HTMLNode *)removeChildNodeAtIndex:(NSUInteger)index;
 
 @end
