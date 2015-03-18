@@ -7,6 +7,11 @@
 //
 
 #import "HTMLDocument.h"
+#import "HTMLKitExceptions.h"
+
+@interface HTMLNode (Private)
+@property (nonatomic, strong) HTMLNode *parentNode;
+@end
 
 @implementation HTMLDocument
 
@@ -17,6 +22,18 @@
 		_readyState = HTMLDocumentLoading;
 	}
 	return self;
+}
+
+- (HTMLNode *)adoptNode:(HTMLNode *)node
+{
+	if (node.type == HTMLNodeDocument) {
+		[NSException raise:HTMLKitNotSupportedError
+					format:@"%@: Not Fount Error, adopting a document node. The operation is not supported.", NSStringFromSelector(_cmd)];
+	}
+
+	[node.parentNode removeChildNode:node];
+	node.parentNode = self;
+	return node;
 }
 
 @end
