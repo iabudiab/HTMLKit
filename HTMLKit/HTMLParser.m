@@ -48,7 +48,6 @@
 
 	HTMLCharacterToken *_pendingTableCharacterTokens;
 
-	BOOL _scriptingFlag;
 	BOOL _framesetOkFlag;
 	BOOL _fragmentParsingAlgorithm;
 	BOOL _fosterParenting;
@@ -77,7 +76,6 @@
 
 		_pendingTableCharacterTokens = [[HTMLCharacterToken alloc] initWithString:@""];
 
-		_scriptingFlag = NO;
 		_framesetOkFlag = YES;
 		_fragmentParsingAlgorithm = NO;
 		_fosterParenting = NO;
