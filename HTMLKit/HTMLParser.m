@@ -320,7 +320,12 @@
 	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
 																					beforeChildNode:&child];
 	if (adjustedInsertionLocation.type != HTMLNodeDocument) {
-#warning Implement inserting string into node (https://html.spec.whatwg.org/multipage/syntax.html#insert-a-character)
+		if (adjustedInsertionLocation.lastChildNode.type == HTMLNodeText) {
+			[(HTMLText *)adjustedInsertionLocation.lastChildNode appendString:data];
+		} else {
+			HTMLText *text = [[HTMLText alloc] initWithData:data];
+			[adjustedInsertionLocation insertNode:text beforeChildNode:child];
+		}
 	}
 }
 

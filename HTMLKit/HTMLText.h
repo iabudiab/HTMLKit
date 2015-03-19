@@ -14,4 +14,6 @@
 
 - (instancetype)initWithData:(NSString *)data;
 
+- (void)appendString:(NSString *)string;
+
 @end

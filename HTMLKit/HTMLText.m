@@ -35,6 +35,11 @@
 	[self.data setString:textContent ?: @""];
 }
 
+- (void)appendString:(NSString *)string
+{
+	[self.data appendString:string];
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
