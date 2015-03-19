@@ -235,9 +235,10 @@
 	_document.readyState =HTMLDocumentComplete;
 }
 
-#pragma mark - 
+#pragma mark - Insertions & Manipulations
 
 - (HTMLNode *)appropriatePlaceForInsertingANodeWithOverrideTarget:(HTMLElement *)overrideTarget
+												  beforeChildNode:(out HTMLElement * __autoreleasing *)child
 {
 	HTMLElement *target = self.currentNode;
 	if (overrideTarget == nil) {
@@ -266,6 +267,7 @@
 			return htmlElement;
 		}
 		if (lastTable.parentNode != nil) {
+			*child = lastTable;
 			return lastTable.parentNode;
 		}
 		NSUInteger lastTableIndex = [_stackOfOpenElements indexOfElement:lastTable];
@@ -279,15 +281,14 @@
 - (void)insertComment:(HTMLCommentToken *)token asChildOfNode:(HTMLNode *)node
 {
 	HTMLNode *parent = node;
+	HTMLElement *child = nil;
 	if (parent == nil) {
-		parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
+		parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil beforeChildNode:&child];
 	}
 
 	HTMLComment *comment = [[HTMLComment alloc] initWithData:token.data];
-	[parent appendChildNode:comment];
+	[parent insertNode:comment beforeChildNode:child];
 }
-
-#pragma mark - Elements
 
 - (HTMLElement *)createElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)namespace
 {
@@ -305,15 +306,19 @@
 - (HTMLElement *)insertForeignElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)namespace
 {
 	HTMLElement *element = [self createElementForToken:token inNamespace:namespace];
-	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
-	[adjustedInsertionLocation appendChildNode:element];
+	HTMLElement *child = nil;
+	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
+																					beforeChildNode:&child];
+	[adjustedInsertionLocation insertNode:element beforeChildNode:child];
 	[_stackOfOpenElements pushElement:element];
 	return element;
 }
 
-- (void)insertCharacters:(NSString *)characters
+- (void)insertCharacters:(NSString *)data
 {
-	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
+	HTMLElement *child = nil;
+	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
+																					beforeChildNode:&child];
 	if (adjustedInsertionLocation.type != HTMLNodeDocument) {
 #warning Implement inserting string into node (https://html.spec.whatwg.org/multipage/syntax.html#insert-a-character)
 	}
@@ -483,19 +488,21 @@
 				bookmark = nodeListIndex + 1;
 			}
 
-			[node appendChildNode:lastNode];
+			[node appendNode:lastNode];
 			lastNode = node;
 		}
 
-		HTMLNode *parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:commonAncestor];
-		[parent appendChildNode:lastNode];
+		HTMLElement *child = nil;
+		HTMLNode *parent = [self appropriatePlaceForInsertingANodeWithOverrideTarget:commonAncestor
+																	 beforeChildNode:&child];
+		[parent insertNode:lastNode beforeChildNode:child];
 
 		HTMLElement *newElement = [formattingElement copy];
 		for (HTMLNode *child in formattingElement.childNodes) {
-			[newElement appendChildNode:child];
+			[newElement appendNode:child];
 		}
 
-		[furthestBlock appendChildNode:newElement];
+		[furthestBlock appendNode:newElement];
 		[_listOfActiveFormattingElements removeObject:formattingElement];
 		[_listOfActiveFormattingElements insertObject:newElement atIndex:bookmark];
 		[_stackOfOpenElements removeElement:formattingElement];
@@ -709,7 +716,7 @@
 		case HTMLTokenTypeStartTag:
 			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
 				HTMLElement *html = [self createElementForToken:token.asTagToken inNamespace:HTMLNamespaceHTML];
-				[_document appendChildNode:html];
+				[_document appendNode:html];
 				[_stackOfOpenElements pushElement:html];
 				[self switchInsertionMode:HTMLInsertionModeBeforeHead];
 				return;
@@ -726,7 +733,7 @@
 	}
 
 	HTMLElement *html = [[HTMLElement alloc] initWithTagName:@"html"];
-	[_document appendChildNode:html];
+	[_document appendNode:html];
 	[_stackOfOpenElements pushElement:html];
 	[self switchInsertionMode:HTMLInsertionModeBeforeHead];
 	[self reprocessToken:token];
@@ -808,10 +815,12 @@
 			} else if ([token.asStartTagToken.tagName isEqualToAny:@"noscript", @"noframes", @"style", nil]) {
 				[self applyGenericParsingAlgorithmForToken:token.asStartTagToken withTokenizerState:HTMLTokenizerStateRAWTEXT];
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"script"]) {
-				HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil];
+				HTMLElement *child = nil;
+				HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
+																								beforeChildNode:&child];
 				HTMLElement *script = [self createElementForToken:token.asStartTagToken inNamespace:HTMLNamespaceHTML];
 #warning Script Element Flags (https://html.spec.whatwg.org/multipage/scripting.html#parser-inserted)
-				[adjustedInsertionLocation appendChildNode:script];
+				[adjustedInsertionLocation insertNode:script beforeChildNode:child];
 				[_stackOfOpenElements pushElement:script];
 				_tokenizer.state = HTMLTokenizerStateScriptData;
 				_originalInsertionMode = _insertionMode;
