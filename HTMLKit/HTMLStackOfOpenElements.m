@@ -24,6 +24,7 @@
 {
 	self = [super init];
 	if (self) {
+		_stack = [NSMutableArray new];
 		_specificScopeElementTypes = @{
 									   @"applet": @(HTMLNamespaceHTML),
 									   @"caption": @(HTMLNamespaceHTML),
@@ -138,7 +139,12 @@
 
 - (void)clearBackToTableContext
 {
-	while (![self.currentNode.tagName isEqualToAny:@"table", @"template", @"html", nil]) {
+
+}
+
+- (void)clearBackToTableBodyContext
+{
+	while (![self.currentNode.tagName isEqualToAny:@"tbody", @"tfoot", @"thead", @"template", @"html", nil]) {
 		[_stack removeLastObject];
 	}
 }

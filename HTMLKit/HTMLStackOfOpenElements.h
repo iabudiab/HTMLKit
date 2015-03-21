@@ -31,8 +31,8 @@
 - (void)popElementsUntilAnElementPoppedWithAnyOfTagNames:(NSArray *)tagNames;
 - (void)popElementsUntilElementPopped:(HTMLElement *)element;
 - (void)clearBackToTableContext;
+- (void)clearBackToTableBodyContext;
 - (void)popAll;
-
 
 - (HTMLElement *)hasElementInScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasAnyElementInScopeWithAnyOfTagNames:(NSArray *)tagNames;

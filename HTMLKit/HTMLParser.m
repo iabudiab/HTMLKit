@@ -1767,7 +1767,7 @@
 			[self emitParseError:@"Unexpected Tag Token (%@) for element in <tbody>", token.asTagToken.tagName];
 			return;
 		} else {
-			[_stackOfOpenElements clearBackToTableContext];
+			[_stackOfOpenElements clearBackToTableBodyContext];
 			[_stackOfOpenElements popCurrentNode];
 			[self switchInsertionMode:HTMLInsertionModeInTable];
 		}
@@ -1780,12 +1780,12 @@
 	switch (token.type) {
 		case HTMLTokenTypeStartTag:
 			if ([token.asTagToken.tagName isEqualToString:@"tr"]) {
-				[_stackOfOpenElements clearBackToTableContext];
+				[_stackOfOpenElements clearBackToTableBodyContext];
 				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInRow];
 			} else if ([token.asTagToken.tagName isEqualToAny:@"th", @"td", nil]) {
 				[self emitParseError:@"Unexpected Start Tag Token (%@) in <tbody>", token.asTagToken.tagName];
-				[_stackOfOpenElements clearBackToTableContext];
+				[_stackOfOpenElements clearBackToTableBodyContext];
 				HTMLStartTagToken *trToken = [[HTMLStartTagToken alloc] initWithTagName:@"tr"];
 				[self insertElementForToken:trToken];
 				[self switchInsertionMode:HTMLInsertionModeInRow];
