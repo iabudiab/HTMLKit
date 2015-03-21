@@ -239,7 +239,7 @@
 												  beforeChildNode:(out HTMLElement * __autoreleasing *)child
 {
 	HTMLElement *target = self.currentNode;
-	if (overrideTarget == nil) {
+	if (overrideTarget != nil) {
 		target = overrideTarget;
 	}
 
