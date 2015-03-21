@@ -45,6 +45,7 @@
 
 	BOOL _eof;
 }
+@property (nonatomic, weak) HTMLParser *parser;
 @end
 
 @implementation HTMLTokenizer
@@ -82,7 +83,7 @@
 
 #pragma mark - State Machine
 
-- (HTMLToken *)nextToken
+- (id)nextObject
 {
 	while (_eof == NO && _tokens.count == 0) {
 		[self read];
@@ -94,7 +95,7 @@
 	return nextToken;
 }
 
-- (NSArray *)allTokens
+- (NSArray *)allObjects
 {
 	while (_eof == NO) {
 		[self read];
@@ -124,27 +125,6 @@
 	_previousTokenizerState = _currentState;
 	_additionalAllowedCharacter = character;
 	[self switchToState:state];
-}
-
-#pragma mark - Fast Enumeration
-
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(__unsafe_unretained id [])buffer count:(NSUInteger)len
-{
-	if (state->state == 0) {
-		state->mutationsPtr = &state->extra[0];
-		state->state = 1;
-	}
-
-	HTMLToken *nextToken = [self nextToken];
-
-	if (nextToken == nil) {
-		return 0;
-	}
-
-	__unsafe_unretained const id *const_ptr = (__unsafe_unretained id *)(__bridge void *)nextToken;
-	state->itemsPtr = (__typeof__(state->itemsPtr))const_ptr;
-
-	return 1;
 }
 
 #pragma mark - Emits

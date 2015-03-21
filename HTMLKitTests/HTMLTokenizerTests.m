@@ -57,7 +57,7 @@ static NSString * const TOKENIZER = @"tokenizer";
 			tokenizer.state = [state integerValue];
 
 			NSArray *expectedTokens = test.output;
-			NSArray *tokens = [tokenizer allTokens];
+			NSArray *tokens = [tokenizer allObjects];
 			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", test.title);
 		}
 	}
@@ -145,7 +145,7 @@ static NSString * const TOKENIZER = @"tokenizer";
 
 		id token = nil;
 		do {
-			token = [tokenizer nextToken];
+			token = [tokenizer nextObject];
 		} while (token != nil);
     }];
 }

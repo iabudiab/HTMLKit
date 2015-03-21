@@ -17,14 +17,11 @@
 
 @class HTMLParser;
 
-@interface HTMLTokenizer : NSObject <NSFastEnumeration>
+@interface HTMLTokenizer : NSEnumerator
 
 @property (nonatomic, assign) HTMLTokenizerState state;
 @property (nonatomic, weak, readonly) HTMLParser *parser;
 
 - (instancetype)initWithString:(NSString *)string;
-
-- (HTMLToken *)nextToken;
-- (NSArray *)allTokens;
 
 @end
