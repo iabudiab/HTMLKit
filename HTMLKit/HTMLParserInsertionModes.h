@@ -41,7 +41,11 @@ typedef NS_ENUM(NSUInteger, HTMLInsertionMode)
 };
 
 static NSString * HTMLInsertionModesTable[] = {
-#define MODE_ENTRY( name, value ) [name] = @#name,
+#define LITERAL(X) #X
+#define STRINGIFY(X) LITERAL(X)
+#define MODE_ENTRY( name, value ) [name] = @#name STRINGIFY(:),
 	INSERTION_MODES
 #undef MODE_ENTRY
+#undef STRINGIFY
+#undef LITERAL
 };
