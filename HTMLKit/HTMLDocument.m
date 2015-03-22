@@ -36,7 +36,6 @@
 	}
 
 	[node.parentNode removeChildNode:node];
-	node.parentNode = self;
 	return node;
 }
 
