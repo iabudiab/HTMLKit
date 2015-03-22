@@ -13,6 +13,10 @@
 @property (nonatomic, strong) HTMLNode *parentNode;
 @end
 
+@interface HTMLDocument ()
+@property (nonatomic, assign) HTMLDocumentReadyState readyState;
+@end
+
 @implementation HTMLDocument
 
 - (instancetype)init
