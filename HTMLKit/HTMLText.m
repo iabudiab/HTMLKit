@@ -19,8 +19,7 @@
 {
 	self = [super initWithName:@"#text" type:HTMLNodeText];
 	if (self) {
-		self.data = [NSMutableString new];
-		[self.data setString:data ?: @""];
+		_data = [[NSMutableString alloc] initWithString:data];
 	}
 	return self;
 }
