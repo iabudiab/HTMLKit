@@ -410,16 +410,7 @@
 
 	for (int outerLoopCounter = 0; outerLoopCounter < 8; outerLoopCounter++) {
 
-		HTMLElement *formattingElement = ^ HTMLElement * {
-			for (HTMLElement *element in _listOfActiveFormattingElements.reverseObjectEnumerator) {
-				if ([element isEqualTo:[HTMLMarker marker]]) return nil;
-				if ([element.tagName isEqualTo:tagName]) {
-					return element;
-				}
-			}
-			return nil;
-		}();
-
+		HTMLElement *formattingElement = [_listOfActiveFormattingElements formattingElementWithTagName:tagName];
 		if (formattingElement == nil) {
 			return YES;
 		}
@@ -440,16 +431,7 @@
 		}
 
 		NSUInteger formattingElementIndex = [_stackOfOpenElements indexOfElement:formattingElement];
-
-		HTMLElement *furthestBlock = ^ HTMLElement * {
-			for (NSUInteger i = formattingElementIndex; i < _stackOfOpenElements.count; i++) {
-				HTMLElement *element = _stackOfOpenElements[i];
-				if (IsSpecialElement(element)) {
-					return element;
-				}
-			}
-			return nil;
-		}();
+		HTMLElement *furthestBlock = [_stackOfOpenElements furthestBlockAfterIndex:formattingElementIndex];
 
 		if (furthestBlock == nil) {
 			[_stackOfOpenElements popElementsUntilElementPopped:formattingElement];

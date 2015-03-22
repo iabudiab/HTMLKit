@@ -88,6 +88,17 @@
 	[_list removeLastObject];
 }
 
+- (HTMLElement *)formattingElementWithTagName:(NSString *)tagName
+{
+	for (HTMLElement *element in _list.reverseObjectEnumerator) {
+		if ([element isEqual:[HTMLMarker marker]]) return nil;
+		if ([element.tagName isEqualToString:tagName]) {
+			return element;
+		}
+	}
+	return nil;
+}
+
 #pragma mark - Count
 
 - (NSUInteger)count

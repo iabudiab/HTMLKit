@@ -8,6 +8,7 @@
 
 #import "HTMLStackOfOpenElements.h"
 #import "NSString+HTMLKit.h"
+#import "HTMLElementTypes.h"
 
 @interface HTMLStackOfOpenElements ()
 {
@@ -222,6 +223,17 @@
 		}
 		if ([elementTypes[node.tagName] isEqual:@(node.namespace)]) {
 			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)furthestBlockAfterIndex:(NSUInteger)index
+{
+	for (NSUInteger i = index; i < _stack.count; i++) {
+		HTMLElement *element = _stack[i];
+		if (IsSpecialElement(element)) {
+			return element;
 		}
 	}
 	return nil;

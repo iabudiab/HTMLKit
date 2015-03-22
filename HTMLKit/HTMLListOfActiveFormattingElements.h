@@ -27,6 +27,8 @@
 - (void)addMarker;
 - (void)clearUptoLastMarker;
 
+- (HTMLElement *)formattingElementWithTagName:(NSString *)tagName;
+
 - (NSUInteger)count;
 - (BOOL)isEmpty;
 

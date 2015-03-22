@@ -40,6 +40,7 @@
 - (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName;
+- (HTMLElement *)furthestBlockAfterIndex:(NSUInteger)index;
 
 - (NSUInteger)count;
 - (BOOL)isEmpy;
