@@ -684,7 +684,8 @@
 			break;
 	}
 
-#warning Check "iframe srcdoc"
+	[self emitParseError:@"Expected a DOCTYPE but got %@", token];
+	_document.quirksMode = HTMLQuirksModeQuirks;
 	[self switchInsertionMode:HTMLInsertionModeBeforeHTML];
 	[self reprocessToken:token];
 }

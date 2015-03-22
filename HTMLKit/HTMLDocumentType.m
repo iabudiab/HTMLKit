@@ -108,7 +108,6 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 		}
 	}
 
-#warning Check "iframe srcdoc"
 	if ([_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD XHTML 1.0 Frameset//"] ||
 		[_publicIdentifier hasPrefixIgnoringCase:@"-//W3C//DTD XHTML 1.0 Transitional//"]) {
 		return HTMLQuirksModeLimitedQuirks;
