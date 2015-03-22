@@ -330,7 +330,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	HTMLNode *copy = [[HTMLNode alloc] initWithName:self.name type:self.type];
+	HTMLNode *copy = [[self.class alloc] initWithName:self.name type:self.type];
 	return copy;
 }
 
