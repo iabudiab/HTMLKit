@@ -10,6 +10,7 @@
 #import "HTMLTokenizer.h"
 #import "HTMLTokens.h"
 #import "HTMLStackOfOpenElements.h"
+#import "HTMLListOfActiveFormattingElements.h"
 #import "HTMLParserInsertionModes.h"
 #import "HTMLNodes.h"
 #import "HTMLElementTypes.h"
@@ -36,7 +37,7 @@
 	HTMLInsertionMode _originalInsertionMode;
 
 	HTMLStackOfOpenElements *_stackOfOpenElements;
-	NSMutableArray *_listOfActiveFormattingElements;
+	HTMLListOfActiveFormattingElements *_listOfActiveFormattingElements;
 
 	HTMLDocument *_document;
 
@@ -70,7 +71,8 @@
 		[self setupStateMachine];
 
 		_stackOfOpenElements = [HTMLStackOfOpenElements new];
-		_listOfActiveFormattingElements = [NSMutableArray new];
+		_listOfActiveFormattingElements = [HTMLListOfActiveFormattingElements new];
+
 		_tokenizer = [[HTMLTokenizer alloc] initWithString:string];
 		_tokenizer.parser = self;
 
@@ -337,11 +339,11 @@
 
 - (void)reconstructActiveFormattingElements
 {
-	if (_listOfActiveFormattingElements.count == 0) {
+	if (_listOfActiveFormattingElements.isEmpty) {
 		return;
 	}
 
-	id last = _listOfActiveFormattingElements.lastObject;
+	id last = _listOfActiveFormattingElements.lastEntry;
 	if (last == [HTMLMarker marker] || [_stackOfOpenElements constainsElement:last]) {
 		return;
 	}
@@ -362,7 +364,7 @@
 		HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:entry.tagName
 																   attributes:entry.attributes];
 		HTMLElement *element = [self insertElementForToken:token];
-		[_listOfActiveFormattingElements replaceObjectAtIndex:index withObject:element];
+		[_listOfActiveFormattingElements replaceElementAtIndex:index withElement:element];
 		if (index++ != _listOfActiveFormattingElements.count) {
 			advance();
 		}
@@ -379,13 +381,6 @@
 	};
 
 	rewind();
-}
-
-- (void)clearListOfActiveFormattingElementsUptoLastMarker
-{
-	while (_listOfActiveFormattingElements.lastObject != [HTMLMarker marker]) {
-		[_listOfActiveFormattingElements removeLastObject];
-	}
 }
 
 - (void)generateImpliedEndTagsExceptForElement:(NSString *)tagName
@@ -407,8 +402,8 @@
 
 - (BOOL)runAdoptionAgencyAlgorithmForTagName:(NSString *)tagName
 {
-	if ([self.currentNode.tagName isEqualTo:tagName] &&
-		![_listOfActiveFormattingElements containsObject:self.currentNode]) {
+	if ([self.currentNode.tagName isEqualToString:tagName] &&
+		![_listOfActiveFormattingElements containsElement:self.currentNode]) {
 		[_stackOfOpenElements popCurrentNode];
 		return NO;
 	}
@@ -431,7 +426,7 @@
 
 		if (![_stackOfOpenElements constainsElement:formattingElement]) {
 			[self emitParseError:@"Formatting element is not in the Stack of Open Elements"];
-			[_listOfActiveFormattingElements removeObject:formattingElement];
+			[_listOfActiveFormattingElements removeElement:formattingElement];
 			return NO;
 		}
 
@@ -458,22 +453,22 @@
 
 		if (furthestBlock == nil) {
 			[_stackOfOpenElements popElementsUntilElementPopped:formattingElement];
-			[_listOfActiveFormattingElements removeObject:formattingElement];
+			[_listOfActiveFormattingElements removeElement:formattingElement];
 			return NO;
 		}
 
 		HTMLElement *commonAncestor = _stackOfOpenElements[formattingElementIndex - 1];
-		NSUInteger bookmark = [_listOfActiveFormattingElements indexOfObject:formattingElement];
+		NSUInteger bookmark = [_listOfActiveFormattingElements indexOfElement:formattingElement];
 
 		HTMLElement *node = furthestBlock;
 		HTMLElement *lastNode = furthestBlock;
 
 		for (int innerLoopCounter = 0; innerLoopCounter < 3; innerLoopCounter ++) {
 			NSUInteger nodeStackIndex = [_stackOfOpenElements indexOfElement:node];
-			NSUInteger nodeListIndex = [_listOfActiveFormattingElements indexOfObject:node];
+			NSUInteger stackIndex = [_stackOfOpenElements indexOfElement:node];
 
 			node = _stackOfOpenElements[nodeStackIndex - 1];
-			if (![_listOfActiveFormattingElements containsObject:node]) {
+			if (![_listOfActiveFormattingElements containsElement:node]) {
 				[_stackOfOpenElements removeElement:node];
 				continue;
 			}
@@ -483,8 +478,8 @@
 			}
 
 			HTMLElement *newElement = [node copy];
-			[_listOfActiveFormattingElements replaceObjectAtIndex:nodeListIndex withObject:newElement];
-			[_stackOfOpenElements replaceElementAtIndex:nodeStackIndex withElement:newElement];
+			[_listOfActiveFormattingElements replaceElementAtIndex:listIndex withElement:newElement];
+			[_stackOfOpenElements replaceElementAtIndex:stackIndex withElement:newElement];
 			node = newElement;
 
 			if ([lastNode isEqual:furthestBlock]) {
@@ -506,21 +501,13 @@
 		}
 
 		[furthestBlock appendNode:newElement];
-		[_listOfActiveFormattingElements removeObject:formattingElement];
-		[_listOfActiveFormattingElements insertObject:newElement atIndex:bookmark];
+		[_listOfActiveFormattingElements removeElement:formattingElement];
+		[_listOfActiveFormattingElements insertElement:newElement atIndex:bookmark-1];
 		[_stackOfOpenElements removeElement:formattingElement];
 		NSUInteger furthestBlockIndex = [_stackOfOpenElements indexOfElement:furthestBlock];
 		[_stackOfOpenElements insertElement:newElement atIndex:furthestBlockIndex];
 	}
 	return NO;
-}
-
-- (void)clearListOfActiveFormattingElementsUpToLastMarker
-{
-	while (![_listOfActiveFormattingElements.lastObject isEqual:[HTMLMarker marker]]) {
-		[_listOfActiveFormattingElements removeLastObject];
-	}
-	[_listOfActiveFormattingElements removeLastObject];
 }
 
 - (void)closeTheCell
@@ -530,7 +517,7 @@
 		[self emitParseError:@"Misnested Cell"];
 	}
 	[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"td", @"th"]];
-	[self clearListOfActiveFormattingElementsUpToLastMarker];
+	[_listOfActiveFormattingElements clearUptoLastMarker];
 	[self switchInsertionMode:HTMLInsertionModeInRow];
 }
 
@@ -1169,17 +1156,17 @@
 				[self processAnyOtherEndTagTokenInBody:token.asTagToken];
 				return;
 			}
-			[_listOfActiveFormattingElements removeObject:element];
+			[_listOfActiveFormattingElements removeElement:element];
 			[_stackOfOpenElements removeElement:element];
 		}
 		[self reconstructActiveFormattingElements];
 		HTMLElement *a = [self insertElementForToken:token];
-		[_listOfActiveFormattingElements addObject:a];
+		[_listOfActiveFormattingElements addElement:a];
 	} else if ([tagName isEqualToAny:@"b", @"big", @"code", @"em", @"font", @"i", @"s", @"small",
 				@"strike", @"strong", @"tt", @"u", nil]) {
 		[self reconstructActiveFormattingElements];
 		HTMLElement *element = [self insertElementForToken:token];
-		[_listOfActiveFormattingElements addObject:element];
+		[_listOfActiveFormattingElements addElement:element];
 	} else if ([tagName isEqualToString:@"nobr"]) {
 		[self reconstructActiveFormattingElements];
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"nobr"]) {
@@ -1456,7 +1443,7 @@
 			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
 		}
 		[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]];
-		[self clearListOfActiveFormattingElementsUpToLastMarker];
+		[_listOfActiveFormattingElements clearUptoLastMarker];
 	} else if ([tagName isEqualToString:@"br"]) {
 		[self emitParseError:@"Unexpected End Tag Token (br) in <body>"];
 		HTMLStartTagToken *brToken = [[HTMLStartTagToken alloc] initWithTagName:@"br"];
@@ -1658,7 +1645,7 @@
 			[self emitParseError:@"Unexpected nested (caption) element in <caption>"];
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"caption"];
-		[self clearListOfActiveFormattingElementsUpToLastMarker];
+		[_listOfActiveFormattingElements clearUptoLastMarker];
 		[self switchInsertionMode:HTMLInsertionModeInTable];
 
 		if (reprocess) {
@@ -1839,7 +1826,7 @@
 				[_stackOfOpenElements clearBackToTableContext];
 				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInCell];
-				[_listOfActiveFormattingElements addObject:[HTMLMarker marker]];
+				[_listOfActiveFormattingElements addMarker];
 			} else if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", @"tbody",
 						@"tfoot", @"thead", @"tr", nil]) {
 				common(@"tr", YES);
@@ -1882,7 +1869,7 @@
 						[self emitParseError:@"Unexpected nested (%@) element in <td>", token.asTagToken.tagName];
 					}
 					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:token.asTagToken.tagName];
-					[self clearListOfActiveFormattingElementsUpToLastMarker];
+					[_listOfActiveFormattingElements clearUptoLastMarker];
 					[self switchInsertionMode:HTMLInsertionModeInRow];
 				}
 			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup",
