@@ -1176,165 +1176,165 @@
 				return;
 			}
 			[self reconstructActiveFormattingElements];
-			HTMLElement *nobr = [self insertElementForToken:token];
-			[_listOfActiveFormattingElements addObject:nobr];
-		} else if ([token.tagName isEqualToAny:@"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr",
-					@"s", @"small", @"strike", @"strong", @"tt", @"u", nil]) {
-			if ([self runAdoptionAgencyAlgorithmForTagName:tagName]) {
-				[self processAnyOtherEndTagTokenInBody:token];
-				return;
-			}
-		} else if ([tagName isEqualToAny:@"applet", @"marquee", nil]) {
-			[self reconstructActiveFormattingElements];
-			[self insertElementForToken:token];
-			[_listOfActiveFormattingElements addObject:[HTMLMarker marker]];
-			_framesetOkFlag = NO;
-		} else if ([tagName isEqualToString:@"table"]) {
-			if (_document.quirksMode != HTMLQuirksModeQuirks &&
-				[_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-				[self closePElement];
-			}
-			[self insertElementForToken:token];
-			_framesetOkFlag = NO;
-			[self switchInsertionMode:HTMLInsertionModeInTable];
-		} else if ([tagName isEqualToAny:@"area", @"br", @"embed", @"img", @"keygen", @"wbr", nil]) {
-			[self reconstructActiveFormattingElements];
-			[self insertElementForToken:token];
-			[_stackOfOpenElements popCurrentNode];
-			_framesetOkFlag = NO;
-		} else if ([tagName isEqualToString:@"input"]) {
-			[self reconstructActiveFormattingElements];
-			[self insertElementForToken:token];
-			[_stackOfOpenElements popCurrentNode];
-			NSString *type = token.attributes[@"type"];
-			if (type == nil || ![type isEqualToStringIgnoringCase:@"hidden"]) {
-				_framesetOkFlag = NO;
-			}
-		} else if ([tagName isEqualToAny:@"menuitem", @"param", @"source", @"track", nil]) {
-			[self insertElementForToken:token];
-			[_stackOfOpenElements popCurrentNode];
-		} else if ([tagName isEqualToString:@"hr"]) {
-			if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-				[self closePElement];
-			}
-			[self insertElementForToken:token];
-			[_stackOfOpenElements popCurrentNode];
-			_framesetOkFlag = NO;
-		} else if ([tagName isEqualToString:@"image"]) {
-			[self emitParseError:@"Image Start Tag Token with tagname (image) should be (img). Don't ask."];
-			token.tagName = @"img";
-			[self reprocessToken:token];
-		} else if ([tagName isEqualToString:@"isindex"]) {
-			[self emitParseError:@"Unexpected Start Tag Token (isindex) in <body>"];
-#warning Implement HTML Template
-			if (_formElementPointer != nil) {
-				return;
-			}
-			_framesetOkFlag = NO;
-			if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-				[self closePElement];
-			}
-
-			HTMLStartTagToken *formToken = [[HTMLStartTagToken alloc] initWithTagName:@"form"];
-			HTMLElement *form = [self insertElementForToken:formToken];
-			_formElementPointer = form;
-			NSString *action = token.attributes[@"action"];
-			if (action != nil) {
-				form.attributes[@"action"] = action;
-			}
-
-			HTMLStartTagToken *hrToken = [[HTMLStartTagToken alloc] initWithTagName:@"hr"];
-			[self insertElementForToken:hrToken];
-
-			[_stackOfOpenElements popCurrentNode];
-			[self reconstructActiveFormattingElements];
-
-			HTMLStartTagToken *labelToken = [[HTMLStartTagToken alloc] initWithTagName:@"label"];
-			[self insertElementForToken:labelToken];
-
-			NSString *prompt = token.attributes[@"prompt"] ?: @"This is a searchable index. Enter search keywords: ";
-			[self insertCharacters:prompt];
-
-			HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input" attributes:token.attributes];
-			inputToken.attributes[@"name"] = @"isindex";
-			[inputToken.attributes removeObjectForKey:@"action"];
-			[inputToken.attributes removeObjectForKey:@"prompt"];
-			[_stackOfOpenElements popCurrentNode];
-
-			[_stackOfOpenElements popCurrentNode];
-			[self insertElementForToken:hrToken];
-			[_stackOfOpenElements popCurrentNode];
-			[_stackOfOpenElements popCurrentNode];
-			_formElementPointer = nil;
-		} else if ([tagName isEqualToString:@"textarea"]) {
-			[self insertElementForToken:token];
-			_ignoreNextLineFeedCharacterToken = YES;
-			_tokenizer.state = HTMLTokenizerStateRCDATA;
-			_originalInsertionMode = _insertionMode;
-			_framesetOkFlag = NO;
-			[self switchInsertionMode:HTMLInsertionModeText];
-		} else if ([tagName isEqualToString:@"xmp"]) {
-			if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-				[self closePElement];
-			}
-			[self reconstructActiveFormattingElements];
-			_framesetOkFlag = NO;
-			[self applyGenericParsingAlgorithmForToken:token withTokenizerState:HTMLTokenizerStateRAWTEXT];
-		} else if ([tagName isEqualToString:@"iframe"]) {
-			_framesetOkFlag = NO;
-			[self applyGenericParsingAlgorithmForToken:token withTokenizerState:HTMLTokenizerStateRAWTEXT];
-		} else if ([tagName isEqualToAny:@"noembed", @"noscript", nil]) {
-			[self applyGenericParsingAlgorithmForToken:token withTokenizerState:HTMLTokenizerStateRAWTEXT];
-		} else if ([tagName isEqualToString:@"select"]) {
-			[self reconstructActiveFormattingElements];
-			[self insertElementForToken:token];
-			_framesetOkFlag = NO;
-			if (_insertionMode == HTMLInsertionModeInTable ||
-				_insertionMode == HTMLInsertionModeInCaption ||
-				_insertionMode == HTMLInsertionModeInTableBody ||
-				_insertionMode == HTMLInsertionModeInCell ||
-				_insertionMode == HTMLInsertionModeInRow) {
-				[self switchInsertionMode:HTMLInsertionModeInTable];
-			} else {
-				[self switchInsertionMode:HTMLInsertionModeInSelect];
-			}
-		} else if ([tagName isEqualToAny:@"optgroup", @"option", nil]) {
-			if ([self.currentNode.tagName isEqualToString:@"option"]) {
-				[_stackOfOpenElements popCurrentNode];
-			}
-			[self reconstructActiveFormattingElements];
-			[self insertElementForToken:token];
-		} else if ([tagName isEqualToAny:@"rp", @"rt", nil]) {
-			if ([_stackOfOpenElements hasElementInScopeWithTagName:@"ruby"]) {
-				[self generateImpliedEndTagsExceptForElement:nil];
-				if (![self.currentNode.tagName isEqualToString:@"ruby"]) {
-					[self emitParseError:@"Unexpected Start Tag Token (%@) not in <ruby> in <body>", tagName];
-				}
-			}
-			[self insertElementForToken:token];
-		} else if ([tagName isEqualToString:@"math"]) {
-			[self reconstructActiveFormattingElements];
-			AdjustMathMLAttributes(token);
-			// "Adjust foreign attributes": Attributes' namespace ignored
-			[self insertForeignElementForToken:token inNamespace:HTMLNamespaceMathML];
-			if (token.isSelfClosing) {
-				[_stackOfOpenElements popCurrentNode];
-			}
-		} else if ([tagName isEqualToString:@"svg"]) {
-			[self reconstructActiveFormattingElements];
-			AdjustSVGAttributes(token);
-			// "Adjust foreign attributes": Attributes' namespace ignored
-			[self insertForeignElementForToken:token inNamespace:HTMLNamespaceSVG];
-			if (token.isSelfClosing) {
-				[_stackOfOpenElements popCurrentNode];
-			}
-		} else if ([tagName isEqualToAny:@"caption", @"col", @"colgroup", @"frame", @"head", @"tbody", @"td",
-					@"tfoot", @"th", @"thead", @"tr", nil]) {
-			[self emitParseError:@"Unexpected Start Tag Token (%@) in <body>", tagName];
-		} else {
-			[self reconstructActiveFormattingElements];
-			[self insertElementForToken:token];
 		}
+		HTMLElement *nobr = [self insertElementForToken:token];
+		[_listOfActiveFormattingElements addElement:nobr];
+	} else if ([token.tagName isEqualToAny:@"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr",
+				@"s", @"small", @"strike", @"strong", @"tt", @"u", nil]) {
+		if ([self runAdoptionAgencyAlgorithmForTagName:tagName]) {
+			[self processAnyOtherEndTagTokenInBody:token];
+			return;
+		}
+	} else if ([tagName isEqualToAny:@"applet", @"marquee", nil]) {
+		[self reconstructActiveFormattingElements];
+		[self insertElementForToken:token];
+		[_listOfActiveFormattingElements addMarker];
+		_framesetOkFlag = NO;
+	} else if ([tagName isEqualToString:@"table"]) {
+		if (_document.quirksMode != HTMLQuirksModeQuirks &&
+			[_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
+			[self closePElement];
+		}
+		[self insertElementForToken:token];
+		_framesetOkFlag = NO;
+		[self switchInsertionMode:HTMLInsertionModeInTable];
+	} else if ([tagName isEqualToAny:@"area", @"br", @"embed", @"img", @"keygen", @"wbr", nil]) {
+		[self reconstructActiveFormattingElements];
+		[self insertElementForToken:token];
+		[_stackOfOpenElements popCurrentNode];
+		_framesetOkFlag = NO;
+	} else if ([tagName isEqualToString:@"input"]) {
+		[self reconstructActiveFormattingElements];
+		[self insertElementForToken:token];
+		[_stackOfOpenElements popCurrentNode];
+		NSString *type = token.attributes[@"type"];
+		if (type == nil || ![type isEqualToStringIgnoringCase:@"hidden"]) {
+			_framesetOkFlag = NO;
+		}
+	} else if ([tagName isEqualToAny:@"menuitem", @"param", @"source", @"track", nil]) {
+		[self insertElementForToken:token];
+		[_stackOfOpenElements popCurrentNode];
+	} else if ([tagName isEqualToString:@"hr"]) {
+		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
+			[self closePElement];
+		}
+		[self insertElementForToken:token];
+		[_stackOfOpenElements popCurrentNode];
+		_framesetOkFlag = NO;
+	} else if ([tagName isEqualToString:@"image"]) {
+		[self emitParseError:@"Image Start Tag Token with tagname (image) should be (img). Don't ask."];
+		token.tagName = @"img";
+		[self reprocessToken:token];
+	} else if ([tagName isEqualToString:@"isindex"]) {
+		[self emitParseError:@"Unexpected Start Tag Token (isindex) in <body>"];
+#warning Implement HTML Template
+		if (_formElementPointer != nil) {
+			return;
+		}
+		_framesetOkFlag = NO;
+		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
+			[self closePElement];
+		}
+
+		HTMLStartTagToken *formToken = [[HTMLStartTagToken alloc] initWithTagName:@"form"];
+		HTMLElement *form = [self insertElementForToken:formToken];
+		_formElementPointer = form;
+		NSString *action = token.attributes[@"action"];
+		if (action != nil) {
+			form.attributes[@"action"] = action;
+		}
+
+		HTMLStartTagToken *hrToken = [[HTMLStartTagToken alloc] initWithTagName:@"hr"];
+		[self insertElementForToken:hrToken];
+
+		[_stackOfOpenElements popCurrentNode];
+		[self reconstructActiveFormattingElements];
+
+		HTMLStartTagToken *labelToken = [[HTMLStartTagToken alloc] initWithTagName:@"label"];
+		[self insertElementForToken:labelToken];
+
+		NSString *prompt = token.attributes[@"prompt"] ?: @"This is a searchable index. Enter search keywords: ";
+		[self insertCharacters:prompt];
+
+		HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input" attributes:token.attributes];
+		inputToken.attributes[@"name"] = @"isindex";
+		[inputToken.attributes removeObjectForKey:@"action"];
+		[inputToken.attributes removeObjectForKey:@"prompt"];
+		[_stackOfOpenElements popCurrentNode];
+
+		[_stackOfOpenElements popCurrentNode];
+		[self insertElementForToken:hrToken];
+		[_stackOfOpenElements popCurrentNode];
+		[_stackOfOpenElements popCurrentNode];
+		_formElementPointer = nil;
+	} else if ([tagName isEqualToString:@"textarea"]) {
+		[self insertElementForToken:token];
+		_ignoreNextLineFeedCharacterToken = YES;
+		_tokenizer.state = HTMLTokenizerStateRCDATA;
+		_originalInsertionMode = _insertionMode;
+		_framesetOkFlag = NO;
+		[self switchInsertionMode:HTMLInsertionModeText];
+	} else if ([tagName isEqualToString:@"xmp"]) {
+		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
+			[self closePElement];
+		}
+		[self reconstructActiveFormattingElements];
+		_framesetOkFlag = NO;
+		[self applyGenericParsingAlgorithmForToken:token withTokenizerState:HTMLTokenizerStateRAWTEXT];
+	} else if ([tagName isEqualToString:@"iframe"]) {
+		_framesetOkFlag = NO;
+		[self applyGenericParsingAlgorithmForToken:token withTokenizerState:HTMLTokenizerStateRAWTEXT];
+	} else if ([tagName isEqualToAny:@"noembed", @"noscript", nil]) {
+		[self applyGenericParsingAlgorithmForToken:token withTokenizerState:HTMLTokenizerStateRAWTEXT];
+	} else if ([tagName isEqualToString:@"select"]) {
+		[self reconstructActiveFormattingElements];
+		[self insertElementForToken:token];
+		_framesetOkFlag = NO;
+		if (_insertionMode == HTMLInsertionModeInTable ||
+			_insertionMode == HTMLInsertionModeInCaption ||
+			_insertionMode == HTMLInsertionModeInTableBody ||
+			_insertionMode == HTMLInsertionModeInCell ||
+			_insertionMode == HTMLInsertionModeInRow) {
+			[self switchInsertionMode:HTMLInsertionModeInTable];
+		} else {
+			[self switchInsertionMode:HTMLInsertionModeInSelect];
+		}
+	} else if ([tagName isEqualToAny:@"optgroup", @"option", nil]) {
+		if ([self.currentNode.tagName isEqualToString:@"option"]) {
+			[_stackOfOpenElements popCurrentNode];
+		}
+		[self reconstructActiveFormattingElements];
+		[self insertElementForToken:token];
+	} else if ([tagName isEqualToAny:@"rp", @"rt", nil]) {
+		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"ruby"]) {
+			[self generateImpliedEndTagsExceptForElement:nil];
+			if (![self.currentNode.tagName isEqualToString:@"ruby"]) {
+				[self emitParseError:@"Unexpected Start Tag Token (%@) not in <ruby> in <body>", tagName];
+			}
+		}
+		[self insertElementForToken:token];
+	} else if ([tagName isEqualToString:@"math"]) {
+		[self reconstructActiveFormattingElements];
+		AdjustMathMLAttributes(token);
+			// "Adjust foreign attributes": Attributes' namespace ignored
+		[self insertForeignElementForToken:token inNamespace:HTMLNamespaceMathML];
+		if (token.isSelfClosing) {
+			[_stackOfOpenElements popCurrentNode];
+		}
+	} else if ([tagName isEqualToString:@"svg"]) {
+		[self reconstructActiveFormattingElements];
+		AdjustSVGAttributes(token);
+			// "Adjust foreign attributes": Attributes' namespace ignored
+		[self insertForeignElementForToken:token inNamespace:HTMLNamespaceSVG];
+		if (token.isSelfClosing) {
+			[_stackOfOpenElements popCurrentNode];
+		}
+	} else if ([tagName isEqualToAny:@"caption", @"col", @"colgroup", @"frame", @"head", @"tbody", @"td",
+				@"tfoot", @"th", @"thead", @"tr", nil]) {
+		[self emitParseError:@"Unexpected Start Tag Token (%@) in <body>", tagName];
+	} else {
+		[self reconstructActiveFormattingElements];
+		[self insertElementForToken:token];
 	}
 }
 
