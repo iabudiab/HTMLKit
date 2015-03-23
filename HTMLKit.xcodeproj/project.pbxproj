@@ -16,6 +16,7 @@
 		6234BEEE1AABBF1400DEB15F /* HTMLStackOfOpenElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 6234BEEC1AABBF1400DEB15F /* HTMLStackOfOpenElements.h */; };
 		6234BEEF1AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */; };
 		6234BEF01AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */; };
+		6234CF571ABF892400B6077D /* libHTMLKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14DE19C7834000AD0C32 /* libHTMLKit.a */; };
 		6235CE9B1AA509430026937B /* NSString+HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6235CE991AA509430026937B /* NSString+HTMLKit.h */; };
 		6235CE9C1AA509430026937B /* NSString+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235CE9A1AA509430026937B /* NSString+HTMLKit.m */; };
 		6235CE9D1AA509430026937B /* NSString+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6235CE9A1AA509430026937B /* NSString+HTMLKit.m */; };
@@ -28,6 +29,8 @@
 		62363C3D1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h in Headers */ = {isa = PBXBuildFile; fileRef = 62363C3B1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h */; };
 		62363C3E1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 62363C3C1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m */; };
 		62363C3F1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */ = {isa = PBXBuildFile; fileRef = 62363C3C1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m */; };
+		6236738E1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6236738D1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m */; };
+		6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6236738D1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m */; };
 		6238039F1AB63A8C008A53D0 /* HTMLEOFToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 6238039D1AB63A8C008A53D0 /* HTMLEOFToken.h */; };
 		623803A01AB63A8C008A53D0 /* HTMLEOFToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238039E1AB63A8C008A53D0 /* HTMLEOFToken.m */; };
 		623803A11AB63A8C008A53D0 /* HTMLEOFToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238039E1AB63A8C008A53D0 /* HTMLEOFToken.m */; };
@@ -50,8 +53,8 @@
 		624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */; };
 		624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */; };
 		624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */ = {isa = PBXBuildFile; fileRef = 624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */; };
-		624AC90119FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */; };
-		624AC90219FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */; };
+		624AC90119FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */; };
+		624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */; };
 		624AC90519FBFE9A00BD3C4A /* html5lib-tests in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90419FBFE8A00BD3C4A /* html5lib-tests */; };
 		624AC90619FBFEA000BD3C4A /* html5lib-tests in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90419FBFE8A00BD3C4A /* html5lib-tests */; };
 		624AC90E19FC702E00BD3C4A /* HTML Standard.html in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90D19FC702E00BD3C4A /* HTML Standard.html */; };
@@ -63,15 +66,12 @@
 		625A14C619C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */; };
 		625A14CF19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14CD19C7829400AD0C32 /* InfoPlist.strings */; };
-		625A14D119C7829400AD0C32 /* HTMLKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A14D019C7829400AD0C32 /* HTMLKitTests.m */; };
 		625A14E019C7834100AD0C32 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14DF19C7834100AD0C32 /* Foundation.framework */; };
 		625A14ED19C7834100AD0C32 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14C419C7829400AD0C32 /* XCTest.framework */; };
 		625A14EE19C7834100AD0C32 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14DF19C7834100AD0C32 /* Foundation.framework */; };
-		625A14F319C7834100AD0C32 /* libHTMLKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14DE19C7834000AD0C32 /* libHTMLKit.a */; };
 		625A150219C783DE00AD0C32 /* HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A14BD19C7829400AD0C32 /* HTMLKit.m */; };
 		625A150319C783E200AD0C32 /* HTMLKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 625A14BC19C7829400AD0C32 /* HTMLKit.h */; };
 		625A150419C783EB00AD0C32 /* HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A14BC19C7829400AD0C32 /* HTMLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		625A150519C783FD00AD0C32 /* HTMLKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A14D019C7829400AD0C32 /* HTMLKitTests.m */; };
 		625A150819C78ABA00AD0C32 /* HTMLInputStreamReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */; };
 		625A150919C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */; };
 		625A150A19C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */; };
@@ -93,8 +93,8 @@
 		62AE594919F9948A0043F069 /* HTMLCharacterToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 62AE594719F9948A0043F069 /* HTMLCharacterToken.h */; };
 		62AE594A19F9948A0043F069 /* HTMLCharacterToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AE594819F9948A0043F069 /* HTMLCharacterToken.m */; };
 		62AE594B19F9948A0043F069 /* HTMLCharacterToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AE594819F9948A0043F069 /* HTMLCharacterToken.m */; };
-		62D8345919FB1AC4009205A9 /* HTML5LibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTest.m */; };
-		62D8345A19FB1AC4009205A9 /* HTML5LibTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTest.m */; };
+		62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
+		62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
 		62F31FDD19E9DCCF007F0657 /* HTMLTokenizerEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */; };
 		62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
 		62F31FDF19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
@@ -151,6 +151,7 @@
 		62362A3F1A9FDE8A00301989 /* HTMLNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNodes.h; sourceTree = "<group>"; };
 		62363C3B1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLListOfActiveFormattingElements.h; sourceTree = "<group>"; };
 		62363C3C1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLListOfActiveFormattingElements.m; sourceTree = "<group>"; };
+		6236738D1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTokenizerPerformance.m; sourceTree = "<group>"; };
 		623719431AA12EE8002E03C8 /* HTMLQuirksMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLQuirksMode.h; sourceTree = "<group>"; };
 		6238039D1AB63A8C008A53D0 /* HTMLEOFToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLEOFToken.h; sourceTree = "<group>"; };
 		6238039E1AB63A8C008A53D0 /* HTMLEOFToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLEOFToken.m; sourceTree = "<group>"; };
@@ -168,8 +169,7 @@
 		624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLToken.h; sourceTree = "<group>"; };
 		624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLToken.m; sourceTree = "<group>"; };
 		624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokens.h; sourceTree = "<group>"; };
-		624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerTests.m; sourceTree = "<group>"; };
-		624AC90319FBFD1A00BD3C4A /* HTMLKitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLKitTests.h; sourceTree = "<group>"; };
+		624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTokenizerTests.m; sourceTree = "<group>"; };
 		624AC90419FBFE8A00BD3C4A /* html5lib-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "html5lib-tests"; sourceTree = "<group>"; };
 		624AC90D19FC702E00BD3C4A /* HTML Standard.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "HTML Standard.html"; sourceTree = "<group>"; };
 		625A14AC19C7829400AD0C32 /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,7 +186,6 @@
 		625A14C419C7829400AD0C32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		625A14CC19C7829400AD0C32 /* HTMLKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HTMLKitTests-Info.plist"; sourceTree = "<group>"; };
 		625A14CE19C7829400AD0C32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		625A14D019C7829400AD0C32 /* HTMLKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTests.m; sourceTree = "<group>"; };
 		625A14DE19C7834000AD0C32 /* libHTMLKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHTMLKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14DF19C7834100AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		625A14EC19C7834100AD0C32 /* HTMLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,8 +205,8 @@
 		62AE594319F992F30043F069 /* HTMLCommentToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLCommentToken.m; sourceTree = "<group>"; };
 		62AE594719F9948A0043F069 /* HTMLCharacterToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLCharacterToken.h; sourceTree = "<group>"; };
 		62AE594819F9948A0043F069 /* HTMLCharacterToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLCharacterToken.m; sourceTree = "<group>"; };
-		62D8345719FB1AC4009205A9 /* HTML5LibTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTML5LibTest.h; sourceTree = "<group>"; };
-		62D8345819FB1AC4009205A9 /* HTML5LibTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTML5LibTest.m; sourceTree = "<group>"; };
+		62D8345719FB1AC4009205A9 /* HTML5LibTokenizerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTML5LibTokenizerTest.h; sourceTree = "<group>"; };
+		62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTML5LibTokenizerTest.m; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
 		62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerEntities.h; sourceTree = "<group>"; };
 		62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizerEntities.m; sourceTree = "<group>"; };
@@ -228,9 +227,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */,
 				625A14C619C7829400AD0C32 /* Cocoa.framework in Frameworks */,
 				625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */,
-				625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,15 +245,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				625A14ED19C7834100AD0C32 /* XCTest.framework in Frameworks */,
+				6234CF571ABF892400B6077D /* libHTMLKit.a in Frameworks */,
 				625A14EE19C7834100AD0C32 /* Foundation.framework in Frameworks */,
-				625A14F319C7834100AD0C32 /* libHTMLKit.a in Frameworks */,
+				625A14ED19C7834100AD0C32 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6236738C1AC0CD2400FF89B3 /* Tokenizer */ = {
+			isa = PBXGroup;
+			children = (
+				62D8345719FB1AC4009205A9 /* HTML5LibTokenizerTest.h */,
+				62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */,
+				624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */,
+				6236738D1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m */,
+			);
+			name = Tokenizer;
+			sourceTree = "<group>";
+		};
 		623719441AA1472B002E03C8 /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -362,11 +372,7 @@
 		625A14CA19C7829400AD0C32 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				62D8345719FB1AC4009205A9 /* HTML5LibTest.h */,
-				62D8345819FB1AC4009205A9 /* HTML5LibTest.m */,
-				624AC90319FBFD1A00BD3C4A /* HTMLKitTests.h */,
-				625A14D019C7829400AD0C32 /* HTMLKitTests.m */,
-				624AC90019FBF9ED00BD3C4A /* HTMLTokenizerTests.m */,
+				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
 			);
 			name = Tests;
@@ -626,9 +632,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				624AC90219FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */,
-				62D8345A19FB1AC4009205A9 /* HTML5LibTest.m in Sources */,
-				625A14D119C7829400AD0C32 /* HTMLKitTests.m in Sources */,
+				6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
+				624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
+				62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,9 +673,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				624AC90119FBF9ED00BD3C4A /* HTMLTokenizerTests.m in Sources */,
-				62D8345919FB1AC4009205A9 /* HTML5LibTest.m in Sources */,
-				625A150519C783FD00AD0C32 /* HTMLKitTests.m in Sources */,
+				6236738E1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
+				624AC90119FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
+				62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -811,7 +817,7 @@
 		625A14D819C7829400AD0C32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLKit.framework/Versions/A/HTMLKit";
+				BUNDLE_LOADER = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -833,7 +839,7 @@
 		625A14D919C7829400AD0C32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLKit.framework/Versions/A/HTMLKit";
+				BUNDLE_LOADER = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -884,7 +890,7 @@
 		625A150019C7834100AD0C32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLKit.framework/Versions/A/HTMLKit";
+				BUNDLE_LOADER = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -908,7 +914,7 @@
 		625A150119C7834100AD0C32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HTMLKit.framework/Versions/A/HTMLKit";
+				BUNDLE_LOADER = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

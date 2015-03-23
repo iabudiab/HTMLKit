@@ -6,12 +6,11 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
-#import "HTML5LibTest.h"
+#import "HTML5LibTokenizerTest.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
 
-@implementation HTML5LibTest
-
+@implementation HTML5LibTokenizerTest
 
 - (instancetype)initWithTestDictionary:(NSDictionary *)dictionary
 {
@@ -94,10 +93,10 @@
 	} else if ([type isEqualToString:@"Comment"]) {
 		return [[HTMLCommentToken alloc] initWithData:data];
 	} else if ([type isEqualToString:@"DOCTYPE"]) {
-		data = [[NSNull null] isEqualTo:data] ? nil : data;
+		data = [[NSNull null] isEqual:data] ? nil : data;
 		HTMLDOCTYPEToken *token = [[HTMLDOCTYPEToken alloc] initWithName:data];
-		token.publicIdentifier = [[NSNull null] isEqualTo:output[2]] ? nil : output[2];
-		token.systemIdentifier = [[NSNull null] isEqualTo:output[3]] ? nil : output[3];
+		token.publicIdentifier = [[NSNull null] isEqual:output[2]] ? nil : output[2];
+		token.systemIdentifier = [[NSNull null] isEqual:output[3]] ? nil : output[3];
 		token.forceQuirks = ([output[4] boolValue] == NO);
 		return token;
 	} else if ([type isEqualToString:@"EndTag"]) {
@@ -143,6 +142,11 @@
 	}
 
 	return string;
+}
+
+- (NSString *)description
+{
+	return self.title;
 }
 
 @end

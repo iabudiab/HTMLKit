@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HTML5LibTest : NSObject
+@interface HTML5LibTokenizerTest : NSObject
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *input;
+@property (nonatomic, copy) NSString *testFile;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *input;
 @property (nonatomic, strong) NSArray *output;
 @property (nonatomic, strong) NSArray *initialStates;
-@property (nonatomic, strong) NSString *lastStartTag;
+@property (nonatomic, copy) NSString *lastStartTag;
 @property (nonatomic, assign) BOOL ignoreErrorOrder;
 
 - (instancetype)initWithTestDictionary:(NSDictionary *)dictionary;
