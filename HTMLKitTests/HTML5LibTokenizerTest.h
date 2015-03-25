@@ -10,13 +10,15 @@
 
 @interface HTML5LibTokenizerTest : NSObject
 
-@property (nonatomic, copy) NSString *testFile;
+@property (nonatomic, copy) NSString *testName;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *input;
 @property (nonatomic, strong) NSArray *output;
 @property (nonatomic, strong) NSArray *initialStates;
 @property (nonatomic, copy) NSString *lastStartTag;
 @property (nonatomic, assign) BOOL ignoreErrorOrder;
+
++ (NSDictionary *)loadHTML5LibTokenizerTests;
 
 - (instancetype)initWithTestDictionary:(NSDictionary *)dictionary;
 

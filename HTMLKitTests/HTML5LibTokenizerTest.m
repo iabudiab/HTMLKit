@@ -10,7 +10,53 @@
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
 
+static NSString * const HTML5LibTests = @"html5lib-tests";
+static NSString * const TOKENIZER = @"tokenizer";
+
 @implementation HTML5LibTokenizerTest
+
++ (NSDictionary *)loadHTML5LibTokenizerTests
+{
+	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
+	path = [path stringByAppendingPathComponent:HTML5LibTests];
+	path = [path stringByAppendingPathComponent:TOKENIZER];
+
+	NSMutableDictionary *testsMap = [NSMutableDictionary dictionary];
+	NSArray *testFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+
+	for (NSString *testFile in testFiles) {
+		if (![testFile.pathExtension isEqualToString:@"test"]) {
+			continue;
+		}
+
+		NSString *jsonPath = [path stringByAppendingPathComponent:testFile];
+		NSArray *tests = [HTML5LibTokenizerTest loadTestsWithFileAtPath:jsonPath];
+		[testsMap setObject:tests forKey:testFile];
+	}
+
+	return testsMap;
+}
+
++ (NSArray *)loadTestsWithFileAtPath:(NSString *)filePath
+{
+	NSString *testName = filePath.lastPathComponent.stringByDeletingLastPathComponent;
+
+	NSString *json = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+	NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+
+	NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data
+															   options:0
+																 error:nil];
+	NSArray *jsonTests = [dictionary objectForKey:@"tests"];
+	NSMutableArray *tests = [NSMutableArray array];
+
+	for (NSDictionary *test in jsonTests) {
+		HTML5LibTokenizerTest *html5libTest = [[HTML5LibTokenizerTest alloc] initWithTestDictionary:test];
+		html5libTest.testName = testName;
+		[tests addObject:html5libTest];
+	}
+	return tests;
+}
 
 - (instancetype)initWithTestDictionary:(NSDictionary *)dictionary
 {
