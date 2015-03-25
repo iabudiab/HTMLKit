@@ -12,4 +12,6 @@
 @interface HTMLParser : NSObject
 
 
+- (instancetype)initWithString:(NSString *)string context:(HTMLElement *)context;
+
 @end

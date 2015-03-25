@@ -60,10 +60,13 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithString:(NSString *)string
+- (instancetype)initWithString:(NSString *)string context:(HTMLElement *)context
 {
 	self = [super init];
 	if (self) {
+		_contextElement = context;
+		_fragmentParsingAlgorithm = (context != nil);
+
 		_errors = [NSMutableArray new];
 
 		_insertionModes = [NSMutableDictionary new];
@@ -77,6 +80,9 @@
 		_tokenizer.parser = self;
 
 		_pendingTableCharacterTokens = [[HTMLCharacterToken alloc] initWithString:@""];
+
+		_headElementPointer = nil;
+		_formElementPointer = nil;
 
 		_framesetOkFlag = YES;
 		_fragmentParsingAlgorithm = NO;
@@ -95,67 +101,74 @@
 	}
 }
 
-#pragma mark - Nodes
+#pragma mark - Properties
 
-- (HTMLElement *)currentNode
+- (NSArray *)parseErrors
 {
-	return _stackOfOpenElements.currentNode;
+	return _errors;
 }
 
-- (HTMLElement *)adjustedCurrentNode
+- (HTMLDocument *)document
 {
-	if (_stackOfOpenElements.count == 1 && _fragmentParsingAlgorithm) {
-		return _contextElement;
+	if (_document == nil) {
+		[self parse];
 	}
-	return [self currentNode];
-}
-
-#pragma mark - Emits
-
-- (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
-{
-	va_list args;
-	va_start(args, format);
-	NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
-	[_errors addObject:message];
-	va_end(args);
+	return _document;
 }
 
 #pragma mark - Parse
 
-- (id)parse
+- (void)parse
 {
+	_document = [HTMLDocument new];
+	if (_fragmentParsingAlgorithm) {
+		if (_contextElement != nil) {
+			if ([_contextElement.tagName isEqualToAny:@"title", @"textarea", nil]) {
+				_tokenizer.state = HTMLTokenizerStateRCDATA;
+			} else if ([_contextElement.tagName isEqualToAny:@"style", @"xmp", @"iframe", @"noembed", @"noframes", nil]) {
+				_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+			} else if ([_contextElement.tagName isEqualToString:@"script"]) {
+				_tokenizer.state = HTMLTokenizerStateScriptData;
+			} else if ([_contextElement.tagName isEqualToString:@"noscript"]) {
+				_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+			} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
+				_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
+			} else {
+				_tokenizer.state = HTMLTokenizerStateData;
+			}
+		}
+
+		HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"html"];
+		[_document appendNode:root];
+		[_stackOfOpenElements pushElement:root];
+
+		if ([_contextElement.tagName isEqualToString:@"template"]) {
+#warning Implement HTML Template
+		}
+
+		[self resetInsertionModeAppropriately];
+
+		_formElementPointer = _contextElement;
+		while (_formElementPointer != nil && ![_formElementPointer.tagName isEqualToString:@"form"]) {
+			_formElementPointer = _formElementPointer.parentElement;
+		}
+	}
+
 	for (HTMLToken *token in _tokenizer) {
 		if (_document.readyState == HTMLDocumentComplete) {
 			break;
 		}
 		[self processToken:token];
 	}
-	return nil;
 }
 
-- (id)parseFragment
+- (void)stopParsing
 {
-	if (_contextElement != nil) {
-		if ([_contextElement.tagName isEqualToAny:@"title", @"textarea", nil]) {
-			_tokenizer.state = HTMLTokenizerStateRCDATA;
-		} else if ([_contextElement.tagName isEqualToAny:@"style", @"xmp", @"iframe", @"noembed", @"noframes", nil]) {
-			_tokenizer.state = HTMLTokenizerStateRAWTEXT;
-		} else if ([_contextElement.tagName isEqualToString:@"script"]) {
-			_tokenizer.state = HTMLTokenizerStateScriptData;
-		} else if ([_contextElement.tagName isEqualToString:@"noscript"]) {
-			if (_scriptingFlag) {
-				_tokenizer.state = HTMLTokenizerStateRAWTEXT;
-			}
-		} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
-			_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
-		} else {
-			_tokenizer.state = HTMLTokenizerStateData;
-		}
-	}
-
-	return nil;
+	[_stackOfOpenElements popAll];
+	_document.readyState = HTMLDocumentComplete;
 }
+
+#pragma mark - Processing
 
 - (void)processToken:(HTMLToken *)token
 {
@@ -229,10 +242,30 @@
 	}
 }
 
-- (void)stopParsing
+#pragma mark - Nodes
+
+- (HTMLElement *)currentNode
 {
-	[_stackOfOpenElements popAll];
-	_document.readyState =HTMLDocumentComplete;
+	return _stackOfOpenElements.currentNode;
+}
+
+- (HTMLElement *)adjustedCurrentNode
+{
+	if (_stackOfOpenElements.count == 1 && _fragmentParsingAlgorithm) {
+		return _contextElement;
+	}
+	return [self currentNode];
+}
+
+#pragma mark - Emits
+
+- (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
+{
+	va_list args;
+	va_start(args, format);
+	NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
+	[_errors addObject:message];
+	va_end(args);
 }
 
 #pragma mark - Insertions & Manipulations
@@ -446,10 +479,9 @@
 		HTMLElement *lastNode = furthestBlock;
 
 		for (int innerLoopCounter = 0; innerLoopCounter < 3; innerLoopCounter ++) {
-			NSUInteger nodeStackIndex = [_stackOfOpenElements indexOfElement:node];
 			NSUInteger stackIndex = [_stackOfOpenElements indexOfElement:node];
 
-			node = _stackOfOpenElements[nodeStackIndex - 1];
+			node = _stackOfOpenElements[stackIndex - 1];
 			if (![_listOfActiveFormattingElements containsElement:node]) {
 				[_stackOfOpenElements removeElement:node];
 				continue;
@@ -459,13 +491,16 @@
 				break;
 			}
 
+			stackIndex = [_stackOfOpenElements indexOfElement:node];
+			NSUInteger listIndex = [_listOfActiveFormattingElements indexOfElement:node];
+
 			HTMLElement *newElement = [node copy];
 			[_listOfActiveFormattingElements replaceElementAtIndex:listIndex withElement:newElement];
 			[_stackOfOpenElements replaceElementAtIndex:stackIndex withElement:newElement];
 			node = newElement;
 
 			if ([lastNode isEqual:furthestBlock]) {
-				bookmark = nodeListIndex + 1;
+				bookmark = listIndex + 1;
 			}
 
 			[node appendNode:lastNode];
@@ -484,7 +519,8 @@
 
 		[furthestBlock appendNode:newElement];
 		[_listOfActiveFormattingElements removeElement:formattingElement];
-		[_listOfActiveFormattingElements insertElement:newElement atIndex:bookmark-1];
+		bookmark = bookmark == 0 ?: bookmark -1;
+		[_listOfActiveFormattingElements insertElement:newElement atIndex:bookmark];
 		[_stackOfOpenElements removeElement:formattingElement];
 		NSUInteger furthestBlockIndex = [_stackOfOpenElements indexOfElement:furthestBlock];
 		[_stackOfOpenElements insertElement:newElement atIndex:furthestBlockIndex];
@@ -1126,8 +1162,8 @@
 	} else if ([tagName isEqualToString:@"a"]) {
 		HTMLElement *element = ^ HTMLElement * {
 			for (HTMLElement *element in _listOfActiveFormattingElements.reverseObjectEnumerator) {
-				if ([element isEqualTo:[HTMLMarker marker]]) return nil;
-				if ([element.tagName isEqualTo:@"a"]) {
+				if ([element isEqual:[HTMLMarker marker]]) return nil;
+				if ([element.tagName isEqualToString:@"a"]) {
 					return element;
 				}
 			}
@@ -1509,6 +1545,7 @@
 				[self reprocessToken:token];
 			} else if ([token.asTagToken.tagName isEqualToAny:@"tbody", @"tfoot", @"thead", nil]) {
 				[_stackOfOpenElements clearBackToTableContext];
+				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInTableBody];
 			} else if ([token.asTagToken.tagName isEqualToAny:@"td", @"th", @"tr", nil]) {
 				[_stackOfOpenElements clearBackToTableContext];
