@@ -37,7 +37,7 @@
 - (HTMLDocument *)ownerDocument
 {
 	if (_type == HTMLNodeDocument) {
-		return nil;
+		return (HTMLDocument *)self;
 	} else {
 		return _parentNode.ownerDocument;
 	}
@@ -52,7 +52,6 @@
 - (void)setParentNode:(HTMLNode *)parentNode
 {
 	_parentNode = parentNode;
-	[_childNodes.array makeObjectsPerformSelector:@selector(setParentNode:) withObject:self];
 }
 
 - (HTMLElement *)parentElement
@@ -141,11 +140,13 @@
 
 - (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
 {
-	return [_parentNode preInsertNode:node beforeChildNode:child];
+	node.parentNode = self;
+	return [self preInsertNode:node beforeChildNode:child];
 }
 
 - (HTMLNode *)appendNode:(HTMLNode *)node
 {
+	node.parentNode = self;
 	return [self preInsertNode:node beforeChildNode:nil];
 }
 
@@ -155,6 +156,7 @@
 
 	[self.ownerDocument adoptNode:node];
 	NSUInteger index = [self indexOfChildNode:child];
+	node.parentNode = self;
 	[_childNodes replaceObjectAtIndex:index withObject:node];
 	return child;
 }
@@ -185,7 +187,11 @@
 	[self ensurePreInsertionValidityOfNode:node beforeChildNode:child];
 	[self.ownerDocument adoptNode:node];
 	NSUInteger index = [self indexOfChildNode:child];
-	[_childNodes insertObject:node atIndex:index];
+	if (index != NSNotFound) {
+		[_childNodes insertObject:node atIndex:index];
+	} else {
+		[_childNodes addObject:node];
+	}
 
 	return node;
 }
