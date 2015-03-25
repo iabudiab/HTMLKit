@@ -17,6 +17,8 @@
 
 @implementation HTMLElement
 
+#pragma mark - Init
+
 - (instancetype)init
 {
 	return [self initWithTagName:nil];
@@ -46,10 +48,52 @@
 	return self;
 }
 
+#pragma mark - Attributes
+
+- (NSString *)id
+{
+	return _attributes[@"id"] ?: @"";
+}
+
+- (NSString *)className
+{
+	return _attributes[@"class"];
+}
+
+- (BOOL)hasAttribute:(NSString *)name
+{
+	return _attributes[name] != nil;
+}
+
+- (NSString *)objectForKeyedSubscript:(NSString *)name;
+{
+	return _attributes[name];
+}
+
+- (void)setObject:(NSString *)value forKeyedSubscript:(NSString *)attribute
+{
+	_attributes[attribute] = value;
+}
+
+- (void)removeAttribute:(NSString *)name
+{
+	[_attributes removeObjectForKey:name];
+}
+
 - (NSString *)textContent
 {
 #warning Implement Traversing
 	return nil;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	HTMLElement *copy = [super copyWithZone:zone];
+	copy->_tagName = [_tagName copy];
+	copy->_attributes = [_attributes copy];
+	return copy;
 }
 
 @end
