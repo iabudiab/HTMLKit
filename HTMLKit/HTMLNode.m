@@ -10,6 +10,7 @@
 #import "HTMLDocument.h"
 #import "HTMLElement.h"
 #import "HTMLKitExceptions.h"
+#import "HTMLNodeTreeEnumerator.h"
 
 @interface HTMLNode ()
 {
@@ -178,6 +179,18 @@
 {
 	HTMLNode *node = [self childNodeAtIndex:index];
 	return [self removeChildNode:node];
+}
+
+#pragma mark - Enumeration
+
+- (NSEnumerator *)treeEnumerator
+{
+	return [[HTMLNodeTreeEnumerator alloc] initWithNode:self reverse:NO];
+}
+
+- (NSEnumerator *)reverseTreeEnumerator
+{
+	return [[HTMLNodeTreeEnumerator alloc] initWithNode:self reverse:YES];
 }
 
 #pragma mark - Mutation Algorithms

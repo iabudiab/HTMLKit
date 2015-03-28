@@ -46,6 +46,11 @@
 		6238C9851AB8D6330006512E /* HTMLKitExceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6238C9831AB8D6330006512E /* HTMLKitExceptions.h */; };
 		6238C9861AB8D6330006512E /* HTMLKitExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238C9841AB8D6330006512E /* HTMLKitExceptions.m */; };
 		6238C9871AB8D6330006512E /* HTMLKitExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238C9841AB8D6330006512E /* HTMLKitExceptions.m */; };
+		623916C31AC707250066B4FE /* HTMLNodeTreeEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */; };
+		623916C41AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */; };
+		623916C51AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */; };
+		623916C71AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */; };
+		623916C81AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */; };
 		624493A619CCC54100BCDDF4 /* HTMLTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */; };
 		624493A719CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */; };
 		624493A819CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */; };
@@ -163,6 +168,9 @@
 		6238579A1A9E8934003A45D9 /* HTMLComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLComment.m; sourceTree = "<group>"; };
 		6238C9831AB8D6330006512E /* HTMLKitExceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLKitExceptions.h; sourceTree = "<group>"; };
 		6238C9841AB8D6330006512E /* HTMLKitExceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitExceptions.m; sourceTree = "<group>"; };
+		623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeTreeEnumerator.h; sourceTree = "<group>"; };
+		623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeTreeEnumerator.m; sourceTree = "<group>"; };
+		623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitNodeTreeEnumratorTests.m; sourceTree = "<group>"; };
 		624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizer.h; sourceTree = "<group>"; };
 		624493A519CCC54100BCDDF4 /* HTMLTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTokenizer.m; sourceTree = "<group>"; };
 		624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerStates.h; sourceTree = "<group>"; };
@@ -282,6 +290,8 @@
 				6238579A1A9E8934003A45D9 /* HTMLComment.m */,
 				62362A3A1A9FA70400301989 /* HTMLText.h */,
 				62362A3B1A9FA70400301989 /* HTMLText.m */,
+				623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */,
+				623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */,
 			);
 			name = Nodes;
 			sourceTree = "<group>";
@@ -372,6 +382,7 @@
 		625A14CA19C7829400AD0C32 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */,
 				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
 			);
@@ -430,6 +441,7 @@
 				6235CE9B1AA509430026937B /* NSString+HTMLKit.h in Headers */,
 				62F873EB19E088C90062683C /* HTMLParser.h in Headers */,
 				624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */,
+				623916C31AC707250066B4FE /* HTMLNodeTreeEnumerator.h in Headers */,
 				62AE594419F992F30043F069 /* HTMLCommentToken.h in Headers */,
 				624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */,
 				6235CEA01AA5170A0026937B /* HTMLMarker.h in Headers */,
@@ -611,6 +623,7 @@
 				62AE594119F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594619F992F30043F069 /* HTMLCommentToken.m in Sources */,
 				62363C3F1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
+				623916C51AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */,
 				62AE593C19F97E1C0043F069 /* HTMLDOCTYPEToken.m in Sources */,
 				6238C9871AB8D6330006512E /* HTMLKitExceptions.m in Sources */,
 				62F873ED19E088C90062683C /* HTMLParser.m in Sources */,
@@ -634,6 +647,7 @@
 			files = (
 				6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
 				624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
+				623916C81AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */,
 				62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -652,6 +666,7 @@
 				62AE594019F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594519F992F30043F069 /* HTMLCommentToken.m in Sources */,
 				62363C3E1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
+				623916C41AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */,
 				62AE593B19F97E1C0043F069 /* HTMLDOCTYPEToken.m in Sources */,
 				6238C9861AB8D6330006512E /* HTMLKitExceptions.m in Sources */,
 				62F873EC19E088C90062683C /* HTMLParser.m in Sources */,
@@ -675,6 +690,7 @@
 			files = (
 				6236738E1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
 				624AC90119FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
+				623916C71AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */,
 				62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
