@@ -7,6 +7,8 @@
 //
 
 #import "HTMLText.h"
+#import "HTMLElement.h"
+#import "NSString+HTMLKit.h"
 
 @implementation HTMLText
 
@@ -46,6 +48,24 @@
 	HTMLText *copy = [super copyWithZone:zone];
 	copy.data = self.data;
 	return copy;
+}
+
+#pragma mark - Serialization
+
+- (NSString *)outerHTML
+{
+	if ([self.parentElement.tagName isEqualToAny:@"style", @"script", @"xmp", @"iframe", @"noembed", @"noframes",
+		 @"plaintext", @"noscript", nil]) {
+		return self.data;
+	} else {
+		NSRange range = NSMakeRange(0, self.data.length);
+		NSMutableString *escaped = [self.data mutableCopy];
+		[escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:range];
+		[escaped replaceOccurrencesOfString:@"\00A0" withString:@"&nbsp;" options:0 range:range];
+		[escaped replaceOccurrencesOfString:@"<" withString:@"&lt;" options:0 range:range];
+		[escaped replaceOccurrencesOfString:@">" withString:@"&gt;" options:0 range:range];
+		return escaped;
+	}
 }
 
 #pragma mark - Description

@@ -79,6 +79,8 @@ typedef NS_ENUM(short, HTMLNodeType)
 - (NSEnumerator *)treeEnumerator;
 - (NSEnumerator *)reverseTreeEnumerator;
 
+- (NSString *)outerHTML;
+- (NSString *)innerHTML;
 - (NSString *)treeDescription;
 
 @end

@@ -133,6 +133,13 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return copy;
 }
 
+#pragma mark - Serialization
+
+- (NSString *)outerHTML
+{
+	return [NSString stringWithFormat:@"<!DOCTYPE %@>", self.name];
+}
+
 #pragma mark - Description
 
 - (NSString *)description

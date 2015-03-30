@@ -8,7 +8,10 @@
 
 #import "HTMLNode.h"
 #import "HTMLDocument.h"
+#import "HTMLDocumentType.h"
 #import "HTMLElement.h"
+#import "HTMLText.h"
+#import "HTMLComment.h"
 #import "HTMLKitExceptions.h"
 #import "HTMLNodeTreeEnumerator.h"
 
@@ -351,6 +354,19 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 {
 	HTMLNode *copy = [[self.class alloc] initWithName:self.name type:self.type];
 	return copy;
+}
+
+#pragma mark - Serialization
+
+- (NSString *)outerHTML
+{
+	[self doesNotRecognizeSelector:_cmd];
+	return nil;
+}
+
+- (NSString *)innerHTML
+{
+	return [[_childNodes.array valueForKey:@"outerHTML"] componentsJoinedByString:@""];
 }
 
 #pragma mark - Description

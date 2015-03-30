@@ -38,6 +38,13 @@
 	return copy;
 }
 
+#pragma mark - Serialization
+
+- (NSString *)outerHTML
+{
+	return [NSString stringWithFormat:@"<!--%@-->", self.data];
+}
+
 #pragma mark - Description
 
 - (NSString *)description
