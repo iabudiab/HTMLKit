@@ -353,4 +353,10 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 	return copy;
 }
 
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p %@>", self.class, self, self.name];
+}
+
 @end

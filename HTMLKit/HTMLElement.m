@@ -96,4 +96,26 @@
 	return copy;
 }
 
+#pragma mark - Description
+
+- (NSString *)description
+{
+	NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: %p ", self.class, self];
+
+	if (self.namespace == HTMLNamespaceMathML) {
+		[description appendString:@"math "];
+	} else if (self.namespace == HTMLNamespaceSVG) {
+		[description appendString:@"svg "];
+	}
+
+	[description appendFormat:@"<%@", self.tagName];
+	[self.attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		[description appendFormat:@" %@=\"%@\"", key, obj];
+	}];
+
+	[description appendString:@">>"];
+
+	return description;
+}
+
 @end

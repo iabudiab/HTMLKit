@@ -133,4 +133,12 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return copy;
 }
 
+#pragma mark - Description
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p <!DOCTYPE %@ \"%@\" \"%@\">>",
+		self.class, self, self.name, self.publicIdentifier, self.systemIdentifier];
+}
+
 @end
