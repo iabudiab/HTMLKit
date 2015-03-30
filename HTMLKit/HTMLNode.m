@@ -113,17 +113,6 @@
 	return index != NSNotFound;
 }
 
-- (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block
-{
-	if (block == nil) {
-		return;
-	}
-
-	[_childNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		block(obj, idx, stop);
-	}];
-}
-
 - (NSUInteger)childNodesCount
 {
 	return _childNodes.count;
@@ -182,6 +171,17 @@
 }
 
 #pragma mark - Enumeration
+
+- (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block
+{
+	if (block == nil) {
+		return;
+	}
+
+	[_childNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		block(obj, idx, stop);
+	}];
+}
 
 - (NSEnumerator *)treeEnumerator
 {
