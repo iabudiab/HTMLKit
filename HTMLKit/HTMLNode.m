@@ -353,6 +353,36 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 	return copy;
 }
 
+#pragma mark - Description
+
+- (NSString *)treeDescription
+{
+	NSMutableString *string = [NSMutableString string];
+
+	__weak __block void (^ weakAccumulator) (HTMLNode *, NSUInteger);
+	void (^ accumulator) (HTMLNode *, NSUInteger);
+	static NSString *prefix = @"| ";
+
+	weakAccumulator = accumulator = ^ (HTMLNode *node, NSUInteger level) {
+
+		NSString *indent = [prefix stringByPaddingToLength:level * 2 + prefix.length
+												withString:@" "
+										   startingAtIndex:0];
+		if (level > 0) {
+			[string appendString:@"\n"];
+		}
+
+		[string appendString:indent];
+		[string appendString:node.description];
+
+		for (HTMLNode *child in node.childNodes) {
+			weakAccumulator(child, level + 1);
+		}
+	};
+	accumulator(self, 0);
+
+	return string;
+}
 
 - (NSString *)description
 {
