@@ -57,7 +57,7 @@
 
 - (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey
 {
-	if (_dictionary[aKey] != nil) {
+	if (_dictionary[aKey] == nil) {
 		[_keys addObject:aKey];
 	}
 	_dictionary[aKey] = anObject;
