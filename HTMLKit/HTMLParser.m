@@ -2337,6 +2337,7 @@
 					AdjustMathMLAttributes(token.asTagToken);
 				}
 				if (self.adjustedCurrentNode.namespace == HTMLNamespaceSVG) {
+					AdjustSVGNameCase(token.asTagToken);
 					AdjustSVGAttributes(token.asTagToken);
 				}
 				// "Adjust foreign attributes": Attributes' namespace ignored
