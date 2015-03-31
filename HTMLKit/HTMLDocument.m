@@ -28,6 +28,15 @@
 	return self;
 }
 
+- (void)setDocumentType:(HTMLDocumentType *)documentType
+{
+	if (self.documentType != nil) {
+		[self replaceChildNode:self.documentType withNode:documentType];
+	} else {
+		[self appendNode:documentType];
+	}
+}
+
 - (HTMLNode *)adoptNode:(HTMLNode *)node
 {
 	if (node.type == HTMLNodeDocument) {
