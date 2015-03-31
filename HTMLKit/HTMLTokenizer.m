@@ -1083,8 +1083,8 @@
 				[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
 			} else {
 				[self switchToState:HTMLTokenizerStateScriptDataEscaped];
-				[self emitCharacterToken:character];
 			}
+			[self emitCharacterToken:character];
 			break;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			[_temporaryBuffer appendString:StringFromUniChar(character + 0x0020)];
