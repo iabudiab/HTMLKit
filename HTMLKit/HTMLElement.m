@@ -139,7 +139,7 @@
 
 - (NSString *)description
 {
-	NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: %p ", self.class, self];
+	NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: %p <", self.class, self];
 
 	if (self.namespace == HTMLNamespaceMathML) {
 		[description appendString:@"math "];
@@ -147,7 +147,7 @@
 		[description appendString:@"svg "];
 	}
 
-	[description appendFormat:@"<%@", self.tagName];
+	[description appendString:self.tagName];
 	[self.attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		[description appendFormat:@" %@=\"%@\"", key, obj];
 	}];
