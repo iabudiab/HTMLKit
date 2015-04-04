@@ -24,4 +24,6 @@
 
 - (instancetype)initWithString:(NSString *)string;
 
+- (void)reset;
+
 @end

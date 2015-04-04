@@ -11,7 +11,12 @@
 
 @interface HTMLParser : NSObject
 
+@property (nonatomic, strong, readonly) NSArray *parseErrors;
+@property (nonatomic, strong, readonly) HTMLDocument *document;
 
-- (instancetype)initWithString:(NSString *)string context:(HTMLElement *)context;
+- (instancetype)initWithString:(NSString *)string;
+
+- (HTMLDocument *)parseDocument;
+- (NSArray *)parseFragmentWithContextElement:(HTMLElement *)contextElement;
 
 @end

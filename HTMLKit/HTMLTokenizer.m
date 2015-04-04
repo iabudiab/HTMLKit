@@ -83,6 +83,14 @@
 
 #pragma mark - State Machine
 
+- (void)reset
+{
+	_currentState = HTMLTokenizerStateData;
+	[_tokens removeAllObjects];
+	[_inputStreamReader reset];
+	_eof = NO;
+}
+
 - (id)nextObject
 {
 	while (_eof == NO && _tokens.count == 0) {

@@ -39,5 +39,6 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 
 - (void)markCurrentLocation;
 - (void)rewindToMarkedLocation;
+- (void)reset;
 
 @end

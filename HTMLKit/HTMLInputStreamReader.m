@@ -225,4 +225,12 @@
 	_consume = 0;
 }
 
+- (void)reset
+{
+	_mark = 0;
+	_location = 0;
+	_scanner.scanLocation = 0;
+	_consume = 0;
+}
+
 @end

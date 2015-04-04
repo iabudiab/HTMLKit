@@ -60,12 +60,14 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithString:(NSString *)string context:(HTMLElement *)context
+- (instancetype)initWithString:(NSString *)string
 {
 	self = [super init];
 	if (self) {
-		_contextElement = context;
-		_fragmentParsingAlgorithm = (context != nil);
+		_framesetOkFlag = YES;
+		_fragmentParsingAlgorithm = NO;
+		_fosterParenting = NO;
+		_ignoreNextLineFeedCharacterToken = NO;
 
 		_errors = [NSMutableArray new];
 
@@ -83,11 +85,6 @@
 
 		_headElementPointer = nil;
 		_formElementPointer = nil;
-
-		_framesetOkFlag = YES;
-		_fragmentParsingAlgorithm = NO;
-		_fosterParenting = NO;
-		_ignoreNextLineFeedCharacterToken = NO;
 	}
 	return self;
 }
@@ -110,50 +107,83 @@
 
 - (HTMLDocument *)document
 {
-	if (_document == nil) {
-		[self parse];
-	}
-	return _document;
+	return _document ?: [self parseDocument];
 }
 
 #pragma mark - Parse
 
-- (void)parse
+- (void)initializeDocument
 {
-	_document = [HTMLDocument new];
-	if (_fragmentParsingAlgorithm) {
-		if (_contextElement != nil) {
-			if ([_contextElement.tagName isEqualToAny:@"title", @"textarea", nil]) {
-				_tokenizer.state = HTMLTokenizerStateRCDATA;
-			} else if ([_contextElement.tagName isEqualToAny:@"style", @"xmp", @"iframe", @"noembed", @"noframes", nil]) {
-				_tokenizer.state = HTMLTokenizerStateRAWTEXT;
-			} else if ([_contextElement.tagName isEqualToString:@"script"]) {
-				_tokenizer.state = HTMLTokenizerStateScriptData;
-			} else if ([_contextElement.tagName isEqualToString:@"noscript"]) {
-				_tokenizer.state = HTMLTokenizerStateRAWTEXT;
-			} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
-				_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
-			} else {
-				_tokenizer.state = HTMLTokenizerStateData;
-			}
-		}
+	if (_document == nil) {
+		_document = [HTMLDocument new];
+	}
+	_document.quirksMode = HTMLQuirksModeNoQuirks;
+	_document.documentType = nil;
+	[_document removeAllChildNodes];
 
-		HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"html"];
-		[_document appendNode:root];
-		[_stackOfOpenElements pushElement:root];
+	_fragmentParsingAlgorithm = NO;
+}
 
-		if ([_contextElement.tagName isEqualToString:@"template"]) {
-#warning Implement HTML Template
-		}
+- (HTMLDocument *)parseDocument
+{
+	[self initializeDocument];
+	[self runParser];
+	return _document;
+}
 
-		[self resetInsertionModeAppropriately];
-
-		_formElementPointer = _contextElement;
-		while (_formElementPointer != nil && ![_formElementPointer.tagName isEqualToString:@"form"]) {
-			_formElementPointer = _formElementPointer.parentElement;
-		}
+- (NSArray *)parseFragmentWithContextElement:(HTMLElement *)contextElement
+{
+	if (contextElement == nil) {
+		return nil;
 	}
 
+	if ([_contextElement isEqualTo:contextElement]) {
+		return [_document childNodeAtIndex:0].childNodes.array;
+	}
+
+	[self initializeDocument];
+	[_tokenizer reset];
+	_contextElement = contextElement;
+	_fragmentParsingAlgorithm = YES;
+
+	_document.quirksMode = _contextElement.ownerDocument ? _contextElement.ownerDocument.quirksMode : HTMLQuirksModeNoQuirks;
+
+	if ([_contextElement.tagName isEqualToAny:@"title", @"textarea", nil]) {
+		_tokenizer.state = HTMLTokenizerStateRCDATA;
+	} else if ([_contextElement.tagName isEqualToAny:@"style", @"xmp", @"iframe", @"noembed", @"noframes", nil]) {
+		_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+	} else if ([_contextElement.tagName isEqualToString:@"script"]) {
+		_tokenizer.state = HTMLTokenizerStateScriptData;
+	} else if ([_contextElement.tagName isEqualToString:@"noscript"]) {
+		_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+	} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
+		_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
+	} else {
+		_tokenizer.state = HTMLTokenizerStateData;
+	}
+
+	HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"html"];
+	[_document appendNode:root];
+	[_stackOfOpenElements pushElement:root];
+
+	if ([_contextElement.tagName isEqualToString:@"template"]) {
+#warning Implement HTML Template
+	}
+
+	[self resetInsertionModeAppropriately];
+
+	_formElementPointer = _contextElement;
+	while (_formElementPointer != nil && ![_formElementPointer.tagName isEqualToString:@"form"]) {
+		_formElementPointer = _formElementPointer.parentElement;
+	}
+
+	[self runParser];
+
+	return root.childNodes.array;
+}
+
+- (void)runParser
+{
 	for (HTMLToken *token in _tokenizer) {
 		if (_document.readyState == HTMLDocumentComplete) {
 			break;
