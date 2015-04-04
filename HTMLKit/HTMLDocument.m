@@ -55,4 +55,11 @@
 	return node;
 }
 
+#pragma mark - Description 
+
+- (id)debugQuickLookObject
+{
+	return [[NSAttributedString alloc] initWithString:self.innerHTML];
+}
+
 @end

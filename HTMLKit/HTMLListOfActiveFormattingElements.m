@@ -130,4 +130,11 @@
 	return [_list countByEnumeratingWithState:state objects:buffer count:len];
 }
 
+#pragma mark - Description
+
+- (NSString *)description
+{
+	return _list.description;
+}
+
 @end

@@ -272,4 +272,11 @@
 	return [_stack countByEnumeratingWithState:state objects:buffer count:len];
 }
 
+#pragma mark - Description
+
+- (NSString *)description
+{
+	return _stack.description;
+}
+
 @end

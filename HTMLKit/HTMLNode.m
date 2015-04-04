@@ -421,4 +421,14 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 	return [NSString stringWithFormat:@"<%@: %p %@>", self.class, self, self.name];
 }
 
+- (NSString *)debugDescription
+{
+	return self.treeDescription;
+}
+
+- (id)debugQuickLookObject
+{
+	return self.outerHTML;
+}
+
 @end
