@@ -141,6 +141,12 @@
 {
 	node.parentNode = self;
 	return [self preInsertNode:node beforeChildNode:nil];
+
+- (void)appendNodes:(NSArray *)nodes
+{
+	for (id node in nodes) {
+		[self appendNode:node];
+	}
 }
 
 - (HTMLNode *)replaceChildNode:(HTMLNode *)child withNode:(HTMLNode *)node
@@ -171,6 +177,11 @@
 {
 	HTMLNode *node = [self childNodeAtIndex:index];
 	return [self removeChildNode:node];
+}
+
+- (void)removeAllChildNodes
+{
+	[_childNodes removeAllObjects];
 }
 
 #pragma mark - Enumeration
