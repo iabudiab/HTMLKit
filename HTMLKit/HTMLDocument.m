@@ -10,7 +10,7 @@
 #import "HTMLKitExceptions.h"
 
 @interface HTMLNode (Private)
-@property (nonatomic, strong) HTMLNode *parentNode;
+@property (nonatomic, weak) HTMLNode *parentNode;
 @end
 
 @interface HTMLDocument ()
@@ -30,6 +30,13 @@
 
 - (void)setDocumentType:(HTMLDocumentType *)documentType
 {
+	if (documentType == nil) {
+		if (self.documentType != nil) {
+			[self removeChildNode:self.documentType];
+		}
+		return;
+	}
+
 	if (self.documentType != nil) {
 		[self replaceChildNode:self.documentType withNode:documentType];
 	} else {
