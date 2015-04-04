@@ -42,6 +42,8 @@
 {
 	if (_type == HTMLNodeDocument) {
 		return (HTMLDocument *)self;
+	} else if (_parentNode == nil) {
+		return nil;
 	} else {
 		return _parentNode.ownerDocument;
 	}
