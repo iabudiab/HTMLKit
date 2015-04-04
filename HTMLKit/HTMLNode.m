@@ -133,14 +133,17 @@
 
 - (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
 {
+	node = [self preInsertNode:node beforeChildNode:child];
 	node.parentNode = self;
-	return [self preInsertNode:node beforeChildNode:child];
+	return node;
 }
 
 - (HTMLNode *)appendNode:(HTMLNode *)node
 {
+	node = [self preInsertNode:node beforeChildNode:nil];
 	node.parentNode = self;
-	return [self preInsertNode:node beforeChildNode:nil];
+	return node;
+}
 
 - (void)appendNodes:(NSArray *)nodes
 {
