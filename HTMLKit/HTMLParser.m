@@ -2427,8 +2427,10 @@
 				node = _stackOfOpenElements[--index];
 				if (node.namespace != HTMLNamespaceHTML) {
 					continue;
+				} else {
+					[self processToken:token byApplyingRulesForInsertionMode:_insertionMode];
+					break;
 				}
-				[self processToken:token byApplyingRulesForInsertionMode:_insertionMode];
 			}
 			return;
 		}
