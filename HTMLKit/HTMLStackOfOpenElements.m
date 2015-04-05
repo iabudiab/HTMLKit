@@ -152,6 +152,13 @@
 	}
 }
 
+- (void)clearBackToTableRowContext
+{
+	while (![self.currentNode.tagName isEqualToAny:@"tr", @"template", @"html", nil]) {
+		[_stack removeLastObject];
+	}
+}
+
 - (void)popAll
 {
 	[_stack removeAllObjects];

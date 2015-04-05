@@ -1873,7 +1873,7 @@
 	switch (token.type) {
 		case HTMLTokenTypeStartTag:
 			if ([token.asTagToken.tagName isEqualToAny:@"th", @"td", nil]) {
-				[_stackOfOpenElements clearBackToTableContext];
+				[_stackOfOpenElements clearBackToTableRowContext];
 				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInCell];
 				[_listOfActiveFormattingElements addMarker];
