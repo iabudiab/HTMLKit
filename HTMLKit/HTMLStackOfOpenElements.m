@@ -116,7 +116,7 @@
 
 - (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName
 {
-	while (![self.currentNode.tagName isEqualToString:tagName]) {
+	while (self.currentNode && ![self.currentNode.tagName isEqualToString:tagName]) {
 		[_stack removeLastObject];
 	}
 	[_stack removeLastObject];
@@ -124,7 +124,7 @@
 
 - (void)popElementsUntilAnElementPoppedWithAnyOfTagNames:(NSArray *)tagNames
 {
-	while (![tagNames containsObject:self.currentNode.tagName]) {
+	while (self.currentNode && ![tagNames containsObject:self.currentNode.tagName]) {
 		[_stack removeLastObject];
 	}
 	[_stack removeLastObject];
@@ -132,7 +132,7 @@
 
 - (void)popElementsUntilElementPopped:(HTMLElement *)element
 {
-	while (![self.currentNode isEqual:element]) {
+	while (self.currentNode && ![self.currentNode isEqual:element]) {
 		[_stack removeLastObject];
 	}
 	[_stack removeLastObject];
@@ -140,7 +140,7 @@
 
 - (void)clearBackToTableContext
 {
-	while (![self.currentNode.tagName isEqualToAny:@"table", @"template", @"html", nil]) {
+	while (self.currentNode && ![self.currentNode.tagName isEqualToAny:@"table", @"template", @"html", nil]) {
 		[_stack removeLastObject];
 	}
 }
