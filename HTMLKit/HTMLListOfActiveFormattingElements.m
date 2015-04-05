@@ -75,6 +75,9 @@
 
 - (void)insertElement:(HTMLElement *)element atIndex:(NSUInteger)index
 {
+	if (index > _list.count) {
+		index = _list.count;
+	}
 	[_list insertObject:element atIndex:index];
 }
 
