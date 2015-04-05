@@ -411,39 +411,35 @@
 		return;
 	}
 
-	__block NSUInteger index = _listOfActiveFormattingElements.count - 1;
-	__block id entry = _listOfActiveFormattingElements[index];
+	NSInteger index = _listOfActiveFormattingElements.count - 1;
+	HTMLElement *entry = _listOfActiveFormattingElements[index];
 
 	// Reconstruct the active formatting elements
 	// https://html.spec.whatwg.org/multipage/syntax.html#reconstruct-the-active-formatting-elements
-	// No cycles ~> blocks instead of gotos
 
-	dispatch_block_t advance = ^{
-		entry = _listOfActiveFormattingElements[index++];
-	};
+	// Rewind phase
+	while (![entry isEqual:[HTMLMarker marker]] && ![_stackOfOpenElements constainsElement:entry]) {
+		if (index == 0) {
+			index--;
+			break;
+		}
+		entry = _listOfActiveFormattingElements[--index];
+	}
 
-	dispatch_block_t create = ^{
-		HTMLElement *entry = _listOfActiveFormattingElements[index];
+	while (YES) {
+		// Advance phase
+		entry = _listOfActiveFormattingElements[++index];
+
+		// Create phase
 		HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:entry.tagName
 																   attributes:entry.attributes];
 		HTMLElement *element = [self insertElementForToken:token];
 		[_listOfActiveFormattingElements replaceElementAtIndex:index withElement:element];
-		if (index++ != _listOfActiveFormattingElements.count) {
-			advance();
-		}
-	};
 
-	dispatch_block_t rewind = ^{
-		if (index == 0) {
-			create();
+		if (element == _listOfActiveFormattingElements.lastEntry) {
+			break;
 		}
-		entry = _listOfActiveFormattingElements[index--];
-		if (entry != [HTMLMarker marker] && ![_stackOfOpenElements constainsElement:entry]) {
-			rewind();
-		}
-	};
-
-	rewind();
+	}
 }
 
 - (void)generateImpliedEndTagsExceptForElement:(NSString *)tagName
