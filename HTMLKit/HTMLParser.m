@@ -1666,12 +1666,12 @@
 		default:
 			if (![_pendingTableCharacterTokens isWhitespaceToken]) {
 				[self emitParseError:@"Non whitespace pending characters in <table> text"];
-				[self processAnythingElseInTable:token];
+				[self processAnythingElseInTable:_pendingTableCharacterTokens];
 			} else {
 				[self insertCharacters:_pendingTableCharacterTokens.characters];
-				[self switchInsertionMode:_originalInsertionMode];
-				[self reprocessToken:token];
 			}
+			[self switchInsertionMode:_originalInsertionMode];
+			[self reprocessToken:token];
 			break;
 	}
 }
