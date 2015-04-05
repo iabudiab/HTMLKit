@@ -184,6 +184,14 @@
 	return [self removeChildNode:node];
 }
 
+- (void)reparentChildNodesIntoNode:(HTMLNode *)node
+{
+	for (HTMLNode *child in _childNodes.array) {
+		[node appendNode:child];
+	}
+	[self removeAllChildNodes];
+}
+
 - (void)removeAllChildNodes
 {
 	[_childNodes removeAllObjects];

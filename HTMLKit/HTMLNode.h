@@ -77,14 +77,20 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 - (HTMLNode *)removeChildNodeAtIndex:(NSUInteger)index;
 
+- (void)reparentChildNodesIntoNode:(HTMLNode *)node;
+
 - (void)removeAllChildNodes;
 
 - (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block;
+
 - (NSEnumerator *)treeEnumerator;
+
 - (NSEnumerator *)reverseTreeEnumerator;
 
 - (NSString *)outerHTML;
+
 - (NSString *)innerHTML;
+
 - (NSString *)treeDescription;
 
 @end

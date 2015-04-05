@@ -543,11 +543,9 @@
 		[parent insertNode:lastNode beforeChildNode:child];
 
 		HTMLElement *newElement = [formattingElement copy];
-		for (HTMLNode *child in formattingElement.childNodes) {
-			[newElement appendNode:child];
-		}
-
+		[furthestBlock reparentChildNodesIntoNode:newElement];
 		[furthestBlock appendNode:newElement];
+
 		[_listOfActiveFormattingElements removeElement:formattingElement];
 		bookmark = bookmark == 0 ?: bookmark -1;
 		[_listOfActiveFormattingElements insertElement:newElement atIndex:bookmark];
