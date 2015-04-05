@@ -45,6 +45,21 @@
 
 - (void)addElement:(HTMLElement *)element
 {
+	NSUInteger existing = 0;
+	for (HTMLElement *node in _list.reverseObjectEnumerator.allObjects) {
+		if ([node isEqual:[HTMLMarker marker]]) {
+			break;
+		}
+		if (node.namespace == element.namespace &&
+			[node.tagName isEqualToString:element.tagName] &&
+			[node.attributes isEqualTo:element.attributes]) {
+			existing++;
+		}
+		if (existing == 3) {
+			[_list removeObject:node];
+			break;
+		}
+	}
 	[_list addObject:element];
 }
 
