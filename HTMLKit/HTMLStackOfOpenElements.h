@@ -40,6 +40,7 @@
 - (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName;
+- (HTMLElement *)hasElementInTableScopeWithAnyOfTagNames:(NSArray *)tagNames;
 - (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)furthestBlockAfterIndex:(NSUInteger)index;
 

@@ -203,6 +203,14 @@
 														@"template": @(HTMLNamespaceHTML)}];
 }
 
+- (HTMLElement *)hasElementInTableScopeWithAnyOfTagNames:(NSArray *)tagNames
+{
+	return [self hasAnyElementInSpecificScopeWithTagNames:tagNames
+										  andElementTypes:@{@"html": @(HTMLNamespaceHTML),
+															@"table": @(HTMLNamespaceHTML),
+															@"template": @(HTMLNamespaceHTML)}];
+}
+
 - (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName
 {
 	for (HTMLElement *node in _stack.reverseObjectEnumerator) {

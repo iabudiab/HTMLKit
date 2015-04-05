@@ -1798,8 +1798,7 @@
 - (void)HTMLInsertionModeInTableBody:(HTMLToken *)token
 {
 	void (^ common) (BOOL) = ^ (BOOL reprocess) {
-		if ([token.asTagToken.tagName isEqualToAny:@"tbody", @"tfoot", @"thead", nil] &&
-			![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
+		if (![_stackOfOpenElements hasElementInTableScopeWithAnyOfTagNames:@[@"tbody", @"tfoot", @"thead"]]) {
 			[self emitParseError:@"Unexpected Tag Token (%@) for element in <tbody>", token.asTagToken.tagName];
 			return;
 		} else {
