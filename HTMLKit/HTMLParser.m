@@ -386,7 +386,9 @@
 	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
 																					beforeChildNode:&child];
 	if (adjustedInsertionLocation.type != HTMLNodeDocument) {
-		if (adjustedInsertionLocation.lastChildNode.type == HTMLNodeText) {
+		if (child != nil && child.previousSibling.type == HTMLNodeText) {
+			[(HTMLText *)child.previousSibling appendString:data];
+		} else if (adjustedInsertionLocation.lastChildNode.type == HTMLNodeText) {
 			[(HTMLText *)adjustedInsertionLocation.lastChildNode appendString:data];
 		} else {
 			HTMLText *text = [[HTMLText alloc] initWithData:data];
