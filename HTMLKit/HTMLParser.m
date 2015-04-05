@@ -219,12 +219,15 @@
 			}
 		}
 		if (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
-			if (token.type == HTMLTokenTypeStartTag) {
-				return [[(HTMLStartTagToken *)token tagName] isEqualToString:@"svg"];
+			if (token.type == HTMLTokenTypeStartTag && [token.asTagToken.tagName isEqualToString:@"svg"]) {
+				return YES;
 			}
 		}
+
 		if (IsNodeHTMLIntegrationPoint(node)) {
-			return token.type == HTMLTokenTypeStartTag || token.type == HTMLTokenTypeCharacter;
+			if (token.type == HTMLTokenTypeStartTag || token.type == HTMLTokenTypeCharacter) {
+				return YES;
+			}
 		}
 		if (token.type == HTMLTokenTypeEOF) {
 			return YES;
