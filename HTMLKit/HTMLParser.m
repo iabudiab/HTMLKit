@@ -1559,6 +1559,12 @@
 		case HTMLTokenTypeStartTag:
 			if ([token.asTagToken.tagName isEqualToString:@"caption"]) {
 				[_stackOfOpenElements clearBackToTableContext];
+				[_listOfActiveFormattingElements addMarker];
+				[self insertElementForToken:token.asTagToken];
+				[self switchInsertionMode:HTMLInsertionModeInCaption];
+			} else if ([token.asTagToken.tagName isEqualToString:@"colgroup"]) {
+				[_stackOfOpenElements clearBackToTableContext];
+				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInColumnGroup];
 			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
 				[_stackOfOpenElements clearBackToTableContext];
