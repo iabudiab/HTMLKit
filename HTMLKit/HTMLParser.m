@@ -1227,12 +1227,6 @@
 		}
 		HTMLElement *nobr = [self insertElementForToken:token];
 		[_listOfActiveFormattingElements addElement:nobr];
-	} else if ([token.tagName isEqualToAny:@"a", @"b", @"big", @"code", @"em", @"font", @"i", @"nobr",
-				@"s", @"small", @"strike", @"strong", @"tt", @"u", nil]) {
-		if ([self runAdoptionAgencyAlgorithmForTagName:tagName]) {
-			[self processAnyOtherEndTagTokenInBody:token];
-			return;
-		}
 	} else if ([tagName isEqualToAny:@"applet", @"marquee", nil]) {
 		[self reconstructActiveFormattingElements];
 		[self insertElementForToken:token];
