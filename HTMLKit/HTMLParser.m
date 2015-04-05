@@ -1140,39 +1140,26 @@
 	} else if ([tagName isEqualToAny:@"li", @"dd", @"dt", nil]) {
 		/** li, dd & dt cases are all same, hence the merge */
 		_framesetOkFlag = NO;
-		HTMLElement *node = self.currentNode;
-		NSUInteger index = _stackOfOpenElements.count - 1;
 
 		// Start Tag: li, dd, dt
 		// https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inbody
-		// No cycles ~> blocks instead of gotos
 
-		dispatch_block_t done = ^{
-			if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-				[self closePElement];
+		for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator.allObjects) {
+			if ([node.tagName isEqualToString:tagName]) {
+				[self generateImpliedEndTagsExceptForElement:tagName];
+				if (![self.currentNode.tagName isEqualToString:tagName]) {
+					[self emitParseError:@"Unexpected Start Tag (%@) in <body>", tagName];
+				}
+				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
+				break;
+			} else if (IsSpecialElement(node) && ![node.tagName isEqualToAny:@"address", @"div", @"p", nil]) {
+				break;
 			}
-		};
-
-		dispatch_block_t loop = ^{
-			[self generateImpliedEndTagsExceptForElement:tagName];
-			if (![self.currentNode.tagName isEqualToString:tagName]) {
-				[self emitParseError:@"Unexpected Start Tag (%@) in <body>", tagName];
-			}
-			[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
-			done();
-		};
-
-		if ([node.tagName isEqualToString:tagName]) {
-			loop();
 		}
-
-		if (IsSpecialElement(node) && ![node.tagName isEqualToAny:@"address", @"div", @"p", nil]) {
-			done();
-		} else {
-			node = _stackOfOpenElements[--index];
-			loop();
+		
+		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
+			[self closePElement];
 		}
-
 		[self insertElementForToken:token];
 	} else if ([tagName isEqualToString:@"plaintext"]) {
 		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
