@@ -1858,7 +1858,7 @@
 			[self emitParseError:@"Unexpected Tag Token (%@) for element (%@) in <tr>", token.asTagToken.tagName, elementTagName];
 			return;
 		} else {
-			[_stackOfOpenElements clearBackToTableContext];
+			[_stackOfOpenElements clearBackToTableRowContext];
 			[_stackOfOpenElements popCurrentNode];
 			[self switchInsertionMode:HTMLInsertionModeInTableBody];
 		}
