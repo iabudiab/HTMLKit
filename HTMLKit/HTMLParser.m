@@ -1428,12 +1428,12 @@
 		}
 		[self closePElement];
 	} else if ([tagName isEqualToString:@"li"]) {
-		if (![_stackOfOpenElements hasElementInScopeWithTagName:@"li"]) {
+		if (![_stackOfOpenElements hasElementInListItemScopeWithTagName:@"li"]) {
 			[self emitParseError:@"Unexpected closed (li) element in <body>"];
 			return;
 		}
-		[self generateImpliedEndTagsExceptForElement:nil];
-		if ([self.currentNode.tagName isEqualToString:@"li"]) {
+		[self generateImpliedEndTagsExceptForElement:@"li"];
+		if (![self.currentNode.tagName isEqualToString:@"li"]) {
 			[self emitParseError:@"Unexpected nested (li) element in <body>"];
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"li"];
