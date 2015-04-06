@@ -1537,6 +1537,7 @@
 				_pendingTableCharacterTokens.characters = @"";
 				_originalInsertionMode = _insertionMode;
 				[self switchInsertionMode:HTMLInsertionModeInTableText];
+				[self reprocessToken:token];
 				return;
 			} else {
 				break;
@@ -1921,6 +1922,7 @@
 					return;
 				} else {
 					[self closeTheCell];
+					[self reprocessToken:token];
 				}
 			} else {
 				break;
@@ -1935,6 +1937,7 @@
 					return;
 				} else {
 					[self closeTheCell];
+					[self reprocessToken:token];
 				}
 			} else {
 				break;
@@ -2136,6 +2139,7 @@
 
 	[self emitParseError:@"Unexpected Token after <body>"];
 	[self switchInsertionMode:HTMLInsertionModeInBody];
+	[self reprocessToken:token];
 }
 
 - (void)HTMLInsertionModeInFrameset:(HTMLToken *)token
