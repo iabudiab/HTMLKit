@@ -1709,7 +1709,7 @@
 			}
 			return;
 		case HTMLTokenTypeStartTag:
-			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", "@tbody", @"td",
+			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", @"tbody", @"td",
 				 @"tfoot", @"th", @"thead", @"tr", nil]) {
 				common(YES);
 			} else {
