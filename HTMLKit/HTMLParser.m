@@ -344,6 +344,11 @@
 	}
 }
 
+- (void)insertComment:(HTMLCommentToken *)token
+{
+	[self insertComment:token asChildOfNode:nil];
+}
+
 - (void)insertComment:(HTMLCommentToken *)token asChildOfNode:(HTMLNode *)node
 {
 	HTMLNode *parent = node;
@@ -834,7 +839,7 @@
 			break;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in <head>"];
@@ -1030,7 +1035,7 @@
 			return;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in <body>"];
@@ -1538,7 +1543,7 @@
 			}
 			return;
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in <table>"];
@@ -1732,7 +1737,7 @@
 			break;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in <colgroup>"];
@@ -1962,7 +1967,7 @@
 			return;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in <select>"];
@@ -2148,7 +2153,7 @@
 			break;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in <frameset>"];
@@ -2211,7 +2216,7 @@
 			break;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in <frameset>"];
@@ -2340,7 +2345,7 @@
 			return;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:nil];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token in foreign content"];
