@@ -165,6 +165,16 @@
 	return child;
 }
 
+- (void)replaceAllChildNodesWithNode:(HTMLNode *)node
+{
+	[self removeAllChildNodes];
+
+	if (node != nil) {
+		[self.ownerDocument adoptNode:node];
+		[self insertNode:node beforeChildNode:nil];
+	}
+}
+
 - (HTMLNode *)removeChildNode:(HTMLNode *)child
 {
 	if (child.parentNode != self) {

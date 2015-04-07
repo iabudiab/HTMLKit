@@ -7,9 +7,11 @@
 //
 
 #import "HTMLElement.h"
+#import "HTMLDocument.h"
+#import "HTMLText.h"
+
 #import "HTMLOrderedDictionary.h"
 #import "NSString+HTMLKit.h"
-#import "HTMLText.h"
 
 @interface HTMLElement ()
 {
@@ -84,8 +86,19 @@
 
 - (NSString *)textContent
 {
-#warning Implement Traversing
-	return nil;
+	NSMutableString *content = [NSMutableString string];
+	for (HTMLNode *node in self.treeEnumerator) {
+		if (node.type == HTMLNodeText) {
+			[content appendString:[(HTMLText *)node data]];
+		}
+	}
+	return content;
+}
+
+- (void)setTextContent:(NSString *)textContent
+{
+	HTMLText *node = [[HTMLText alloc] initWithData:textContent];
+	[self replaceAllChildNodesWithNode:node];
 }
 
 #pragma mark - NSCopying

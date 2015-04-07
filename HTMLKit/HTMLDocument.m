@@ -46,6 +46,10 @@
 
 - (HTMLNode *)adoptNode:(HTMLNode *)node
 {
+	if (node == nil) {
+		return nil;
+	}
+
 	if (node.type == HTMLNodeDocument) {
 		[NSException raise:HTMLKitNotSupportedError
 					format:@"%@: Not Fount Error, adopting a document node. The operation is not supported.", NSStringFromSelector(_cmd)];

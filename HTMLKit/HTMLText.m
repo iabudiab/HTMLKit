@@ -21,7 +21,7 @@
 {
 	self = [super initWithName:@"#text" type:HTMLNodeText];
 	if (self) {
-		_data = [[NSMutableString alloc] initWithString:data];
+		_data = [[NSMutableString alloc] initWithString:data ?: @""];
 	}
 	return self;
 }

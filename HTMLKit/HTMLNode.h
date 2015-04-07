@@ -73,6 +73,8 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 - (HTMLNode *)replaceChildNode:(HTMLNode *)node withNode:(HTMLNode *)replacement;
 
+- (void)replaceAllChildNodesWithNode:(HTMLNode *)node;
+
 - (HTMLNode *)removeChildNode:(HTMLNode *)node;
 
 - (HTMLNode *)removeChildNodeAtIndex:(NSUInteger)index;
