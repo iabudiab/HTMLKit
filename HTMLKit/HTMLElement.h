@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) NSMutableDictionary *attributes;
 
-@property (nonatomic, copy)	NSString *id;
+@property (nonatomic, copy)	NSString *elementId;
 
 @property (nonatomic, copy)	NSString *className;
 

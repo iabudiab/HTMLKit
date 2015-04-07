@@ -52,7 +52,7 @@
 
 #pragma mark - Attributes
 
-- (NSString *)id
+- (NSString *)elementId
 {
 	return _attributes[@"id"] ?: @"";
 }
