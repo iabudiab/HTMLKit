@@ -1602,7 +1602,7 @@
 		[self switchToState:HTMLTokenizerStateCommentStart];
 	} else if ([_inputStreamReader consumeString:@"DOCTYPE" caseSensitive:NO]) {
 		[self switchToState:HTMLTokenizerStateDOCTYPE];
-	} else if (_parser.adjustedCurrentNode.namespace == HTMLNamespaceHTML &&
+	} else if (_parser.adjustedCurrentNode.namespace != HTMLNamespaceHTML &&
 			   [_inputStreamReader consumeString:@"[CDATA[" caseSensitive:YES]) {
 		[self switchToState:HTMLTokenizerStateCDATASection];
 	} else {
