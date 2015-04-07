@@ -207,7 +207,7 @@
 		if (node == nil) {
 			return YES;
 		}
-		if (node.namespace == HTMLNamespaceHTML) {
+		if (node.htmlNamespace == HTMLNamespaceHTML) {
 			return YES;
 		}
 		if (IsNodeMathMLTextIntegrationPoint(node)) {
@@ -218,7 +218,7 @@
 				return YES;
 			}
 		}
-		if (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
+		if (node.htmlNamespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
 			if (token.type == HTMLTokenTypeStartTag && [token.asTagToken.tagName isEqualToString:@"svg"]) {
 				return YES;
 			}
@@ -2357,15 +2357,15 @@
 		case HTMLTokenTypeStartTag:
 		{
 			void (^ anythingElse)() = ^ {
-				if (self.adjustedCurrentNode.namespace == HTMLNamespaceMathML) {
+				if (self.adjustedCurrentNode.htmlNamespace == HTMLNamespaceMathML) {
 					AdjustMathMLAttributes(token.asTagToken);
 				}
-				if (self.adjustedCurrentNode.namespace == HTMLNamespaceSVG) {
+				if (self.adjustedCurrentNode.htmlNamespace == HTMLNamespaceSVG) {
 					AdjustSVGNameCase(token.asTagToken);
 					AdjustSVGAttributes(token.asTagToken);
 				}
 				// "Adjust foreign attributes": Attributes' namespace ignored
-				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.namespace];
+				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.htmlNamespace];
 				if (token.asTagToken.selfClosing) {
 					[_stackOfOpenElements popCurrentNode];
 				}
@@ -2379,7 +2379,7 @@
 					[_stackOfOpenElements popCurrentNode];
 					while (!IsNodeMathMLTextIntegrationPoint(self.currentNode) &&
 						   !IsNodeHTMLIntegrationPoint(self.currentNode) &&
-						   self.currentNode.namespace != HTMLNamespaceHTML) {
+						   self.currentNode.htmlNamespace != HTMLNamespaceHTML) {
 						[_stackOfOpenElements popCurrentNode];
 					}
 					[self reprocessToken:token];
@@ -2419,7 +2419,7 @@
 					break;
 				}
 				node = _stackOfOpenElements[--index];
-				if (node.namespace != HTMLNamespaceHTML) {
+				if (node.htmlNamespace != HTMLNamespaceHTML) {
 					continue;
 				} else {
 					[self processToken:token byApplyingRulesForInsertionMode:_insertionMode];

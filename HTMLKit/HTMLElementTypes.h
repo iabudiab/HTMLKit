@@ -12,15 +12,15 @@
 
 NS_INLINE BOOL IsNodeMathMLTextIntegrationPoint(HTMLElement *node)
 {
-	return (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToAny:@"mi", @"mo", @"mn", @"ms", @"mtext", nil]);
+	return (node.htmlNamespace == HTMLNamespaceMathML && [node.tagName isEqualToAny:@"mi", @"mo", @"mn", @"ms", @"mtext", nil]);
 }
 
 NS_INLINE BOOL IsNodeHTMLIntegrationPoint(HTMLElement *node)
 {
-	if (node.namespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
+	if (node.htmlNamespace == HTMLNamespaceMathML && [node.tagName isEqualToString:@"annotation-xml"]) {
 		NSString *encoding = node.attributes[@"encoding"];
 		return [encoding isEqualToStringIgnoringCase:@"text/html"] || [encoding isEqualToStringIgnoringCase:@"application/xhtml+xml"];
-	} else if (node.namespace == HTMLNamespaceSVG) {
+	} else if (node.htmlNamespace == HTMLNamespaceSVG) {
 		return [node.tagName isEqualToAny:@"foreignObject", @"desc", @"title", nil];
 	}
 	return NO;
@@ -28,7 +28,7 @@ NS_INLINE BOOL IsNodeHTMLIntegrationPoint(HTMLElement *node)
 
 NS_INLINE BOOL IsSpecialElement(HTMLElement *element)
 {
-	if (element.namespace == HTMLNamespaceHTML) {
+	if (element.htmlNamespace == HTMLNamespaceHTML) {
 		return [element.tagName isEqualToAny:@"address", @"applet", @"area", @"article",
 				@"aside", @"base", @"basefont", @"bgsound", @"blockquote", @"body", @"br",
 				@"button", @"caption", @"center", @"col", @"colgroup", @"dd", @"details",
@@ -41,9 +41,9 @@ NS_INLINE BOOL IsSpecialElement(HTMLElement *element)
 				@"select", @"source", @"style", @"summary", @"table", @"tbody", @"td",
 				@"template", @"textarea", @"tfoot", @"th", @"thead", @"title", @"tr",
 				@"track", @"ul", @"wbr", @"xmp", nil];
-	} else if (element.namespace == HTMLNamespaceMathML) {
+	} else if (element.htmlNamespace == HTMLNamespaceMathML) {
 		return [element.tagName isEqualToAny:@"mi", @"mo", @"mn", @"ms", @"mtext", @"annotation-xml", nil];
-	} else if (element.namespace == HTMLNamespaceSVG) {
+	} else if (element.htmlNamespace == HTMLNamespaceSVG) {
 		return [element.tagName isEqualToAny:@"foreignObject", @"desc", @"title", nil];
 	}
 	return NO;

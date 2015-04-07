@@ -12,7 +12,7 @@
 
 @interface HTMLElement : HTMLNode
 
-@property (nonatomic, assign, readonly) HTMLNamespace namespace;
+@property (nonatomic, assign, readonly) HTMLNamespace htmlNamespace;
 
 @property (nonatomic, copy, readonly) NSString *tagName;
 
@@ -24,7 +24,7 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName;
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes;
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)namespace;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)htmlNamespace;
 
 - (BOOL)hasAttribute:(NSString *)name;
 - (NSString *)objectForKeyedSubscript:(NSString *)name;

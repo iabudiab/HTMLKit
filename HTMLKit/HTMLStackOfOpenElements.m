@@ -217,7 +217,7 @@
 		if ([node.tagName isEqualToString:tagName]) {
 			return node;
 		}
-		if (!(node.namespace == HTMLNamespaceHTML &&
+		if (!(node.htmlNamespace == HTMLNamespaceHTML &&
 			  [node.tagName isEqualToAny:@"optgroup", @"option", nil])) {
 			return nil;
 		}
@@ -238,7 +238,7 @@
 		if ([tagNames containsObject:node.tagName]) {
 			return node;
 		}
-		if ([elementTypes[node.tagName] isEqual:@(node.namespace)]) {
+		if ([elementTypes[node.tagName] isEqual:@(node.htmlNamespace)]) {
 			return nil;
 		}
 	}

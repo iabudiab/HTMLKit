@@ -50,7 +50,7 @@
 		if ([node isEqual:[HTMLMarker marker]]) {
 			break;
 		}
-		if (node.namespace == element.namespace &&
+		if (node.htmlNamespace == element.htmlNamespace &&
 			[node.tagName isEqualToString:element.tagName] &&
 			[node.attributes isEqualTo:element.attributes]) {
 			existing++;

@@ -36,7 +36,7 @@
 	return [self initWithTagName:tagName attributes:attributes namespace:HTMLNamespaceHTML];
 }
 
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)namespace
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)htmlNamespace
 {
 	self = [super initWithName:tagName type:HTMLNodeElement];
 	if (self) {
@@ -45,7 +45,7 @@
 		if (attributes != nil) {
 			[_attributes addEntriesFromDictionary:attributes];
 		}
-		_namespace = namespace;
+		_htmlNamespace = htmlNamespace;
 	}
 	return self;
 }
@@ -141,9 +141,9 @@
 {
 	NSMutableString *description = [NSMutableString stringWithFormat:@"<%@: %p <", self.class, self];
 
-	if (self.namespace == HTMLNamespaceMathML) {
+	if (self.htmlNamespace == HTMLNamespaceMathML) {
 		[description appendString:@"math "];
-	} else if (self.namespace == HTMLNamespaceSVG) {
+	} else if (self.htmlNamespace == HTMLNamespaceSVG) {
 		[description appendString:@"svg "];
 	}
 
