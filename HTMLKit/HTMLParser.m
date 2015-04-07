@@ -1350,7 +1350,7 @@
 	} else if ([tagName isEqualToString:@"math"]) {
 		[self reconstructActiveFormattingElements];
 		AdjustMathMLAttributes(token);
-			// "Adjust foreign attributes": Attributes' namespace ignored
+		AdjustForeignAttributes(token);
 		[self insertForeignElementForToken:token inNamespace:HTMLNamespaceMathML];
 		if (token.isSelfClosing) {
 			[_stackOfOpenElements popCurrentNode];
@@ -1358,7 +1358,7 @@
 	} else if ([tagName isEqualToString:@"svg"]) {
 		[self reconstructActiveFormattingElements];
 		AdjustSVGAttributes(token);
-			// "Adjust foreign attributes": Attributes' namespace ignored
+		AdjustForeignAttributes(token);
 		[self insertForeignElementForToken:token inNamespace:HTMLNamespaceSVG];
 		if (token.isSelfClosing) {
 			[_stackOfOpenElements popCurrentNode];
@@ -2364,7 +2364,7 @@
 					AdjustSVGNameCase(token.asTagToken);
 					AdjustSVGAttributes(token.asTagToken);
 				}
-				// "Adjust foreign attributes": Attributes' namespace ignored
+				AdjustForeignAttributes(token);
 				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.htmlNamespace];
 				if (token.asTagToken.selfClosing) {
 					[_stackOfOpenElements popCurrentNode];
