@@ -2228,7 +2228,7 @@
 		case HTMLTokenTypeStartTag:
 			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
 				[self HTMLInsertionModeInBody:token];
-			} else if ([token.asTagToken.tagName isEqualToString:@"html"]) {
+			} else if ([token.asTagToken.tagName isEqualToString:@"noframes"]) {
 				[self HTMLInsertionModeInHead:token];
 			} else {
 				break;
@@ -2236,7 +2236,7 @@
 			return;
 		case HTMLTokenTypeEndTag:
 			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
-				[self HTMLInsertionModeInBody:token];
+				[self HTMLInsertionModeAfterAfterFrameset:token];
 				return;
 			}
 			break;
