@@ -78,7 +78,7 @@
 		_stackOfOpenElements = [HTMLStackOfOpenElements new];
 		_listOfActiveFormattingElements = [HTMLListOfActiveFormattingElements new];
 
-		_tokenizer = [[HTMLTokenizer alloc] initWithString:string];
+		_tokenizer = [[HTMLTokenizer alloc] initWithString:string ?: @""];
 		_tokenizer.parser = self;
 
 		_pendingTableCharacterTokens = [[HTMLCharacterToken alloc] initWithString:@""];
