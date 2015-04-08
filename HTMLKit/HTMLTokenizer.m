@@ -182,6 +182,10 @@
 
 - (void)emitCharacterTokenWithString:(NSString *)string
 {
+	if (string == nil) {
+		return;
+	}
+
 	HTMLToken *previousToken = [_tokens lastObject];
 	if ([previousToken isCharacterToken]) {
 		[(HTMLCharacterToken *)previousToken appendString:string];
