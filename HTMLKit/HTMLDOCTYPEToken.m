@@ -18,6 +18,11 @@
 @implementation HTMLDOCTYPEToken
 @synthesize name = _name;
 
+- (instancetype)init
+{
+	return [self initWithName:nil];
+}
+
 - (instancetype)initWithName:(NSString *)name
 {
 	self = [super init];
