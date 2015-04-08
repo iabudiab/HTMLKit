@@ -2332,10 +2332,7 @@
 
 	NSString *characters = [_inputStreamReader consumeCharactersUpToString:@"]]>"];
 	[self emitCharacterTokenWithString:characters];
-
-	if ([_inputStreamReader consumeNextInputCharacter] == (UTF32Char)EOF) {
-		[_inputStreamReader reconsumeCurrentInputCharacter];
-	}
+	[_inputStreamReader consumeString:@"]]>" caseSensitive:NO];
 }
 
 @end
