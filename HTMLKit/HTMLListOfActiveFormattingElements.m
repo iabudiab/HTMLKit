@@ -100,7 +100,7 @@
 
 - (void)clearUptoLastMarker
 {
-	while (_list.lastObject != [HTMLMarker marker]) {
+	while (_list.lastObject && _list.lastObject != [HTMLMarker marker]) {
 		[_list removeLastObject];
 	}
 	[_list removeLastObject];
