@@ -185,7 +185,7 @@
 
 - (NSString *)consumeCharactersUpToString:(NSString *)string
 {
-	NSString *consumed = [NSString string];
+	NSString *consumed;
 	[_scanner scanUpToString:string intoString:&consumed];
 	_location = _scanner.scanLocation;
 	return consumed;
