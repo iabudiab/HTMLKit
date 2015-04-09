@@ -42,7 +42,7 @@
 {
 	self = [super initWithName:tagName type:HTMLNodeElement];
 	if (self) {
-		_tagName = tagName;
+		_tagName = [tagName copy];
 		_attributes = [HTMLOrderedDictionary new];
 		if (attributes != nil) {
 			[_attributes addEntriesFromDictionary:attributes];
@@ -108,6 +108,7 @@
 	HTMLElement *copy = [super copyWithZone:zone];
 	copy->_tagName = [_tagName copy];
 	copy->_attributes = [_attributes copy];
+	copy->_htmlNamespace = _htmlNamespace;
 	return copy;
 }
 
