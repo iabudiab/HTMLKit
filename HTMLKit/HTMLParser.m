@@ -2329,8 +2329,6 @@
 	}
 
 	[self emitParseError:@"Unexpected Token after after <frameset>"];
-	[self switchInsertionMode:HTMLInsertionModeInBody];
-	[self reprocessToken:token];
 }
 
 - (void)processTokenByApplyingRulesForParsingTokensInForeignContent:(HTMLToken *)token
