@@ -148,18 +148,20 @@
 
 	_document.quirksMode = _contextElement.ownerDocument ? _contextElement.ownerDocument.quirksMode : HTMLQuirksModeNoQuirks;
 
-	if ([_contextElement.tagName isEqualToAny:@"title", @"textarea", nil]) {
-		_tokenizer.state = HTMLTokenizerStateRCDATA;
-	} else if ([_contextElement.tagName isEqualToAny:@"style", @"xmp", @"iframe", @"noembed", @"noframes", nil]) {
-		_tokenizer.state = HTMLTokenizerStateRAWTEXT;
-	} else if ([_contextElement.tagName isEqualToString:@"script"]) {
-		_tokenizer.state = HTMLTokenizerStateScriptData;
-	} else if ([_contextElement.tagName isEqualToString:@"noscript"]) {
-		_tokenizer.state = HTMLTokenizerStateRAWTEXT;
-	} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
-		_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
-	} else {
-		_tokenizer.state = HTMLTokenizerStateData;
+	if (_contextElement.htmlNamespace == HTMLNamespaceHTML) {
+		if ([_contextElement.tagName isEqualToAny:@"title", @"textarea", nil]) {
+			_tokenizer.state = HTMLTokenizerStateRCDATA;
+		} else if ([_contextElement.tagName isEqualToAny:@"style", @"xmp", @"iframe", @"noembed", @"noframes", nil]) {
+			_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+		} else if ([_contextElement.tagName isEqualToString:@"script"]) {
+			_tokenizer.state = HTMLTokenizerStateScriptData;
+		} else if ([_contextElement.tagName isEqualToString:@"noscript"]) {
+			_tokenizer.state = HTMLTokenizerStateRAWTEXT;
+		} else if ([_contextElement.tagName isEqualToString:@"plaintext"]) {
+			_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
+		} else {
+			_tokenizer.state = HTMLTokenizerStateData;
+		}
 	}
 
 	HTMLElement *root = [[HTMLElement alloc] initWithTagName:@"html"];
