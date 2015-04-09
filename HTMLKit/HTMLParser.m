@@ -796,7 +796,7 @@
 			}
 			break;
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token before <head>"];
@@ -962,7 +962,7 @@
 			break;
 		}
 		case HTMLTokenTypeComment:
-			[self insertComment:token.asCommentToken asChildOfNode:_document];
+			[self insertComment:token.asCommentToken];
 			return;
 		case HTMLTokenTypeDoctype:
 			[self emitParseError:@"Unexpected DOCTYPE Token after <head>"];
