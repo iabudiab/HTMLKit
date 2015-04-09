@@ -15,7 +15,7 @@ NS_INLINE void AdjustMathMLAttributes(HTMLTagToken *token)
 {
 	NSString *lowercase = token.attributes[@"definitionurl"];
 	if (lowercase != nil) {
-		[token.attributes replaceKey:lowercase withKey:@"definitionUrl"];
+		[token.attributes replaceKey:@"definitionurl" withKey:@"definitionURL"];
 	}
 }
 
