@@ -248,6 +248,9 @@
 		if (token.isCharacterToken) {
 			NSString *characters = token.asCharacterToken.characters;
 			if ([characters characterAtIndex:0] == 0x000A) {
+				if (characters.length <= 1) {
+					return;
+				}
 				token = [token.asCharacterToken tokenByTrimmingFormIndex:1];
 			}
 		}
