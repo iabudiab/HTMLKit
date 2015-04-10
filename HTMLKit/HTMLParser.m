@@ -519,10 +519,12 @@
 		HTMLElement *node = furthestBlock;
 		HTMLElement *lastNode = furthestBlock;
 
+		NSUInteger index = [_stackOfOpenElements indexOfElement:node];
 		for (int innerLoopCounter = 0; innerLoopCounter < 3; innerLoopCounter ++) {
-			NSUInteger stackIndex = [_stackOfOpenElements indexOfElement:node];
 
-			node = _stackOfOpenElements[stackIndex - 1];
+			index--;
+			node = _stackOfOpenElements[index];
+
 			if (![_listOfActiveFormattingElements containsElement:node]) {
 				[_stackOfOpenElements removeElement:node];
 				continue;
@@ -532,18 +534,18 @@
 				break;
 			}
 
-			stackIndex = [_stackOfOpenElements indexOfElement:node];
-			NSUInteger listIndex = [_listOfActiveFormattingElements indexOfElement:node];
-
 			HTMLElement *newElement = [node copy];
-			[_listOfActiveFormattingElements replaceElementAtIndex:listIndex withElement:newElement];
-			[_stackOfOpenElements replaceElementAtIndex:stackIndex withElement:newElement];
+			[_listOfActiveFormattingElements replaceElementAtIndex:[_listOfActiveFormattingElements indexOfElement:node]
+													   withElement:newElement];
+			[_stackOfOpenElements replaceElementAtIndex:[_stackOfOpenElements indexOfElement:node]
+											withElement:newElement];
 			node = newElement;
 
 			if ([lastNode isEqual:furthestBlock]) {
-				bookmark = listIndex + 1;
+				bookmark = [_listOfActiveFormattingElements indexOfElement:node] + 1;
 			}
 
+			[lastNode.parentNode removeChildNode:lastNode];
 			[node appendNode:lastNode];
 			lastNode = node;
 		}
