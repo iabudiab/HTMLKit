@@ -1412,7 +1412,7 @@
 				@"center", @"details", @"dialog", @"dir", @"div", @"dl", @"fieldset", @"figcaption",
 				@"figure", @"footer", @"header", @"hgroup", @"listing", @"main", @"menu", @"nav",
 				@"ol", @"pre", @"section", @"summary", @"ul", nil]) {
-		if ([_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
+		if (![_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
 			[self emitParseError:@"End Tag (%@) with open element in <body>", tagName];
 			return;
 		}
