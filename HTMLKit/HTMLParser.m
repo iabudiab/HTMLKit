@@ -1343,7 +1343,7 @@
 			_insertionMode == HTMLInsertionModeInTableBody ||
 			_insertionMode == HTMLInsertionModeInCell ||
 			_insertionMode == HTMLInsertionModeInRow) {
-			[self switchInsertionMode:HTMLInsertionModeInTable];
+			[self switchInsertionMode:HTMLInsertionModeInSelectInTable];
 		} else {
 			[self switchInsertionMode:HTMLInsertionModeInSelect];
 		}
