@@ -1544,7 +1544,7 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 			if ([self.currentNode.tagName isEqualToAny:@"table", @"tbody", @"thead", @"tr", nil]) {
-				_pendingTableCharacterTokens.characters = @"";
+				_pendingTableCharacterTokens = [[HTMLCharacterToken alloc] initWithString:@""];
 				_originalInsertionMode = _insertionMode;
 				[self switchInsertionMode:HTMLInsertionModeInTableText];
 				[self reprocessToken:token];
