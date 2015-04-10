@@ -1027,6 +1027,7 @@
 															  withString:@""
 																 options:NSLiteralSearch
 																   range:NSMakeRange(0, charactes.length)];
+
 			for (int i = 0; i < nullCount; i++) {
 				[self emitParseError:@"Unexpected Character (0x0000) in <body>"];
 			}
@@ -1034,7 +1035,7 @@
 			if (charactes.length > 0) {
 				[self reconstructActiveFormattingElements];
 				[self insertCharacters:charactes];
-				if ([charactes containsHTMLWhitespace]) {
+				if (![charactes containsHTMLWhitespace]) {
 					_framesetOkFlag = NO;
 				}
 			}
