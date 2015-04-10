@@ -2375,7 +2375,7 @@
 					AdjustSVGNameCase(token.asTagToken);
 					AdjustSVGAttributes(token.asTagToken);
 				}
-				AdjustForeignAttributes(token);
+				AdjustForeignAttributes(token.asTagToken);
 				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.htmlNamespace];
 				if (token.asTagToken.selfClosing) {
 					[_stackOfOpenElements popCurrentNode];
