@@ -1916,7 +1916,7 @@
 					return;
 				} else {
 					[self generateImpliedEndTagsExceptForElement:nil];
-					if (![self.currentNode.tagName isEqualToString:@"colgroup"]) {
+					if (![self.currentNode.tagName isEqualToString:token.asTagToken.tagName]) {
 						[self emitParseError:@"Unexpected nested (%@) element in <td>", token.asTagToken.tagName];
 					}
 					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:token.asTagToken.tagName];
