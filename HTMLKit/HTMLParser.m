@@ -1301,10 +1301,13 @@
 		NSString *prompt = token.attributes[@"prompt"] ?: @"This is a searchable index. Enter search keywords: ";
 		[self insertCharacters:prompt];
 
-		HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input" attributes:token.attributes];
-		inputToken.attributes[@"name"] = @"isindex";
-		[inputToken.attributes removeObjectForKey:@"action"];
-		[inputToken.attributes removeObjectForKey:@"prompt"];
+		NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:token.attributes];
+		attributes[@"name"] = @"isindex";
+		[attributes removeObjectForKey:@"action"];
+		[attributes removeObjectForKey:@"prompt"];
+
+		HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input" attributes:attributes];
+		[self insertElementForToken:inputToken];
 		[_stackOfOpenElements popCurrentNode];
 
 		[_stackOfOpenElements popCurrentNode];
