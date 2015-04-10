@@ -869,7 +869,6 @@
 				HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
 																								beforeChildNode:&child];
 				HTMLElement *script = [self createElementForToken:token.asStartTagToken inNamespace:HTMLNamespaceHTML];
-#warning Script Element Flags (https://html.spec.whatwg.org/multipage/scripting.html#parser-inserted)
 				[adjustedInsertionLocation insertNode:script beforeChildNode:child];
 				[_stackOfOpenElements pushElement:script];
 				_tokenizer.state = HTMLTokenizerStateScriptData;
@@ -978,7 +977,7 @@
 				_framesetOkFlag = NO;
 				[self switchInsertionMode:HTMLInsertionModeInBody];
 				return;
-			} else if ([token.asStartTagToken.tagName isEqualToString:@"body"]) {
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"frameset"]) {
 				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInFrameset];
 				return;
