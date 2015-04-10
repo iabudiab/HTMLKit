@@ -2246,7 +2246,7 @@
 			return;
 		case HTMLTokenTypeEndTag:
 			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
-				[self HTMLInsertionModeAfterAfterFrameset:token];
+				[self switchInsertionMode:HTMLInsertionModeAfterAfterFrameset];
 				return;
 			}
 			break;
