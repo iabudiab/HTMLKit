@@ -188,6 +188,8 @@
 	NSString *consumed;
 	[_scanner scanUpToString:string intoString:&consumed];
 	_location = _scanner.scanLocation;
+	consumed = [consumed stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\r"];
+	consumed = [consumed stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
 	return consumed;
 }
 
