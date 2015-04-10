@@ -1156,13 +1156,17 @@
 		// Start Tag: li, dd, dt
 		// https://html.spec.whatwg.org/multipage/syntax.html#parsing-main-inbody
 
+		NSDictionary *map = @{@"li": @[@"li"],
+								  @"dd": @[@"dd", @"dt"],
+								  @"dt": @[@"dd", @"dt"]};
+
 		for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator.allObjects) {
-			if ([node.tagName isEqualToString:tagName]) {
-				[self generateImpliedEndTagsExceptForElement:tagName];
-				if (![self.currentNode.tagName isEqualToString:tagName]) {
-					[self emitParseError:@"Unexpected Start Tag (%@) in <body>", tagName];
+			if ([map[tagName] containsObject:node.tagName]) {
+				[self generateImpliedEndTagsExceptForElement:node.tagName];
+				if (![self.currentNode.tagName isEqualToString:node.tagName]) {
+					[self emitParseError:@"Unexpected Start Tag (%@) in <body>", node.tagName];
 				}
-				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
+				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:node.tagName];
 				break;
 			} else if (IsSpecialElement(node) && ![node.tagName isEqualToAny:@"address", @"div", @"p", nil]) {
 				break;
