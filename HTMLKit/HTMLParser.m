@@ -1100,7 +1100,7 @@
 		}
 	} else if ([tagName isEqualToString:@"frameset"]) {
 		[self emitParseError:@"Unexpected Start Tag Token (frameset) in <body>"];
-		if (_stackOfOpenElements.count < 2 ||
+		if (_stackOfOpenElements.count == 1 ||
 			![[_stackOfOpenElements[1] tagName] isEqualToString:@"body"]) {
 			return;
 		}
