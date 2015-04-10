@@ -1230,7 +1230,7 @@
 		}
 		HTMLElement *nobr = [self insertElementForToken:token];
 		[_listOfActiveFormattingElements addElement:nobr];
-	} else if ([tagName isEqualToAny:@"applet", @"marquee", nil]) {
+	} else if ([tagName isEqualToAny:@"applet", @"marquee", @"object", nil]) {
 		[self reconstructActiveFormattingElements];
 		[self insertElementForToken:token];
 		[_listOfActiveFormattingElements addMarker];
