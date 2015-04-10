@@ -2350,13 +2350,16 @@
 															  withString:@"\uFFFD"
 																 options:NSLiteralSearch
 																   range:NSMakeRange(0, charactes.length)];
+
 			for (int i = 0; i < nullCount; i++) {
 				[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
 			}
 
-			[self insertCharacters:charactes];
-			if (![token.asCharacterToken isWhitespaceToken]) {
-				_framesetOkFlag = NO;
+			if (charactes.length > 0) {
+				[self insertCharacters:charactes];
+				if (charactes.length > nullCount && ![charactes containsHTMLWhitespace]) {
+					_framesetOkFlag = NO;
+				}
 			}
 			return;
 		}
