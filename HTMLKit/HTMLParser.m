@@ -1941,8 +1941,7 @@
 		case HTMLTokenTypeStartTag:
 			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", @"tbody",
 				 @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
-				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"td"] &&
-					![_stackOfOpenElements hasElementInTableScopeWithTagName:@"th"]) {
+				if (![_stackOfOpenElements hasElementInTableScopeWithAnyOfTagNames:@[@"td", @"th"]]) {
 					[self emitParseError:@"Unexpected Start Tag Token (%@) for element in <td>", token.asTagToken.tagName];
 					return;
 				} else {
