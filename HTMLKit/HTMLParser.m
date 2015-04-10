@@ -1503,10 +1503,7 @@
 
 - (void)processAnyOtherEndTagTokenInBody:(HTMLTagToken *)token
 {
-	HTMLElement *node = _stackOfOpenElements.currentNode;
-	NSUInteger index = _stackOfOpenElements.count - 1;
-
-	while (YES) {
+	for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator.allObjects) {
 		if ([node.tagName isEqualToString:token.tagName]) {
 			[self generateImpliedEndTagsExceptForElement:token.tagName];
 			if (![node.tagName isEqualToString:self.currentNode.tagName]) {
@@ -1518,7 +1515,6 @@
 			[self emitParseError:@"Unexpected End Tag Token (%@) in <body>", node.tagName];
 			return;
 		}
-		node = _stackOfOpenElements[--index];
 	}
 }
 
