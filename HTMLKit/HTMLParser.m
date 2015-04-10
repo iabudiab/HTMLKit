@@ -560,11 +560,11 @@
 		[furthestBlock appendNode:newElement];
 
 		[_listOfActiveFormattingElements removeElement:formattingElement];
-		bookmark = bookmark == 0 ?: bookmark -1;
 		[_listOfActiveFormattingElements insertElement:newElement atIndex:bookmark];
+
 		[_stackOfOpenElements removeElement:formattingElement];
 		NSUInteger furthestBlockIndex = [_stackOfOpenElements indexOfElement:furthestBlock];
-		[_stackOfOpenElements insertElement:newElement atIndex:furthestBlockIndex];
+		[_stackOfOpenElements insertElement:newElement atIndex:furthestBlockIndex + 1];
 	}
 	return NO;
 }
@@ -598,7 +598,7 @@
 
 	while (YES) {
 
-		if ([_stackOfOpenElements.firstNode isEqual:node]) {
+		if (node == _stackOfOpenElements.firstNode) {
 			last = YES;
 			if (_fragmentParsingAlgorithm) {
 				node = _contextElement;
@@ -611,7 +611,7 @@
 				NSUInteger ancestorIndex = nodeIndex;
 
 				while (YES) {
-					if ([ancestor isEqual:_stackOfOpenElements.firstNode]) {
+					if (ancestor == _stackOfOpenElements.firstNode) {
 						break;
 					}
 
@@ -659,13 +659,13 @@
 			return;
 		}
 
-		if ([node.tagName isEqualToString:@"template"]) {
-			[self switchInsertionMode:HTMLInsertionModeCurrentTemplate];
+		if ([node.tagName isEqualToString:@"table"]) {
+			[self switchInsertionMode:HTMLInsertionModeInTable];
 			return;
 		}
 
-		if ([node.tagName isEqualToString:@"table"]) {
-			[self switchInsertionMode:HTMLInsertionModeInTable];
+		if ([node.tagName isEqualToString:@"template"]) {
+#warning Implement HTML Template
 			return;
 		}
 
