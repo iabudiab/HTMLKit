@@ -70,15 +70,14 @@
 	return self;
 }
 
-#pragma mark - State Machine
+#pragma mark - Accessor
 
-- (void)reset
+- (NSString *)string
 {
-	_currentState = HTMLTokenizerStateData;
-	[_tokens removeAllObjects];
-	[_inputStreamReader reset];
-	_eof = NO;
+	return _inputStreamReader.string;
 }
+
+#pragma mark - State Machine
 
 - (id)nextObject
 {

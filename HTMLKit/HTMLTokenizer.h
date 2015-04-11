@@ -19,11 +19,10 @@
 
 @interface HTMLTokenizer : NSEnumerator
 
+@property (nonatomic, readonly) NSString *string;
 @property (nonatomic, assign) HTMLTokenizerState state;
 @property (nonatomic, weak, readonly) HTMLParser *parser;
 
 - (instancetype)initWithString:(NSString *)string;
-
-- (void)reset;
 
 @end

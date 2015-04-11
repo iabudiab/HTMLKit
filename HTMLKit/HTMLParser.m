@@ -142,7 +142,9 @@
 	}
 
 	[self initializeDocument];
-	[_tokenizer reset];
+	_tokenizer = [[HTMLTokenizer alloc] initWithString:_tokenizer.string];
+	_tokenizer.parser = self;
+
 	_contextElement = contextElement;
 	_fragmentParsingAlgorithm = YES;
 
