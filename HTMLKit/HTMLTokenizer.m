@@ -20,7 +20,6 @@
 
 @interface HTMLTokenizer ()
 {
-	NSMutableDictionary *_states;
 	HTMLTokenizerState _currentState;
 
 	/* Input Stream & Tokens Queue */
@@ -58,9 +57,7 @@
 {
 	self = [super init];
 	if (self) {
-		_states = [NSMutableDictionary new];
 		_currentState = HTMLTokenizerStateData;
-		[self setupStateMachine];
 
 		_tokens = [NSMutableArray new];
 
@@ -71,15 +68,6 @@
 		};
 	}
 	return self;
-}
-
-- (void)setupStateMachine
-{
-	for (NSUInteger i = 0; i < HTMLTokenizerStatesCount; i++) {
-		NSString *selectorName = HTMLTokenizerStatesTable[i];
-		SEL selector = NSSelectorFromString(selectorName);
-		[_states setObject:[NSValue valueWithPointer:selector] forKey:@(i)];
-	}
 }
 
 #pragma mark - State Machine
@@ -106,13 +94,145 @@
 
 - (void)read
 {
-	SEL selector = [[_states objectForKey:@(_currentState)] pointerValue];
-	if ([self respondsToSelector:selector]) {
-		/* ObjC-Runtime-style performSelector for ARC to shut up the 
-		 compiler, since it can't figure out the type of the return
-		 value on its own */
-		IMP method = [self methodForSelector:selector];
-		((void (*)(id, SEL))method)(self, selector);
+	switch (_currentState) {
+		case HTMLTokenizerStateData:
+			return [self HTMLTokenizerStateData];
+		case HTMLTokenizerStateCharacterReferenceInData:
+			return [self HTMLTokenizerStateCharacterReferenceInData];
+		case HTMLTokenizerStateRCDATA:
+			return [self HTMLTokenizerStateRCDATA];
+		case HTMLTokenizerStateCharacterReferenceInRCDATA:
+			return [self HTMLTokenizerStateCharacterReferenceInRCDATA];
+		case HTMLTokenizerStateRAWTEXT:
+			return [self HTMLTokenizerStateRAWTEXT];
+		case HTMLTokenizerStateScriptData:
+			return [self HTMLTokenizerStateScriptData];
+		case HTMLTokenizerStatePLAINTEXT:
+			return [self HTMLTokenizerStatePLAINTEXT];
+		case HTMLTokenizerStateTagOpen:
+			return [self HTMLTokenizerStateTagOpen];
+		case HTMLTokenizerStateEndTagOpen:
+			return [self HTMLTokenizerStateEndTagOpen];
+		case HTMLTokenizerStateTagName:
+			return [self HTMLTokenizerStateTagName];
+		case HTMLTokenizerStateRCDATALessThanSign:
+			return [self HTMLTokenizerStateRCDATALessThanSign];
+		case HTMLTokenizerStateRCDATAEndTagOpen:
+			return [self HTMLTokenizerStateRCDATAEndTagOpen];
+		case HTMLTokenizerStateRCDATAEndTagName:
+			return [self HTMLTokenizerStateRCDATAEndTagName];
+		case HTMLTokenizerStateRAWTEXTLessThanSign:
+			return [self HTMLTokenizerStateRAWTEXTLessThanSign];
+		case HTMLTokenizerStateRAWTEXTEndTagOpen:
+			return [self HTMLTokenizerStateRAWTEXTEndTagOpen];
+		case HTMLTokenizerStateRAWTEXTEndTagName:
+			return [self HTMLTokenizerStateRAWTEXTEndTagName];
+		case HTMLTokenizerStateScriptDataLessThanSign:
+			return [self HTMLTokenizerStateScriptDataLessThanSign];
+		case HTMLTokenizerStateScriptDataEndTagOpen:
+			return [self HTMLTokenizerStateScriptDataEndTagOpen];
+		case HTMLTokenizerStateScriptDataEndTagName:
+			return [self HTMLTokenizerStateScriptDataEndTagName];
+		case HTMLTokenizerStateScriptDataEscapeStart:
+			return [self HTMLTokenizerStateScriptDataEscapeStart];
+		case HTMLTokenizerStateScriptDataEscapeStartDash:
+			return [self HTMLTokenizerStateScriptDataEscapeStartDash];
+		case HTMLTokenizerStateScriptDataEscaped:
+			return [self HTMLTokenizerStateScriptDataEscaped];
+		case HTMLTokenizerStateScriptDataEscapedDash:
+			return [self HTMLTokenizerStateScriptDataEscapedDash];
+		case HTMLTokenizerStateScriptDataEscapedDashDash:
+			return [self HTMLTokenizerStateScriptDataEscapedDashDash];
+		case HTMLTokenizerStateScriptDataEscapedLessThanSign:
+			return [self HTMLTokenizerStateScriptDataEscapedLessThanSign];
+		case HTMLTokenizerStateScriptDataEscapedEndTagOpen:
+			return [self HTMLTokenizerStateScriptDataEscapedEndTagOpen];
+		case HTMLTokenizerStateScriptDataEscapedEndTagName:
+			return [self HTMLTokenizerStateScriptDataEscapedEndTagName];
+		case HTMLTokenizerStateScriptDataDoubleEscapeStart:
+			return [self HTMLTokenizerStateScriptDataDoubleEscapeStart];
+		case HTMLTokenizerStateScriptDataDoubleEscaped:
+			return [self HTMLTokenizerStateScriptDataDoubleEscaped];
+		case HTMLTokenizerStateScriptDataDoubleEscapedDash:
+			return [self HTMLTokenizerStateScriptDataDoubleEscapedDash];
+		case HTMLTokenizerStateScriptDataDoubleEscapedDashDash:
+			return [self HTMLTokenizerStateScriptDataDoubleEscapedDashDash];
+		case HTMLTokenizerStateScriptDataDoubleEscapedLessThanSign:
+			return [self HTMLTokenizerStateScriptDataDoubleEscapedLessThanSign];
+		case HTMLTokenizerStateScriptDataDoubleEscapeEnd:
+			return [self HTMLTokenizerStateScriptDataDoubleEscapeEnd];
+		case HTMLTokenizerStateBeforeAttributeName:
+			return [self HTMLTokenizerStateBeforeAttributeName];
+		case HTMLTokenizerStateAttributeName:
+			return [self HTMLTokenizerStateAttributeName];
+		case HTMLTokenizerStateAfterAttributeName:
+			return [self HTMLTokenizerStateAfterAttributeName];
+		case HTMLTokenizerStateBeforeAttributeValue:
+			return [self HTMLTokenizerStateBeforeAttributeValue];
+		case HTMLTokenizerStateAttributeValueDoubleQuoted:
+			return [self HTMLTokenizerStateAttributeValueDoubleQuoted];
+		case HTMLTokenizerStateAttributeValueSingleQuoted:
+			return [self HTMLTokenizerStateAttributeValueSingleQuoted];
+		case HTMLTokenizerStateAttributeValueUnquoted:
+			return [self HTMLTokenizerStateAttributeValueUnquoted];
+		case HTMLTokenizerStateCharacterReferenceInAttributeValue:
+			return [self HTMLTokenizerStateCharacterReferenceInAttributeValue];
+		case HTMLTokenizerStateAfterAttributeValueQuoted:
+			return [self HTMLTokenizerStateAfterAttributeValueQuoted];
+		case HTMLTokenizerStateSelfClosingStartTag:
+			return [self HTMLTokenizerStateSelfClosingStartTag];
+		case HTMLTokenizerStateBogusComment:
+			return [self HTMLTokenizerStateBogusComment];
+		case HTMLTokenizerStateMarkupDeclarationOpen:
+			return [self HTMLTokenizerStateMarkupDeclarationOpen];
+		case HTMLTokenizerStateCommentStart:
+			return [self HTMLTokenizerStateCommentStart];
+		case HTMLTokenizerStateCommentStartDash:
+			return [self HTMLTokenizerStateCommentStartDash];
+		case HTMLTokenizerStateComment:
+			return [self HTMLTokenizerStateComment];
+		case HTMLTokenizerStateCommentEndDash:
+			return [self HTMLTokenizerStateCommentEndDash];
+		case HTMLTokenizerStateCommentEnd:
+			return [self HTMLTokenizerStateCommentEnd];
+		case HTMLTokenizerStateCommentEndBang:
+			return [self HTMLTokenizerStateCommentEndBang];
+		case HTMLTokenizerStateDOCTYPE:
+			return [self HTMLTokenizerStateDOCTYPE];
+		case HTMLTokenizerStateBeforeDOCTYPEName:
+			return [self HTMLTokenizerStateBeforeDOCTYPEName];
+		case HTMLTokenizerStateDOCTYPEName:
+			return [self HTMLTokenizerStateDOCTYPEName];
+		case HTMLTokenizerStateAfterDOCTYPEName:
+			return [self HTMLTokenizerStateAfterDOCTYPEName];
+		case HTMLTokenizerStateAfterDOCTYPEPublicKeyword:
+			return [self HTMLTokenizerStateAfterDOCTYPEPublicKeyword];
+		case HTMLTokenizerStateBeforeDOCTYPEPublicIdentifier:
+			return [self HTMLTokenizerStateBeforeDOCTYPEPublicIdentifier];
+		case HTMLTokenizerStateDOCTYPEPublicIdentifierDoubleQuoted:
+			return [self HTMLTokenizerStateDOCTYPEPublicIdentifierDoubleQuoted];
+		case HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted:
+			return [self HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted];
+		case HTMLTokenizerStateAfterDOCTYPEPublicIdentifier:
+			return [self HTMLTokenizerStateAfterDOCTYPEPublicIdentifier];
+		case HTMLTokenizerStateBetweenDOCTYPEPublicAndSystemIdentifiers:
+			return [self HTMLTokenizerStateBetweenDOCTYPEPublicAndSystemIdentifiers];
+		case HTMLTokenizerStateAfterDOCTYPESystemKeyword:
+			return [self HTMLTokenizerStateAfterDOCTYPESystemKeyword];
+		case HTMLTokenizerStateBeforeDOCTYPESystemIdentifier:
+			return [self HTMLTokenizerStateBeforeDOCTYPESystemIdentifier];
+		case HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted:
+			return [self HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
+		case HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted:
+			return [self HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
+		case HTMLTokenizerStateAfterDOCTYPESystemIdentifier:
+			return [self HTMLTokenizerStateAfterDOCTYPESystemIdentifier];
+		case HTMLTokenizerStateBogusDOCTYPE:
+			return [self HTMLTokenizerStateBogusDOCTYPE];
+		case HTMLTokenizerStateCDATASection:
+			return [self HTMLTokenizerStateCDATASection];
+		default:
+			break;
 	}
 }
 
