@@ -103,14 +103,6 @@
 	return nextToken;
 }
 
-- (NSArray *)allObjects
-{
-	while (_eof == NO) {
-		[self read];
-	}
-	return _tokens;
-}
-
 - (void)read
 {
 	SEL selector = [[_states objectForKey:@(_currentState)] pointerValue];

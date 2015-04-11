@@ -90,15 +90,15 @@
 - (void)testTokenizer
 {
 	for (HTML5LibTokenizerTest *test in self.testsList) {
-		HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:test.input];
-		[tokenizer setValue:test.lastStartTag forKey:@"_lastStartTagName"];
 
 		for (NSNumber *state in test.initialStates) {
+			HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:test.input];
+			[tokenizer setValue:test.lastStartTag forKey:@"_lastStartTagName"];
 
 			tokenizer.state = [state integerValue];
 
 			NSArray *expectedTokens = test.output;
-			NSArray *tokens = [tokenizer allObjects];
+			NSArray *tokens = tokenizer.allObjects;
 			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", test.title);
 		}
 	}
