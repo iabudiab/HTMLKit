@@ -33,6 +33,7 @@
 
 	/* Pending Tokens & Attributes*/
 	HTMLTagToken *_currentTagToken;
+	HTMLCharacterToken *_currentCharacterToken;
 	HTMLCommentToken *_currentCommentToken;
 	HTMLDOCTYPEToken *_currentDoctypeToken;
 	NSMutableString	*_currentAttributeName;
@@ -131,6 +132,10 @@
 
 - (void)emitToken:(HTMLToken *)token
 {
+	if (_currentCharacterToken != nil) {
+		[_tokens addObject:_currentCharacterToken];
+		_currentCharacterToken = nil;
+	}
 	[_tokens addObject:token];
 }
 
@@ -174,16 +179,15 @@
 
 - (void)emitCharacterTokenWithString:(NSString *)string
 {
-	if (string == nil) {
+	if (string.length == 0) {
 		return;
 	}
 
-	HTMLToken *previousToken = [_tokens lastObject];
-	if ([previousToken isCharacterToken]) {
-		[(HTMLCharacterToken *)previousToken appendString:string];
-	} else {
-		[self emitToken:[[HTMLCharacterToken alloc] initWithString:string]];
+	if (_currentCharacterToken == nil) {
+		_currentCharacterToken = [HTMLCharacterToken new];
 	}
+
+	[_currentCharacterToken appendString:string];
 }
 
 - (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)

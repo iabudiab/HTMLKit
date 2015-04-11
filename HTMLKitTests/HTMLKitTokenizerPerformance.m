@@ -26,11 +26,7 @@
 
 	[self measureBlock:^{
 		HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:string];
-
-		id token = nil;
-		do {
-			token = [tokenizer nextObject];
-		} while (token != nil);
+		[tokenizer allObjects];
 	}];
 }
 
