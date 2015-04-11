@@ -96,12 +96,14 @@
 			actual = [parser parseFragmentWithContextElement:contextElement];
 		}
 
-		NSString *expectedNodes = [[test.nodes valueForKey:@"outerHTML"] componentsJoinedByString:@""];
-		NSString *message = [NSString stringWithFormat:@"HTML5Lib test in file: \'%@\'\nInput: %@\nExpected:\n%@\nActual:\n%@\n",
+		NSString *expectedNodes = [[test.nodes valueForKey:@"debugDescription"] componentsJoinedByString:@"\n"];
+		NSString *actualNodes = [[parser.document.childNodes.array valueForKey:@"debugDescription"] componentsJoinedByString:@"\n"];
+
+		NSString *message = [NSString stringWithFormat:@"HTML5Lib test in file: \'%@\'\nInput:\n%@\nExpected:\n%@\nActual:\n%@\n",
 							 test.testFile,
 							 test.data,
 							 expectedNodes,
-							 parser.document.innerHTML];
+							 actualNodes];
 
 		XCTAssertEqual(actual.count, test.nodes.count, @"Nodes mismatch:\n%@", message);
 		if (actual.count != test.nodes.count) {
@@ -149,7 +151,7 @@
 - (void)assertElementChildNodes:(HTMLElement *)elemen1 areEqualToElementChildNode:(HTMLElement *)element2 message:(NSString *)message
 {
 	XCTAssertEqual(elemen1.childNodes.count, element2.childNodes.count,
-				   @"Child nodes count mismatch [element %@ has %lu bu should have %lu child nodes]\n%@",
+				   @"Child nodes count mismatch [element %@ has %lu but should have %lu child nodes]\n%@",
 				   elemen1,
 				   (unsigned long)elemen1.childNodes.count,
 				   (unsigned long)element2.childNodes.count,
