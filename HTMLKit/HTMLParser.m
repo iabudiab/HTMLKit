@@ -253,7 +253,7 @@
 				if (characters.length <= 1) {
 					return;
 				}
-				token = [token.asCharacterToken tokenByTrimmingFormIndex:1];
+				[token.asCharacterToken trimFormIndex:1];
 			}
 		}
 	}
@@ -713,10 +713,14 @@
 {
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
-			if ([token.asCharacterToken isWhitespaceToken]) {
+		{
+			[token.asCharacterToken trimLeadingWhitespace];
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
+		}
 		case HTMLTokenTypeComment:
 			[self insertComment:token.asCommentToken asChildOfNode:_document];
 			 return;
@@ -761,10 +765,14 @@
 			[self insertComment:token.asCommentToken asChildOfNode:_document];
 			return;
 		case HTMLTokenTypeCharacter:
-			if ([token.asCharacterToken isWhitespaceToken]) {
+		{
+			[token.asCharacterToken trimLeadingWhitespace];
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
+		}
 		case HTMLTokenTypeStartTag:
 			if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
 				HTMLElement *html = [self createElementForToken:token.asTagToken inNamespace:HTMLNamespaceHTML];
@@ -795,10 +803,14 @@
 {
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
-			if ([token.asCharacterToken isWhitespaceToken]) {
+		{
+			[token.asCharacterToken trimLeadingWhitespace];
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
+		}
 		case HTMLTokenTypeComment:
 			[self insertComment:token.asCommentToken];
 			return;
@@ -838,11 +850,12 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenBySplitingLeadingWhiteSpace];
 			if (leadingWhiteSpace) {
 				[self insertCharacters:leadingWhiteSpace.characters];
 			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
@@ -955,11 +968,12 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenBySplitingLeadingWhiteSpace];
 			if (leadingWhiteSpace) {
 				[self insertCharacters:leadingWhiteSpace.characters];
 			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
@@ -1037,7 +1051,7 @@
 			if (charactes.length > 0) {
 				[self reconstructActiveFormattingElements];
 				[self insertCharacters:charactes];
-				if (![charactes containsHTMLWhitespace]) {
+				if (!charactes.isHTMLWhitespaceString) {
 					_framesetOkFlag = NO;
 				}
 			}
@@ -1740,11 +1754,12 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenBySplitingLeadingWhiteSpace];
 			if (leadingWhiteSpace) {
 				[self insertCharacters:leadingWhiteSpace.characters];
 			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
@@ -2110,11 +2125,12 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenBySplitingLeadingWhiteSpace];
 			if (leadingWhiteSpace) {
 				[self insertCharacters:leadingWhiteSpace.characters];
 			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
@@ -2158,14 +2174,19 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
-			if (leadingWhiteSpace) {
-				[self insertCharacters:leadingWhiteSpace.characters];
-			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
-				return;
-			}
-			break;
+			NSString *characters = token.asCharacterToken.characters;
+
+			[characters enumerateSubstringsInRange:NSMakeRange(0, characters.length)
+										   options:NSStringEnumerationByComposedCharacterSequences
+										usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+											if (substring.isHTMLWhitespaceString) {
+												[self insertCharacters:substring];
+											} else {
+												[self emitParseError:@"Unexpected Character (%@) in <frameset>", substring];
+											}
+										}];
+
+			return;
 		}
 		case HTMLTokenTypeComment:
 			[self insertComment:token.asCommentToken];
@@ -2221,14 +2242,19 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
-			if (leadingWhiteSpace) {
-				[self insertCharacters:leadingWhiteSpace.characters];
-			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
-				return;
-			}
-			break;
+			NSString *characters = token.asCharacterToken.characters;
+
+			[characters enumerateSubstringsInRange:NSMakeRange(0, characters.length)
+										   options:NSStringEnumerationByComposedCharacterSequences
+										usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+											if (substring.isHTMLWhitespaceString) {
+												[self insertCharacters:substring];
+											} else {
+												[self emitParseError:@"Unexpected Character (%@) after <frameset>", substring];
+											}
+										}];
+
+			return;
 		}
 		case HTMLTokenTypeComment:
 			[self insertComment:token.asCommentToken];
@@ -2269,11 +2295,12 @@
 			return;
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenBySplitingLeadingWhiteSpace];
 			if (leadingWhiteSpace) {
-				[self HTMLInsertionModeInBody:token];
+				[self insertCharacters:leadingWhiteSpace.characters];
 			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
@@ -2306,11 +2333,12 @@
 			return;
 		case HTMLTokenTypeCharacter:
 		{
-			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenByRetainingLeadingWhitespace];
+			HTMLCharacterToken *leadingWhiteSpace = [token.asCharacterToken tokenBySplitingLeadingWhiteSpace];
 			if (leadingWhiteSpace) {
-				[self HTMLInsertionModeInBody:token];
+				[self insertCharacters:leadingWhiteSpace.characters];
 			}
-			if ([token.asCharacterToken isWhitespaceToken]) {
+
+			if (token.asCharacterToken.isEmpty) {
 				return;
 			}
 			break;
@@ -2342,22 +2370,23 @@
 	switch (token.type) {
 		case HTMLTokenTypeCharacter:
 		{
-			NSMutableString *charactes = [token.asCharacterToken.characters mutableCopy];
-			NSUInteger nullCount = [charactes replaceOccurrencesOfString:@"\0"
-															  withString:@"\uFFFD"
-																 options:NSLiteralSearch
-																   range:NSMakeRange(0, charactes.length)];
+			NSMutableString *characters = [token.asCharacterToken.characters mutableCopy];
+			[characters replaceOccurrencesOfString:@"\0"
+										withString:@"\uFFFD"
+										   options:NSLiteralSearch
+											 range:NSMakeRange(0, characters.length)];
 
-			for (int i = 0; i < nullCount; i++) {
-				[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
-			}
+			[characters enumerateSubstringsInRange:NSMakeRange(0, characters.length)
+										   options:NSStringEnumerationByComposedCharacterSequences
+										usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+											if ([substring isEqualToString:@"\uFFFD"]) {
+												[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
+											} else if (!substring.isHTMLWhitespaceString) {
+												_framesetOkFlag = NO;
+											}
+											[self insertCharacters:substring];
+										}];
 
-			if (charactes.length > 0) {
-				[self insertCharacters:charactes];
-				if (charactes.length > nullCount && ![charactes containsHTMLWhitespace]) {
-					_framesetOkFlag = NO;
-				}
-			}
 			return;
 		}
 		case HTMLTokenTypeComment:

@@ -8,7 +8,7 @@
 
 #import "NSString+HTMLKit.h"
 
-NS_INLINE BOOL isHtmlWhitespaceChar(char c)
+NS_INLINE BOOL isHtmlWhitespaceChar(unichar c)
 {
 	return c == ' ' || c == '\t' || c == '\n' || c == '\f' || c == '\r';
 }
@@ -42,21 +42,19 @@ NS_INLINE BOOL isHtmlWhitespaceChar(char c)
 
 - (BOOL)isHTMLWhitespaceString
 {
-	NSCharacterSet *set = [[NSCharacterSet characterSetWithCharactersInString:@" \t\n\f\r"] invertedSet];
-	return [self rangeOfCharacterFromSet:set].location == NSNotFound;
-}
-
-- (BOOL)containsHTMLWhitespace
-{
-	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" \t\n\f\r"];
-	return [self rangeOfCharacterFromSet:set].location != NSNotFound;
+	return self.leadingWhitespaceLength == self.length;
 }
 
 - (NSUInteger)leadingWhitespaceLength
 {
-	const char *str = self.UTF8String;
 	size_t idx = 0;
-	while (isHtmlWhitespaceChar(*str)) { str++; idx++; }
+	NSUInteger length = self.length;
+	while (idx < length) {
+		if (!isHtmlWhitespaceChar([self characterAtIndex:idx])) {
+			return idx;
+		}
+		idx++;
+	}
 	return idx;
 }
 

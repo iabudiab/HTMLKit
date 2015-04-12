@@ -39,29 +39,42 @@
 	return [_characters isHTMLWhitespaceString];
 }
 
-- (HTMLCharacterToken *)tokenByRetainingLeadingWhitespace
+- (BOOL)isEmpty
+{
+	return _characters.length == 0;
+}
+
+- (void)retainLeadingWhitespace
+{
+	NSUInteger index = _characters.leadingWhitespaceLength;
+	if (index > 0) {
+		[_characters setString:[_characters substringToIndex:index]];
+	}
+}
+
+- (void)trimLeadingWhitespace
+{
+	NSUInteger index = _characters.leadingWhitespaceLength;
+	if (index > 0) {
+		[_characters setString:[_characters substringFromIndex:index]];
+	}
+}
+
+- (void)trimFormIndex:(NSUInteger)index
+{
+	[_characters setString:[_characters substringFromIndex:index]];
+}
+
+- (HTMLCharacterToken *)tokenBySplitingLeadingWhiteSpace
 {
 	NSUInteger index = _characters.leadingWhitespaceLength;
 	if (index > 0) {
 		NSString *leading = [_characters substringToIndex:index];
+		[_characters setString:[_characters substringFromIndex:index]];
 		return [[HTMLCharacterToken alloc] initWithString:leading];
 	}
-	return nil;
-}
 
-- (HTMLCharacterToken *)tokenByTrimmingLeadingWhitespace
-{
-	NSUInteger index = _characters.leadingWhitespaceLength;
-	if (index < _characters.length) {
-		NSString *remaining = [_characters substringFromIndex:index];
-		return [[HTMLCharacterToken alloc] initWithString:remaining];
-	}
 	return nil;
-}
-
-- (HTMLCharacterToken *)tokenByTrimmingFormIndex:(NSUInteger)index
-{
-	return [[HTMLCharacterToken alloc] initWithString:[_characters substringFromIndex:index]];
 }
 
 #pragma mark - NSObject

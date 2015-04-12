@@ -16,10 +16,12 @@
 - (instancetype)initWithString:(NSString *)string;
 
 - (void)appendString:(NSString *)string;
-
 - (BOOL)isWhitespaceToken;
-- (HTMLCharacterToken *)tokenByRetainingLeadingWhitespace;
-- (HTMLCharacterToken *)tokenByTrimmingLeadingWhitespace;
-- (HTMLCharacterToken *)tokenByTrimmingFormIndex:(NSUInteger)index;
+- (BOOL)isEmpty;
+
+- (void)retainLeadingWhitespace;
+- (void)trimLeadingWhitespace;
+- (void)trimFormIndex:(NSUInteger)index;
+- (HTMLCharacterToken *)tokenBySplitingLeadingWhiteSpace;
 
 @end
