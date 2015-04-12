@@ -130,18 +130,18 @@
 
 	switch (actual.type) {
 		case HTMLNodeDocumentType:
-			XCTAssertEqualObjects([(HTMLDocumentType *)actual publicIdentifier], [(HTMLDocumentType *)expected publicIdentifier]);
-			XCTAssertEqualObjects([(HTMLDocumentType *)actual systemIdentifier], [(HTMLDocumentType *)expected systemIdentifier]);
+			XCTAssertEqualObjects([(HTMLDocumentType *)actual publicIdentifier], [(HTMLDocumentType *)expected publicIdentifier], @"%@", message);
+			XCTAssertEqualObjects([(HTMLDocumentType *)actual systemIdentifier], [(HTMLDocumentType *)expected systemIdentifier], @"%@", message);
 			break;
 		case HTMLNodeElement:
-			XCTAssertEqualObjects([(HTMLElement *)actual attributes], [(HTMLElement *)expected attributes]);
+			XCTAssertEqualObjects([(HTMLElement *)actual attributes], [(HTMLElement *)expected attributes], @"%@", message);
 			AssertEqualChildNodes((HTMLElement *)actual, (HTMLElement *)expected, message);
 			break;
 		case HTMLNodeComment:
-			XCTAssertEqualObjects([(HTMLComment *)actual data], [(HTMLComment *)expected data]);
+			XCTAssertEqualObjects([(HTMLComment *)actual data], [(HTMLComment *)expected data], @"%@", message);
 			break;
 		case HTMLNodeText:
-			XCTAssertEqualObjects([(HTMLText *)actual data], [(HTMLText *)expected data]);
+			XCTAssertEqualObjects([(HTMLText *)actual data], [(HTMLText *)expected data], @"%@", message);
 			break;
 		default:
 			break;
