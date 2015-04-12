@@ -364,26 +364,13 @@
 			children = (
 				625A14BC19C7829400AD0C32 /* HTMLKit.h */,
 				625A14BD19C7829400AD0C32 /* HTMLKit.m */,
-				62AE593219F97CCA0043F069 /* Tokenizing */,
-				62F873E919E088C90062683C /* HTMLParser.h */,
-				62F873EA19E088C90062683C /* HTMLParser.m */,
-				6234BEEC1AABBF1400DEB15F /* HTMLStackOfOpenElements.h */,
-				6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */,
-				62363C3B1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h */,
-				62363C3C1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m */,
-				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
-				6223211D1A969B9300BACED5 /* HTMLElementTypes.h */,
-				6234C3361AB3BF710046F527 /* HTMLElementAdjustment.h */,
-				6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */,
-				6235CE9E1AA5170A0026937B /* HTMLMarker.h */,
-				6235CE9F1AA5170A0026937B /* HTMLMarker.m */,
-				623424861AB467B200726190 /* HTMLOrderedDictionary.h */,
-				623424871AB467B200726190 /* HTMLOrderedDictionary.m */,
-				6235CE991AA509430026937B /* NSString+HTMLKit.h */,
-				6235CE9A1AA509430026937B /* NSString+HTMLKit.m */,
 				6238C9831AB8D6330006512E /* HTMLKitExceptions.h */,
 				6238C9841AB8D6330006512E /* HTMLKitExceptions.m */,
+				62AE593219F97CCA0043F069 /* Tokenizing */,
+				628E16EC1ADAE71700B15A06 /* Parsing */,
 				623719441AA1472B002E03C8 /* Nodes */,
+				628E16ED1ADAE73700B15A06 /* Categories */,
+				628E16EE1ADAE75300B15A06 /* Structures */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
 			);
 			name = "Source Code";
@@ -421,6 +408,43 @@
 				625A14CD19C7829400AD0C32 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		628E16EC1ADAE71700B15A06 /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				62F873E919E088C90062683C /* HTMLParser.h */,
+				62F873EA19E088C90062683C /* HTMLParser.m */,
+				6234BEEC1AABBF1400DEB15F /* HTMLStackOfOpenElements.h */,
+				6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */,
+				62363C3B1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h */,
+				62363C3C1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m */,
+				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
+				6223211D1A969B9300BACED5 /* HTMLElementTypes.h */,
+				6234C3361AB3BF710046F527 /* HTMLElementAdjustment.h */,
+				6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */,
+				6235CE9E1AA5170A0026937B /* HTMLMarker.h */,
+				6235CE9F1AA5170A0026937B /* HTMLMarker.m */,
+			);
+			name = Parsing;
+			sourceTree = "<group>";
+		};
+		628E16ED1ADAE73700B15A06 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6235CE991AA509430026937B /* NSString+HTMLKit.h */,
+				6235CE9A1AA509430026937B /* NSString+HTMLKit.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		628E16EE1ADAE75300B15A06 /* Structures */ = {
+			isa = PBXGroup;
+			children = (
+				623424861AB467B200726190 /* HTMLOrderedDictionary.h */,
+				623424871AB467B200726190 /* HTMLOrderedDictionary.m */,
+			);
+			name = Structures;
 			sourceTree = "<group>";
 		};
 		62AE593219F97CCA0043F069 /* Tokenizing */ = {
