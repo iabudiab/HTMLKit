@@ -92,7 +92,7 @@
 	[_stack removeObject:element];
 }
 
-- (BOOL)constainsElement:(id)element
+- (BOOL)containsElement:(id)element
 {
 	return [_stack containsObject:element];
 }

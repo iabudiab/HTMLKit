@@ -21,7 +21,7 @@
 
 - (void)pushElement:(HTMLElement *)element;
 - (void)removeElement:(id)element;
-- (BOOL)constainsElement:(id)element;
+- (BOOL)containsElement:(id)element;
 
 - (void)insertElement:(HTMLElement *)element atIndex:(NSUInteger)index;
 - (void)replaceElementAtIndex:(NSUInteger)index withElement:(HTMLElement *)element;

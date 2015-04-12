@@ -452,7 +452,7 @@
 	}
 
 	id last = _listOfActiveFormattingElements.lastEntry;
-	if (last == [HTMLMarker marker] || [_stackOfOpenElements constainsElement:last]) {
+	if (last == [HTMLMarker marker] || [_stackOfOpenElements containsElement:last]) {
 		return;
 	}
 
@@ -463,7 +463,7 @@
 	// https://html.spec.whatwg.org/multipage/syntax.html#reconstruct-the-active-formatting-elements
 
 	// Rewind phase
-	while (![entry isEqual:[HTMLMarker marker]] && ![_stackOfOpenElements constainsElement:entry]) {
+	while (![entry isEqual:[HTMLMarker marker]] && ![_stackOfOpenElements containsElement:entry]) {
 		if (index == 0) {
 			index--;
 			break;
@@ -519,7 +519,7 @@
 			return YES;
 		}
 
-		if (![_stackOfOpenElements constainsElement:formattingElement]) {
+		if (![_stackOfOpenElements containsElement:formattingElement]) {
 			[self emitParseError:@"Formatting element is not in the Stack of Open Elements"];
 			[_listOfActiveFormattingElements removeElement:formattingElement];
 			return NO;
