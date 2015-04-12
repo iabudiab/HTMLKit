@@ -74,8 +74,7 @@
 	STATE_ENTRY( HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted, ) \
 	STATE_ENTRY( HTMLTokenizerStateAfterDOCTYPESystemIdentifier, ) \
 	STATE_ENTRY( HTMLTokenizerStateBogusDOCTYPE, ) \
-	STATE_ENTRY( HTMLTokenizerStateCDATASection, ) \
-	STATE_ENTRY( HTMLTokenizerStatesCount, )
+	STATE_ENTRY( HTMLTokenizerStateCDATASection, )
 
 typedef NS_ENUM(NSUInteger, HTMLTokenizerState)
 {

@@ -32,7 +32,6 @@
 
 	NSMutableArray *_errors;
 
-	NSMutableDictionary *_insertionModes;
 	HTMLInsertionMode _insertionMode;
 	HTMLInsertionMode _originalInsertionMode;
 
@@ -71,9 +70,7 @@
 
 		_errors = [NSMutableArray new];
 
-		_insertionModes = [NSMutableDictionary new];
 		_insertionMode = HTMLInsertionModeInitial;
-		[self setupStateMachine];
 
 		_stackOfOpenElements = [HTMLStackOfOpenElements new];
 		_listOfActiveFormattingElements = [HTMLListOfActiveFormattingElements new];
@@ -87,15 +84,6 @@
 		_formElementPointer = nil;
 	}
 	return self;
-}
-
-- (void)setupStateMachine
-{
-	for (NSUInteger i = 0; i < HTMLInsertionModesCount; i++) {
-		NSString *selectorName = HTMLInsertionModesTable[i];
-		SEL selector = NSSelectorFromString(selectorName);
-		[_insertionModes setObject:[NSValue valueWithPointer:selector] forKey:@(i)];
-	}
 }
 
 #pragma mark - Properties
@@ -272,13 +260,53 @@
 
 - (void)processToken:(HTMLToken *)token byApplyingRulesForInsertionMode:(HTMLInsertionMode)insertionMode
 {
-	SEL selector = [[_insertionModes objectForKey:@(_insertionMode)] pointerValue];
-	if ([self respondsToSelector:selector]) {
-		/* ObjC-Runtime-style performSelector for ARC to shut up the
-		 compiler, since it can't figure out the type of the return
-		 value on its own */
-		IMP method = [self methodForSelector:selector];
-		((void (*)(id, SEL, id))method)(self, selector, token);
+	switch (_insertionMode) {
+		case HTMLInsertionModeInitial:
+			return [self HTMLInsertionModeInitial:token];
+		case HTMLInsertionModeBeforeHTML:
+			return [self HTMLInsertionModeBeforeHTML:token];
+		case HTMLInsertionModeBeforeHead:
+			return [self HTMLInsertionModeBeforeHead:token];
+		case HTMLInsertionModeInHead:
+			return [self HTMLInsertionModeInHead:token];
+		case HTMLInsertionModeInHeadNoscript:
+			return [self HTMLInsertionModeInHeadNoscript:token];
+		case HTMLInsertionModeAfterHead:
+			return [self HTMLInsertionModeAfterHead:token];
+		case HTMLInsertionModeInBody:
+			return [self HTMLInsertionModeInBody:token];
+		case HTMLInsertionModeText:
+			return [self HTMLInsertionModeText:token];
+		case HTMLInsertionModeInTable:
+			return [self HTMLInsertionModeInTable:token];
+		case HTMLInsertionModeInTableText:
+			return [self HTMLInsertionModeInTableText:token];
+		case HTMLInsertionModeInCaption:
+			return [self HTMLInsertionModeInCaption:token];
+		case HTMLInsertionModeInColumnGroup:
+			return [self HTMLInsertionModeInColumnGroup:token];
+		case HTMLInsertionModeInTableBody:
+			return [self HTMLInsertionModeInTableBody:token];
+		case HTMLInsertionModeInRow:
+			return [self HTMLInsertionModeInRow:token];
+		case HTMLInsertionModeInCell:
+			return [self HTMLInsertionModeInCell:token];
+		case HTMLInsertionModeInSelect:
+			return [self HTMLInsertionModeInSelect:token];
+		case HTMLInsertionModeInSelectInTable:
+			return [self HTMLInsertionModeInSelectInTable:token];
+		case HTMLInsertionModeInTemplate:
+			return [self HTMLInsertionModeInTemplate:token];
+		case HTMLInsertionModeAfterBody:
+			return [self HTMLInsertionModeAfterBody:token];
+		case HTMLInsertionModeInFrameset:
+			return [self HTMLInsertionModeInFrameset:token];
+		case HTMLInsertionModeAfterFrameset:
+			return [self HTMLInsertionModeAfterFrameset:token];
+		case HTMLInsertionModeAfterAfterBody:
+			return [self HTMLInsertionModeAfterAfterBody:token];
+		case HTMLInsertionModeAfterAfterFrameset:
+			return [self HTMLInsertionModeAfterAfterFrameset:token];
 	}
 }
 
