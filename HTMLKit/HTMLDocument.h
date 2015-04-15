@@ -29,4 +29,6 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
 
 - (HTMLNode *)adoptNode:(HTMLNode *)node;
 
+- (HTMLDocument *)associatedInertTemplateDocument;
+
 @end

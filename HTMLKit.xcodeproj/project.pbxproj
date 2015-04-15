@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		623406E11ADB04F9004677A3 /* HTMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 623406DF1ADB04F9004677A3 /* HTMLTemplate.h */; };
+		623406E21ADB04F9004677A3 /* HTMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 623406E01ADB04F9004677A3 /* HTMLTemplate.m */; };
+		623406E31ADB04F9004677A3 /* HTMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 623406E01ADB04F9004677A3 /* HTMLTemplate.m */; };
+		623406E61ADB05AD004677A3 /* HTMLDocumentFragment.h in Headers */ = {isa = PBXBuildFile; fileRef = 623406E41ADB05AD004677A3 /* HTMLDocumentFragment.h */; };
+		623406E71ADB05AD004677A3 /* HTMLDocumentFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 623406E51ADB05AD004677A3 /* HTMLDocumentFragment.m */; };
+		623406E81ADB05AD004677A3 /* HTMLDocumentFragment.m in Sources */ = {isa = PBXBuildFile; fileRef = 623406E51ADB05AD004677A3 /* HTMLDocumentFragment.m */; };
 		623424881AB467B200726190 /* HTMLOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 623424861AB467B200726190 /* HTMLOrderedDictionary.h */; };
 		623424891AB467B200726190 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 623424871AB467B200726190 /* HTMLOrderedDictionary.m */; };
 		6234248A1AB467B200726190 /* HTMLOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 623424871AB467B200726190 /* HTMLOrderedDictionary.m */; };
@@ -146,6 +152,10 @@
 
 /* Begin PBXFileReference section */
 		6223211D1A969B9300BACED5 /* HTMLElementTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElementTypes.h; sourceTree = "<group>"; };
+		623406DF1ADB04F9004677A3 /* HTMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTemplate.h; sourceTree = "<group>"; };
+		623406E01ADB04F9004677A3 /* HTMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTemplate.m; sourceTree = "<group>"; };
+		623406E41ADB05AD004677A3 /* HTMLDocumentFragment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocumentFragment.h; sourceTree = "<group>"; };
+		623406E51ADB05AD004677A3 /* HTMLDocumentFragment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocumentFragment.m; sourceTree = "<group>"; };
 		623424861AB467B200726190 /* HTMLOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLOrderedDictionary.h; sourceTree = "<group>"; };
 		623424871AB467B200726190 /* HTMLOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLOrderedDictionary.m; sourceTree = "<group>"; };
 		6234584C1A9D2FA4009BD491 /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
@@ -300,6 +310,10 @@
 				6238579A1A9E8934003A45D9 /* HTMLComment.m */,
 				62362A3A1A9FA70400301989 /* HTMLText.h */,
 				62362A3B1A9FA70400301989 /* HTMLText.m */,
+				623406DF1ADB04F9004677A3 /* HTMLTemplate.h */,
+				623406E01ADB04F9004677A3 /* HTMLTemplate.m */,
+				623406E41ADB05AD004677A3 /* HTMLDocumentFragment.h */,
+				623406E51ADB05AD004677A3 /* HTMLDocumentFragment.m */,
 				623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */,
 				623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */,
 			);
@@ -492,6 +506,7 @@
 				624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */,
 				6235CEA01AA5170A0026937B /* HTMLMarker.h in Headers */,
 				62F31FDD19E9DCCF007F0657 /* HTMLTokenizerEntities.h in Headers */,
+				623406E11ADB04F9004677A3 /* HTMLTemplate.h in Headers */,
 				6234BEEE1AABBF1400DEB15F /* HTMLStackOfOpenElements.h in Headers */,
 				6238C9851AB8D6330006512E /* HTMLKitExceptions.h in Headers */,
 				6238039F1AB63A8C008A53D0 /* HTMLEOFToken.h in Headers */,
@@ -507,6 +522,7 @@
 				62AE593519F97D880043F069 /* HTMLParseErrorToken.h in Headers */,
 				62AE594919F9948A0043F069 /* HTMLCharacterToken.h in Headers */,
 				623857961A9E8606003A45D9 /* HTMLDocumentType.h in Headers */,
+				623406E61ADB05AD004677A3 /* HTMLDocumentFragment.h in Headers */,
 				62363C3D1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h in Headers */,
 				62362A3C1A9FA70400301989 /* HTMLText.h in Headers */,
 				6234584E1A9D2FA4009BD491 /* HTMLNode.h in Headers */,
@@ -671,12 +687,14 @@
 				62363C3F1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
 				623916C51AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */,
 				62AE593C19F97E1C0043F069 /* HTMLDOCTYPEToken.m in Sources */,
+				623406E31ADB04F9004677A3 /* HTMLTemplate.m in Sources */,
 				6238C9871AB8D6330006512E /* HTMLKitExceptions.m in Sources */,
 				62F873ED19E088C90062683C /* HTMLParser.m in Sources */,
 				623803A11AB63A8C008A53D0 /* HTMLEOFToken.m in Sources */,
 				6279F87619E1808D00F12EE5 /* HTMLElement.m in Sources */,
 				625A150A19C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				623857931A9E772B003A45D9 /* HTMLDocument.m in Sources */,
+				623406E81ADB05AD004677A3 /* HTMLDocumentFragment.m in Sources */,
 				624493A819CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */,
 				625A14BE19C7829400AD0C32 /* HTMLKit.m in Sources */,
 				623857981A9E8606003A45D9 /* HTMLDocumentType.m in Sources */,
@@ -717,12 +735,14 @@
 				62363C3E1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
 				623916C41AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */,
 				62AE593B19F97E1C0043F069 /* HTMLDOCTYPEToken.m in Sources */,
+				623406E21ADB04F9004677A3 /* HTMLTemplate.m in Sources */,
 				6238C9861AB8D6330006512E /* HTMLKitExceptions.m in Sources */,
 				62F873EC19E088C90062683C /* HTMLParser.m in Sources */,
 				623803A01AB63A8C008A53D0 /* HTMLEOFToken.m in Sources */,
 				6279F87519E1808D00F12EE5 /* HTMLElement.m in Sources */,
 				625A150919C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				623857921A9E772B003A45D9 /* HTMLDocument.m in Sources */,
+				623406E71ADB05AD004677A3 /* HTMLDocumentFragment.m in Sources */,
 				624493A719CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */,
 				625A150219C783DE00AD0C32 /* HTMLKit.m in Sources */,
 				623857971A9E8606003A45D9 /* HTMLDocumentType.m in Sources */,

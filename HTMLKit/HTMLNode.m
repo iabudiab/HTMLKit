@@ -19,9 +19,11 @@
 {
 	NSMutableOrderedSet *_childNodes;
 }
+@property (nonatomic, weak) HTMLDocument *ownerDocument;
 @end
 
 @implementation HTMLNode
+@synthesize ownerDocument = _ownerDocument;
 
 #pragma mark - Init
 
@@ -42,17 +44,21 @@
 {
 	if (_type == HTMLNodeDocument) {
 		return (HTMLDocument *)self;
-	} else if (_parentNode == nil) {
-		return nil;
 	} else {
-		return _parentNode.ownerDocument;
+		return _ownerDocument;
 	}
+}
+
+- (void)setOwnerDocument:(HTMLDocument *)ownerDocument
+{
+	_ownerDocument = ownerDocument;
+	[self.childNodes.array makeObjectsPerformSelector:@selector(setOwnerDocument:) withObject:ownerDocument];
 }
 
 - (void)setBaseURI:(NSString *)baseURI
 {
 	_baseURI = [baseURI copy];
-	[_childNodes.array makeObjectsPerformSelector:@selector(setBaseURI:) withObject:baseURI];
+	[self.childNodes.array makeObjectsPerformSelector:@selector(setBaseURI:) withObject:baseURI];
 }
 
 - (void)setParentNode:(HTMLNode *)parentNode
@@ -67,12 +73,12 @@
 
 - (HTMLNode *)firstChiledNode
 {
-	return _childNodes.firstObject;
+	return self.childNodes.firstObject;
 }
 
 - (HTMLNode *)lastChildNode
 {
-	return _childNodes.lastObject;
+	return self.childNodes.lastObject;
 }
 
 - (HTMLNode *)previousSibling
@@ -102,12 +108,12 @@
 
 - (BOOL)hasChildNodes
 {
-	return _childNodes.count > 0;
+	return self.childNodes.count > 0;
 }
 
 - (BOOL)hasChildNodeOfType:(HTMLNodeType)type
 {
-	NSUInteger index = [_childNodes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+	NSUInteger index = [self.childNodes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
 		if ([(HTMLNode *)obj type] == type) {
 			*stop = YES;
 			return YES;
@@ -120,17 +126,17 @@
 
 - (NSUInteger)childNodesCount
 {
-	return _childNodes.count;
+	return self.childNodes.count;
 }
 
 - (HTMLNode *)childNodeAtIndex:(NSUInteger)index
 {
-	return [_childNodes objectAtIndex:index];
+	return [self.childNodes objectAtIndex:index];
 }
 
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node
 {
-	return [_childNodes indexOfObject:node];
+	return [self.childNodes indexOfObject:node];
 }
 
 - (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
@@ -161,7 +167,7 @@
 	[self.ownerDocument adoptNode:node];
 	NSUInteger index = [self indexOfChildNode:child];
 	node.parentNode = self;
-	[_childNodes replaceObjectAtIndex:index withObject:node];
+	[(NSMutableOrderedSet *)self.childNodes replaceObjectAtIndex:index withObject:node];
 	return child;
 }
 
@@ -183,7 +189,7 @@
 		 NSStringFromSelector(_cmd), child];
 	}
 
-	[_childNodes removeObject:child];
+	[(NSMutableOrderedSet *)self.childNodes removeObject:child];
 	child.parentNode = nil;
 	return child;
 }
@@ -196,7 +202,7 @@
 
 - (void)reparentChildNodesIntoNode:(HTMLNode *)node
 {
-	for (HTMLNode *child in _childNodes.array) {
+	for (HTMLNode *child in self.childNodes.array) {
 		[node appendNode:child];
 	}
 	[self removeAllChildNodes];
@@ -204,7 +210,7 @@
 
 - (void)removeAllChildNodes
 {
-	[_childNodes removeAllObjects];
+	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
 }
 
 #pragma mark - Enumeration
@@ -215,7 +221,7 @@
 		return;
 	}
 
-	[_childNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+	[self.childNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		block(obj, idx, stop);
 	}];
 }
@@ -238,9 +244,9 @@
 	[self.ownerDocument adoptNode:node];
 	NSUInteger index = [self indexOfChildNode:child];
 	if (index != NSNotFound) {
-		[_childNodes insertObject:node atIndex:index];
+		[(NSMutableOrderedSet *)self.childNodes insertObject:node atIndex:index];
 	} else {
-		[_childNodes addObject:node];
+		[(NSMutableOrderedSet *)self.childNodes addObject:node];
 	}
 
 	return node;
@@ -249,6 +255,7 @@
 NS_INLINE void CheckParentValid(HTMLNode *node, NSString *cmd)
 {
 	if (node.type != HTMLNodeDocument &&
+		node.type != HTMLNodeDocumentFragment &&
 		node.type != HTMLNodeElement) {
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting into %@ is not allowed. The operation would yield an incorrect node tree.",
@@ -268,8 +275,8 @@ NS_INLINE void CheckChildsParent(HTMLNode *parent, HTMLNode *child, NSString *cm
 
 NS_INLINE void CheckInsertedNodeValid(HTMLNode *node, NSString *cmd)
 {
-	if (node.type != HTMLNodeDocumentType &&
-		node.type != HTMLNodeElement &&
+	if (node.type != HTMLNodeDocumentFragment &&
+		node.type != HTMLNodeDocumentType &&
 		node.type != HTMLNodeElement &&
 		node.type != HTMLNodeText &&
 		node.type != HTMLNodeComment) {
@@ -312,6 +319,18 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 	if (self.type == HTMLNodeDocument) {
 		switch (node.type) {
+			case HTMLNodeDocumentFragment:
+				if (self.childNodesCount > 1 ||
+					[self hasChildNodeOfType:HTMLNodeText]) {
+					hierarchyError();
+				} else if (self.childNodesCount == 1) {
+					if (self.hasChildNodes ||
+						child.type == HTMLNodeDocumentType ||
+						child.nextSibling.type == HTMLNodeDocumentType) {
+						hierarchyError();
+					}
+				}
+				break;
 			case HTMLNodeElement:
 				if ([self hasChildNodeOfType:HTMLNodeElement] ||
 					child.type == HTMLNodeDocumentType ||
@@ -332,7 +351,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 	}
 }
 
-- (void)ensureReplacementValidityOfChildNode:(HTMLNode *)node withNode:(HTMLNode *)child
+- (void)ensureReplacementValidityOfChildNode:(HTMLNode *)child withNode:(HTMLNode *)node
 {
 	CheckParentValid(self, NSStringFromSelector(_cmd));
 
@@ -350,6 +369,17 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 	if (self.type == HTMLNodeDocument) {
 		switch (node.type) {
+			case HTMLNodeDocumentFragment:
+				if (self.childNodesCount > 1 ||
+					[self hasChildNodeOfType:HTMLNodeText]) {
+					hierarchyError();
+				} else if (self.childNodesCount == 1) {
+					if (self.firstChiledNode != node ||
+						child.nextSibling.type == HTMLNodeDocumentType) {
+						hierarchyError();
+					}
+				}
+				break;
 			case HTMLNodeElement:
 			{
 				if (child.nextSibling.type == HTMLNodeDocumentType) {
@@ -400,7 +430,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 - (NSString *)innerHTML
 {
-	return [[_childNodes.array valueForKey:@"outerHTML"] componentsJoinedByString:@""];
+	return [[self.childNodes.array valueForKey:@"outerHTML"] componentsJoinedByString:@""];
 }
 
 #pragma mark - Description

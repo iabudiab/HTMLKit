@@ -10,14 +10,20 @@
 #import "HTMLKitExceptions.h"
 
 @interface HTMLNode (Private)
+@property (nonatomic, weak) HTMLDocument *ownerDocument;
 @property (nonatomic, weak) HTMLNode *parentNode;
 @end
 
 @interface HTMLDocument ()
+{
+	HTMLDocument *_inertTemplateDocument;
+}
 @property (nonatomic, assign) HTMLDocumentReadyState readyState;
 @end
 
 @implementation HTMLDocument
+
+#pragma mark - Init
 
 - (instancetype)init
 {
@@ -26,6 +32,13 @@
 		_readyState = HTMLDocumentLoading;
 	}
 	return self;
+}
+
+#pragma mark - Accessors
+
+- (void)setOwnerDocument:(HTMLDocument *)ownerDocument
+{
+	[self doesNotRecognizeSelector:_cmd];
 }
 
 - (void)setDocumentType:(HTMLDocumentType *)documentType
@@ -44,6 +57,8 @@
 	}
 }
 
+#pragma mark - Mutation Algorithms
+
 - (HTMLNode *)adoptNode:(HTMLNode *)node
 {
 	if (node == nil) {
@@ -56,7 +71,20 @@
 	}
 
 	[node.parentNode removeChildNode:node];
+	node.ownerDocument = self;
 	return node;
+}
+
+#pragma mark - Template
+
+- (HTMLDocument *)associatedInertTemplateDocument
+{
+	if (_inertTemplateDocument == nil) {
+		_inertTemplateDocument = [HTMLDocument new];
+		_inertTemplateDocument.readyState = HTMLDocumentComplete;
+	}
+
+	return _inertTemplateDocument;
 }
 
 #pragma mark - Description 
