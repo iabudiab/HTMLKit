@@ -99,7 +99,14 @@
 
 			NSArray *expectedTokens = test.output;
 			NSArray *tokens = tokenizer.allObjects;
-			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", test.title);
+
+			NSString *message = [NSString stringWithFormat:@"HTML5Lib test in file: \'%@\' Title: '%@'\nInput: '%@'\nExpected:\n%@\nActual:\n%@\n",
+								 self.testName,
+								 test.title,
+								 test.input,
+								 expectedTokens,
+								 tokens];
+			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", message);
 		}
 	}
 }
