@@ -78,26 +78,20 @@
 
 - (id)objectAtIndex:(NSUInteger)index
 {
-	if (index >= _keys.count) {
-		return nil;
-	}
 	return _dictionary[_keys[index]];
 }
 
 - (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey atIndex:(NSUInteger)index
 {
-	if (index >= _keys.count) {
-		return;
+	if (_dictionary[aKey]) {
+		[_keys removeObject:aKey];
 	}
-	[_keys replaceObjectAtIndex:index withObject:aKey];
+	[_keys insertObject:aKey atIndex:index];
 	_dictionary[aKey] = anObject;
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)index
 {
-	if (index >= _keys.count) {
-		return;
-	}
 	if (_dictionary[_keys[index]]){
 		[_dictionary removeObjectForKey:_keys[index]];
 		[_keys removeObjectAtIndex:index];
@@ -106,10 +100,6 @@
 
 - (void)replaceKeyValueAtIndex:(NSUInteger)index withObject:(id)anObject andKey:(id<NSCopying>)aKey
 {
-	if (index >= _keys.count) {
-		return;
-	}
-	[_dictionary removeObjectForKey:_keys[index]];
 	[_keys replaceObjectAtIndex:index withObject:aKey];
 	_dictionary[aKey] = anObject;
 }
@@ -134,17 +124,12 @@
 
 - (id)objectAtIndexedSubscript:(NSUInteger)index
 {
-	if (index >= _keys.count) {
-		return nil;
-	}
 	return _dictionary[_keys[index]];
 }
 
-- (void)setObject:(id)obj forIndexedSubscript:(NSUInteger)index
+- (void)setObject:(id)obj atIndexedSubscript:(NSUInteger)index
 {
-	if (index < _keys.count) {
-		_dictionary[_keys[index]] = obj;
-	}
+	_dictionary[_keys[index]] = obj;
 }
 
 - (void)setObject:(id)obj forKeyedSubscript:(id<NSCopying>)key

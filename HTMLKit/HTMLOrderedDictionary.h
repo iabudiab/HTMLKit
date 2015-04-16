@@ -18,7 +18,7 @@
 - (NSUInteger)indexOfKey:(id<NSCopying>)aKey;
 
 - (id)objectAtIndexedSubscript:(NSUInteger)index;
-- (void)setObject:(id)obj forIndexedSubscript:(NSUInteger)index;
+- (void)setObject:(id)obj atIndexedSubscript:(NSUInteger)index;
 
 - (NSEnumerator *)reverseKeyEnumerator;
 
