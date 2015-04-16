@@ -9,6 +9,7 @@
 #import "HTMLStackOfOpenElements.h"
 #import "NSString+HTMLKit.h"
 #import "HTMLElementTypes.h"
+#import "HTMLTemplate.h"
 
 @interface HTMLStackOfOpenElements ()
 {
@@ -97,6 +98,18 @@
 	return [_stack containsObject:element];
 }
 
+- (BOOL)containsElementWithTagName:(NSString *)tagName
+{
+	NSUInteger index = [_stack indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+		if ([[(HTMLElement *)obj tagName] isEqualToString:tagName]) {
+			*stop = YES;
+			return YES;
+		}
+		return NO;
+	}];
+	return index != NSNotFound;
+}
+
 - (void)insertElement:(HTMLElement *)element atIndex:(NSUInteger)index
 {
 	[_stack insertObject:element atIndex:index];
@@ -133,6 +146,14 @@
 - (void)popElementsUntilElementPopped:(HTMLElement *)element
 {
 	while (self.currentNode && ![self.currentNode isEqual:element]) {
+		[_stack removeLastObject];
+	}
+	[_stack removeLastObject];
+}
+
+- (void)popElementsUntilTemplateElementPopped
+{
+	while (self.currentNode && ![self.currentNode isKindOfClass:[HTMLTemplate class]]) {
 		[_stack removeLastObject];
 	}
 	[_stack removeLastObject];

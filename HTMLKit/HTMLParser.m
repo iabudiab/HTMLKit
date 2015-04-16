@@ -34,6 +34,7 @@
 
 	HTMLInsertionMode _insertionMode;
 	HTMLInsertionMode _originalInsertionMode;
+	NSMutableArray *_stackOfTemplateInsertionModes;
 
 	HTMLStackOfOpenElements *_stackOfOpenElements;
 	HTMLListOfActiveFormattingElements *_listOfActiveFormattingElements;
@@ -71,6 +72,7 @@
 		_errors = [NSMutableArray new];
 
 		_insertionMode = HTMLInsertionModeInitial;
+		_stackOfTemplateInsertionModes = [NSMutableArray new];
 
 		_stackOfOpenElements = [HTMLStackOfOpenElements new];
 		_listOfActiveFormattingElements = [HTMLListOfActiveFormattingElements new];
@@ -159,7 +161,7 @@
 	[_stackOfOpenElements pushElement:root];
 
 	if ([_contextElement.tagName isEqualToString:@"template"]) {
-#warning Implement HTML Template
+		[_stackOfTemplateInsertionModes addObject:@(HTMLInsertionModeInTemplate)];
 	}
 
 	[self resetInsertionModeAppropriately];
@@ -325,6 +327,14 @@
 	return [self currentNode];
 }
 
+- (HTMLInsertionMode)currentTemplateInsertionMode
+{
+	if (_stackOfTemplateInsertionModes.count == 0) {
+		return _insertionMode;
+	}
+	return [_stackOfTemplateInsertionModes.firstObject unsignedIntegerValue];
+}
+
 #pragma mark - Emits
 
 - (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
@@ -341,14 +351,15 @@
 - (HTMLNode *)appropriatePlaceForInsertingANodeWithOverrideTarget:(HTMLElement *)overrideTarget
 												  beforeChildNode:(out HTMLElement * __autoreleasing *)child
 {
-	HTMLElement *target = self.currentNode;
+	HTMLNode *target = self.currentNode;
 	if (overrideTarget != nil) {
 		target = overrideTarget;
 	}
 
-	if (_fosterParenting && [target.tagName isEqualToAny:@"table", @"tbody", @"tfoot", @"thead", @"tr", nil]) {
+	while (_fosterParenting && [[(HTMLElement *)target tagName] isEqualToAny:@"table", @"tbody", @"tfoot", @"thead", @"tr", nil]) {
 		HTMLElement *lastTemplate = nil;
 		HTMLElement *lastTable = nil;
+
 		for (HTMLElement *element in _stackOfOpenElements.reverseObjectEnumerator) {
 			if ([element.tagName isEqualToString:@"template"]) {
 				lastTemplate = element;
@@ -359,24 +370,35 @@
 				break;
 			}
 		}
+
 		if (lastTemplate != nil) {
-#warning Implement HTML Template
-			return nil;
+			HTMLTemplate *template = (HTMLTemplate *)lastTemplate;
+			target = template;
+			break;
 		}
+
 		if (lastTable == nil) {
 			HTMLElement *htmlElement = _stackOfOpenElements.firstNode;
-			return htmlElement;
+			target = htmlElement;
+			break;
 		}
+
 		if (lastTable.parentNode != nil) {
 			*child = lastTable;
-			return lastTable.parentNode;
+			target = lastTable.parentNode;
+			break;
 		}
+
 		NSUInteger lastTableIndex = [_stackOfOpenElements indexOfElement:lastTable];
 		HTMLElement *previousNode = _stackOfOpenElements[lastTableIndex];
-		return previousNode;
-	} else {
-		return target;
+		target = previousNode;
+		break;
 	}
+
+	if ([target isKindOfClass:[HTMLTemplate class]]) {
+		target = [(HTMLTemplate *)target content];
+	}
+	return target;
 }
 
 - (void)insertComment:(HTMLCommentToken *)token
@@ -396,11 +418,11 @@
 	[parent insertNode:comment beforeChildNode:child];
 }
 
-- (HTMLElement *)createElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)namespace
+- (HTMLElement *)createElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)htmlNamespace
 {
 	HTMLElement *element = [[HTMLElement alloc] initWithTagName:token.tagName
 													 attributes:token.attributes
-													  namespace:namespace];
+													  namespace:htmlNamespace];
 	return element;
 }
 
@@ -412,6 +434,11 @@
 - (HTMLElement *)insertForeignElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)namespace
 {
 	HTMLElement *element = [self createElementForToken:token inNamespace:namespace];
+	return [self insertElement:element];
+}
+
+- (HTMLElement *)insertElement:(HTMLElement *)element
+{
 	HTMLElement *child = nil;
 	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
 																					beforeChildNode:&child];
@@ -491,6 +518,14 @@
 {
 	while ([self.currentNode.tagName isEqualToAny:@"dd", @"dt", @"li", @"option", @"optgroup", @"p", @"rp", @"rt", nil] &&
 		   ![self.currentNode.tagName isEqualToString:tagName]) {
+		[_stackOfOpenElements popCurrentNode];
+	}
+}
+
+- (void)generateAllImpliedEndTagsThoroughly
+{
+	while ([self.currentNode.tagName isEqualToAny:@"caption", @"colgroup", @"dd", @"dt", @"li", @"option", @"optgroup", @"p",
+			@"rp", @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
 		[_stackOfOpenElements popCurrentNode];
 	}
 }
@@ -695,7 +730,7 @@
 		}
 
 		if ([node.tagName isEqualToString:@"template"]) {
-#warning Implement HTML Template
+			[self switchInsertionMode:self.currentTemplateInsertionMode];
 			return;
 		}
 
@@ -919,17 +954,36 @@
 				[self switchInsertionMode:HTMLInsertionModeText];
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"head"]) {
 				[self emitParseError:@"Unexpected Start Tag Token (head) in <head>"];
+			} else if ([token.asStartTagToken.tagName isEqualToString:@"template"]) {
+				HTMLTemplate *template = [HTMLTemplate new];
+				[self insertElement:template];
+				[_listOfActiveFormattingElements addMarker];
+				_framesetOkFlag = NO;
+				[self switchInsertionMode:HTMLInsertionModeInTemplate];
+				[_stackOfTemplateInsertionModes addObject:@(HTMLInsertionModeInTemplate)];
 			} else {
 				break;
 			}
 			return;
-#warning Implement HTML Template
 		case HTMLTokenTypeEndTag:
 			if ([token.asEndTagToken.tagName isEqualToString:@"head"]) {
 				[_stackOfOpenElements popCurrentNode];
 				[self switchInsertionMode:HTMLInsertionModeAfterHead];
 			} else if ([token.asEndTagToken.tagName isEqualToAny:@"body", @"html", @"br", nil]) {
 				break;
+			} else if ([token.asEndTagToken.tagName isEqualToString:@"template"]) {
+				if (![_stackOfOpenElements containsElementWithTagName:@"template"]) {
+					[self emitParseError:@"Unexpected End Tag Token (template) in <head>"];
+					return;
+				}
+				[self generateAllImpliedEndTagsThoroughly];
+				if (![self.currentNode.tagName isEqualToString:@"template"]) {
+					[self emitParseError:@"Unexpected End Tag Token in <head>"];
+				}
+				[_stackOfOpenElements popElementsUntilTemplateElementPopped];
+				[_listOfActiveFormattingElements clearUptoLastMarker];
+				[_stackOfTemplateInsertionModes removeLastObject];
+				[self resetInsertionModeAppropriately];
 			} else {
 				[self emitParseError:@"Unexpected End Tag Token (%@) in <head>", token.asEndTagToken.tagName];
 				return;
@@ -1041,7 +1095,6 @@
 			return;
 		case HTMLTokenTypeEndTag:
 			if ([token.asEndTagToken.tagName isEqualToString:@"template"]) {
-#warning Implement HTML Template
 				[self HTMLInsertionModeInHead:token];
 				return;
 			} else if ([token.asEndTagToken.tagName isEqualToAny:@"body", @"html", @"br", nil]) {
@@ -1098,11 +1151,15 @@
 			[self processEndTagTokenInBody:token.asEndTagToken];
 			return;
 		case HTMLTokenTypeEOF:
-			for (HTMLElement *node in _stackOfOpenElements) {
-				if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
-					 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
-					[self emitParseError:@"EOF reached with unclosed element (%@)", node.tagName];
-					break;
+			if (!_stackOfOpenElements.isEmpy) {
+				[self HTMLInsertionModeInTemplate:token];
+			} else {
+				for (HTMLElement *node in _stackOfOpenElements) {
+					if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
+						 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
+						[self emitParseError:@"EOF reached with unclosed element (%@)", node.tagName];
+						break;
+					}
 				}
 			}
 			[self stopParsing];
@@ -1118,7 +1175,9 @@
 
 	if ([tagName isEqualToString:@"html"]) {
 		[self emitParseError:@"Unexpected Start Tag Token (html) in <body>"];
-#warning Implement HTML Template
+		if ([_stackOfOpenElements containsElementWithTagName:@"template"]) {
+			return;
+		}
 		HTMLElement *first = _stackOfOpenElements.firstNode;
 		for (id attribute in token.attributes) {
 			if (first.attributes[attribute] == nil) {
@@ -1131,8 +1190,8 @@
 	} else if ([tagName isEqualToString:@"body"]) {
 		[self emitParseError:@"Unexpected Start Tag Token (body) in <body>"];
 		if (_stackOfOpenElements.count < 2 ||
-#warning Implement HTML Template
-			![[_stackOfOpenElements[1] tagName] isEqualToString:@"body"]) {
+			![[_stackOfOpenElements[1] tagName] isEqualToString:@"body"] ||
+			[_stackOfOpenElements containsElementWithTagName:@"template"]) {
 			return;
 		}
 		_framesetOkFlag = NO;
@@ -1183,15 +1242,17 @@
 		_ignoreNextLineFeedCharacterToken = YES;
 		_framesetOkFlag = NO;
 	} else if ([tagName isEqualToString:@"form"]) {
-		if (_formElementPointer != nil) {
-#warning Implement HTML Template
+		if (_formElementPointer != nil &&
+			![_stackOfOpenElements containsElementWithTagName:@"template"]) {
 			[self emitParseError:@"Unexpected nested Start Tag Token (form) in <body>"];
 		} else {
 			if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
 				[self closePElement];
 			}
 			HTMLElement *form = [self insertElementForToken:token];
-			_formElementPointer = form;
+			if (![_stackOfOpenElements containsElementWithTagName:@"template"]) {
+				_formElementPointer = form;
+			}
 		}
 	} else if ([tagName isEqualToAny:@"li", @"dd", @"dt", nil]) {
 		/** li, dd & dt cases are all same, hence the merge */
@@ -1316,8 +1377,7 @@
 		[self reprocessToken:token];
 	} else if ([tagName isEqualToString:@"isindex"]) {
 		[self emitParseError:@"Unexpected Start Tag Token (isindex) in <body>"];
-#warning Implement HTML Template
-		if (_formElementPointer != nil) {
+		if (_formElementPointer != nil && ![_stackOfOpenElements containsElementWithTagName:@"template"]) {
 			return;
 		}
 		_framesetOkFlag = NO;
@@ -1327,7 +1387,9 @@
 
 		HTMLStartTagToken *formToken = [[HTMLStartTagToken alloc] initWithTagName:@"form"];
 		HTMLElement *form = [self insertElementForToken:formToken];
-		_formElementPointer = form;
+		if (![_stackOfOpenElements containsElementWithTagName:@"template"]) {
+			_formElementPointer = form;
+		}
 		NSString *action = token.attributes[@"action"];
 		if (action != nil) {
 			form.attributes[@"action"] = action;
@@ -1435,7 +1497,7 @@
 	NSString *tagName = token.tagName;
 
 	if ([tagName isEqualToString:@"template"]) {
-#warning Implement HTML Template
+		[self HTMLInsertionModeInHead:token];
 	} else if ([tagName isEqualToAny:@"body", @"html", nil]) {
 		// End tags "body" & "html" are identical, expect for the reprocessing step
 		if (![_stackOfOpenElements hasElementInScopeWithTagName:@"body"]) {
@@ -1466,18 +1528,29 @@
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
 	} else if ([tagName isEqualToString:@"form"]) {
-#warning Implement HTML Template
-		HTMLElement *node = _formElementPointer;
-		_formElementPointer = nil;
-		if (node == nil || ![_stackOfOpenElements hasElementInScopeWithTagName:node.tagName]) {
-			[self emitParseError:@"Unexpected closed (form) element in <body>"];
-			return;
+		if (![_stackOfOpenElements containsElementWithTagName:@"template"]) {
+			HTMLElement *node = _formElementPointer;
+			_formElementPointer = nil;
+			if (node == nil || ![_stackOfOpenElements hasElementInScopeWithTagName:node.tagName]) {
+				[self emitParseError:@"Unexpected closed (form) element in <body>"];
+				return;
+			}
+			[self generateImpliedEndTagsExceptForElement:nil];
+			if ([self.currentNode isEqual:node]) {
+				[self emitParseError:@"Unexpected nested (form) element in <body>"];
+			}
+			[_stackOfOpenElements removeElement:node];
+		} else {
+			if ([_stackOfOpenElements hasElementInScopeWithTagName:@"form"]) {
+				[self emitParseError:@"Unexpected closed (form) element in <body>"];
+				return;
+			}
+			[self generateImpliedEndTagsExceptForElement:nil];
+			if (![self.currentNode.tagName isEqualToString:@"form"]) {
+				[self emitParseError:@"Unexpected open element in <body>"];
+			}
+			[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"form"];
 		}
-		[self generateImpliedEndTagsExceptForElement:nil];
-		if ([self.currentNode isEqual:node]) {
-			[self emitParseError:@"Unexpected nested (form) element in <body>"];
-		}
-		[_stackOfOpenElements removeElement:node];
 	} else if ([tagName isEqualToString:@"p"]) {
 		if (![_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
 			[self emitParseError:@"Unexpected End Tag Token (p) in <body>"];
@@ -1650,8 +1723,7 @@
 				}
 			} else if ([token.asTagToken.tagName isEqualToString:@"form"]) {
 				[self emitParseError:@"Unexpected Start Tag Token (form) in <table>"];
-#warning Implement HTML Template
-				if (_formElementPointer != nil) {
+				if (_formElementPointer != nil || [_stackOfOpenElements containsElementWithTagName:@"template"]) {
 					return;
 				}
 				HTMLElement *form = [self insertElementForToken:token.asTagToken];
@@ -1674,10 +1746,11 @@
 						@"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
 				[self emitParseError:@"Unexpected End Tag Token (%@) in <table>", token.asTagToken.tagName];
 				return;
+			} else if ([token.asTagToken.tagName isEqualToString:@"template"]) {
+				[self HTMLInsertionModeInHead:token];
 			} else {
 				break;
 			}
-#warning Implement HTML Template
 			return;
 		case HTMLTokenTypeEOF:
 			[self HTMLInsertionModeInBody:token];
@@ -2145,7 +2218,69 @@
 
 - (void)HTMLInsertionModeInTemplate:(HTMLToken *)token
 {
-#warning Implement HTML Template
+	switch (token.type) {
+		case HTMLTokenTypeCharacter:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		case HTMLTokenTypeComment:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		case HTMLTokenTypeDoctype:
+			[self HTMLInsertionModeInBody:token];
+			return;
+		case HTMLTokenTypeStartTag:
+			if ([token.asTagToken.tagName isEqualToAny:@"base", @"basefont", @"bgsound", @"link", @"meta",
+				 @"noframes", @"script", @"style", @"template", @"title", nil]) {
+				[self HTMLInsertionModeInHead:token];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"caption", @"colgroup", @"tbody", @"tfoot",
+				@"thead", nil]) {
+				[_stackOfTemplateInsertionModes removeLastObject];
+				[_stackOfTemplateInsertionModes addObject:@(HTMLInsertionModeInTable)];
+				[self switchInsertionMode:HTMLInsertionModeInTable];
+				[self reprocessToken:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
+				[_stackOfTemplateInsertionModes removeLastObject];
+				[_stackOfTemplateInsertionModes addObject:@(HTMLInsertionModeInColumnGroup)];
+				[self switchInsertionMode:HTMLInsertionModeInColumnGroup];
+				[self reprocessToken:token];
+			} else if ([token.asTagToken.tagName isEqualToString:@"tr"]) {
+				[_stackOfTemplateInsertionModes removeLastObject];
+				[_stackOfTemplateInsertionModes addObject:@(HTMLInsertionModeInTableBody)];
+				[self switchInsertionMode:HTMLInsertionModeInTableBody];
+				[self reprocessToken:token];
+			} else if ([token.asTagToken.tagName isEqualToAny:@"td", @"th", nil]) {
+				[_stackOfTemplateInsertionModes removeLastObject];
+				[_stackOfTemplateInsertionModes addObject:@(HTMLInsertionModeInRow)];
+				[self switchInsertionMode:HTMLInsertionModeInRow];
+				[self reprocessToken:token];
+			} else {
+				[_stackOfTemplateInsertionModes removeLastObject];
+				[_stackOfTemplateInsertionModes addObject:@(HTMLInsertionModeInBody)];
+				[self switchInsertionMode:HTMLInsertionModeInBody];
+				[self reprocessToken:token];
+			}
+			return;
+		case HTMLTokenTypeEndTag:
+			if ([token.asTagToken.tagName isEqualToString:@"template"]) {
+				[self HTMLInsertionModeInHead:token];
+			} else {
+				[self emitParseError:@"Unexpected End Tag Token (%@) in <template>", token.asTagToken.tagName];
+			}
+			return;
+		case HTMLTokenTypeEOF:
+			if (![_stackOfOpenElements containsElementWithTagName:@"template"]) {
+				[self stopParsing];
+				return;
+			}
+			[_stackOfOpenElements popElementsUntilTemplateElementPopped];
+			[_listOfActiveFormattingElements clearUptoLastMarker];
+			[_stackOfTemplateInsertionModes removeLastObject];
+			[self resetInsertionModeAppropriately];
+			[self reprocessToken:token];
+			return;
+		default:
+			break;
+	}
 }
 
 - (void)HTMLInsertionModeAfterBody:(HTMLToken *)token

@@ -81,11 +81,6 @@ static NSString * const TreeConstruction = @"tree-construction";
 			continue;
 		}
 
-		if ([rawTest rangeOfString:@"template"].location != NSNotFound) {
-#warning Implemenet HTML Template
-			continue;
-		}
-
 		if ([rawTest rangeOfString:@"#script-off"].location != NSNotFound) {
 			// Ignore tests for "scripting flag disabled" case
 			continue;

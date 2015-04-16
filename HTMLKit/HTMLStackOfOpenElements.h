@@ -22,6 +22,7 @@
 - (void)pushElement:(HTMLElement *)element;
 - (void)removeElement:(id)element;
 - (BOOL)containsElement:(id)element;
+- (BOOL)containsElementWithTagName:(NSString *)tagName;
 
 - (void)insertElement:(HTMLElement *)element atIndex:(NSUInteger)index;
 - (void)replaceElementAtIndex:(NSUInteger)index withElement:(HTMLElement *)element;
@@ -30,6 +31,7 @@
 - (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName;
 - (void)popElementsUntilAnElementPoppedWithAnyOfTagNames:(NSArray *)tagNames;
 - (void)popElementsUntilElementPopped:(HTMLElement *)element;
+- (void)popElementsUntilTemplateElementPopped;
 - (void)clearBackToTableContext;
 - (void)clearBackToTableBodyContext;
 - (void)clearBackToTableRowContext;

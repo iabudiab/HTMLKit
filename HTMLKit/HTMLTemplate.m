@@ -9,12 +9,22 @@
 #import "HTMLTemplate.h"
 #import "HTMLDocument.h"
 
+@interface HTMLNode (Private)
+@property (nonatomic, weak) HTMLDocument *ownerDocument;
+@end
+
 @implementation HTMLTemplate
 
 - (instancetype)init
 {
 	self = [super initWithTagName:@"template"];
 	return self;
+}
+
+- (void)setOwnerDocument:(HTMLDocument *)ownerDocument
+{
+	[super setOwnerDocument:ownerDocument];
+	[self.ownerDocument adoptNode:self.content];
 }
 
 - (HTMLDocumentFragment *)content
