@@ -337,6 +337,23 @@
 			name = "Tree Construction";
 			sourceTree = "<group>";
 		};
+		624B9FB71AE072CB00646C4C /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */,
+				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
+			);
+			name = Nodes;
+			sourceTree = "<group>";
+		};
+		624B9FB81AE072D500646C4C /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		625A14A219C7829400AD0C32 = {
 			isa = PBXGroup;
 			children = (
@@ -410,11 +427,10 @@
 		625A14CA19C7829400AD0C32 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */,
-				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
-				624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */,
 				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				623975581AC362A5007E26F1 /* Tree Construction */,
+				624B9FB71AE072CB00646C4C /* Nodes */,
+				624B9FB81AE072D500646C4C /* Categories */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
 			);
 			name = Tests;
