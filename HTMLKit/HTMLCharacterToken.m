@@ -46,7 +46,7 @@
 
 - (void)retainLeadingWhitespace
 {
-	NSUInteger index = _characters.leadingWhitespaceLength;
+	NSUInteger index = _characters.leadingHTMLWhitespaceLength;
 	if (index > 0) {
 		[_characters setString:[_characters substringToIndex:index]];
 	}
@@ -54,7 +54,7 @@
 
 - (void)trimLeadingWhitespace
 {
-	NSUInteger index = _characters.leadingWhitespaceLength;
+	NSUInteger index = _characters.leadingHTMLWhitespaceLength;
 	if (index > 0) {
 		[_characters setString:[_characters substringFromIndex:index]];
 	}
@@ -67,7 +67,7 @@
 
 - (HTMLCharacterToken *)tokenBySplitingLeadingWhiteSpace
 {
-	NSUInteger index = _characters.leadingWhitespaceLength;
+	NSUInteger index = _characters.leadingHTMLWhitespaceLength;
 	if (index > 0) {
 		NSString *leading = [_characters substringToIndex:index];
 		[_characters setString:[_characters substringFromIndex:index]];

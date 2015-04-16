@@ -76,6 +76,8 @@
 		624AC90619FBFEA000BD3C4A /* html5lib-tests in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90419FBFE8A00BD3C4A /* html5lib-tests */; };
 		624AC90E19FC702E00BD3C4A /* HTML Standard.html in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90D19FC702E00BD3C4A /* HTML Standard.html */; };
 		624AC90F19FC702E00BD3C4A /* HTML Standard.html in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90D19FC702E00BD3C4A /* HTML Standard.html */; };
+		624B9FB21AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */; };
+		624B9FB31AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */; };
 		625A14B019C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14BA19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14B819C7829400AD0C32 /* InfoPlist.strings */; };
 		625A14BE19C7829400AD0C32 /* HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A14BD19C7829400AD0C32 /* HTMLKit.m */; };
@@ -200,6 +202,7 @@
 		624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTokenizerTests.m; sourceTree = "<group>"; };
 		624AC90419FBFE8A00BD3C4A /* html5lib-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "html5lib-tests"; sourceTree = "<group>"; };
 		624AC90D19FC702E00BD3C4A /* HTML Standard.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "HTML Standard.html"; sourceTree = "<group>"; };
+		624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitStringCategoryTests.m; sourceTree = "<group>"; };
 		625A14AC19C7829400AD0C32 /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14AF19C7829400AD0C32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		625A14B219C7829400AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -405,6 +408,7 @@
 			isa = PBXGroup;
 			children = (
 				623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */,
+				624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */,
 				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				623975581AC362A5007E26F1 /* Tree Construction */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
@@ -713,6 +717,7 @@
 				623CAF9E1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */,
 				6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
 				624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
+				624B9FB31AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */,
 				623916C81AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */,
 				62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 				6239755F1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */,
@@ -761,6 +766,7 @@
 				623CAF9D1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */,
 				6236738E1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
 				624AC90119FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
+				624B9FB21AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */,
 				623916C71AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */,
 				62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 				6239755E1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */,

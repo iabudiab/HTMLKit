@@ -42,10 +42,10 @@ NS_INLINE BOOL isHtmlWhitespaceChar(unichar c)
 
 - (BOOL)isHTMLWhitespaceString
 {
-	return self.leadingWhitespaceLength == self.length;
+	return self.leadingHTMLWhitespaceLength == self.length;
 }
 
-- (NSUInteger)leadingWhitespaceLength
+- (NSUInteger)leadingHTMLWhitespaceLength
 {
 	size_t idx = 0;
 	NSUInteger length = self.length;
