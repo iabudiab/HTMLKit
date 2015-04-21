@@ -127,7 +127,7 @@
 		return nil;
 	}
 
-	if ([_contextElement isEqualTo:contextElement]) {
+	if ([_contextElement isEqual:contextElement]) {
 		return [_document childNodeAtIndex:0].childNodes.array;
 	}
 
