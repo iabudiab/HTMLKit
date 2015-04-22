@@ -116,6 +116,14 @@
 		62AE594B19F9948A0043F069 /* HTMLCharacterToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AE594819F9948A0043F069 /* HTMLCharacterToken.m */; };
 		62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
 		62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
+		62D89DB01AE7080300B6243D /* HTMLNodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 62362A3F1A9FDE8A00301989 /* HTMLNodes.h */; };
+		62D89DB11AE7081600B6243D /* HTMLTokenizerStates.h in Headers */ = {isa = PBXBuildFile; fileRef = 624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */; };
+		62D89DB21AE7081600B6243D /* HTMLTokenizerCharacters.h in Headers */ = {isa = PBXBuildFile; fileRef = 62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */; };
+		62D89DB31AE7081600B6243D /* HTMLNamespaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 628B7CE61A080E1000602C87 /* HTMLNamespaces.h */; };
+		62D89DB41AE7081600B6243D /* HTMLElementTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6223211D1A969B9300BACED5 /* HTMLElementTypes.h */; };
+		62D89DB51AE7081600B6243D /* HTMLElementAdjustment.h in Headers */ = {isa = PBXBuildFile; fileRef = 6234C3361AB3BF710046F527 /* HTMLElementAdjustment.h */; };
+		62D89DB61AE7081600B6243D /* HTMLParserInsertionModes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */; };
+		62D89DB71AE7081600B6243D /* HTMLQuirksMode.h in Headers */ = {isa = PBXBuildFile; fileRef = 623719431AA12EE8002E03C8 /* HTMLQuirksMode.h */; };
 		62F31FDD19E9DCCF007F0657 /* HTMLTokenizerEntities.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */; };
 		62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
 		62F31FDF19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F31FDC19E9DCCF007F0657 /* HTMLTokenizerEntities.m */; };
@@ -523,6 +531,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				6235CE9B1AA509430026937B /* NSString+HTMLKit.h in Headers */,
+				62D89DB11AE7081600B6243D /* HTMLTokenizerStates.h in Headers */,
+				62D89DB21AE7081600B6243D /* HTMLTokenizerCharacters.h in Headers */,
+				62D89DB31AE7081600B6243D /* HTMLNamespaces.h in Headers */,
+				62D89DB41AE7081600B6243D /* HTMLElementTypes.h in Headers */,
+				62D89DB51AE7081600B6243D /* HTMLElementAdjustment.h in Headers */,
+				62D89DB61AE7081600B6243D /* HTMLParserInsertionModes.h in Headers */,
+				62D89DB71AE7081600B6243D /* HTMLQuirksMode.h in Headers */,
+				62D89DB01AE7080300B6243D /* HTMLNodes.h in Headers */,
 				62F873EB19E088C90062683C /* HTMLParser.h in Headers */,
 				624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */,
 				623916C31AC707250066B4FE /* HTMLNodeTreeEnumerator.h in Headers */,
@@ -938,6 +954,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(SDKROOT)/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
@@ -960,6 +977,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					"$(SDKROOT)/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
