@@ -168,6 +168,7 @@
 	NSUInteger index = [self indexOfChildNode:child];
 	node.parentNode = self;
 	[(NSMutableOrderedSet *)self.childNodes replaceObjectAtIndex:index withObject:node];
+	[child removeFromParentNode];
 	return child;
 }
 
@@ -179,6 +180,11 @@
 		[self.ownerDocument adoptNode:node];
 		[self insertNode:node beforeChildNode:nil];
 	}
+}
+
+- (void)removeFromParentNode
+{
+	[self.parentNode removeChildNode:self];
 }
 
 - (HTMLNode *)removeChildNode:(HTMLNode *)child
@@ -205,12 +211,12 @@
 	for (HTMLNode *child in self.childNodes.array) {
 		[node appendNode:child];
 	}
-	[self removeAllChildNodes];
+	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
 }
 
 - (void)removeAllChildNodes
 {
-	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
+	[self.childNodes.array makeObjectsPerformSelector:@selector(removeFromParentNode)];
 }
 
 #pragma mark - Enumeration

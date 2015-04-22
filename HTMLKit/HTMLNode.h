@@ -53,6 +53,8 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, copy) NSString *textContent;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithName:(NSString *)name type:(HTMLNodeType)type;
 
 - (BOOL)hasChildNodes;
@@ -74,6 +76,8 @@ typedef NS_ENUM(short, HTMLNodeType)
 - (HTMLNode *)replaceChildNode:(HTMLNode *)node withNode:(HTMLNode *)replacement;
 
 - (void)replaceAllChildNodesWithNode:(HTMLNode *)node;
+
+- (void)removeFromParentNode;
 
 - (HTMLNode *)removeChildNode:(HTMLNode *)node;
 
