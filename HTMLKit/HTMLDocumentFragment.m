@@ -15,6 +15,11 @@
 
 @implementation HTMLDocumentFragment
 
+- (instancetype)init
+{
+	return [self initWithDocument:nil];
+}
+
 - (instancetype)initWithDocument:(HTMLDocument *)document
 {
 	self = [super initWithName:@"#document-fragment" type:HTMLNodeDocumentFragment];
