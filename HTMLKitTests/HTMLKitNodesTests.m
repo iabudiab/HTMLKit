@@ -403,4 +403,138 @@
 	XCTAssertEqualObjects(thirdChild.parentNode, newParent);
 }
 
+- (void)testValidParentNodeWhenAppending
+{
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
+
+	id parent = [HTMLDocument new];
+	XCTAssertNoThrow([parent appendNode:element]);
+
+	parent = [HTMLDocumentFragment new];
+	XCTAssertNoThrow([parent appendNode:element]);
+
+	parent = [HTMLElement new];
+	XCTAssertNoThrow([parent appendNode:element]);
+
+	parent = [HTMLTemplate new];
+	XCTAssertNoThrow([parent appendNode:element]);
+
+	parent = [HTMLDocumentType new];
+	XCTAssertThrows([parent appendNode:element]);
+
+	parent = [HTMLComment new];
+	XCTAssertThrows([parent appendNode:element]);
+
+	parent = [HTMLText new];
+	XCTAssertThrows([parent appendNode:element]);
+}
+
+- (void)testValidParentNodeWhenInserting
+{
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
+
+	id parent = [HTMLDocument new];
+	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+
+	parent = [HTMLDocumentFragment new];
+	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+
+	parent = [HTMLElement new];
+	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+
+	parent = [HTMLTemplate new];
+	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+
+	parent = [HTMLDocumentType new];
+	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+
+	parent = [HTMLComment new];
+	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+
+	parent = [HTMLText new];
+	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+}
+
+- (void)testValidChildNodeWhenInserting
+{
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p"];
+	[div appendNode:p];
+
+	HTMLElement *table = [[HTMLElement alloc] initWithTagName:@"table"];
+
+	XCTAssertNoThrow([div insertNode:table beforeChildNode:p]);
+
+	[div removeChildNode:p];
+
+	HTMLElement *section = [[HTMLElement alloc] initWithTagName:@"section"];
+	XCTAssertThrows([div insertNode:section beforeChildNode:p]);
+}
+
+- (void)testValidChildNodeWhenReplacing
+{
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p"];
+	[div appendNode:p];
+
+	HTMLElement *table = [[HTMLElement alloc] initWithTagName:@"table"];
+
+	XCTAssertNoThrow([div replaceChildNode:p withNode:table]);
+
+	XCTAssertThrows([div replaceChildNode:p withNode:[HTMLComment new]]);
+}
+
+- (void)testValidChildNodeWhenRemoving
+{
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	HTMLElement *p = [[HTMLElement alloc] initWithTagName:@"p"];
+	[div appendNode:p];
+
+	XCTAssertNoThrow([div removeChildNode:p]);
+	XCTAssertThrows([div removeChildNode:p]);
+}
+
+- (void)testValidInsertedNode
+{
+	HTMLDocument *document = [HTMLDocument new];
+
+	XCTAssertNoThrow([document appendNode:[HTMLDocumentFragment new]]);
+	XCTAssertNoThrow([document appendNode:[HTMLDocumentType new]]);
+	XCTAssertNoThrow([document appendNode:[HTMLElement new]]);
+
+	HTMLElement *element = [HTMLElement new];
+
+	XCTAssertNoThrow([element appendNode:[HTMLTemplate new]]);
+	XCTAssertNoThrow([element appendNode:[HTMLComment new]]);
+	XCTAssertNoThrow([element appendNode:[HTMLText new]]);
+}
+
+- (void)testValidParentForDoctype
+{
+	HTMLDocumentType *doctype = [HTMLDocumentType new];
+
+	XCTAssertNoThrow([[HTMLDocument new] appendNode:doctype]);
+
+	XCTAssertThrows([[HTMLDocumentFragment new] appendNode:doctype]);
+	XCTAssertThrows([[HTMLDocumentType new] appendNode:doctype]);
+	XCTAssertThrows([[HTMLElement new] appendNode:doctype]);
+	XCTAssertThrows([[HTMLTemplate new] appendNode:doctype]);
+	XCTAssertThrows([[HTMLComment new] appendNode:doctype]);
+	XCTAssertThrows([[HTMLText new] appendNode:doctype]);
+}
+
+- (void)testValidParentForText
+{
+	HTMLText *text = [HTMLText new];
+
+	XCTAssertThrows([[HTMLDocument new] appendNode:text]);
+	XCTAssertThrows([[HTMLDocumentType new] appendNode:text]);
+	XCTAssertThrows([[HTMLComment new] appendNode:text]);
+	XCTAssertThrows([[HTMLText new] appendNode:text]);
+
+	XCTAssertNoThrow([[HTMLDocumentFragment new] appendNode:text]);
+	XCTAssertNoThrow([[HTMLElement new] appendNode:text]);
+	XCTAssertNoThrow([[HTMLTemplate new] appendNode:text]);
+}
+
 @end
