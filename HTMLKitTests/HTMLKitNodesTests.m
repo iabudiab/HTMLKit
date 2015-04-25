@@ -622,4 +622,103 @@
 	XCTAssertThrows([document appendNode:doctype]);
 }
 
+- (void)testValidDocumentFragmentReplacementIntoDocument
+{
+	HTMLDocument *document = [HTMLDocument new];
+	HTMLComment *child = [HTMLComment new];
+	HTMLDocumentFragment *replacement = [[HTMLDocumentFragment alloc] initWithDocument:document];
+
+	void (^ reset)() = ^ {
+		[replacement removeAllChildNodes];
+		[document removeAllChildNodes];
+		[document appendNode:child];
+	};
+
+	/**
+	 * Replacement Fragment has a Text node child
+	 */
+	[replacement appendNode:[HTMLText new]];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+
+	/**
+	 * Replacement Fragment has more than one Element child
+	 */
+	reset();
+	[replacement appendNode:[HTMLElement new]];
+	[replacement appendNode:[HTMLElement new]];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+
+	/**
+	 * Replacement Fragment has one Element child
+	 * Document has an Element child that is not the Replacement
+	 */
+	reset();
+	[replacement appendNode:[HTMLElement new]];
+	[document appendNode:[HTMLElement new]];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+
+	/**
+	 * Replacement Fragment has one Element child
+	 * Doctype is following the child node
+	 */
+	reset();
+	HTMLDocumentType *doctype = [HTMLDocumentType new];
+	[replacement appendNode:[HTMLElement new]];
+	[document appendNode:doctype];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+}
+
+- (void)testValidElementReplacementIntoDocument
+{
+	HTMLDocument *document = [HTMLDocument new];
+	HTMLComment *child = [HTMLComment new];
+	HTMLElement *replacement = [HTMLElement new];
+
+	void (^ reset)() = ^ {
+		[replacement removeAllChildNodes];
+		[document removeAllChildNodes];
+		[document appendNode:child];
+	};
+
+	/**
+	 * Docment has an Element child that is not replacement
+	 */
+	[document appendNode:[HTMLElement new]];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+
+	/**
+	 * Doctype is following the child node
+	 */
+	reset();
+	HTMLDocumentType *doctype = [HTMLDocumentType new];
+	[document appendNode:doctype];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+}
+
+- (void)testValidDoctypeReplacementIntoDocument
+{
+	HTMLDocument *document = [HTMLDocument new];
+	HTMLComment *child = [HTMLComment new];
+	HTMLDocumentType *replacement = [HTMLDocumentType new];
+
+	void (^ reset)() = ^ {
+		[replacement removeAllChildNodes];
+		[document removeAllChildNodes];
+		[document appendNode:child];
+	};
+
+	/**
+	 * Docment has an Doctype child that is not replacement
+	 */
+	[document appendNode:[HTMLDocumentType new]];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+
+	/**
+	 * An Element is preceding the child node
+	 */
+	reset();
+	[document insertNode:[HTMLElement new] beforeChildNode:child];
+	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
+}
+
 @end
