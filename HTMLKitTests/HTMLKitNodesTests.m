@@ -446,13 +446,13 @@
 	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
 
 	parent = [HTMLDocumentType new];
-	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+	XCTAssertThrows([parent insertNode:element beforeChildNode:nil]);
 
 	parent = [HTMLComment new];
-	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+	XCTAssertThrows([parent insertNode:element beforeChildNode:nil]);
 
 	parent = [HTMLText new];
-	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
+	XCTAssertThrows([parent insertNode:element beforeChildNode:nil]);
 }
 
 - (void)testValidChildNodeWhenInserting
@@ -572,6 +572,54 @@
 	[document appendNode:doctypePreviousSibling];
 	[document appendNode:doctype];
 	XCTAssertThrows([document insertNode:fragment beforeChildNode:doctypePreviousSibling]);
+}
+
+- (void)testValidElementInsertionIntoDocument
+{
+	HTMLDocument *document = [HTMLDocument new];
+	HTMLElement *element = [HTMLElement new];
+
+	void (^ reset)() = ^ {
+		[element removeAllChildNodes];
+		[document removeAllChildNodes];
+	};
+
+	[document appendNode:[HTMLElement new]];
+	XCTAssertThrows([document appendNode:element]);
+
+	reset();
+	HTMLDocumentType *doctype = [HTMLDocumentType new];
+	[document appendNode:doctype];
+	XCTAssertThrows([document insertNode:element beforeChildNode:doctype]);
+
+	reset();
+	HTMLComment *doctypePreviousSibling = [HTMLComment new];
+	[document appendNode:doctypePreviousSibling];
+	[document appendNode:doctype];
+	XCTAssertThrows([document insertNode:element beforeChildNode:doctypePreviousSibling]);
+}
+
+- (void)testValidDoctypeInsertionIntoDocument
+{
+	HTMLDocument *document = [HTMLDocument new];
+	HTMLDocumentType *doctype = [HTMLDocumentType new];
+
+	void (^ reset)() = ^ {
+		[document removeAllChildNodes];
+	};
+
+	[document appendNode:[HTMLDocumentType new]];
+	XCTAssertThrows([document appendNode:doctype]);
+
+	reset();
+	HTMLComment *secondChild = [HTMLComment new];
+	[document appendNode:[HTMLElement new]];
+	[document appendNode:secondChild];
+	XCTAssertThrows([document insertNode:doctype beforeChildNode:secondChild]);
+
+	reset();
+	[document appendNode:[HTMLElement new]];
+	XCTAssertThrows([document appendNode:doctype]);
 }
 
 @end
