@@ -319,18 +319,18 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 	void (^ hierarchyError)() = ^{
 		[NSException raise:HTMLKitHierarchyRequestError
-					format:@"%@: Hierarchy Request Error. The operation would yield an incorrect node tree.",
-		 NSStringFromSelector(_cmd)];
+					format:@"%@: Hierarchy Request Error, inserting (%@) into (%@). The operation would yield an incorrect node tree.",
+		 NSStringFromSelector(_cmd), self, node];
 	};
 
 	if (self.type == HTMLNodeDocument) {
 		switch (node.type) {
 			case HTMLNodeDocumentFragment:
-				if (self.childNodesCount > 1 ||
-					[self hasChildNodeOfType:HTMLNodeText]) {
+				if (node.childNodesCount > 1 ||
+					[node hasChildNodeOfType:HTMLNodeText]) {
 					hierarchyError();
-				} else if (self.childNodesCount == 1) {
-					if (self.hasChildNodes ||
+				} else if (node.childNodesCount == 1) {
+					if ([self hasChildNodeOfType:HTMLNodeElement] ||
 						child.type == HTMLNodeDocumentType ||
 						child.nextSibling.type == HTMLNodeDocumentType) {
 						hierarchyError();

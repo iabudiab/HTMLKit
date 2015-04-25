@@ -537,4 +537,41 @@
 	XCTAssertNoThrow([[HTMLTemplate new] appendNode:text]);
 }
 
+- (void)testValidDocumentFragmentInsertionIntoDocument
+{
+	HTMLDocument *document = [HTMLDocument new];
+	HTMLDocumentFragment *fragment = [[HTMLDocumentFragment alloc] initWithDocument:document];
+
+	void (^ reset)() = ^ {
+		[fragment removeAllChildNodes];
+		[document removeAllChildNodes];
+	};
+
+	[fragment appendNode:[HTMLText new]];
+	XCTAssertThrows([document appendNode:fragment]);
+
+	reset();
+	[fragment appendNode:[HTMLElement new]];
+	[fragment appendNode:[HTMLElement new]];
+	XCTAssertThrows([document appendNode:fragment]);
+
+	reset();
+	[fragment appendNode:[HTMLElement new]];
+	[document appendNode:[HTMLElement new]];
+	XCTAssertThrows([document appendNode:fragment]);
+
+	reset();
+	HTMLDocumentType *doctype = [HTMLDocumentType new];
+	[fragment appendNode:[HTMLElement new]];
+	[document appendNode:doctype];
+	XCTAssertThrows([document insertNode:fragment beforeChildNode:doctype]);
+
+	reset();
+	HTMLComment *doctypePreviousSibling = [HTMLComment new];
+	[fragment appendNode:[HTMLElement new]];
+	[document appendNode:doctypePreviousSibling];
+	[document appendNode:doctype];
+	XCTAssertThrows([document insertNode:fragment beforeChildNode:doctypePreviousSibling]);
+}
+
 @end
