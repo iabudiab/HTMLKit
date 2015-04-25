@@ -547,25 +547,44 @@
 		[document removeAllChildNodes];
 	};
 
+	/**
+	 * Fragment has a Text node child
+	 */
 	[fragment appendNode:[HTMLText new]];
 	XCTAssertThrows([document appendNode:fragment]);
 
+	/**
+	 * Fragment has more than one Element child
+	 */
 	reset();
 	[fragment appendNode:[HTMLElement new]];
 	[fragment appendNode:[HTMLElement new]];
 	XCTAssertThrows([document appendNode:fragment]);
 
+
+	/**
+	 * Fragment has one node child
+	 * Document has an Element child
+	 */
 	reset();
 	[fragment appendNode:[HTMLElement new]];
 	[document appendNode:[HTMLElement new]];
 	XCTAssertThrows([document appendNode:fragment]);
 
+	/**
+	 * Fragment has one node child
+	 * "before child" is a Doctype
+	 */
 	reset();
 	HTMLDocumentType *doctype = [HTMLDocumentType new];
 	[fragment appendNode:[HTMLElement new]];
 	[document appendNode:doctype];
 	XCTAssertThrows([document insertNode:fragment beforeChildNode:doctype]);
 
+	/**
+	 * Fragment has one node child
+	 * "before child" is following a Doctype
+	 */
 	reset();
 	HTMLComment *doctypePreviousSibling = [HTMLComment new];
 	[fragment appendNode:[HTMLElement new]];
@@ -584,14 +603,23 @@
 		[document removeAllChildNodes];
 	};
 
+	/**
+	 * Document has an Element child
+	 */
 	[document appendNode:[HTMLElement new]];
 	XCTAssertThrows([document appendNode:element]);
 
+	/**
+	 * "before child" is a Doctype
+	 */
 	reset();
 	HTMLDocumentType *doctype = [HTMLDocumentType new];
 	[document appendNode:doctype];
 	XCTAssertThrows([document insertNode:element beforeChildNode:doctype]);
 
+	/**
+	 * Doctype is following the "before child"
+	 */
 	reset();
 	HTMLComment *doctypePreviousSibling = [HTMLComment new];
 	[document appendNode:doctypePreviousSibling];
@@ -608,15 +636,24 @@
 		[document removeAllChildNodes];
 	};
 
+	/**
+	 * Document has a Doctype child
+	 */
 	[document appendNode:[HTMLDocumentType new]];
 	XCTAssertThrows([document appendNode:doctype]);
 
+	/**
+	 * An Element is preceding the "before child"
+	 */
 	reset();
 	HTMLComment *secondChild = [HTMLComment new];
 	[document appendNode:[HTMLElement new]];
 	[document appendNode:secondChild];
 	XCTAssertThrows([document insertNode:doctype beforeChildNode:secondChild]);
 
+	/**
+	 * Document has an Element child
+	 */
 	reset();
 	[document appendNode:[HTMLElement new]];
 	XCTAssertThrows([document appendNode:doctype]);
