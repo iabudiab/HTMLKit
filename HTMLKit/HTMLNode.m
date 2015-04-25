@@ -258,14 +258,14 @@
 	return node;
 }
 
-NS_INLINE void CheckParentValid(HTMLNode *node, NSString *cmd)
+NS_INLINE void CheckParentValid(HTMLNode *parent, NSString *cmd)
 {
-	if (node.type != HTMLNodeDocument &&
-		node.type != HTMLNodeDocumentFragment &&
-		node.type != HTMLNodeElement) {
+	if (parent.type != HTMLNodeDocument &&
+		parent.type != HTMLNodeDocumentFragment &&
+		parent.type != HTMLNodeElement) {
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting into %@ is not allowed. The operation would yield an incorrect node tree.",
-		 cmd, node.name];
+		 cmd, parent.name];
 	}
 }
 
