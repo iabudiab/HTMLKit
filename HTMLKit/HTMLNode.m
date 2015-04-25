@@ -373,17 +373,26 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 		 NSStringFromSelector(_cmd)];
 	};
 
+	void (^ checkParentHasAnotherChildOfType)(HTMLNodeType) = ^ void (HTMLNodeType type) {
+		[self enumerateChildNodesUsingBlock:^(HTMLNode *node, NSUInteger idx, BOOL *stop) {
+			if (node.type == type && node != child) {
+				*stop = YES;
+				hierarchyError();
+			}
+		}];
+	};
+
 	if (self.type == HTMLNodeDocument) {
 		switch (node.type) {
 			case HTMLNodeDocumentFragment:
-				if (self.childNodesCount > 1 ||
-					[self hasChildNodeOfType:HTMLNodeText]) {
+				if (node.childNodesCount > 1 ||
+					[node hasChildNodeOfType:HTMLNodeText]) {
 					hierarchyError();
-				} else if (self.childNodesCount == 1) {
-					if (self.firstChiledNode != node ||
-						child.nextSibling.type == HTMLNodeDocumentType) {
+				} else if (node.childNodesCount == 1) {
+					if (child.nextSibling.type == HTMLNodeDocumentType) {
 						hierarchyError();
 					}
+					checkParentHasAnotherChildOfType(HTMLNodeElement);
 				}
 				break;
 			case HTMLNodeElement:
@@ -391,12 +400,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 				if (child.nextSibling.type == HTMLNodeDocumentType) {
 					hierarchyError();
 				}
-				[self enumerateChildNodesUsingBlock:^(HTMLNode *node, NSUInteger idx, BOOL *stop) {
-					if (node.type == HTMLNodeElement && node != child) {
-						*stop = YES;
-						hierarchyError();
-					}
-				}];
+				checkParentHasAnotherChildOfType(HTMLNodeElement);
 				break;
 			}
 			case HTMLNodeDocumentType:
@@ -404,12 +408,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 				if (child.previousSibling.type == HTMLNodeElement) {
 					hierarchyError();
 				}
-				[self enumerateChildNodesUsingBlock:^(HTMLNode *node, NSUInteger idx, BOOL *stop) {
-					if (node.type == HTMLNodeDocument && node != child) {
-						*stop = YES;
-						hierarchyError();
-					}
-				}];
+				checkParentHasAnotherChildOfType(HTMLNodeDocumentType);
 				break;
 			}
 			default:
