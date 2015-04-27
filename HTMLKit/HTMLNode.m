@@ -139,35 +139,48 @@
 	return [self.childNodes indexOfObject:node];
 }
 
-- (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
-{
-	node = [self preInsertNode:node beforeChildNode:child];
-	node.parentNode = self;
-	return node;
-}
-
 - (HTMLNode *)appendNode:(HTMLNode *)node
 {
-	node = [self preInsertNode:node beforeChildNode:nil];
-	node.parentNode = self;
-	return node;
+	return [self insertNode:node beforeChildNode:nil];
 }
 
 - (void)appendNodes:(NSArray *)nodes
 {
 	for (id node in nodes) {
-		[self appendNode:node];
+		[self insertNode:node beforeChildNode:nil];
 	}
+}
+
+- (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
+{
+	[self ensurePreInsertionValidityOfNode:node beforeChildNode:child];
+
+	[self.ownerDocument adoptNode:node];
+
+	NSArray *nodes = node.type == HTMLNodeDocumentFragment ? [NSArray arrayWithArray:node.childNodes.array] : @[node];
+
+	NSUInteger index = [self indexOfChildNode:child];
+	if (index != NSNotFound) {
+		NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, nodes.count)];
+		[(NSMutableOrderedSet *)self.childNodes insertObjects:nodes atIndexes:indexes];
+	} else {
+		[(NSMutableOrderedSet *)self.childNodes addObjectsFromArray:nodes];
+	}
+
+	if (node.type == HTMLNodeDocumentFragment) {
+		[node removeAllChildNodes];
+	}
+
+	[nodes makeObjectsPerformSelector:@selector(setParentNode:) withObject:self];
+
+	return node;
 }
 
 - (HTMLNode *)replaceChildNode:(HTMLNode *)child withNode:(HTMLNode *)node
 {
 	[self ensureReplacementValidityOfChildNode:child withNode:node];
 
-	[self.ownerDocument adoptNode:node];
-	NSUInteger index = [self indexOfChildNode:child];
-	node.parentNode = self;
-	[(NSMutableOrderedSet *)self.childNodes replaceObjectAtIndex:index withObject:node];
+	[self insertNode:node beforeChildNode:child];
 	[child removeFromParentNode];
 	return child;
 }
@@ -216,7 +229,8 @@
 
 - (void)removeAllChildNodes
 {
-	[self.childNodes.array makeObjectsPerformSelector:@selector(removeFromParentNode)];
+	[self.childNodes.array makeObjectsPerformSelector:@selector(setParentNode:) withObject:nil];
+	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
 }
 
 #pragma mark - Enumeration
@@ -242,21 +256,21 @@
 	return [[HTMLNodeTreeEnumerator alloc] initWithNode:self reverse:YES];
 }
 
-#pragma mark - Mutation Algorithms
-
-- (HTMLNode *)preInsertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
+- (void)doInsertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
 {
-	[self ensurePreInsertionValidityOfNode:node beforeChildNode:child];
-	[self.ownerDocument adoptNode:node];
+	NSArray *nodes = node.type == HTMLNodeDocumentFragment ? node.childNodes.array : @[node];
+
 	NSUInteger index = [self indexOfChildNode:child];
 	if (index != NSNotFound) {
-		[(NSMutableOrderedSet *)self.childNodes insertObject:node atIndex:index];
+		NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, nodes.count)];
+		[(NSMutableOrderedSet *)self.childNodes insertObjects:nodes atIndexes:indexes];
 	} else {
-		[(NSMutableOrderedSet *)self.childNodes addObject:node];
+		[(NSMutableOrderedSet *)self.childNodes addObjectsFromArray:nodes];
 	}
-
-	return node;
 }
+
+
+#pragma mark - Validity Checks
 
 NS_INLINE void CheckParentValid(HTMLNode *parent, NSString *cmd)
 {
