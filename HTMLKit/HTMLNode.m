@@ -153,7 +153,9 @@
 
 - (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
 {
+#ifndef HTMLKIT_NO_DOM_CHECKS
 	[self ensurePreInsertionValidityOfNode:node beforeChildNode:child];
+#endif
 
 	[self.ownerDocument adoptNode:node];
 
@@ -178,7 +180,9 @@
 
 - (HTMLNode *)replaceChildNode:(HTMLNode *)child withNode:(HTMLNode *)node
 {
+#ifndef HTMLKIT_NO_DOM_CHECKS
 	[self ensureReplacementValidityOfChildNode:child withNode:node];
+#endif
 
 	[self insertNode:node beforeChildNode:child];
 	[child removeFromParentNode];
@@ -269,6 +273,7 @@
 	}
 }
 
+#ifndef HTMLKIT_NO_DOM_CHECKS
 
 #pragma mark - Validity Checks
 
@@ -430,6 +435,8 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 		}
 	}
 }
+
+#endif
 
 #pragma mark - NSCopying
 
