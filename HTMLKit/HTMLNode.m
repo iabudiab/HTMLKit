@@ -139,6 +139,18 @@
 	return [self.childNodes indexOfObject:node];
 }
 
+- (HTMLNode *)prependNode:(HTMLNode *)node
+{
+	return [self insertNode:node beforeChildNode:self.firstChiledNode];
+}
+
+- (void)prependNodes:(NSArray *)nodes
+{
+	for (id node in nodes.reverseObjectEnumerator) {
+		[self insertNode:node beforeChildNode:self.firstChiledNode];
+	}
+}
+
 - (HTMLNode *)appendNode:(HTMLNode *)node
 {
 	return [self insertNode:node beforeChildNode:nil];

@@ -18,30 +18,6 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 @implementation HTMLKitMutationAlgorithmsTests
 
-- (void)testAppendDocumentFragment
-{
-	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
-	HTMLComment *comment = [HTMLComment new];
-	[element appendNode:comment];
-
-	HTMLDocumentFragment *fragment = [HTMLDocumentFragment new];
-	HTMLElement *firstChild = [HTMLElement new];
-	HTMLElement *secondChild = [HTMLElement new];
-	[fragment appendNode:firstChild];
-	[fragment appendNode:secondChild];
-
-	[element appendNode:fragment];
-	XCTAssertEqual(element.childNodesCount, 3);
-	XCTAssertEqual(fragment.childNodesCount, 0);
-
-	XCTAssertEqualObjects(firstChild.parentNode, element);
-	XCTAssertEqualObjects(secondChild.parentNode, element);
-	XCTAssertEqualObjects(element.firstChiledNode, comment);
-	XCTAssertEqualObjects(element.firstChiledNode.nextSibling, firstChild);
-	XCTAssertEqualObjects(element.lastChildNode.previousSibling, firstChild);
-	XCTAssertEqualObjects(element.lastChildNode, secondChild);
-}
-
 - (void)testValidParentNodeWhenAppending
 {
 	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
