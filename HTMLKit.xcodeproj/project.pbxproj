@@ -237,6 +237,7 @@
 		624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLToken.m; sourceTree = "<group>"; };
 		62491C451AFE51F100ACF9E2 /* CSSLexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CSSLexer.c; sourceTree = "<group>"; };
 		62491C461AFE51F100ACF9E2 /* CSSLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSLexer.h; sourceTree = "<group>"; };
+		624AB3151B04EA4200F3830D /* CSSSelectors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSSSelectors.h; sourceTree = "<group>"; };
 		624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokens.h; sourceTree = "<group>"; };
 		624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTokenizerTests.m; sourceTree = "<group>"; };
 		624AC90419FBFE8A00BD3C4A /* html5lib-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "html5lib-tests"; sourceTree = "<group>"; };
@@ -337,6 +338,7 @@
 		62079BE61AF5656600D3B402 /* Selectors */ = {
 			isa = PBXGroup;
 			children = (
+				624AB3151B04EA4200F3830D /* CSSSelectors.h */,
 				623F13A81AFC11D900C90BF4 /* CSSTokenizer.h */,
 				623F13A91AFC11D900C90BF4 /* CSSTokenizer.m */,
 				62491C461AFE51F100ACF9E2 /* CSSLexer.h */,
