@@ -14,6 +14,8 @@
 @property (nonatomic, copy) NSString *type;
 
 + (instancetype)universalSelector;
++ (instancetype)selectorForType:(NSString *)type;
+
 - (instancetype)initWithType:(NSString *)type;
 
 @end
