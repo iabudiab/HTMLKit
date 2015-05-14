@@ -89,6 +89,9 @@
 		624B28B91B03DA820048D328 /* CSSTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B28B71B03DA820048D328 /* CSSTypeSelector.m */; };
 		624B28BA1B03DA820048D328 /* CSSTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B28B71B03DA820048D328 /* CSSTypeSelector.m */; };
 		624B28BC1B03DAB70048D328 /* HTMLNodeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 624B28BB1B03DAB70048D328 /* HTMLNodeFilter.h */; };
+		624B28BF1B0413200048D328 /* CSSAttributeSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 624B28BD1B0413200048D328 /* CSSAttributeSelector.h */; };
+		624B28C01B0413200048D328 /* CSSAttributeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B28BE1B0413200048D328 /* CSSAttributeSelector.m */; };
+		624B28C11B0413200048D328 /* CSSAttributeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B28BE1B0413200048D328 /* CSSAttributeSelector.m */; };
 		624B28C41B04190D0048D328 /* NSCharacterSet+HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 624B28C21B04190D0048D328 /* NSCharacterSet+HTMLKit.h */; };
 		624B28C51B04190D0048D328 /* NSCharacterSet+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B28C31B04190D0048D328 /* NSCharacterSet+HTMLKit.m */; };
 		624B28C61B04190D0048D328 /* NSCharacterSet+HTMLKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B28C31B04190D0048D328 /* NSCharacterSet+HTMLKit.m */; };
@@ -241,6 +244,8 @@
 		624B28B61B03DA820048D328 /* CSSTypeSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSTypeSelector.h; sourceTree = "<group>"; };
 		624B28B71B03DA820048D328 /* CSSTypeSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSTypeSelector.m; sourceTree = "<group>"; };
 		624B28BB1B03DAB70048D328 /* HTMLNodeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeFilter.h; sourceTree = "<group>"; };
+		624B28BD1B0413200048D328 /* CSSAttributeSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSAttributeSelector.h; sourceTree = "<group>"; };
+		624B28BE1B0413200048D328 /* CSSAttributeSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSAttributeSelector.m; sourceTree = "<group>"; };
 		624B28C21B04190D0048D328 /* NSCharacterSet+HTMLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+HTMLKit.h"; sourceTree = "<group>"; };
 		624B28C31B04190D0048D328 /* NSCharacterSet+HTMLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+HTMLKit.m"; sourceTree = "<group>"; };
 		624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitStringCategoryTests.m; sourceTree = "<group>"; };
@@ -340,6 +345,8 @@
 				62079BE81AF56F1E00D3B402 /* CSSSelector.m */,
 				624B28B61B03DA820048D328 /* CSSTypeSelector.h */,
 				624B28B71B03DA820048D328 /* CSSTypeSelector.m */,
+				624B28BD1B0413200048D328 /* CSSAttributeSelector.h */,
+				624B28BE1B0413200048D328 /* CSSAttributeSelector.m */,
 			);
 			name = Selectors;
 			sourceTree = "<group>";
@@ -590,6 +597,7 @@
 				62D89DB21AE7081600B6243D /* HTMLTokenizerCharacters.h in Headers */,
 				62D89DB31AE7081600B6243D /* HTMLNamespaces.h in Headers */,
 				624B28BC1B03DAB70048D328 /* HTMLNodeFilter.h in Headers */,
+				624B28BF1B0413200048D328 /* CSSAttributeSelector.h in Headers */,
 				62D89DB41AE7081600B6243D /* HTMLElementTypes.h in Headers */,
 				62D89DB51AE7081600B6243D /* HTMLElementAdjustment.h in Headers */,
 				62D89DB61AE7081600B6243D /* HTMLParserInsertionModes.h in Headers */,
@@ -805,6 +813,7 @@
 				62079BEB1AF56F1E00D3B402 /* CSSSelector.m in Sources */,
 				62AE594B19F9948A0043F069 /* HTMLCharacterToken.m in Sources */,
 				623458501A9D2FA4009BD491 /* HTMLNode.m in Sources */,
+				624B28C11B0413200048D328 /* CSSAttributeSelector.m in Sources */,
 				62F31FDF19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */,
 				62AE593719F97D880043F069 /* HTMLParseErrorToken.m in Sources */,
 			);
@@ -862,6 +871,7 @@
 				62079BEA1AF56F1E00D3B402 /* CSSSelector.m in Sources */,
 				62AE594A19F9948A0043F069 /* HTMLCharacterToken.m in Sources */,
 				6234584F1A9D2FA4009BD491 /* HTMLNode.m in Sources */,
+				624B28C01B0413200048D328 /* CSSAttributeSelector.m in Sources */,
 				62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */,
 				62AE593619F97D880043F069 /* HTMLParseErrorToken.m in Sources */,
 			);
