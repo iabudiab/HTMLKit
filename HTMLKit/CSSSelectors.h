@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-#ifndef HTMLKit_CSSSelectors_h
-#define HTMLKit_CSSSelectors_h
-
-
-#endif
+#import "CSSSelector.h"
+#import "CSSTypeSelector.h"
+#import "CSSAttributeSelector.h"
