@@ -73,7 +73,7 @@
 		}
 		case CSSAttributeSelectorHyphen:
 		{
-			return [element[_name] isEqualToString:_value] || [element[_name] hasSuffix:[_value stringByAppendingString:@"-"]];
+			return [element[_name] isEqualToString:_value] || [element[_name] hasPrefix:[_value stringByAppendingString:@"-"]];
 		}
 		default:
 			return NO;
