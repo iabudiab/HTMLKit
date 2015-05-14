@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		62079BE91AF56F1E00D3B402 /* CSSSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 62079BE71AF56F1E00D3B402 /* CSSSelector.h */; };
+		62079BEA1AF56F1E00D3B402 /* CSSSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62079BE81AF56F1E00D3B402 /* CSSSelector.m */; };
+		62079BEB1AF56F1E00D3B402 /* CSSSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62079BE81AF56F1E00D3B402 /* CSSSelector.m */; };
 		620802021AFD939200F2962F /* CSSTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 623F13A81AFC11D900C90BF4 /* CSSTokenizer.h */; };
 		623406E11ADB04F9004677A3 /* HTMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 623406DF1ADB04F9004677A3 /* HTMLTemplate.h */; };
 		623406E21ADB04F9004677A3 /* HTMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 623406E01ADB04F9004677A3 /* HTMLTemplate.m */; };
@@ -177,6 +180,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		62079BE71AF56F1E00D3B402 /* CSSSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSSelector.h; sourceTree = "<group>"; };
+		62079BE81AF56F1E00D3B402 /* CSSSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSelector.m; sourceTree = "<group>"; };
 		6223211D1A969B9300BACED5 /* HTMLElementTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElementTypes.h; sourceTree = "<group>"; };
 		623406DF1ADB04F9004677A3 /* HTMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTemplate.h; sourceTree = "<group>"; };
 		623406E01ADB04F9004677A3 /* HTMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTemplate.m; sourceTree = "<group>"; };
@@ -326,6 +331,8 @@
 				623F13A91AFC11D900C90BF4 /* CSSTokenizer.m */,
 				62491C461AFE51F100ACF9E2 /* CSSLexer.h */,
 				62491C451AFE51F100ACF9E2 /* CSSLexer.c */,
+				62079BE71AF56F1E00D3B402 /* CSSSelector.h */,
+				62079BE81AF56F1E00D3B402 /* CSSSelector.m */,
 			);
 			name = Selectors;
 			sourceTree = "<group>";
@@ -572,6 +579,7 @@
 			files = (
 				6235CE9B1AA509430026937B /* NSString+HTMLKit.h in Headers */,
 				62D89DB11AE7081600B6243D /* HTMLTokenizerStates.h in Headers */,
+				62079BE91AF56F1E00D3B402 /* CSSSelector.h in Headers */,
 				62D89DB21AE7081600B6243D /* HTMLTokenizerCharacters.h in Headers */,
 				62D89DB31AE7081600B6243D /* HTMLNamespaces.h in Headers */,
 				624B28BC1B03DAB70048D328 /* HTMLNodeFilter.h in Headers */,
@@ -785,6 +793,7 @@
 				62491C481AFE51F100ACF9E2 /* CSSLexer.c in Sources */,
 				625A14BE19C7829400AD0C32 /* HTMLKit.m in Sources */,
 				623857981A9E8606003A45D9 /* HTMLDocumentType.m in Sources */,
+				62079BEB1AF56F1E00D3B402 /* CSSSelector.m in Sources */,
 				62AE594B19F9948A0043F069 /* HTMLCharacterToken.m in Sources */,
 				623458501A9D2FA4009BD491 /* HTMLNode.m in Sources */,
 				62F31FDF19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */,
@@ -840,6 +849,7 @@
 				62491C471AFE51F100ACF9E2 /* CSSLexer.c in Sources */,
 				625A150219C783DE00AD0C32 /* HTMLKit.m in Sources */,
 				623857971A9E8606003A45D9 /* HTMLDocumentType.m in Sources */,
+				62079BEA1AF56F1E00D3B402 /* CSSSelector.m in Sources */,
 				62AE594A19F9948A0043F069 /* HTMLCharacterToken.m in Sources */,
 				6234584F1A9D2FA4009BD491 /* HTMLNode.m in Sources */,
 				62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */,
