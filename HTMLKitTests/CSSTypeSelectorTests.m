@@ -48,4 +48,14 @@
 	XCTAssertTrue([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"div"]]);
 }
 
+- (void)testChangeSelectorType
+{
+	CSSTypeSelector *selector = [[CSSTypeSelector alloc] initWithType:@"div"];
+	XCTAssertTrue([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"div"]]);
+
+	selector.type = @"p";
+	XCTAssertFalse([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"div"]]);
+	XCTAssertTrue([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"p"]]);
+}
+
 @end
