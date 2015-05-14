@@ -20,6 +20,16 @@
 
 @implementation CSSAttributeSelector
 
++ (instancetype)selectorForClass:(NSString *)className
+{
+	return [[self alloc] initWithType:CSSAttributeSelectorIncludes attributeName:@"class" attrbiuteValue:className];
+}
+
++ (instancetype)selectorForId:(NSString *)elementId
+{
+	return [[self alloc] initWithType:CSSAttributeSelectorExactMatch attributeName:@"id" attrbiuteValue:elementId];
+}
+
 - (instancetype)initWithType:(CSSAttributeSelectorType)type
 			   attributeName:(NSString *)name
 			  attrbiuteValue:(NSString *)value

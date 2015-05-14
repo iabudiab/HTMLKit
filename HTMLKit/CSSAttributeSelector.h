@@ -26,6 +26,9 @@ typedef NS_ENUM(NSUInteger, CSSAttributeSelectorType)
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *value;
 
++ (instancetype)selectorForClass:(NSString *)className;
++ (instancetype)selectorForId:(NSString *)elementId;
+
 - (instancetype)initWithType:(CSSAttributeSelectorType)type
 			   attributeName:(NSString *)name
 			  attrbiuteValue:(NSString *)value;
