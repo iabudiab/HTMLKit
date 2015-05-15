@@ -37,9 +37,13 @@
 	return self;
 }
 
-- (BOOL)matchesElement:(HTMLElement *)element
+- (BOOL)acceptNode:(HTMLNode *)node
 {
-	return [_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:element.tagName];
+	if (node.type != HTMLNodeElement) {
+		return NO;
+	}
+
+	return [_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:[(HTMLElement *)node tagName]];
 }
 
 - (NSString *)description

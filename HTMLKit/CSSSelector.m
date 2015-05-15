@@ -25,11 +25,6 @@
 
 - (BOOL)acceptNode:(HTMLNode *)node
 {
-	return node.type == HTMLNodeElement && [self matchesElement:(HTMLElement *)node];
-}
-
-- (BOOL)matchesElement:(HTMLElement *)element
-{
 	[self doesNotRecognizeSelector:_cmd];
 	return NO;
 }

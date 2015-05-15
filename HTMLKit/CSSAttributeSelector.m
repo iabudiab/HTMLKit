@@ -43,8 +43,14 @@
 	return self;
 }
 
-- (BOOL)matchesElement:(HTMLElement *)element
+- (BOOL)acceptNode:(HTMLNode *)node
 {
+	if (node.type != HTMLNodeElement) {
+		return NO;
+	}
+
+	HTMLElement *element = (HTMLElement *)node;
+
 	switch (_type) {
 		case CSSAttributeSelectorExists:
 		{

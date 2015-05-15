@@ -50,10 +50,10 @@
 	[_selectors addObject:selector];
 }
 
-- (BOOL)matchesElement:(HTMLElement *)element
+- (BOOL)acceptNode:(HTMLNode *)node
 {
 	for (CSSSelector *selector in _selectors) {
-		if (![selector matchesElement:element]) {
+		if (![selector acceptNode:node]) {
 			return NO;
 		}
 	}

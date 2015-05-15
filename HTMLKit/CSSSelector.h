@@ -15,6 +15,4 @@
 
 + (instancetype)selectorWithSting:(NSString *)string;
 
-- (BOOL)matchesElement:(HTMLElement *)element;
-
 @end
