@@ -8,5 +8,6 @@
 
 #import "CSSSelector.h"
 #import "CSSSimpleSelector.h"
+#import "CSSSimpleSequence.h"
 #import "CSSTypeSelector.h"
 #import "CSSAttributeSelector.h"

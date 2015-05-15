@@ -1,0 +1,63 @@
+//
+//  CSSSimpleSequence.m
+//  HTMLKit
+//
+//  Created by Iska on 14/05/15.
+//  Copyright (c) 2015 BrainCookie. All rights reserved.
+//
+
+#import "CSSSimpleSequence.h"
+
+@interface CSSSimpleSequence ()
+{
+	NSMutableArray *_selectors;
+}
+@end
+
+@implementation CSSSimpleSequence
+
++ (instancetype)sequenceForType:(CSSTypeSelector *)typeSelector
+{
+	return [[self alloc] initWithType:typeSelector];
+}
+
++ (instancetype)sequenceWithSelectors:(NSArray *)selectors
+{
+	return [[self alloc] initWithSelectors:selectors];
+}
+
+- (instancetype)init
+{
+	return [self initWithSelectors:nil];
+}
+
+- (instancetype)initWithType:(CSSTypeSelector *)selector
+{
+	return [self initWithSelectors:@[selector]];
+}
+
+- (instancetype)initWithSelectors:(NSArray *)selectors
+{
+	self = [super init];
+	if (self) {
+		_selectors = [[NSMutableArray alloc] initWithArray:selectors];
+	}
+	return self;
+}
+
+- (void)addSelector:(id<CSSSimpleSelector>)selector
+{
+	[_selectors addObject:selector];
+}
+
+- (BOOL)matchesElement:(HTMLElement *)element
+{
+	for (CSSSelector *selector in _selectors) {
+		if (![selector matchesElement:element]) {
+			return NO;
+		}
+	}
+	return YES;
+}
+
+@end
