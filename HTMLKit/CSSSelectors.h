@@ -7,5 +7,6 @@
 //
 
 #import "CSSSelector.h"
+#import "CSSSimpleSelector.h"
 #import "CSSTypeSelector.h"
 #import "CSSAttributeSelector.h"

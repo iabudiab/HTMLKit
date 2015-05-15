@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "CSSSelector.h"
+#import "CSSSimpleSelector.h"
 
-@interface CSSTypeSelector : CSSSelector
+@interface CSSTypeSelector : CSSSelector <CSSSimpleSelector>
 
 @property (nonatomic, copy) NSString *type;
 
