@@ -36,6 +36,9 @@ typedef NS_ENUM(int, CSSToken)
 
 @interface CSSTokenizer : NSObject
 
+@property (nonatomic, readonly) size_t currentPosition;
+@property (nonatomic, readonly) size_t tokenPosition;
+
 - (instancetype)initWithString:(NSString *)string;
 
 - (CSSToken)nextToken;

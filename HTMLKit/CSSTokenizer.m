@@ -19,6 +19,8 @@
 @end
 
 @implementation CSSTokenizer
+@synthesize currentPosition = _currentPosition;
+@synthesize tokenPosition = _tokenPosition;
 
 - (instancetype)initWithString:(NSString *)string
 {
