@@ -39,6 +39,7 @@ typedef NS_ENUM(int, CSSToken)
 - (instancetype)initWithString:(NSString *)string;
 
 - (CSSToken)nextToken;
+- (CSSToken)nextNonSpaceToken;
 - (NSString *)currentTokenText;
 
 @end

@@ -42,6 +42,15 @@
 	return _currentToken;
 }
 
+- (CSSToken)nextNonSpaceToken
+{
+	CSSToken token;
+	do {
+		token = self.nextToken;
+	} while (token == CSSTokenSpace);
+	return token;
+}
+
 - (NSString *)currentTokenText
 {
 	if (_currentToken == 0) {
