@@ -7,6 +7,7 @@
 //
 
 #import "HTMLDocument.h"
+#import "HTMLParser.h"
 #import "HTMLKitExceptions.h"
 
 @interface HTMLNode (Private)
@@ -24,6 +25,12 @@
 @implementation HTMLDocument
 
 #pragma mark - Init
+
++ (instancetype)documentWithString:(NSString *)string
+{
+	HTMLParser *parser = [[HTMLParser alloc] initWithString:string];
+	return [parser parseDocument];
+}
 
 - (instancetype)init
 {

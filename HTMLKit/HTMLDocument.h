@@ -27,6 +27,8 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
 
 @property (nonatomic, assign, readonly) HTMLDocumentReadyState readyState;
 
++ (instancetype)documentWithString:(NSString *)string;
+
 - (HTMLNode *)adoptNode:(HTMLNode *)node;
 
 - (HTMLDocument *)associatedInertTemplateDocument;
