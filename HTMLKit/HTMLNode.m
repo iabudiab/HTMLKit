@@ -104,6 +104,13 @@
 	return nil;
 }
 
+#pragma mark - Cast
+
+- (HTMLElement *)asElement
+{
+	return (HTMLElement *)self;
+}
+
 #pragma mark - Child Nodes
 
 - (BOOL)hasChildNodes
@@ -469,6 +476,11 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 - (NSString *)innerHTML
 {
 	return [[self.childNodes.array valueForKey:@"outerHTML"] componentsJoinedByString:@""];
+}
+
+- (void)setInnerHTML:(NSString *)outerHTML
+{
+	[self doesNotRecognizeSelector:_cmd];
 }
 
 #pragma mark - Description

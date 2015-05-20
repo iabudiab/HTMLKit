@@ -53,9 +53,15 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, copy) NSString *textContent;
 
+@property (nonatomic, strong, readonly)	NSString *outerHTML;
+
+@property (nonatomic, copy)	NSString *innerHTML;
+
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithName:(NSString *)name type:(HTMLNodeType)type;
+
+- (HTMLElement *)asElement;
 
 - (BOOL)hasChildNodes;
 
@@ -96,10 +102,6 @@ typedef NS_ENUM(short, HTMLNodeType)
 - (NSEnumerator *)treeEnumerator;
 
 - (NSEnumerator *)reverseTreeEnumerator;
-
-- (NSString *)outerHTML;
-
-- (NSString *)innerHTML;
 
 - (NSString *)treeDescription;
 

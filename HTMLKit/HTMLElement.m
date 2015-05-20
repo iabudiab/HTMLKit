@@ -7,6 +7,7 @@
 //
 
 #import "HTMLElement.h"
+#import "HTMLParser.h"
 #import "HTMLDocument.h"
 #import "HTMLText.h"
 
@@ -99,6 +100,14 @@
 {
 	HTMLText *node = [[HTMLText alloc] initWithData:textContent];
 	[self replaceAllChildNodesWithNode:node];
+}
+
+- (void)setInnerHTML:(NSString *)innerHTML
+{
+	HTMLParser *parser = [[HTMLParser alloc] initWithString:innerHTML];
+	NSArray	*fragmentNodes = [parser parseFragmentWithContextElement:self];
+	[self removeAllChildNodes];
+	[self appendNodes:fragmentNodes];
 }
 
 #pragma mark - NSCopying

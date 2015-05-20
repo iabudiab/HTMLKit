@@ -470,4 +470,17 @@
 	XCTAssertEqualObjects(thirdChild.parentNode, newParent);
 }
 
+- (void)testElementSetInnerHTML
+{
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
+	[element appendNode:[[HTMLElement alloc] initWithTagName:@"img"]];
+
+	[element setInnerHTML:@"<p></p><p></p>"];
+
+	XCTAssertEqual(element.childNodesCount, 2);
+
+	XCTAssertEqualObjects(element.firstChiledNode.asElement.tagName, @"p");
+	XCTAssertEqualObjects([element childNodeAtIndex:1].asElement.tagName, @"p");
+}
+
 @end
