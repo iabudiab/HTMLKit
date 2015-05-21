@@ -313,7 +313,7 @@
 			name = Tokenizer;
 			sourceTree = "<group>";
 		};
-		623719441AA1472B002E03C8 /* Nodes */ = {
+		623719441AA1472B002E03C8 /* DOM */ = {
 			isa = PBXGroup;
 			children = (
 				623719431AA12EE8002E03C8 /* HTMLQuirksMode.h */,
@@ -337,7 +337,7 @@
 				623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */,
 				623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */,
 			);
-			name = Nodes;
+			name = DOM;
 			sourceTree = "<group>";
 		};
 		623975581AC362A5007E26F1 /* Tree Construction */ = {
@@ -421,7 +421,7 @@
 				6238C9841AB8D6330006512E /* HTMLKitExceptions.m */,
 				62AE593219F97CCA0043F069 /* Tokenizing */,
 				628E16EC1ADAE71700B15A06 /* Parsing */,
-				623719441AA1472B002E03C8 /* Nodes */,
+				623719441AA1472B002E03C8 /* DOM */,
 				628E16ED1ADAE73700B15A06 /* Categories */,
 				628E16EE1ADAE75300B15A06 /* Structures */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
