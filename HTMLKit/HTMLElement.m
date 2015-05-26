@@ -36,10 +36,10 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
 {
-	return [self initWithTagName:tagName attributes:attributes namespace:HTMLNamespaceHTML];
+	return [self initWithTagName:tagName namespace:HTMLNamespaceHTML attributes:attributes];
 }
 
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)htmlNamespace
+- (instancetype)initWithTagName:(NSString *)tagName namespace:(HTMLNamespace)htmlNamespace attributes:(NSDictionary *)attributes
 {
 	self = [super initWithName:tagName type:HTMLNodeElement];
 	if (self) {
