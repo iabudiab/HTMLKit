@@ -29,7 +29,7 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @interface HTMLNode : NSObject <NSCopying>
 
-@property (nonatomic, assign, readonly) HTMLNodeType type;
+@property (nonatomic, assign, readonly) HTMLNodeType nodeType;
 
 @property (nonatomic, strong, readonly) NSString *name;
 

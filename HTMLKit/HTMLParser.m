@@ -12,7 +12,7 @@
 #import "HTMLStackOfOpenElements.h"
 #import "HTMLListOfActiveFormattingElements.h"
 #import "HTMLParserInsertionModes.h"
-#import "HTMLNodes.h"
+#import "HTMLDOM.h"
 #import "HTMLElementTypes.h"
 #import "HTMLElementAdjustment.h"
 #import "HTMLMarker.h"
@@ -452,10 +452,10 @@
 	HTMLElement *child = nil;
 	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
 																					beforeChildNode:&child];
-	if (adjustedInsertionLocation.type != HTMLNodeDocument) {
-		if (child != nil && child.previousSibling.type == HTMLNodeText) {
+	if (adjustedInsertionLocation.nodeType != HTMLNodeDocument) {
+		if (child != nil && child.previousSibling.nodeType == HTMLNodeText) {
 			[(HTMLText *)child.previousSibling appendString:data];
-		} else if (adjustedInsertionLocation.lastChildNode.type == HTMLNodeText) {
+		} else if (adjustedInsertionLocation.lastChildNode.nodeType == HTMLNodeText) {
 			[(HTMLText *)adjustedInsertionLocation.lastChildNode appendString:data];
 		} else {
 			HTMLText *text = [[HTMLText alloc] initWithData:data];

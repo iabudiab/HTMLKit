@@ -89,7 +89,7 @@
 {
 	NSMutableString *content = [NSMutableString string];
 	for (HTMLNode *node in self.treeEnumerator) {
-		if (node.type == HTMLNodeText) {
+		if (node.nodeType == HTMLNodeText) {
 			[content appendString:[(HTMLText *)node data]];
 		}
 	}
@@ -146,7 +146,7 @@
 		return result;
 	}
 
-	if ([self.tagName isEqualToAny:@"pre", @"textarea", @"listing", nil] && self.firstChiledNode.type == HTMLNodeText) {
+	if ([self.tagName isEqualToAny:@"pre", @"textarea", @"listing", nil] && self.firstChiledNode.nodeType == HTMLNodeText) {
 		HTMLText *textNode = (HTMLText *)self.firstChiledNode;
 		if ([textNode.data hasPrefix:@"\n"]) {
 			[result appendString:@"\n"];

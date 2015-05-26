@@ -30,7 +30,7 @@
 	HTMLNode *node = [[HTMLNode alloc] initWithName:@"name" type:HTMLNodeElement];
 	XCTAssertNotNil(node);
 	XCTAssertEqualObjects(node.name, @"name");
-	XCTAssertEqual(node.type, HTMLNodeElement);
+	XCTAssertEqual(node.nodeType, HTMLNodeElement);
 	XCTAssertNotNil(node.childNodes);
 	XCTAssertEqual(node.childNodes.count, 0);
 

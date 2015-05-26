@@ -72,7 +72,7 @@
 		return nil;
 	}
 
-	if (node.type == HTMLNodeDocument) {
+	if (node.nodeType == HTMLNodeDocument) {
 		[NSException raise:HTMLKitNotSupportedError
 					format:@"%@: Not Fount Error, adopting a document node. The operation is not supported.", NSStringFromSelector(_cmd)];
 	}
