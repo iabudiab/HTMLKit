@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "HTMLNodes.h"
+#import "HTMLDOM.h"
 
 @interface HTMLKitNodesTests : XCTestCase
 
@@ -35,7 +35,6 @@
 	XCTAssertEqual(node.childNodes.count, 0);
 
 	XCTAssertNil(node.ownerDocument);
-	XCTAssertNil(node.baseURI);
 	XCTAssertNil(node.parentNode);
 	XCTAssertNil(node.parentElement);
 	XCTAssertNil(node.firstChiledNode);

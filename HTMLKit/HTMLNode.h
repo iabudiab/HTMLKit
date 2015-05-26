@@ -35,8 +35,6 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, weak, readonly) HTMLDocument *ownerDocument;
 
-@property (nonatomic, strong, readonly) NSString *baseURI;
-
 @property (nonatomic, weak, readonly) HTMLNode *parentNode;
 
 @property (nonatomic, weak, readonly) HTMLElement *parentElement;

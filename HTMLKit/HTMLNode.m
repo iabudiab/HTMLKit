@@ -55,12 +55,6 @@
 	[self.childNodes.array makeObjectsPerformSelector:@selector(setOwnerDocument:) withObject:ownerDocument];
 }
 
-- (void)setBaseURI:(NSString *)baseURI
-{
-	_baseURI = [baseURI copy];
-	[self.childNodes.array makeObjectsPerformSelector:@selector(setBaseURI:) withObject:baseURI];
-}
-
 - (void)setParentNode:(HTMLNode *)parentNode
 {
 	_parentNode = parentNode;
