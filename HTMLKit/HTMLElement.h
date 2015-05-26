@@ -24,7 +24,7 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName;
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes;
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)htmlNamespace;
+- (instancetype)initWithTagName:(NSString *)tagName namespace:(HTMLNamespace)htmlNamespace attributes:(NSDictionary *)attributes;
 
 - (BOOL)hasAttribute:(NSString *)name;
 - (NSString *)objectForKeyedSubscript:(NSString *)name;
