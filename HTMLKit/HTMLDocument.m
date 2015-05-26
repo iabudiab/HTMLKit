@@ -8,7 +8,7 @@
 
 #import "HTMLDocument.h"
 #import "HTMLParser.h"
-#import "HTMLKitExceptions.h"
+#import "HTMLKitDOMExceptions.h"
 
 @interface HTMLNode (Private)
 @property (nonatomic, weak) HTMLDocument *ownerDocument;

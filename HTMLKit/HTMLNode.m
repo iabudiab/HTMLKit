@@ -12,7 +12,7 @@
 #import "HTMLElement.h"
 #import "HTMLText.h"
 #import "HTMLComment.h"
-#import "HTMLKitExceptions.h"
+#import "HTMLKitDOMExceptions.h"
 #import "HTMLNodeTreeEnumerator.h"
 
 @interface HTMLNode ()
@@ -260,6 +260,19 @@
 
 	[self.childNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		block(obj, idx, stop);
+	}];
+}
+
+- (void)enumerateChildElementsUsingBlock:(void (^)(HTMLElement *element, NSUInteger idx, BOOL *stop))block
+{
+	if (block == nil) {
+		return;
+	}
+
+	[self.childNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj isKindOfClass:[HTMLElement class]]) {
+			block([obj asElement], idx, stop);
+		}
 	}];
 }
 

@@ -97,6 +97,8 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 - (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block;
 
+- (void)enumerateChildElementsUsingBlock:(void (^)(HTMLElement *element, NSUInteger idx, BOOL *stop))block;
+
 - (NSEnumerator *)treeEnumerator;
 
 - (NSEnumerator *)reverseTreeEnumerator;

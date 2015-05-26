@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-#import "HTMLKitExceptions.h"
+#import "HTMLKitDOMExceptions.h"
 
 NSString * const HTMLKitHierarchyRequestError = @"HierarchyRequestError";
 NSString * const HTMLKitNotFoundError = @"NotFoundError";
