@@ -421,8 +421,8 @@
 - (HTMLElement *)createElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)htmlNamespace
 {
 	HTMLElement *element = [[HTMLElement alloc] initWithTagName:token.tagName
-													 attributes:token.attributes
-													  namespace:htmlNamespace];
+													  namespace:htmlNamespace
+													 attributes:token.attributes];
 	return element;
 }
 
