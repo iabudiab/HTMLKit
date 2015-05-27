@@ -13,7 +13,6 @@
 #import "HTMLText.h"
 #import "HTMLComment.h"
 #import "HTMLKitDOMExceptions.h"
-#import "HTMLNodeTreeEnumerator.h"
 
 @interface HTMLNode ()
 {
@@ -276,28 +275,11 @@
 	}];
 }
 
-- (NSEnumerator *)treeEnumerator
+- (HTMLNodeIterator	*)nodeIterator
 {
-	return [[HTMLNodeTreeEnumerator alloc] initWithNode:self reverse:NO];
+	return [[HTMLNodeIterator alloc] initWithNode:self];
 }
 
-- (NSEnumerator *)reverseTreeEnumerator
-{
-	return [[HTMLNodeTreeEnumerator alloc] initWithNode:self reverse:YES];
-}
-
-- (void)doInsertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
-{
-	NSArray *nodes = node.nodeType == HTMLNodeDocumentFragment ? node.childNodes.array : @[node];
-
-	NSUInteger index = [self indexOfChildNode:child];
-	if (index != NSNotFound) {
-		NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, nodes.count)];
-		[(NSMutableOrderedSet *)self.childNodes insertObjects:nodes atIndexes:indexes];
-	} else {
-		[(NSMutableOrderedSet *)self.childNodes addObjectsFromArray:nodes];
-	}
-}
 
 #ifndef HTMLKIT_NO_DOM_CHECKS
 

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLNodeIterator.h"
 
 typedef NS_ENUM(short, HTMLNodeType)
 {
@@ -99,9 +100,7 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 - (void)enumerateChildElementsUsingBlock:(void (^)(HTMLElement *element, NSUInteger idx, BOOL *stop))block;
 
-- (NSEnumerator *)treeEnumerator;
-
-- (NSEnumerator *)reverseTreeEnumerator;
+- (HTMLNodeIterator	*)nodeIterator;
 
 - (NSString *)treeDescription;
 

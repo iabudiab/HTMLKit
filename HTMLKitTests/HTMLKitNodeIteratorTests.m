@@ -104,28 +104,12 @@
 	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
 }
 
-- (void)testSimpleTreeReversed
-{
-//	HTMLElement *tree = self.simpleTree;
-//	NSArray *result = tree.reverseTreeEnumerator.allObjects;
-//	NSArray	*expected = @[@"div", @"c", @"b", @"a"];
-//	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
-}
-
 - (void)testNestedSimpleTree
 {
 	HTMLElement *tree = self.nestedSimpleTree;
 	NSArray *result = tree.nodeIterator.allObjects;
 	NSArray	*expected = @[@"div", @"div", @"a", @"b", @"c", @"div", @"a", @"b", @"c"];
 	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
-}
-
-- (void)testNestedSimpleTreeReversed
-{
-//	HTMLElement *tree = self.nestedSimpleTree;
-//	NSArray *result = tree.reverseTreeEnumerator.allObjects;
-//	NSArray	*expected = @[@"div", @"div", @"c", @"b", @"a", @"div", @"c", @"b", @"a"];
-//	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
 }
 
 - (void)testComplexSimpleTree
@@ -136,12 +120,24 @@
 	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
 }
 
-- (void)testComplexSimpleTreeReversed
+- (void)testNextPreviousIteration
 {
-//	HTMLElement *tree = self.complexTree;
-//	NSArray *result = tree.reverseTreeEnumerator.allObjects;
-//	NSArray	*expected = @[@"div", @"div", @"c", @"b", @"a", @"e", @"f", @"div", @"div", @"c", @"b", @"a"];
-//	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
+	HTMLElement *tree = self.simpleTree;
+	HTMLNodeIterator *iterator = tree.nodeIterator;
+
+	XCTAssertEqualObjects(iterator.previousNode, nil);
+	XCTAssertEqualObjects(iterator.nextNode.name, @"div");
+	XCTAssertEqualObjects(iterator.nextNode.name, @"a");
+	XCTAssertEqualObjects(iterator.previousNode.name, @"a");
+	XCTAssertEqualObjects(iterator.previousNode.name, @"div");
+	XCTAssertEqualObjects(iterator.nextNode.name, @"div");
+	XCTAssertEqualObjects(iterator.nextNode.name, @"a");
+	XCTAssertEqualObjects(iterator.nextNode.name, @"b");
+	XCTAssertEqualObjects(iterator.nextNode.name, @"c");
+	XCTAssertEqualObjects(iterator.previousNode.name, @"c");
+	XCTAssertEqualObjects(iterator.previousNode.name, @"b");
+	XCTAssertEqualObjects(iterator.previousNode.name, @"a");
+	XCTAssertEqualObjects(iterator.previousNode.name, @"div");
 }
 
 @end
