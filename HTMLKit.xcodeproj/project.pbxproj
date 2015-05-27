@@ -69,6 +69,9 @@
 		624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */; };
 		624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */; };
 		624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */; };
+		6247A9431B152F4F00CCF25C /* HTMLNodeIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */; };
+		6247A9441B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */; };
+		6247A9451B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */; };
 		6247A9471B152F8C00CCF25C /* HTMLNodeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */; };
 		624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */ = {isa = PBXBuildFile; fileRef = 624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */; };
 		624AC90119FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */; };
@@ -213,6 +216,8 @@
 		624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokenizerStates.h; sourceTree = "<group>"; };
 		624493AA19CD0CBE00BCDDF4 /* HTMLToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLToken.h; sourceTree = "<group>"; };
 		624493AB19CD0CBE00BCDDF4 /* HTMLToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLToken.m; sourceTree = "<group>"; };
+		6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeIterator.h; sourceTree = "<group>"; };
+		6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeIterator.m; sourceTree = "<group>"; };
 		6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeFilter.h; sourceTree = "<group>"; };
 		624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokens.h; sourceTree = "<group>"; };
 		624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTokenizerTests.m; sourceTree = "<group>"; };
@@ -335,6 +340,8 @@
 				62362A3B1A9FA70400301989 /* HTMLText.m */,
 				623406DF1ADB04F9004677A3 /* HTMLTemplate.h */,
 				623406E01ADB04F9004677A3 /* HTMLTemplate.m */,
+				6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */,
+				6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */,
 				6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */,
 				623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */,
 				623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */,
@@ -568,6 +575,7 @@
 				62AE593A19F97E1C0043F069 /* HTMLDOCTYPEToken.h in Headers */,
 				6247A9471B152F8C00CCF25C /* HTMLNodeFilter.h in Headers */,
 				623424881AB467B200726190 /* HTMLOrderedDictionary.h in Headers */,
+				6247A9431B152F4F00CCF25C /* HTMLNodeIterator.h in Headers */,
 				625A150419C783EB00AD0C32 /* HTMLKit.h in Headers */,
 				625A150819C78ABA00AD0C32 /* HTMLInputStreamReader.h in Headers */,
 				6238579B1A9E8934003A45D9 /* HTMLComment.h in Headers */,
@@ -729,6 +737,7 @@
 			files = (
 				62362A3E1A9FA70400301989 /* HTMLText.m in Sources */,
 				6235CE9D1AA509430026937B /* NSString+HTMLKit.m in Sources */,
+				6247A9451B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */,
 				6238579D1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				6234BEF01AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */,
 				624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
@@ -781,6 +790,7 @@
 			files = (
 				62362A3D1A9FA70400301989 /* HTMLText.m in Sources */,
 				6235CE9C1AA509430026937B /* NSString+HTMLKit.m in Sources */,
+				6247A9441B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */,
 				6238579C1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				6234BEEF1AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */,
 				624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
