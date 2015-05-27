@@ -28,6 +28,8 @@ typedef NS_ENUM(short, TraverseDirection)
 	self = [super init];
 	if (self) {
 		_root = node;
+		_referenceNode = _root;
+		_pointerBeforeReferenceNode	= YES;
 		_whatToShow = HTMLNodeFilterShowAll;
 	}
 	return self;
