@@ -47,16 +47,16 @@ typedef NS_ENUM(short, TraverseDirection)
 				if (node == nil) {
 					return nil;
 				}
-				beforeNode = NO;
 			}
+			beforeNode = NO;
 		} else {
 			if (beforeNode) {
 				node = PrecedingNode(node, self.root);
 				if (node == nil) {
 					return nil;
 				}
-				beforeNode = YES;
 			}
+			beforeNode = YES;
 		}
 	} while (FilterNode(self, node) != HTMLNodeFilterAccept);
 
@@ -69,10 +69,10 @@ NS_INLINE HTMLNode * PrecedingNode(HTMLNode *node, HTMLNode *root)
 {
 	HTMLNode *previous = node.previousSibling;
 	if (previous != nil) {
-		while (node.lastChildNode != nil) {
-			node = node.lastChildNode;
+		while (previous.lastChildNode != nil) {
+			previous = previous.lastChildNode;
 		}
-		return node;
+		return previous;
 	}
 
 	if (node == root) {
