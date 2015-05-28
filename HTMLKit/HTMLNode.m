@@ -277,9 +277,14 @@
 
 - (HTMLNodeIterator	*)nodeIterator
 {
-	return [[HTMLNodeIterator alloc] initWithNode:self];
+	return [self nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowAll];
 }
 
+- (HTMLNodeIterator *)nodeIteratorWithFilter:(id<HTMLNodeFilter>)filter
+								 showOptions:(HTMLNodeFilterShowOptions)showOptions
+{
+	return [[HTMLNodeIterator alloc] initWithNode:self filter:filter showOptions:showOptions];
+}
 
 #ifndef HTMLKIT_NO_DOM_CHECKS
 

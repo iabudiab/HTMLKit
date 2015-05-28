@@ -20,6 +20,12 @@
 @property (nonatomic, strong, readonly) id<HTMLNodeFilter> filter;
 
 - (instancetype)initWithNode:(HTMLNode *)node;
+- (instancetype)initWithNode:(HTMLNode *)node
+					  filter:(id<HTMLNodeFilter>)filter;
+- (instancetype)initWithNode:(HTMLNode *)node
+					  filter:(id<HTMLNodeFilter>)filter
+				 showOptions:(HTMLNodeFilterShowOptions)showOptions;
+
 
 - (HTMLNode *)nextNode;
 - (HTMLNode *)previousNode;
