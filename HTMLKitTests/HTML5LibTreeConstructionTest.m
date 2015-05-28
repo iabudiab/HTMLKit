@@ -13,7 +13,6 @@
 #import "HTMLElement.h"
 #import "HTMLText.h"
 #import "HTMLComment.h"
-#import "HTMLNodeTreeEnumerator.h"
 
 static NSString * const HTML5LibTests = @"html5lib-tests";
 static NSString * const TreeConstruction = @"tree-construction";
