@@ -7,6 +7,7 @@
 //
 
 #import "HTMLNodeIterator.h"
+#import "HTMLDocument.h"
 #import "HTMLNode.h"
 
 typedef NS_ENUM(short, TraverseDirection)
@@ -15,6 +16,11 @@ typedef NS_ENUM(short, TraverseDirection)
 	TraverseDirectionPrevious
 };
 
+@interface HTMLDocument (Private)
+- (void)attachNodeIterator:(HTMLNodeIterator *)iterator;
+- (void)detachNodeIterator:(HTMLNodeIterator *)iterator;
+@end
+
 @interface HTMLNodeIterator ()
 {
 	HTMLNode *_root;
@@ -22,6 +28,8 @@ typedef NS_ENUM(short, TraverseDirection)
 @end
 
 @implementation HTMLNodeIterator
+
+#pragma mark - Lifecycle
 
 - (instancetype)initWithNode:(HTMLNode *)node
 {
@@ -45,9 +53,17 @@ typedef NS_ENUM(short, TraverseDirection)
 		_whatToShow = showOptions;
 		_referenceNode = _root;
 		_pointerBeforeReferenceNode	= YES;
+		[_root.ownerDocument attachNodeIterator:self];
 	}
 	return self;
 }
+
+- (void)dealloc
+{
+	[_root.ownerDocument detachNodeIterator:self];
+}
+
+#pragma mark - Traversal
 
 - (HTMLNode *)traverseInDirection:(TraverseDirection)direction
 {
@@ -129,11 +145,6 @@ NS_INLINE HTMLNodeFilterValue FilterNode(HTMLNodeIterator *iterator, HTMLNode *n
 	return [iterator.filter acceptNode:node];
 }
 
-- (id)nextObject
-{
-	return self.nextNode;
-}
-
 - (HTMLNode *)nextNode
 {
 	return [self traverseInDirection:TraverseDirectionNext];
@@ -142,6 +153,13 @@ NS_INLINE HTMLNodeFilterValue FilterNode(HTMLNodeIterator *iterator, HTMLNode *n
 - (HTMLNode *)previousNode
 {
 	return [self traverseInDirection:TraverseDirectionPrevious];
+}
+
+#pragma mark - NSEnumerator
+
+- (id)nextObject
+{
+	return self.nextNode;
 }
 
 @end

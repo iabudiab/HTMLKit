@@ -18,6 +18,7 @@
 @interface HTMLDocument ()
 {
 	HTMLDocument *_inertTemplateDocument;
+	NSMutableArray *_nodeIterators;
 }
 @property (nonatomic, assign) HTMLDocumentReadyState readyState;
 @end
@@ -37,6 +38,7 @@
 	self = [super initWithName:@"#document" type:HTMLNodeDocument];
 	if (self) {
 		_readyState = HTMLDocumentLoading;
+		_nodeIterators = [NSMutableArray new];
 	}
 	return self;
 }
@@ -62,6 +64,18 @@
 	} else {
 		[self appendNode:documentType];
 	}
+}
+
+#pragma mark - Node Iterators
+
+- (void)attachNodeIterator:(HTMLNodeIterator *)iterator
+{
+	[_nodeIterators addObject:iterator];
+}
+
+- (void)detachNodeIterator:(HTMLNodeIterator *)iterator
+{
+	[_nodeIterators removeObject:iterator];
 }
 
 #pragma mark - Mutation Algorithms
