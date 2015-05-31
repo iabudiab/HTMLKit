@@ -25,6 +25,17 @@ typedef NS_ENUM(short, HTMLNodeType)
 	HTMLNodeNotation = 12 // historical
 };
 
+typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
+{
+	HTMLDocumentPositionEquivalent = 0x0,
+	HTMLDocumentPositionDisconnected = 0x01,
+	HTMLDocumentPositionPreceding = 0x02,
+	HTMLDocumentPositionFollowing = 0x04,
+	HTMLDocumentPositionContains = 0x08,
+	HTMLDocumentPositionContainedBy = 0x10,
+	HTMLDocumentPositionImplementationSpecific = 0x20
+};
+
 @class HTMLDocument;
 @class HTMLElement;
 
@@ -95,6 +106,10 @@ typedef NS_ENUM(short, HTMLNodeType)
 - (void)reparentChildNodesIntoNode:(HTMLNode *)node;
 
 - (void)removeAllChildNodes;
+
+- (HTMLDocumentPosition)compareDocumentPositionWithNode:(HTMLNode *)node;
+- (BOOL)isDescendantOfNode:(HTMLNode *)node;
+- (BOOL)containsNode:(HTMLNode *)node;
 
 - (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block;
 

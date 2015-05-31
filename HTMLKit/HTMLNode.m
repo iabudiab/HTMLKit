@@ -249,6 +249,86 @@
 	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
 }
 
+- (HTMLDocumentPosition)compareDocumentPositionWithNode:(HTMLNode *)otherNode
+{
+	if (otherNode == nil) {
+		return HTMLDocumentPositionDisconnected;
+	}
+
+	if (self == otherNode) {
+		return HTMLDocumentPositionEquivalent;
+	}
+
+	NSArray * (^ ancestorNodes) (HTMLNode *) = ^ NSArray * (HTMLNode *node) {
+		NSMutableArray *ancestors = [NSMutableArray array];
+		for (HTMLNode *node = self; node; node = node.parentNode) {
+			[ancestors addObject:node];
+		}
+		return ancestors;
+	};
+
+	NSArray *ancestors1 = ancestorNodes(self);
+	NSArray *ancestors2 = ancestorNodes(otherNode);
+
+	if (ancestors1.lastObject != ancestors2.lastObject) {
+		return HTMLDocumentPositionDisconnected |
+		HTMLDocumentPositionImplementationSpecific |
+		HTMLDocumentPositionFollowing;
+	}
+
+	for (NSUInteger i = MIN(ancestors1.count - 1, ancestors2.count - 1); i; --i) {
+		HTMLNode *child1 = ancestors1[i];
+		HTMLNode *child2 = ancestors2[i];
+
+		if (child1 != child2) {
+			for (HTMLNode *sibling = child1.nextSibling; sibling; sibling = sibling.nextSibling) {
+				if (sibling == child2) {
+					return HTMLDocumentPositionFollowing;
+				}
+			}
+			return HTMLDocumentPositionPreceding;
+		}
+	}
+
+	if (ancestors1.count < ancestors2.count) {
+		return HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing;
+	} else {
+		return HTMLDocumentPositionContains | HTMLDocumentPositionPreceding;
+	}
+}
+
+- (BOOL)isDescendantOfNode:(HTMLNode *)otherNode
+{
+	if (otherNode == nil) {
+		return NO;
+	}
+
+	if (self.ownerDocument != otherNode.ownerDocument) {
+		return NO;
+	}
+
+	if (!otherNode.hasChildNodes) {
+		return NO;
+	}
+
+	if (otherNode.nodeType == HTMLNodeDocument) {
+		return self.nodeType != HTMLNodeDocument && self.ownerDocument == otherNode;
+	}
+
+	for (HTMLNode *parentNode = self.parentNode; parentNode; parentNode = parentNode.parentNode) {
+		if (parentNode == otherNode) {
+			return YES;
+		}
+	}
+
+	return NO;
+}
+
+- (BOOL)containsNode:(HTMLNode *)otherNode
+{
+	return self == otherNode || [otherNode isDescendantOfNode:self];
+}
+
 #pragma mark - Enumeration
 
 - (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block
