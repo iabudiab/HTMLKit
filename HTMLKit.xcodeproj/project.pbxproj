@@ -357,14 +357,14 @@
 			name = "Tree Construction";
 			sourceTree = "<group>";
 		};
-		624B9FB71AE072CB00646C4C /* Nodes */ = {
+		624B9FB71AE072CB00646C4C /* DOM */ = {
 			isa = PBXGroup;
 			children = (
 				623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */,
 				624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */,
 				62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */,
 			);
-			name = Nodes;
+			name = DOM;
 			sourceTree = "<group>";
 		};
 		624B9FB81AE072D500646C4C /* Categories */ = {
@@ -456,7 +456,7 @@
 			children = (
 				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				623975581AC362A5007E26F1 /* Tree Construction */,
-				624B9FB71AE072CB00646C4C /* Nodes */,
+				624B9FB71AE072CB00646C4C /* DOM */,
 				624B9FB81AE072D500646C4C /* Categories */,
 				624E1A2D1B1D1C8A00E66AAC /* Structures */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
