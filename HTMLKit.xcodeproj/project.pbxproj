@@ -361,7 +361,6 @@
 			isa = PBXGroup;
 			children = (
 				623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */,
-				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
 				624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */,
 				62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */,
 			);
@@ -374,6 +373,14 @@
 				624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		624E1A2D1B1D1C8A00E66AAC /* Structures */ = {
+			isa = PBXGroup;
+			children = (
+				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
+			);
+			name = Structures;
 			sourceTree = "<group>";
 		};
 		625A14A219C7829400AD0C32 = {
@@ -451,6 +458,7 @@
 				623975581AC362A5007E26F1 /* Tree Construction */,
 				624B9FB71AE072CB00646C4C /* Nodes */,
 				624B9FB81AE072D500646C4C /* Categories */,
+				624E1A2D1B1D1C8A00E66AAC /* Structures */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
 			);
 			name = Tests;
