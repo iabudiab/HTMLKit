@@ -16,6 +16,12 @@
 @property (nonatomic, weak) HTMLNode *parentNode;
 @end
 
+@interface HTMLNodeIterator (Private)
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
+				  withOldParent:(HTMLNode *)oldParent
+		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
+@end
+
 @interface HTMLDocument ()
 {
 	HTMLDocument *_inertTemplateDocument;
@@ -124,6 +130,17 @@
 - (void)detachNodeIterator:(HTMLNodeIterator *)iterator
 {
 	[_nodeIterators removeObject:iterator];
+}
+
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
+				  withOldParent:(HTMLNode *)oldParent
+		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling
+{
+	for (HTMLNodeIterator *iterator in _nodeIterators) {
+		[iterator runRemovingStepsForNode:oldNode
+							 withOldParent:oldParent
+					 andOldPreviousSibling:oldPreviousSibling];
+	}
 }
 
 #pragma mark - Mutation Algorithms

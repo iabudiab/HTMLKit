@@ -14,6 +14,12 @@
 #import "HTMLComment.h"
 #import "HTMLKitDOMExceptions.h"
 
+@interface HTMLDocument (Private)
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
+				  withOldParent:(HTMLNode *)oldParent
+		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
+@end
+
 @interface HTMLNode ()
 {
 	NSMutableOrderedSet *_childNodes;
@@ -224,8 +230,16 @@
 		 NSStringFromSelector(_cmd), child];
 	}
 
+	HTMLNode *oldNode = child;
+	HTMLNode *oldParent = child.parentNode;
+	HTMLNode *oldPreviousSibling = child.previousSibling;
+
 	[(NSMutableOrderedSet *)self.childNodes removeObject:child];
 	child.parentNode = nil;
+
+	[self.ownerDocument runRemovingStepsForNode:oldNode
+								  withOldParent:oldParent
+						  andOldPreviousSibling:oldPreviousSibling];
 	return child;
 }
 

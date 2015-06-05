@@ -32,7 +32,7 @@
 
 @implementation HTMLKitNodeIteratorTests
 
-#pragma mark - Elements
+#pragma mark - Test DOM
 
 - (HTMLElement *)div
 {
@@ -133,7 +133,25 @@
 	return document;
 }
 
-#pragma mark - Tests
+- (HTMLDocument *)document
+{
+	NSString *htmlString =
+	@"<!DOCTYPE html>"
+	@"<html>"
+	@"<head>"
+	@"<title>Title</title>"
+	@"</head>"
+	@"<body>"
+	@"<span>Hello<strong>World!</strong><strong>HTML <!-- This is a Comment! --> Kit</strong></span>"
+	@"<p>This is an <em>Important</em> paragraph</p>"
+	@"</body>"
+	@"</html>";
+
+	HTMLDocument *document = [HTMLDocument documentWithString:htmlString];
+	return document;
+}
+
+#pragma mark - Test Iterator
 
 - (void)testNodeIteratorInit
 {
@@ -228,6 +246,8 @@
 	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
 }
 
+#pragma mark - Test Iterator ShowOptions (WhatToShow)
+
 - (void)testShowDocument
 {
 	HTMLDocument *document = self.mixedTree;
@@ -301,6 +321,8 @@
 	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
 }
 
+#pragma mark - Test Iterator Filter
+
 - (void)testNodeFilter
 {
 	HTMLDocument *document = self.mixedTree;
@@ -313,6 +335,244 @@
 	XCTAssertEqual(result.count, 1);
 	XCTAssertEqualObjects([result[0] data], @"This is a second Comment");
 	XCTAssertEqualObjects([result valueForKey:@"name"], expected);
+}
+
+#pragma mark - Test Removing Steps
+
+/*
+ Test cases for the Removing Steps
+ https://dom.spec.whatwg.org/#interface-nodeiterator
+
+ Following DOM is used:
+
+| <html>
+| <head>
+|   <title>
+|     "Title"
+|   <body>
+|     <span>
+|       "Hello"
+|       <strong>
+|         "World!"
+|       <strong>
+|         "HTML "
+|         <!--  This is a Comment!  -->
+|         " Kit"
+|     <p>
+|       "This is an "
+|       <em>
+|         "Important"
+|       " paragraph"
+*/
+
+static void (^ RemoveThenInsertNode)(HTMLNode *) = ^ (HTMLNode *node) {
+	HTMLNode *parent = node.parentNode;
+	HTMLNode *nextSibling = node.nextSibling;
+	[parent removeChildNode:node];
+	[parent insertNode:node beforeChildNode:nextSibling];
+};
+
+static void (^ IterateUpToNode)(HTMLNodeIterator *, HTMLNode *) = ^ (HTMLNodeIterator *iterator, HTMLNode *target) {
+	for(HTMLNode *node = iterator.referenceNode; node && (node != target); node = iterator.nextNode);
+};
+
+static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node) {
+	while (node.lastChildNode) {
+		node = node.lastChildNode;
+	}
+	return node;
+};
+
+- (void)testThatRemovingRootNodeShouldNotAffectIterator
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *node = document.body.firstChiledNode; // <span>
+
+	HTMLNodeIterator *iterator = node.nodeIterator;
+
+	[document.body removeChildNode:node];
+
+	XCTAssertEqualObjects(iterator.root, node);
+	XCTAssertEqualObjects(iterator.referenceNode, node);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, YES);
+	XCTAssertEqualObjects(iterator.referenceNode.parentNode, nil);
+}
+
+- (void)testThatRemovingANonInclusiveAnscestorOfReferenceShouldNotAffectIterator
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *body = document.body;
+
+	HTMLNodeIterator *iterator = body.nodeIterator;
+
+	[iterator nextNode]; // Reference node: <body>
+	[iterator nextNode]; // Reference node: <span>
+
+	RemoveThenInsertNode(iterator.root.childNodes[1]); // Remove <p>
+
+	XCTAssertEqualObjects(iterator.root, body);
+	XCTAssertEqualObjects(iterator.referenceNode, body.firstChiledNode);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
+}
+
+- (void)testThatRemovingReferenceNodeShouldUpdateIterator_NilOldPreviousSibling
+{
+	HTMLDocument *document = self.document;
+
+	HTMLNodeIterator *iterator = document.body.nodeIterator;
+
+	[iterator nextNode]; // Reference node: <body>
+
+	HTMLNode *node = iterator.nextNode; // Reference node: <span>
+	RemoveThenInsertNode(node); // Remove <span> with old previos sibling being nil
+
+	XCTAssertEqualObjects(iterator.referenceNode, iterator.root);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
+
+	HTMLNode *next = iterator.nextNode; // "Hello"
+	XCTAssertEqualObjects(next, iterator.root.firstChiledNode);
+}
+
+- (void)testThatRemovingReferenceNodeShouldUpdateIterator_NonNilOldPreviousSibling_NotBeforeReference
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *body = document.body;
+
+	HTMLNodeIterator *iterator = body.nodeIterator;
+
+	HTMLNode *node = iterator.root.childNodes[1]; // <p>
+	IterateUpToNode(iterator, node); // Reference node: <p>, pointer-before-reference: NO
+	RemoveThenInsertNode(node); // Remove <p> with old previos sibling being <span>
+
+	XCTAssertEqualObjects(iterator.referenceNode, LastDescendant(body.firstChiledNode));
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
+}
+
+- (void)testThatRemovingReferenceNodeShouldUpdateIterator_NonNilOldPreviousSibling_BeforeReference
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *body = document.body;
+
+	HTMLNodeIterator *iterator = body.nodeIterator;
+
+	HTMLNode *node = iterator.root.childNodes[1]; // <p>
+	IterateUpToNode(iterator, node); // Reference node: <p>, pointer-before-reference: NO
+	[iterator previousNode]; // pointer-before-reference: YES
+	RemoveThenInsertNode(node); // Remove <p> with old previos sibling being <span>
+
+	XCTAssertEqualObjects(iterator.referenceNode, body.firstChiledNode);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, YES);
+}
+
+- (void)testThatRemovingThenReinsertingReferenceNodeAfterNextShouldReturnItAgain
+{
+	HTMLDocument *document = self.document;
+	HTMLNodeIterator *iterator = document.body.nodeIterator;
+
+	[iterator nextNode]; // Reference node: <body>
+
+	HTMLNode *node = iterator.nextNode; // <span>
+	RemoveThenInsertNode(node);
+
+	XCTAssertEqualObjects(iterator.referenceNode, iterator.root);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
+
+	HTMLNode *next = iterator.nextNode;
+	XCTAssertEqualObjects(next, node);
+}
+
+- (void)testThatRemovingThenReinsertingReferenceNodeAfterPreviousShouldReturnItAgain
+{
+	HTMLDocument *document = self.document;
+	HTMLNodeIterator *iterator = document.body.nodeIterator;
+
+	[iterator nextNode]; // Reference node: <body>
+	[iterator nextNode]; // Reference node: <span>
+
+	HTMLNode *node = iterator.previousNode; // Reference node: <span>, pointer-before-reference: YES
+	HTMLNode *next = node.nextSibling; // <p>
+	RemoveThenInsertNode(node);
+
+	XCTAssertEqualObjects(iterator.referenceNode, next);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, YES);
+
+	HTMLNode *previous = iterator.previousNode;
+	XCTAssertEqualObjects(previous, LastDescendant(node));
+}
+
+- (void)testThatRemovingParentOfReferenceNodeShouldUpdateIterator_NotBeforeReference
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *body = document.body;
+
+	HTMLNodeIterator *iterator = body.nodeIterator;
+	HTMLNode *parent = body.childNodes[1];
+
+	IterateUpToNode(iterator, parent); // Reference node: <p>, pointer-before-reference: NO
+	[iterator nextNode]; // Reference node: "This is an "
+	RemoveThenInsertNode(parent);
+
+	XCTAssertEqualObjects(iterator.referenceNode, LastDescendant(body.firstChiledNode));
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
+}
+
+- (void)testThatRemovingParentOfReferenceNodeShouldUpdateIterator_BeforeReference
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *body = document.body;
+
+	HTMLNodeIterator *iterator = body.nodeIterator;
+	HTMLNode *parent = body.childNodes[1];
+
+	IterateUpToNode(iterator, parent); // Reference node: <p>, pointer-before-reference: NO
+	[iterator nextNode]; // Reference node: "This is an "
+	[iterator previousNode]; // pointer-before-reference: YES
+	RemoveThenInsertNode(parent);
+
+	XCTAssertEqualObjects(iterator.referenceNode, body.firstChiledNode);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, YES);
+}
+
+- (void)testRemoveReferenceNode_NilPreviousSibling_NonNilParentFirstChild
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *body = document.body;
+
+	HTMLNodeIterator *iterator = body.nodeIterator;
+
+	[iterator nextNode]; // Reference node: <body>
+	[iterator nextNode]; // Reference node: <span>
+
+	HTMLNode *node = iterator.previousNode; // Reference node: <span>, pointer-before-reference: YES
+	XCTAssertNil(node.previousSibling);
+	XCTAssertNotNil(node.nextSibling);
+
+	HTMLNode *nextSibling = node.nextSibling; // <p>
+	RemoveThenInsertNode(node);
+
+	XCTAssertEqualObjects(iterator.referenceNode, nextSibling);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, YES);
+
+	HTMLNode *next = iterator.nextNode; // <p>
+	XCTAssertNotEqualObjects(next, node);
+	XCTAssertEqualObjects(next, nextSibling);
+}
+
+- (void)testRemoveReferenceNode_NodeAfterOldParentIsOutsideRoot_BeforeReference
+{
+	HTMLDocument *document = self.document;
+	HTMLNode *body = document.body;
+
+	body.innerHTML = @"<div><p><a></a></p></div><div></div>";
+
+	HTMLNodeIterator *iterator = body.firstChiledNode.nodeIterator;
+
+	IterateUpToNode(iterator, LastDescendant(body.firstChiledNode)); // Referecne node: <a>
+	HTMLNode *node = [iterator previousNode]; // pointer-before-reference: YES
+	RemoveThenInsertNode(node);
+
+	XCTAssertEqualObjects(iterator.referenceNode, iterator.root.firstChiledNode);
+	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
 }
 
 @end
