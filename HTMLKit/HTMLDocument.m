@@ -8,6 +8,7 @@
 
 #import "HTMLDocument.h"
 #import "HTMLParser.h"
+#import "HTMLNodeIterator.h"
 #import "HTMLKitDOMExceptions.h"
 
 @interface HTMLNode (Private)
@@ -64,6 +65,53 @@
 	} else {
 		[self appendNode:documentType];
 	}
+}
+
+#pragma mark - 
+
+- (HTMLElement *)rootElement
+{
+	for (HTMLNode *node = self.firstChiledNode; node; node = node.nextSibling) {
+		if (node.nodeType == HTMLNodeElement) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setRootElement:(HTMLElement *)rootElement
+{
+	[self replaceChildNode:self.rootElement withNode:rootElement];
+}
+
+- (HTMLElement *)head
+{
+	for (HTMLNode *node in [self nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowElement]) {
+		if ([node.asElement.tagName isEqualToString:@"head"]) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setHead:(HTMLElement *)head
+{
+	[self replaceChildNode:self.head withNode:head];
+}
+
+- (HTMLElement *)body
+{
+	for (HTMLNode *node in [self nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowElement]) {
+		if ([node.asElement.tagName isEqualToString:@"body"]) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setBody:(HTMLElement *)body
+{
+	[self replaceChildNode:self.body withNode:body];
 }
 
 #pragma mark - Node Iterators
