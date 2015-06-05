@@ -15,7 +15,7 @@ typedef NS_ENUM(unsigned short, HTMLNodeFilterValue)
 	HTMLNodeFilterSkip = 3
 };
 
-typedef NS_ENUM(unsigned long, HTMLNodeFilterShowOptions)
+typedef NS_OPTIONS(unsigned long, HTMLNodeFilterShowOptions)
 {
 	HTMLNodeFilterShowAll = 0xFFFFFFFF,
 	HTMLNodeFilterShowElement = 0x1,
