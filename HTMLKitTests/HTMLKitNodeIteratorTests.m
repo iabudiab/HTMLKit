@@ -9,23 +9,6 @@
 #import <XCTest/XCTest.h>
 #import "HTMLDOM.h"
 
-@interface CommentNodeFilter : NSObject <HTMLNodeFilter>
-@end
-
-@implementation CommentNodeFilter
-
-- (BOOL)acceptNode:(HTMLNode *)node
-{
-	if (node.nodeType == HTMLNodeComment) {
-		if ([[(HTMLComment *)node data] rangeOfString:@"second"].location != NSNotFound) {
-			return YES;
-		}
-	}
-	return NO;
-}
-
-@end
-
 @interface HTMLKitNodeIteratorTests : XCTestCase
 
 @end
@@ -327,8 +310,14 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowAll
-																filter:[CommentNodeFilter new]];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowAll filterBlock:^BOOL(HTMLNode *node) {
+		if (node.nodeType == HTMLNodeComment) {
+			if ([[(HTMLComment *)node data] rangeOfString:@"second"].location != NSNotFound) {
+				return YES;
+			}
+		}
+		return NO;
+	}];
 
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"#comment"];

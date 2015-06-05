@@ -19,6 +19,10 @@
 @property (nonatomic, assign, readonly) HTMLNodeFilterShowOptions whatToShow;
 @property (nonatomic, strong, readonly) id<HTMLNodeFilter> filter;
 
++ (instancetype)iteratorWithNode:(HTMLNode *)node
+					 showOptions:(HTMLNodeFilterShowOptions)showOptions
+						  filter:(BOOL (^)(HTMLNode *node))filter;
+
 - (instancetype)initWithNode:(HTMLNode *)node;
 - (instancetype)initWithNode:(HTMLNode *)node
 					  filter:(id<HTMLNodeFilter>)filter;

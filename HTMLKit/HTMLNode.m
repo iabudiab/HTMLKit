@@ -380,6 +380,12 @@
 	return [[HTMLNodeIterator alloc] initWithNode:self showOptions:showOptions filter:filter];
 }
 
+- (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
+									  filterBlock:(BOOL (^)(HTMLNode *node))filter
+{
+	return [HTMLNodeIterator iteratorWithNode:self showOptions:showOptions filter:filter];
+}
+
 #ifndef HTMLKIT_NO_DOM_CHECKS
 
 #pragma mark - Validity Checks

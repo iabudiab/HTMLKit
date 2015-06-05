@@ -26,3 +26,9 @@ typedef NS_ENUM(unsigned long, HTMLNodeFilterShowOptions)
 - (BOOL)acceptNode:(HTMLNode *)node;
 
 @end
+
+@interface HTMLNodeFilterBlock : NSObject <HTMLNodeFilter>
+
++ (instancetype)filterWithBlock:(BOOL (^)(HTMLNode *node))block;
+
+@end

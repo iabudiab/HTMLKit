@@ -10,6 +10,8 @@
 #import "HTMLDocument.h"
 #import "HTMLNode.h"
 
+#import <objc/runtime.h>
+
 typedef NS_ENUM(short, TraverseDirection)
 {
 	TraverseDirectionNext,
@@ -30,6 +32,15 @@ typedef NS_ENUM(short, TraverseDirection)
 @implementation HTMLNodeIterator
 
 #pragma mark - Lifecycle
+
++ (instancetype)iteratorWithNode:(HTMLNode *)node
+					 showOptions:(HTMLNodeFilterShowOptions)showOptions
+						  filter:(BOOL (^)(HTMLNode *))filter
+{
+	return [[self alloc] initWithNode:node
+						  showOptions:showOptions
+							   filter:[HTMLNodeFilterBlock filterWithBlock:filter]];
+}
 
 - (instancetype)initWithNode:(HTMLNode *)node
 {
