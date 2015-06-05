@@ -46,7 +46,22 @@ HTMLNode * FollowingNode(HTMLNode *node, HTMLNode *root)
 	return nil;
 }
 
-extern BOOL FilterNode(id<HTMLNodeFilter> filter, HTMLNodeFilterShowOptions whatToShow, HTMLNode *node)
+HTMLNode * FollowingNodeSkippingChildren(HTMLNode *node, HTMLNode *root)
+{
+	do {
+		if (node == root) {
+			return nil;
+		}
+		if (node.nextSibling != nil) {
+			return node.nextSibling;
+		}
+		node = node.parentNode;
+	} while (node != nil);
+
+	return nil;
+}
+
+BOOL FilterNode(id<HTMLNodeFilter> filter, HTMLNodeFilterShowOptions whatToShow, HTMLNode *node)
 {
 	unsigned long nthBit = (1 << (node.nodeType - 1)) & whatToShow;
 	if (!nthBit) {

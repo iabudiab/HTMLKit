@@ -71,6 +71,9 @@
 		6247171A1B22333200C11912 /* HTMLNodeTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717171B22333200C11912 /* HTMLNodeTraversal.m */; };
 		624717B81B21FE5400B38302 /* HTMLNodeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717B71B21FE5400B38302 /* HTMLNodeFilter.m */; };
 		624717B91B21FE5400B38302 /* HTMLNodeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717B71B21FE5400B38302 /* HTMLNodeFilter.m */; };
+		624717BC1B22009200B38302 /* HTMLTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717BA1B22009200B38302 /* HTMLTreeWalker.h */; };
+		624717BD1B22009200B38302 /* HTMLTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717BB1B22009200B38302 /* HTMLTreeWalker.m */; };
+		624717BE1B22009200B38302 /* HTMLTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717BB1B22009200B38302 /* HTMLTreeWalker.m */; };
 		6247A9431B152F4F00CCF25C /* HTMLNodeIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */; };
 		6247A9441B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */; };
 		6247A9451B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */; };
@@ -219,6 +222,8 @@
 		624717161B22333200C11912 /* HTMLNodeTraversal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeTraversal.h; sourceTree = "<group>"; };
 		624717171B22333200C11912 /* HTMLNodeTraversal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeTraversal.m; sourceTree = "<group>"; };
 		624717B71B21FE5400B38302 /* HTMLNodeFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeFilter.m; sourceTree = "<group>"; };
+		624717BA1B22009200B38302 /* HTMLTreeWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeWalker.h; sourceTree = "<group>"; };
+		624717BB1B22009200B38302 /* HTMLTreeWalker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeWalker.m; sourceTree = "<group>"; };
 		6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeIterator.h; sourceTree = "<group>"; };
 		6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeIterator.m; sourceTree = "<group>"; };
 		6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeFilter.h; sourceTree = "<group>"; };
@@ -345,6 +350,8 @@
 				623406E01ADB04F9004677A3 /* HTMLTemplate.m */,
 				6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */,
 				6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */,
+				624717BA1B22009200B38302 /* HTMLTreeWalker.h */,
+				624717BB1B22009200B38302 /* HTMLTreeWalker.m */,
 				624717161B22333200C11912 /* HTMLNodeTraversal.h */,
 				624717171B22333200C11912 /* HTMLNodeTraversal.m */,
 				6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */,
@@ -596,6 +603,7 @@
 				623857961A9E8606003A45D9 /* HTMLDocumentType.h in Headers */,
 				623406E61ADB05AD004677A3 /* HTMLDocumentFragment.h in Headers */,
 				62363C3D1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h in Headers */,
+				624717BC1B22009200B38302 /* HTMLTreeWalker.h in Headers */,
 				62362A3C1A9FA70400301989 /* HTMLText.h in Headers */,
 				6234584E1A9D2FA4009BD491 /* HTMLNode.h in Headers */,
 			);
@@ -755,6 +763,7 @@
 				624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				6235CEA21AA5170A0026937B /* HTMLMarker.m in Sources */,
 				6234248A1AB467B200726190 /* HTMLOrderedDictionary.m in Sources */,
+				624717BE1B22009200B38302 /* HTMLTreeWalker.m in Sources */,
 				62AE594119F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594619F992F30043F069 /* HTMLCommentToken.m in Sources */,
 				62363C3F1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
@@ -809,6 +818,7 @@
 				624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				6235CEA11AA5170A0026937B /* HTMLMarker.m in Sources */,
 				623424891AB467B200726190 /* HTMLOrderedDictionary.m in Sources */,
+				624717BD1B22009200B38302 /* HTMLTreeWalker.m in Sources */,
 				62AE594019F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594519F992F30043F069 /* HTMLCommentToken.m in Sources */,
 				62363C3E1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
