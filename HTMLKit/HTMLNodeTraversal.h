@@ -14,4 +14,4 @@
 extern HTMLNode * PrecedingNode(HTMLNode *node, HTMLNode *root);
 extern HTMLNode * FollowingNode(HTMLNode *node, HTMLNode *root);
 extern HTMLNode * FollowingNodeSkippingChildren(HTMLNode *node, HTMLNode *root);
-extern BOOL FilterNode(id<HTMLNodeFilter> filter, HTMLNodeFilterShowOptions whatToShow, HTMLNode *node);
+extern HTMLNodeFilterValue FilterNode(id<HTMLNodeFilter> filter, HTMLNodeFilterShowOptions whatToShow, HTMLNode *node);

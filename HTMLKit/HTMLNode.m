@@ -381,7 +381,7 @@
 }
 
 - (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
-									  filterBlock:(BOOL (^)(HTMLNode *node))filter
+									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter
 {
 	return [HTMLNodeIterator iteratorWithNode:self showOptions:showOptions filter:filter];
 }

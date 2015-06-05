@@ -21,7 +21,7 @@
 
 + (instancetype)iteratorWithNode:(HTMLNode *)node
 					 showOptions:(HTMLNodeFilterShowOptions)showOptions
-						  filter:(BOOL (^)(HTMLNode *node))filter;
+						  filter:(HTMLNodeFilterValue (^)(HTMLNode *node))filter;
 
 - (instancetype)initWithNode:(HTMLNode *)node;
 - (instancetype)initWithNode:(HTMLNode *)node

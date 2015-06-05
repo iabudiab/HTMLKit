@@ -16,12 +16,12 @@
 
 @implementation HTMLNodeFilterBlock
 
-+ (instancetype)filterWithBlock:(BOOL (^)(HTMLNode *))block
++ (instancetype)filterWithBlock:(HTMLNodeFilterValue (^)(HTMLNode *))block
 {
 	return [[self alloc] initWithBlock:block];
 }
 
-- (instancetype)initWithBlock:(BOOL (^)(HTMLNode *))block
+- (instancetype)initWithBlock:(HTMLNodeFilterValue (^)(HTMLNode *))block
 {
 	self = [super init];
 	if (self) {
@@ -30,10 +30,10 @@
 	return self;
 }
 
-- (BOOL)acceptNode:(HTMLNode *)node
+- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
 {
 	if (!_block) {
-		return NO;
+		return HTMLNodeFilterSkip;
 	}
 
 	return _block(node);

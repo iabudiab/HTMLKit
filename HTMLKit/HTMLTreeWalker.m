@@ -43,6 +43,20 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 
 #pragma mark - Traversal
 
+- (HTMLNode *)parentNode
+{
+	HTMLNode *node = _currentNode;
+
+	while (node != nil && node != _root) {
+		node = node.parentNode;
+		if (node != nil && FilterNode(self.filter, self.whatToShow, node) == HTMLNodeFilterAccept) {
+			_currentNode = node;
+			return node;
+		}
+	}
+	return nil;
+}
+
 - (HTMLNode *)traverseChildrenOfType:(HTMLTreeWalkerChildrenType)type
 {
 	HTMLNode *node = _currentNode;
@@ -50,16 +64,18 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 	node = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.firstChiledNode : node.lastChildNode;
 
 	while (node != nil) {
-		BOOL result = FilterNode(self.filter, self.whatToShow, node);
-		if (result) {
+		HTMLNodeFilterValue result = FilterNode(self.filter, self.whatToShow, node);
+		if (result == HTMLNodeFilterAccept) {
 			_currentNode = node;
 			return node;
 		}
 
-		HTMLNode *child = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.firstChiledNode : node.lastChildNode;
-		if (child != nil) {
-			node = child;
-			continue;
+		if (result == HTMLNodeFilterSkip) {
+			HTMLNode *child = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.firstChiledNode : node.lastChildNode;
+			if (child != nil) {
+				node = child;
+				continue;
+			}
 		}
 
 		while (node != nil) {
@@ -77,20 +93,6 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 		}
 	}
 
-	return nil;
-}
-
-- (HTMLNode *)parentNode
-{
-	HTMLNode *node = _currentNode;
-
-	while (node != nil && node != _root) {
-		node = node.parentNode;
-		if (node != nil && FilterNode(self.filter, self.whatToShow, node)) {
-			_currentNode = node;
-			return node;
-		}
-	}
 	return nil;
 }
 
@@ -116,8 +118,8 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 		HTMLNode *sibling = (type == HTMLTreeWalkerSiblingsTypeNext) ? node.nextSibling : node.previousSibling;
 		while (sibling != nil) {
 			node = sibling;
-			BOOL result = FilterNode(self.filter, self.whatToShow, node);
-			if (result) {
+			HTMLNodeFilterValue result = FilterNode(self.filter, self.whatToShow, node);
+			if (result == HTMLNodeFilterAccept) {
 				_currentNode = node;
 				return node;
 			}
@@ -133,10 +135,11 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 			return nil;
 		}
 
-		if (FilterNode(self.filter, self.whatToShow, node)) {
+		if (FilterNode(self.filter, self.whatToShow, node) == HTMLNodeFilterAccept) {
 			return nil;
 		}
 	}
+
 	return nil;
 }
 
@@ -160,13 +163,13 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 		while (sibling != nil) {
 			node = sibling;
 
-			BOOL result = FilterNode(self.filter, self.whatToShow, node);
-			while (result && node.hasChildNodes) {
+			HTMLNodeFilterValue result = FilterNode(self.filter, self.whatToShow, node);
+			while (result != HTMLNodeFilterReject && node.hasChildNodes) {
 				node = node.lastChildNode;
 				result = FilterNode(self.filter, self.whatToShow, node);
 			}
 
-			if (result) {
+			if (result == HTMLNodeFilterAccept) {
 				_currentNode = node;
 				return node;
 			}
@@ -179,7 +182,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 		}
 
 		node = node.parentNode;
-		if (FilterNode(self.filter, self.whatToShow, node)) {
+		if (FilterNode(self.filter, self.whatToShow, node) == HTMLNodeFilterAccept) {
 			_currentNode = node;
 			return node;
 		}
@@ -192,13 +195,13 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 {
 	HTMLNode *node = _currentNode;
 
-	BOOL result = YES;
+	HTMLNodeFilterValue result = YES;
 
 	while (YES) {
-		while (!result && node.hasChildNodes) {
+		while (result != HTMLNodeFilterReject && node.hasChildNodes) {
 			node = node.firstChiledNode;
 			result = FilterNode(self.filter, self.whatToShow, node);
-			if (result) {
+			if (result == HTMLNodeFilterAccept) {
 				_currentNode = node;
 				return node;
 			}
@@ -208,7 +211,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 		while ((nextSibling = FollowingNodeSkippingChildren(node, _root)) != nil) {
 			node = nextSibling;
 			result = FilterNode(self.filter, self.whatToShow, node);
-			if (result) {
+			if (result == HTMLNodeFilterAccept) {
 				_currentNode = node;
 				return node;
 			}

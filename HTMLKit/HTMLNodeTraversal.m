@@ -61,15 +61,15 @@ HTMLNode * FollowingNodeSkippingChildren(HTMLNode *node, HTMLNode *root)
 	return nil;
 }
 
-BOOL FilterNode(id<HTMLNodeFilter> filter, HTMLNodeFilterShowOptions whatToShow, HTMLNode *node)
+HTMLNodeFilterValue FilterNode(id<HTMLNodeFilter> filter, HTMLNodeFilterShowOptions whatToShow, HTMLNode *node)
 {
 	unsigned long nthBit = (1 << (node.nodeType - 1)) & whatToShow;
 	if (!nthBit) {
-		return NO;
+		return HTMLNodeFilterSkip;
 	}
 
 	if (filter == nil) {
-		return YES;
+		return HTMLNodeFilterAccept;
 	}
 
 	return [filter acceptNode:node];

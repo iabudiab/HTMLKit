@@ -310,13 +310,14 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowAll filterBlock:^BOOL(HTMLNode *node) {
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowAll
+														   filterBlock:^HTMLNodeFilterValue(HTMLNode *node) {
 		if (node.nodeType == HTMLNodeComment) {
 			if ([[(HTMLComment *)node data] rangeOfString:@"second"].location != NSNotFound) {
-				return YES;
+				return  HTMLNodeFilterAccept;
 			}
 		}
-		return NO;
+		return HTMLNodeFilterSkip;
 	}];
 
 	NSArray *result = iterator.allObjects;

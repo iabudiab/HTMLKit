@@ -35,7 +35,7 @@ typedef NS_ENUM(short, TraverseDirection)
 
 + (instancetype)iteratorWithNode:(HTMLNode *)node
 					 showOptions:(HTMLNodeFilterShowOptions)showOptions
-						  filter:(BOOL (^)(HTMLNode *))filter
+						  filter:(HTMLNodeFilterValue (^)(HTMLNode *))filter
 {
 	return [[self alloc] initWithNode:node
 						  showOptions:showOptions
@@ -139,7 +139,7 @@ typedef NS_ENUM(short, TraverseDirection)
 			}
 			beforeNode = YES;
 		}
-	} while (!FilterNode(self.filter, self.whatToShow, node));
+	} while (FilterNode(self.filter, self.whatToShow, node) != HTMLNodeFilterAccept);
 
 	_referenceNode = node;
 	_pointerBeforeReferenceNode = beforeNode;
