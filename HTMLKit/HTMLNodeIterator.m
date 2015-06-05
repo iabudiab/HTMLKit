@@ -9,8 +9,8 @@
 #import "HTMLNodeIterator.h"
 #import "HTMLDocument.h"
 #import "HTMLNode.h"
-
-#import <objc/runtime.h>
+#import "HTMLNodeFilter.h"
+#import "HTMLNodeTraversal.h"
 
 typedef NS_ENUM(short, TraverseDirection)
 {
@@ -139,61 +139,11 @@ typedef NS_ENUM(short, TraverseDirection)
 			}
 			beforeNode = YES;
 		}
-	} while (!FilterNode(self, node));
+	} while (!FilterNode(self.filter, self.whatToShow, node));
 
 	_referenceNode = node;
 	_pointerBeforeReferenceNode = beforeNode;
 	return node;
-}
-
-NS_INLINE HTMLNode * PrecedingNode(HTMLNode *node, HTMLNode *root)
-{
-	HTMLNode *previous = node.previousSibling;
-	if (previous != nil) {
-		while (previous.lastChildNode != nil) {
-			previous = previous.lastChildNode;
-		}
-		return previous;
-	}
-
-	if (node == root) {
-		return nil;
-	}
-
-	return node.parentNode;
-}
-
-NS_INLINE HTMLNode * FollowingNode(HTMLNode *node, HTMLNode *root)
-{
-	if (node.firstChiledNode != nil) {
-		return node.firstChiledNode;
-	}
-
-	do {
-		if (node == root) {
-			return nil;
-		}
-		if (node.nextSibling != nil) {
-			return node.nextSibling;
-		}
-		node = node.parentNode;
-	} while (node != nil);
-
-	return nil;
-}
-
-NS_INLINE BOOL FilterNode(HTMLNodeIterator *iterator, HTMLNode *node)
-{
-	unsigned long nthBit = (1 << (node.nodeType - 1)) & iterator.whatToShow;
-	if (!nthBit) {
-		return NO;
-	}
-
-	if (iterator.filter == nil) {
-		return YES;
-	}
-
-	return [iterator.filter acceptNode:node];
 }
 
 - (HTMLNode *)nextNode
