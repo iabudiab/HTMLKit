@@ -128,7 +128,7 @@ typedef NS_ENUM(short, TraverseDirection)
 			}
 			beforeNode = YES;
 		}
-	} while (FilterNode(self, node) != HTMLNodeFilterAccept);
+	} while (!FilterNode(self, node));
 
 	_referenceNode = node;
 	_pointerBeforeReferenceNode = beforeNode;
@@ -171,15 +171,15 @@ NS_INLINE HTMLNode * FollowingNode(HTMLNode *node, HTMLNode *root)
 	return nil;
 }
 
-NS_INLINE HTMLNodeFilterValue FilterNode(HTMLNodeIterator *iterator, HTMLNode *node)
+NS_INLINE BOOL FilterNode(HTMLNodeIterator *iterator, HTMLNode *node)
 {
 	unsigned long nthBit = (1 << (node.nodeType - 1)) & iterator.whatToShow;
 	if (!nthBit) {
-		return HTMLNodeFilterSkip;
+		return NO;
 	}
 
 	if (iterator.filter == nil) {
-		return HTMLNodeFilterAccept;
+		return YES;
 	}
 
 	return [iterator.filter acceptNode:node];

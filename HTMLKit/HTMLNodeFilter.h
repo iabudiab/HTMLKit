@@ -8,13 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(unsigned short, HTMLNodeFilterValue)
-{
-	HTMLNodeFilterAccept = 1,
-	HTMLNodeFilterReject = 2,
-	HTMLNodeFilterSkip = 3
-};
-
 typedef NS_ENUM(unsigned long, HTMLNodeFilterShowOptions)
 {
 	HTMLNodeFilterShowAll = 0xFFFFFFFF,
@@ -30,6 +23,6 @@ typedef NS_ENUM(unsigned long, HTMLNodeFilterShowOptions)
 
 @protocol HTMLNodeFilter <NSObject>
 
-- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node;
+- (BOOL)acceptNode:(HTMLNode *)node;
 
 @end

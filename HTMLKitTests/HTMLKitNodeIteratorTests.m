@@ -14,14 +14,14 @@
 
 @implementation CommentNodeFilter
 
-- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
+- (BOOL)acceptNode:(HTMLNode *)node
 {
 	if (node.nodeType == HTMLNodeComment) {
 		if ([[(HTMLComment *)node data] rangeOfString:@"second"].location != NSNotFound) {
-			return HTMLNodeFilterAccept;
+			return YES;
 		}
 	}
-	return HTMLNodeFilterReject;
+	return NO;
 }
 
 @end
