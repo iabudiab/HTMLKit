@@ -39,12 +39,12 @@ typedef NS_ENUM(short, TraverseDirection)
 - (instancetype)initWithNode:(HTMLNode *)node
 					  filter:(id<HTMLNodeFilter>)filter
 {
-	return [self initWithNode:node filter:nil showOptions:HTMLNodeFilterShowAll];
+	return [self initWithNode:node showOptions:HTMLNodeFilterShowAll filter:filter];
 }
 
 - (instancetype)initWithNode:(HTMLNode *)node
-					  filter:(id<HTMLNodeFilter>)filter
 				 showOptions:(HTMLNodeFilterShowOptions)showOptions
+					  filter:(id<HTMLNodeFilter>)filter
 {
 	self = [super init];
 	if (self) {

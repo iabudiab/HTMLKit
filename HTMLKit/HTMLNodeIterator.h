@@ -23,9 +23,8 @@
 - (instancetype)initWithNode:(HTMLNode *)node
 					  filter:(id<HTMLNodeFilter>)filter;
 - (instancetype)initWithNode:(HTMLNode *)node
-					  filter:(id<HTMLNodeFilter>)filter
-				 showOptions:(HTMLNodeFilterShowOptions)showOptions;
-
+				 showOptions:(HTMLNodeFilterShowOptions)showOptions
+					  filter:(id<HTMLNodeFilter>)filter;
 
 - (HTMLNode *)nextNode;
 - (HTMLNode *)previousNode;

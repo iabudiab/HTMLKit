@@ -92,7 +92,7 @@
 
 - (HTMLElement *)head
 {
-	for (HTMLNode *node in [self nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowElement]) {
+	for (HTMLNode *node in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
 		if ([node.asElement.tagName isEqualToString:@"head"]) {
 			return node.asElement;
 		}
@@ -107,7 +107,7 @@
 
 - (HTMLElement *)body
 {
-	for (HTMLNode *node in [self nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowElement]) {
+	for (HTMLNode *node in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
 		if ([node.asElement.tagName isEqualToString:@"body"]) {
 			return node.asElement;
 		}

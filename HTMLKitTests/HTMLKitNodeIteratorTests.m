@@ -252,7 +252,7 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowDocument];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowDocument filter:nil];
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"#document"];
 	XCTAssertEqual(result.count, 1);
@@ -264,7 +264,7 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowDocumentType];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowDocumentType filter:nil];
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"html"];
 	XCTAssertEqual(result.count, 1);
@@ -276,7 +276,7 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowComment];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowComment filter:nil];
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"#comment", @"#comment"];
 	XCTAssertEqual(result.count, 2);
@@ -289,7 +289,7 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowText];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowText filter:nil];
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"#text"];
 	XCTAssertEqual(result.count, 1);
@@ -301,7 +301,7 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowElement];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil];
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"html", @"div"];
 	XCTAssertEqual(result.count, 2);
@@ -313,8 +313,8 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithFilter:nil
-													  showOptions:HTMLNodeFilterShowElement | HTMLNodeFilterShowText];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowElement | HTMLNodeFilterShowText
+													  filter:nil];
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"html", @"#text", @"div"];
 	XCTAssertEqual(result.count, 3);
@@ -327,8 +327,8 @@
 {
 	HTMLDocument *document = self.mixedTree;
 
-	HTMLNodeIterator *iterator = [document nodeIteratorWithFilter:[CommentNodeFilter new]
-													  showOptions:HTMLNodeFilterShowAll];
+	HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowAll
+																filter:[CommentNodeFilter new]];
 
 	NSArray *result = iterator.allObjects;
 	NSArray	*expected = @[@"#comment"];

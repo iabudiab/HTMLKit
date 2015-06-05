@@ -371,13 +371,13 @@
 
 - (HTMLNodeIterator	*)nodeIterator
 {
-	return [self nodeIteratorWithFilter:nil showOptions:HTMLNodeFilterShowAll];
+	return [self nodeIteratorWithShowOptions:HTMLNodeFilterShowAll filter:nil];
 }
 
-- (HTMLNodeIterator *)nodeIteratorWithFilter:(id<HTMLNodeFilter>)filter
-								 showOptions:(HTMLNodeFilterShowOptions)showOptions
+- (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
+										   filter:(id<HTMLNodeFilter>)filter
 {
-	return [[HTMLNodeIterator alloc] initWithNode:self filter:filter showOptions:showOptions];
+	return [[HTMLNodeIterator alloc] initWithNode:self showOptions:showOptions filter:filter];
 }
 
 #ifndef HTMLKIT_NO_DOM_CHECKS
