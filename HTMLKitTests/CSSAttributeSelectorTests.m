@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CSSSelectors.h"
-#import "HTMLNodes.h"
+#import "HTMLDOM.h"
 
 @interface CSSAttributeSelectorTests : XCTestCase
 {
