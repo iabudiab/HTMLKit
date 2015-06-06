@@ -90,6 +90,21 @@
 	[self replaceChildNode:self.rootElement withNode:rootElement];
 }
 
+- (HTMLElement *)documentElement
+{
+	for (HTMLNode *node in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([node.asElement.tagName isEqualToString:@"html"]) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setDocumentElement:(HTMLElement *)documentElement
+{
+	[self replaceChildNode:self.documentElement withNode:documentElement];
+}
+
 - (HTMLElement *)head
 {
 	for (HTMLNode *node in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
