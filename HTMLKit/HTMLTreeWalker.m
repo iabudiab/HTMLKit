@@ -28,6 +28,17 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 #pragma mark - Lifecycle
 
 - (instancetype)initWithNode:(HTMLNode *)node
+{
+	return [self initWithNode:node filter:nil];
+}
+
+- (instancetype)initWithNode:(HTMLNode *)node
+					  filter:(id<HTMLNodeFilter>)filter
+{
+	return [self initWithNode:node showOptions:HTMLNodeFilterShowAll filter:filter];
+}
+
+- (instancetype)initWithNode:(HTMLNode *)node
 				 showOptions:(HTMLNodeFilterShowOptions)showOptions
 					  filter:(id<HTMLNodeFilter>)filter
 {

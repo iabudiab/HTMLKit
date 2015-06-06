@@ -18,6 +18,13 @@
 @property (nonatomic, strong, readonly) id<HTMLNodeFilter> filter;
 @property (nonatomic, strong) HTMLNode *currentNode;
 
+- (instancetype)initWithNode:(HTMLNode *)node;
+- (instancetype)initWithNode:(HTMLNode *)node
+					  filter:(id<HTMLNodeFilter>)filter;
+- (instancetype)initWithNode:(HTMLNode *)node
+				 showOptions:(HTMLNodeFilterShowOptions)showOptions
+					  filter:(id<HTMLNodeFilter>)filter;
+
 - (HTMLNode *)parentNode;
 - (HTMLNode *)firstChild;
 - (HTMLNode *)lastChild;
