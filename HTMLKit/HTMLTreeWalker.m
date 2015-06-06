@@ -93,7 +93,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 			HTMLNode *sibling = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.nextSibling : node.previousSibling;
 			if (sibling != nil) {
 				node = sibling;
-				continue;
+				break;
 			}
 
 			HTMLNode *parent = node.parentNode;
@@ -135,8 +135,8 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 				return node;
 			}
 
-			HTMLNode *sibling = (type == HTMLTreeWalkerSiblingsTypeNext) ? node.firstChiledNode : node.lastChildNode;
-			if (sibling == nil) {
+			sibling = (type == HTMLTreeWalkerSiblingsTypeNext) ? node.firstChiledNode : node.lastChildNode;
+			if (result == HTMLNodeFilterReject || sibling == nil) {
 				sibling = (type == HTMLTreeWalkerSiblingsTypeNext) ? node.nextSibling : node.previousSibling;
 			}
 		}
