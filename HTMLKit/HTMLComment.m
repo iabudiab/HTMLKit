@@ -10,6 +10,11 @@
 
 @implementation HTMLComment
 
+- (instancetype)init
+{
+	return [self initWithData:nil];
+}
+
 - (instancetype)initWithData:(NSString *)data
 {
 	self = [super initWithName:@"#comment" type:HTMLNodeComment];

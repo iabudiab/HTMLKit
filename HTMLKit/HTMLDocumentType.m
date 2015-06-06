@@ -22,6 +22,11 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 
 @implementation HTMLDocumentType
 
+- (instancetype)init
+{
+	return [self initWithName:@"html" publicIdentifier:nil systemIdentifier:nil];
+}
+
 - (instancetype)initWithName:(NSString *)name
 			publicIdentifier:(NSString *)publicIdentifier
 			systemIdentifier:(NSString *)systemIdentifier

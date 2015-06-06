@@ -13,7 +13,6 @@
 #import "HTMLElement.h"
 #import "HTMLText.h"
 #import "HTMLComment.h"
-#import "HTMLNodeTreeEnumerator.h"
 
 static NSString * const HTML5LibTests = @"html5lib-tests";
 static NSString * const TreeConstruction = @"tree-construction";
@@ -111,7 +110,7 @@ static NSString * const TreeConstruction = @"tree-construction";
 					fragment = [fragment substringFromIndex:@"svg ".length];
 					namespace = HTMLNamespaceSVG;
 				}
-				test.documentFragment = [[HTMLElement alloc] initWithTagName:fragment attributes:nil namespace:namespace];
+				test.documentFragment = [[HTMLElement alloc] initWithTagName:fragment namespace:namespace attributes:nil];
 			} else if ([match hasPrefix:@"#document\n"]) {
 				NSArray *parts = [[match substringFromIndex:@"#document\n".length] componentsSeparatedByString:@"| "];
 				NSArray *nodes = [HTML5LibTreeConstructionTest parseDocument:parts];
@@ -245,7 +244,7 @@ NS_INLINE HTMLElement * parseTag(NSString *str)
 	NSString *tagName = parts.count == 2 ? parts[1] : parts[0];
 	HTMLNamespace namespace = parts.count == 1 ? HTMLNamespaceHTML : ([parts[0] isEqualToString:@"math"] ? HTMLNamespaceMathML : HTMLNamespaceSVG);
 
-	HTMLElement *element = [[HTMLElement alloc] initWithTagName:tagName attributes:nil namespace:namespace];
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:tagName namespace:namespace attributes:nil];
 	return element;
 }
 

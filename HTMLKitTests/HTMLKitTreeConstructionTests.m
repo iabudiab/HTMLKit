@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import "HTML5LibTreeConstructionTest.h"
-#import "HTMLNodes.h"
+#import "HTMLDOM.h"
 #import "HTMLParser.h"
 
 
@@ -121,14 +121,14 @@
 {
 	XCTAssertEqualObjects(actual.name, expected.name, @"Node name mismatch [%@ should be %@]:\n%@",
 						  actual.name, expected.name, message);
-	XCTAssert(actual.type == expected.type, @"Node type mismatch [%hd should be %hd]:\n%@",
-			  actual.type, expected.type, message);
+	XCTAssert(actual.nodeType == expected.nodeType, @"Node type mismatch [%hd should be %hd]:\n%@",
+			  actual.nodeType, expected.nodeType, message);
 
-	if (actual.type != expected.type) {
+	if (actual.nodeType != expected.nodeType) {
 		return;
 	}
 
-	switch (actual.type) {
+	switch (actual.nodeType) {
 		case HTMLNodeDocumentType:
 			XCTAssertEqualObjects([(HTMLDocumentType *)actual publicIdentifier], [(HTMLDocumentType *)expected publicIdentifier], @"%@", message);
 			XCTAssertEqualObjects([(HTMLDocumentType *)actual systemIdentifier], [(HTMLDocumentType *)expected systemIdentifier], @"%@", message);

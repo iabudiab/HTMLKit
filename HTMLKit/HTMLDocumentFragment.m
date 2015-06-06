@@ -15,6 +15,11 @@
 
 @implementation HTMLDocumentFragment
 
+- (instancetype)init
+{
+	return [self initWithDocument:nil];
+}
+
 - (instancetype)initWithDocument:(HTMLDocument *)document
 {
 	self = [super initWithName:@"#document-fragment" type:HTMLNodeDocumentFragment];
@@ -28,7 +33,7 @@
 {
 	NSMutableString *content = [NSMutableString string];
 	for (HTMLNode *node in self.treeEnumerator) {
-		if (node.type == HTMLNodeText) {
+		if (node.nodeType == HTMLNodeText) {
 			[content appendString:[(HTMLText *)node data]];
 		}
 	}

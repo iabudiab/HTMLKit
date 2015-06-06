@@ -12,8 +12,13 @@
 #import "HTMLElement.h"
 #import "HTMLText.h"
 #import "HTMLComment.h"
-#import "HTMLKitExceptions.h"
-#import "HTMLNodeTreeEnumerator.h"
+#import "HTMLKitDOMExceptions.h"
+
+@interface HTMLDocument (Private)
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
+				  withOldParent:(HTMLNode *)oldParent
+		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
+@end
 
 @interface HTMLNode ()
 {
@@ -32,7 +37,7 @@
 	self = [super init];
 	if (self) {
 		_name = name;
-		_type = type;
+		_nodeType = type;
 		_childNodes = [NSMutableOrderedSet new];
 	}
 	return self;
@@ -42,7 +47,7 @@
 
 - (HTMLDocument *)ownerDocument
 {
-	if (_type == HTMLNodeDocument) {
+	if (_nodeType == HTMLNodeDocument) {
 		return (HTMLDocument *)self;
 	} else {
 		return _ownerDocument;
@@ -55,12 +60,6 @@
 	[self.childNodes.array makeObjectsPerformSelector:@selector(setOwnerDocument:) withObject:ownerDocument];
 }
 
-- (void)setBaseURI:(NSString *)baseURI
-{
-	_baseURI = [baseURI copy];
-	[self.childNodes.array makeObjectsPerformSelector:@selector(setBaseURI:) withObject:baseURI];
-}
-
 - (void)setParentNode:(HTMLNode *)parentNode
 {
 	_parentNode = parentNode;
@@ -68,15 +67,15 @@
 
 - (HTMLElement *)parentElement
 {
-	return _parentNode.type == HTMLNodeElement ? (HTMLElement *)_parentNode : nil;
+	return _parentNode.nodeType == HTMLNodeElement ? (HTMLElement *)_parentNode : nil;
 }
 
-- (HTMLNode *)firstChiledNode
+- (HTMLNode *)firstChild
 {
 	return self.childNodes.firstObject;
 }
 
-- (HTMLNode *)lastChildNode
+- (HTMLNode *)lastChild
 {
 	return self.childNodes.lastObject;
 }
@@ -104,6 +103,13 @@
 	return nil;
 }
 
+#pragma mark - Cast
+
+- (HTMLElement *)asElement
+{
+	return (HTMLElement *)self;
+}
+
 #pragma mark - Child Nodes
 
 - (BOOL)hasChildNodes
@@ -114,7 +120,7 @@
 - (BOOL)hasChildNodeOfType:(HTMLNodeType)type
 {
 	NSUInteger index = [self.childNodes indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-		if ([(HTMLNode *)obj type] == type) {
+		if ([(HTMLNode *)obj nodeType] == type) {
 			*stop = YES;
 			return YES;
 		}
@@ -139,35 +145,65 @@
 	return [self.childNodes indexOfObject:node];
 }
 
-- (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
+- (HTMLNode *)prependNode:(HTMLNode *)node
 {
-	node = [self preInsertNode:node beforeChildNode:child];
-	node.parentNode = self;
-	return node;
+	return [self insertNode:node beforeChildNode:self.firstChild];
+}
+
+- (void)prependNodes:(NSArray *)nodes
+{
+	for (id node in nodes.reverseObjectEnumerator) {
+		[self insertNode:node beforeChildNode:self.firstChild];
+	}
 }
 
 - (HTMLNode *)appendNode:(HTMLNode *)node
 {
-	node = [self preInsertNode:node beforeChildNode:nil];
-	node.parentNode = self;
-	return node;
+	return [self insertNode:node beforeChildNode:nil];
 }
 
 - (void)appendNodes:(NSArray *)nodes
 {
 	for (id node in nodes) {
-		[self appendNode:node];
+		[self insertNode:node beforeChildNode:nil];
 	}
+}
+
+- (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
+{
+#ifndef HTMLKIT_NO_DOM_CHECKS
+	[self ensurePreInsertionValidityOfNode:node beforeChildNode:child];
+#endif
+
+	[self.ownerDocument adoptNode:node];
+
+	NSArray *nodes = node.nodeType == HTMLNodeDocumentFragment ? [NSArray arrayWithArray:node.childNodes.array] : @[node];
+
+	NSUInteger index = [self indexOfChildNode:child];
+	if (index != NSNotFound) {
+		NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(index, nodes.count)];
+		[(NSMutableOrderedSet *)self.childNodes insertObjects:nodes atIndexes:indexes];
+	} else {
+		[(NSMutableOrderedSet *)self.childNodes addObjectsFromArray:nodes];
+	}
+
+	if (node.nodeType == HTMLNodeDocumentFragment) {
+		[node removeAllChildNodes];
+	}
+
+	[nodes makeObjectsPerformSelector:@selector(setParentNode:) withObject:self];
+
+	return node;
 }
 
 - (HTMLNode *)replaceChildNode:(HTMLNode *)child withNode:(HTMLNode *)node
 {
+#ifndef HTMLKIT_NO_DOM_CHECKS
 	[self ensureReplacementValidityOfChildNode:child withNode:node];
+#endif
 
-	[self.ownerDocument adoptNode:node];
-	NSUInteger index = [self indexOfChildNode:child];
-	node.parentNode = self;
-	[(NSMutableOrderedSet *)self.childNodes replaceObjectAtIndex:index withObject:node];
+	[self insertNode:node beforeChildNode:child];
+	[child removeFromParentNode];
 	return child;
 }
 
@@ -181,6 +217,11 @@
 	}
 }
 
+- (void)removeFromParentNode
+{
+	[self.parentNode removeChildNode:self];
+}
+
 - (HTMLNode *)removeChildNode:(HTMLNode *)child
 {
 	if (child.parentNode != self) {
@@ -189,8 +230,16 @@
 		 NSStringFromSelector(_cmd), child];
 	}
 
+	HTMLNode *oldNode = child;
+	HTMLNode *oldParent = child.parentNode;
+	HTMLNode *oldPreviousSibling = child.previousSibling;
+
 	[(NSMutableOrderedSet *)self.childNodes removeObject:child];
 	child.parentNode = nil;
+
+	[self.ownerDocument runRemovingStepsForNode:oldNode
+								  withOldParent:oldParent
+						  andOldPreviousSibling:oldPreviousSibling];
 	return child;
 }
 
@@ -205,12 +254,93 @@
 	for (HTMLNode *child in self.childNodes.array) {
 		[node appendNode:child];
 	}
-	[self removeAllChildNodes];
+	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
 }
 
 - (void)removeAllChildNodes
 {
+	[self.childNodes.array makeObjectsPerformSelector:@selector(setParentNode:) withObject:nil];
 	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
+}
+
+- (HTMLDocumentPosition)compareDocumentPositionWithNode:(HTMLNode *)otherNode
+{
+	if (otherNode == nil) {
+		return HTMLDocumentPositionDisconnected;
+	}
+
+	if (self == otherNode) {
+		return HTMLDocumentPositionEquivalent;
+	}
+
+	NSArray * (^ ancestorNodes) (HTMLNode *) = ^ NSArray * (HTMLNode *node) {
+		NSMutableArray *ancestors = [NSMutableArray array];
+		for (HTMLNode *node = self; node; node = node.parentNode) {
+			[ancestors addObject:node];
+		}
+		return ancestors;
+	};
+
+	NSArray *ancestors1 = ancestorNodes(self);
+	NSArray *ancestors2 = ancestorNodes(otherNode);
+
+	if (ancestors1.lastObject != ancestors2.lastObject) {
+		return HTMLDocumentPositionDisconnected |
+		HTMLDocumentPositionImplementationSpecific |
+		HTMLDocumentPositionFollowing;
+	}
+
+	for (NSUInteger i = MIN(ancestors1.count - 1, ancestors2.count - 1); i; --i) {
+		HTMLNode *child1 = ancestors1[i];
+		HTMLNode *child2 = ancestors2[i];
+
+		if (child1 != child2) {
+			for (HTMLNode *sibling = child1.nextSibling; sibling; sibling = sibling.nextSibling) {
+				if (sibling == child2) {
+					return HTMLDocumentPositionFollowing;
+				}
+			}
+			return HTMLDocumentPositionPreceding;
+		}
+	}
+
+	if (ancestors1.count < ancestors2.count) {
+		return HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing;
+	} else {
+		return HTMLDocumentPositionContains | HTMLDocumentPositionPreceding;
+	}
+}
+
+- (BOOL)isDescendantOfNode:(HTMLNode *)otherNode
+{
+	if (otherNode == nil) {
+		return NO;
+	}
+
+	if (self.ownerDocument != otherNode.ownerDocument) {
+		return NO;
+	}
+
+	if (!otherNode.hasChildNodes) {
+		return NO;
+	}
+
+	if (otherNode.nodeType == HTMLNodeDocument) {
+		return self.nodeType != HTMLNodeDocument && self.ownerDocument == otherNode;
+	}
+
+	for (HTMLNode *parentNode = self.parentNode; parentNode; parentNode = parentNode.parentNode) {
+		if (parentNode == otherNode) {
+			return YES;
+		}
+	}
+
+	return NO;
+}
+
+- (BOOL)containsNode:(HTMLNode *)otherNode
+{
+	return self == otherNode || [otherNode isDescendantOfNode:self];
 }
 
 #pragma mark - Enumeration
@@ -226,40 +356,48 @@
 	}];
 }
 
-- (NSEnumerator *)treeEnumerator
+- (void)enumerateChildElementsUsingBlock:(void (^)(HTMLElement *element, NSUInteger idx, BOOL *stop))block
 {
-	return [[HTMLNodeTreeEnumerator alloc] initWithNode:self reverse:NO];
-}
-
-- (NSEnumerator *)reverseTreeEnumerator
-{
-	return [[HTMLNodeTreeEnumerator alloc] initWithNode:self reverse:YES];
-}
-
-#pragma mark - Mutation Algorithms
-
-- (HTMLNode *)preInsertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
-{
-	[self ensurePreInsertionValidityOfNode:node beforeChildNode:child];
-	[self.ownerDocument adoptNode:node];
-	NSUInteger index = [self indexOfChildNode:child];
-	if (index != NSNotFound) {
-		[(NSMutableOrderedSet *)self.childNodes insertObject:node atIndex:index];
-	} else {
-		[(NSMutableOrderedSet *)self.childNodes addObject:node];
+	if (block == nil) {
+		return;
 	}
 
-	return node;
+	[self.childNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if ([obj isKindOfClass:[HTMLElement class]]) {
+			block([obj asElement], idx, stop);
+		}
+	}];
 }
 
-NS_INLINE void CheckParentValid(HTMLNode *node, NSString *cmd)
+- (HTMLNodeIterator	*)nodeIterator
 {
-	if (node.type != HTMLNodeDocument &&
-		node.type != HTMLNodeDocumentFragment &&
-		node.type != HTMLNodeElement) {
+	return [self nodeIteratorWithShowOptions:HTMLNodeFilterShowAll filter:nil];
+}
+
+- (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
+										   filter:(id<HTMLNodeFilter>)filter
+{
+	return [[HTMLNodeIterator alloc] initWithNode:self showOptions:showOptions filter:filter];
+}
+
+- (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
+									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter
+{
+	return [HTMLNodeIterator iteratorWithNode:self showOptions:showOptions filter:filter];
+}
+
+#ifndef HTMLKIT_NO_DOM_CHECKS
+
+#pragma mark - Validity Checks
+
+NS_INLINE void CheckParentValid(HTMLNode *parent, NSString *cmd)
+{
+	if (parent.nodeType != HTMLNodeDocument &&
+		parent.nodeType != HTMLNodeDocumentFragment &&
+		parent.nodeType != HTMLNodeElement) {
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting into %@ is not allowed. The operation would yield an incorrect node tree.",
-		 cmd, node.name];
+		 cmd, parent.name];
 	}
 }
 
@@ -275,11 +413,11 @@ NS_INLINE void CheckChildsParent(HTMLNode *parent, HTMLNode *child, NSString *cm
 
 NS_INLINE void CheckInsertedNodeValid(HTMLNode *node, NSString *cmd)
 {
-	if (node.type != HTMLNodeDocumentFragment &&
-		node.type != HTMLNodeDocumentType &&
-		node.type != HTMLNodeElement &&
-		node.type != HTMLNodeText &&
-		node.type != HTMLNodeComment) {
+	if (node.nodeType != HTMLNodeDocumentFragment &&
+		node.nodeType != HTMLNodeDocumentType &&
+		node.nodeType != HTMLNodeElement &&
+		node.nodeType != HTMLNodeText &&
+		node.nodeType != HTMLNodeComment) {
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting a %@ is not allowed. The operation would yield an incorrect node tree.",
 		 cmd, node.name];
@@ -288,13 +426,13 @@ NS_INLINE void CheckInsertedNodeValid(HTMLNode *node, NSString *cmd)
 
 NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSString *cmd)
 {
-	if (node.type == HTMLNodeText && parent.type == HTMLNodeDocument) {
+	if (node.nodeType == HTMLNodeText && parent.nodeType == HTMLNodeDocument) {
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting a text node %@ into docuement is not allowed. The operation would yield an incorrect node tree.",
 		 cmd, parent.name];
 	}
 
-	if (node.type == HTMLNodeDocumentType && parent.type != HTMLNodeDocument) {
+	if (node.nodeType == HTMLNodeDocumentType && parent.nodeType != HTMLNodeDocument) {
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting a doctype %@ into a non-document node is not allowed. The operation would yield an incorrect node tree.",
 		 cmd, parent.name];
@@ -313,28 +451,28 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 	void (^ hierarchyError)() = ^{
 		[NSException raise:HTMLKitHierarchyRequestError
-					format:@"%@: Hierarchy Request Error. The operation would yield an incorrect node tree.",
-		 NSStringFromSelector(_cmd)];
+					format:@"%@: Hierarchy Request Error, inserting (%@) into (%@). The operation would yield an incorrect node tree.",
+		 NSStringFromSelector(_cmd), self, node];
 	};
 
-	if (self.type == HTMLNodeDocument) {
-		switch (node.type) {
+	if (self.nodeType == HTMLNodeDocument) {
+		switch (node.nodeType) {
 			case HTMLNodeDocumentFragment:
-				if (self.childNodesCount > 1 ||
-					[self hasChildNodeOfType:HTMLNodeText]) {
+				if (node.childNodesCount > 1 ||
+					[node hasChildNodeOfType:HTMLNodeText]) {
 					hierarchyError();
-				} else if (self.childNodesCount == 1) {
-					if (self.hasChildNodes ||
-						child.type == HTMLNodeDocumentType ||
-						child.nextSibling.type == HTMLNodeDocumentType) {
+				} else if (node.childNodesCount == 1) {
+					if ([self hasChildNodeOfType:HTMLNodeElement] ||
+						child.nodeType == HTMLNodeDocumentType ||
+						child.nextSibling.nodeType == HTMLNodeDocumentType) {
 						hierarchyError();
 					}
 				}
 				break;
 			case HTMLNodeElement:
 				if ([self hasChildNodeOfType:HTMLNodeElement] ||
-					child.type == HTMLNodeDocumentType ||
-					(child != nil && child.nextSibling.type == HTMLNodeDocumentType)) {
+					child.nodeType == HTMLNodeDocumentType ||
+					(child != nil && child.nextSibling.nodeType == HTMLNodeDocumentType)) {
 					hierarchyError();
 				}
 				break;
@@ -367,43 +505,42 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 		 NSStringFromSelector(_cmd)];
 	};
 
-	if (self.type == HTMLNodeDocument) {
-		switch (node.type) {
+	void (^ checkParentHasAnotherChildOfType)(HTMLNodeType) = ^ void (HTMLNodeType type) {
+		[self enumerateChildNodesUsingBlock:^(HTMLNode *node, NSUInteger idx, BOOL *stop) {
+			if (node.nodeType == type && node != child) {
+				*stop = YES;
+				hierarchyError();
+			}
+		}];
+	};
+
+	if (self.nodeType == HTMLNodeDocument) {
+		switch (node.nodeType) {
 			case HTMLNodeDocumentFragment:
-				if (self.childNodesCount > 1 ||
-					[self hasChildNodeOfType:HTMLNodeText]) {
+				if (node.childNodesCount > 1 ||
+					[node hasChildNodeOfType:HTMLNodeText]) {
 					hierarchyError();
-				} else if (self.childNodesCount == 1) {
-					if (self.firstChiledNode != node ||
-						child.nextSibling.type == HTMLNodeDocumentType) {
+				} else if (node.childNodesCount == 1) {
+					if (child.nextSibling.nodeType == HTMLNodeDocumentType) {
 						hierarchyError();
 					}
+					checkParentHasAnotherChildOfType(HTMLNodeElement);
 				}
 				break;
 			case HTMLNodeElement:
 			{
-				if (child.nextSibling.type == HTMLNodeDocumentType) {
+				if (child.nextSibling.nodeType == HTMLNodeDocumentType) {
 					hierarchyError();
 				}
-				[self enumerateChildNodesUsingBlock:^(HTMLNode *node, NSUInteger idx, BOOL *stop) {
-					if (node.type == HTMLNodeElement && node != child) {
-						*stop = YES;
-						hierarchyError();
-					}
-				}];
+				checkParentHasAnotherChildOfType(HTMLNodeElement);
 				break;
 			}
 			case HTMLNodeDocumentType:
 			{
-				if (child.previousSibling.type == HTMLNodeElement) {
+				if (child.previousSibling.nodeType == HTMLNodeElement) {
 					hierarchyError();
 				}
-				[self enumerateChildNodesUsingBlock:^(HTMLNode *node, NSUInteger idx, BOOL *stop) {
-					if (node.type == HTMLNodeDocument && node != child) {
-						*stop = YES;
-						hierarchyError();
-					}
-				}];
+				checkParentHasAnotherChildOfType(HTMLNodeDocumentType);
 				break;
 			}
 			default:
@@ -412,11 +549,13 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 	}
 }
 
+#endif
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	HTMLNode *copy = [[self.class alloc] initWithName:self.name type:self.type];
+	HTMLNode *copy = [[self.class alloc] initWithName:self.name type:self.nodeType];
 	return copy;
 }
 
@@ -431,6 +570,11 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 - (NSString *)innerHTML
 {
 	return [[self.childNodes.array valueForKey:@"outerHTML"] componentsJoinedByString:@""];
+}
+
+- (void)setInnerHTML:(NSString *)outerHTML
+{
+	[self doesNotRecognizeSelector:_cmd];
 }
 
 #pragma mark - Description

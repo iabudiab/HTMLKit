@@ -52,7 +52,7 @@
 		}
 		if (node.htmlNamespace == element.htmlNamespace &&
 			[node.tagName isEqualToString:element.tagName] &&
-			[node.attributes isEqualTo:element.attributes]) {
+			[node.attributes isEqual:element.attributes]) {
 			existing++;
 		}
 		if (existing == 3) {

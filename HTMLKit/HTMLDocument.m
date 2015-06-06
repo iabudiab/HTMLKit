@@ -7,16 +7,25 @@
 //
 
 #import "HTMLDocument.h"
-#import "HTMLKitExceptions.h"
+#import "HTMLParser.h"
+#import "HTMLNodeIterator.h"
+#import "HTMLKitDOMExceptions.h"
 
 @interface HTMLNode (Private)
 @property (nonatomic, weak) HTMLDocument *ownerDocument;
 @property (nonatomic, weak) HTMLNode *parentNode;
 @end
 
+@interface HTMLNodeIterator (Private)
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
+				  withOldParent:(HTMLNode *)oldParent
+		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
+@end
+
 @interface HTMLDocument ()
 {
 	HTMLDocument *_inertTemplateDocument;
+	NSMutableArray *_nodeIterators;
 }
 @property (nonatomic, assign) HTMLDocumentReadyState readyState;
 @end
@@ -25,11 +34,18 @@
 
 #pragma mark - Init
 
++ (instancetype)documentWithString:(NSString *)string
+{
+	HTMLParser *parser = [[HTMLParser alloc] initWithString:string];
+	return [parser parseDocument];
+}
+
 - (instancetype)init
 {
 	self = [super initWithName:@"#document" type:HTMLNodeDocument];
 	if (self) {
 		_readyState = HTMLDocumentLoading;
+		_nodeIterators = [NSMutableArray new];
 	}
 	return self;
 }
@@ -57,6 +73,91 @@
 	}
 }
 
+#pragma mark - 
+
+- (HTMLElement *)rootElement
+{
+	for (HTMLNode *node = self.firstChild; node; node = node.nextSibling) {
+		if (node.nodeType == HTMLNodeElement) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setRootElement:(HTMLElement *)rootElement
+{
+	[self replaceChildNode:self.rootElement withNode:rootElement];
+}
+
+- (HTMLElement *)documentElement
+{
+	for (HTMLNode *node in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([node.asElement.tagName isEqualToString:@"html"]) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setDocumentElement:(HTMLElement *)documentElement
+{
+	[self replaceChildNode:self.documentElement withNode:documentElement];
+}
+
+- (HTMLElement *)head
+{
+	for (HTMLNode *node in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([node.asElement.tagName isEqualToString:@"head"]) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setHead:(HTMLElement *)head
+{
+	[self replaceChildNode:self.head withNode:head];
+}
+
+- (HTMLElement *)body
+{
+	for (HTMLNode *node in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([node.asElement.tagName isEqualToString:@"body"]) {
+			return node.asElement;
+		}
+	}
+	return nil;
+}
+
+- (void)setBody:(HTMLElement *)body
+{
+	[self replaceChildNode:self.body withNode:body];
+}
+
+#pragma mark - Node Iterators
+
+- (void)attachNodeIterator:(HTMLNodeIterator *)iterator
+{
+	[_nodeIterators addObject:iterator];
+}
+
+- (void)detachNodeIterator:(HTMLNodeIterator *)iterator
+{
+	[_nodeIterators removeObject:iterator];
+}
+
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
+				  withOldParent:(HTMLNode *)oldParent
+		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling
+{
+	for (HTMLNodeIterator *iterator in _nodeIterators) {
+		[iterator runRemovingStepsForNode:oldNode
+							 withOldParent:oldParent
+					 andOldPreviousSibling:oldPreviousSibling];
+	}
+}
+
 #pragma mark - Mutation Algorithms
 
 - (HTMLNode *)adoptNode:(HTMLNode *)node
@@ -65,7 +166,7 @@
 		return nil;
 	}
 
-	if (node.type == HTMLNodeDocument) {
+	if (node.nodeType == HTMLNodeDocument) {
 		[NSException raise:HTMLKitNotSupportedError
 					format:@"%@: Not Fount Error, adopting a document node. The operation is not supported.", NSStringFromSelector(_cmd)];
 	}
