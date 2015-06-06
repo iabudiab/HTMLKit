@@ -37,10 +37,10 @@
 	return self;
 }
 
-- (BOOL)acceptNode:(HTMLNode *)node
+- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
 {
-	if (node.type != HTMLNodeElement) {
-		return NO;
+	if (node.nodeType != HTMLNodeElement) {
+		return HTMLNodeFilterSkip;
 	}
 
 	return [_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:[(HTMLElement *)node tagName]];

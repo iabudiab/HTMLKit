@@ -23,10 +23,10 @@
 	return nil;
 }
 
-- (BOOL)acceptNode:(HTMLNode *)node
+- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
 {
 	[self doesNotRecognizeSelector:_cmd];
-	return NO;
+	return HTMLNodeFilterSkip;
 }
 
 @end

@@ -50,14 +50,14 @@
 	[_selectors addObject:selector];
 }
 
-- (BOOL)acceptNode:(HTMLNode *)node
+- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
 {
 	for (CSSSelector *selector in _selectors) {
 		if (![selector acceptNode:node]) {
-			return NO;
+			return HTMLNodeFilterSkip;
 		}
 	}
-	return YES;
+	return HTMLNodeFilterAccept;
 }
 
 @end

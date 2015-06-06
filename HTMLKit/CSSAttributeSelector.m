@@ -43,10 +43,10 @@
 	return self;
 }
 
-- (BOOL)acceptNode:(HTMLNode *)node
+- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
 {
-	if (node.type != HTMLNodeElement) {
-		return NO;
+	if (node.nodeType != HTMLNodeElement) {
+		return HTMLNodeFilterSkip;
 	}
 
 	HTMLElement *element = (HTMLElement *)node;
