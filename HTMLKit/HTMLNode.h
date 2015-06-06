@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLNodeIterator.h"
 
 typedef NS_ENUM(short, HTMLNodeType)
 {
@@ -24,18 +25,27 @@ typedef NS_ENUM(short, HTMLNodeType)
 	HTMLNodeNotation = 12 // historical
 };
 
+typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
+{
+	HTMLDocumentPositionEquivalent = 0x0,
+	HTMLDocumentPositionDisconnected = 0x01,
+	HTMLDocumentPositionPreceding = 0x02,
+	HTMLDocumentPositionFollowing = 0x04,
+	HTMLDocumentPositionContains = 0x08,
+	HTMLDocumentPositionContainedBy = 0x10,
+	HTMLDocumentPositionImplementationSpecific = 0x20
+};
+
 @class HTMLDocument;
 @class HTMLElement;
 
 @interface HTMLNode : NSObject <NSCopying>
 
-@property (nonatomic, assign, readonly) HTMLNodeType type;
+@property (nonatomic, assign, readonly) HTMLNodeType nodeType;
 
 @property (nonatomic, strong, readonly) NSString *name;
 
 @property (nonatomic, weak, readonly) HTMLDocument *ownerDocument;
-
-@property (nonatomic, strong, readonly) NSString *baseURI;
 
 @property (nonatomic, weak, readonly) HTMLNode *parentNode;
 
@@ -43,9 +53,9 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, strong, readonly) NSOrderedSet *childNodes;
 
-@property (nonatomic, strong, readonly) HTMLNode *firstChiledNode;
+@property (nonatomic, strong, readonly) HTMLNode *firstChild;
 
-@property (nonatomic, strong, readonly) HTMLNode *lastChildNode;
+@property (nonatomic, strong, readonly) HTMLNode *lastChild;
 
 @property (nonatomic, strong, readonly) HTMLNode *previousSibling;
 
@@ -53,9 +63,15 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 @property (nonatomic, copy) NSString *textContent;
 
+@property (nonatomic, strong, readonly)	NSString *outerHTML;
+
+@property (nonatomic, copy)	NSString *innerHTML;
+
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithName:(NSString *)name type:(HTMLNodeType)type;
+
+- (HTMLElement *)asElement;
 
 - (BOOL)hasChildNodes;
 
@@ -91,15 +107,19 @@ typedef NS_ENUM(short, HTMLNodeType)
 
 - (void)removeAllChildNodes;
 
+- (HTMLDocumentPosition)compareDocumentPositionWithNode:(HTMLNode *)node;
+- (BOOL)isDescendantOfNode:(HTMLNode *)node;
+- (BOOL)containsNode:(HTMLNode *)node;
+
 - (void)enumerateChildNodesUsingBlock:(void (^)(HTMLNode *node, NSUInteger idx, BOOL *stop))block;
 
-- (NSEnumerator *)treeEnumerator;
+- (void)enumerateChildElementsUsingBlock:(void (^)(HTMLElement *element, NSUInteger idx, BOOL *stop))block;
 
-- (NSEnumerator *)reverseTreeEnumerator;
-
-- (NSString *)outerHTML;
-
-- (NSString *)innerHTML;
+- (HTMLNodeIterator	*)nodeIterator;
+- (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
+										   filter:(id<HTMLNodeFilter>)filter;
+- (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
+									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter;
 
 - (NSString *)treeDescription;
 

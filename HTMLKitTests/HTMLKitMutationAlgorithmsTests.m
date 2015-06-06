@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "HTMLNodes.h"
+#import "HTMLDOM.h"
 #import "NSString+HTMLKit.h"
 
 extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));

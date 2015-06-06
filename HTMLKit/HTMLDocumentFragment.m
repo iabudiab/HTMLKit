@@ -33,7 +33,7 @@
 {
 	NSMutableString *content = [NSMutableString string];
 	for (HTMLNode *node in self.treeEnumerator) {
-		if (node.type == HTMLNodeText) {
+		if (node.nodeType == HTMLNodeText) {
 			[content appendString:[(HTMLText *)node data]];
 		}
 	}

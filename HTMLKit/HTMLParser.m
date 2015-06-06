@@ -12,7 +12,7 @@
 #import "HTMLStackOfOpenElements.h"
 #import "HTMLListOfActiveFormattingElements.h"
 #import "HTMLParserInsertionModes.h"
-#import "HTMLNodes.h"
+#import "HTMLDOM.h"
 #import "HTMLElementTypes.h"
 #import "HTMLElementAdjustment.h"
 #import "HTMLMarker.h"
@@ -421,8 +421,8 @@
 - (HTMLElement *)createElementForToken:(HTMLTagToken *)token inNamespace:(HTMLNamespace)htmlNamespace
 {
 	HTMLElement *element = [[HTMLElement alloc] initWithTagName:token.tagName
-													 attributes:token.attributes
-													  namespace:htmlNamespace];
+													  namespace:htmlNamespace
+													 attributes:token.attributes];
 	return element;
 }
 
@@ -452,11 +452,11 @@
 	HTMLElement *child = nil;
 	HTMLNode *adjustedInsertionLocation = [self appropriatePlaceForInsertingANodeWithOverrideTarget:nil
 																					beforeChildNode:&child];
-	if (adjustedInsertionLocation.type != HTMLNodeDocument) {
-		if (child != nil && child.previousSibling.type == HTMLNodeText) {
+	if (adjustedInsertionLocation.nodeType != HTMLNodeDocument) {
+		if (child != nil && child.previousSibling.nodeType == HTMLNodeText) {
 			[(HTMLText *)child.previousSibling appendString:data];
-		} else if (adjustedInsertionLocation.lastChildNode.type == HTMLNodeText) {
-			[(HTMLText *)adjustedInsertionLocation.lastChildNode appendString:data];
+		} else if (adjustedInsertionLocation.lastChild.nodeType == HTMLNodeText) {
+			[(HTMLText *)adjustedInsertionLocation.lastChild appendString:data];
 		} else {
 			HTMLText *text = [[HTMLText alloc] initWithData:data];
 			[adjustedInsertionLocation insertNode:text beforeChildNode:child];

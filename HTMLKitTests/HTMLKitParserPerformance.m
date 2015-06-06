@@ -15,6 +15,8 @@
 
 @implementation HTMLKitParserPerformance
 
+#define HTMLKIT_NO_DOM_CHECKS
+
 - (void)testParserPerformance
 {
 	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
@@ -27,5 +29,7 @@
 		[parser parseDocument];
 	}];
 }
+
+#undef HTMLKIT_NO_DOM_CHECKS
 
 @end

@@ -53,14 +53,11 @@
 		6238579B1A9E8934003A45D9 /* HTMLComment.h in Headers */ = {isa = PBXBuildFile; fileRef = 623857991A9E8934003A45D9 /* HTMLComment.h */; };
 		6238579C1A9E8934003A45D9 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238579A1A9E8934003A45D9 /* HTMLComment.m */; };
 		6238579D1A9E8934003A45D9 /* HTMLComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238579A1A9E8934003A45D9 /* HTMLComment.m */; };
-		6238C9851AB8D6330006512E /* HTMLKitExceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6238C9831AB8D6330006512E /* HTMLKitExceptions.h */; };
-		6238C9861AB8D6330006512E /* HTMLKitExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238C9841AB8D6330006512E /* HTMLKitExceptions.m */; };
-		6238C9871AB8D6330006512E /* HTMLKitExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238C9841AB8D6330006512E /* HTMLKitExceptions.m */; };
-		623916C31AC707250066B4FE /* HTMLNodeTreeEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */; };
-		623916C41AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */; };
-		623916C51AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */; };
-		623916C71AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */; };
-		623916C81AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */; };
+		6238C9851AB8D6330006512E /* HTMLKitDOMExceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6238C9831AB8D6330006512E /* HTMLKitDOMExceptions.h */; };
+		6238C9861AB8D6330006512E /* HTMLKitDOMExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */; };
+		6238C9871AB8D6330006512E /* HTMLKitDOMExceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */; };
+		623916C71AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */; };
+		623916C81AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */; };
 		6239755A1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623975591AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m */; };
 		6239755B1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623975591AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m */; };
 		6239755E1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6239755D1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m */; };
@@ -86,6 +83,20 @@
 		624AB31F1B05373600F3830D /* CSSSimpleSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AB31D1B05373600F3830D /* CSSSimpleSequence.m */; };
 		624AB3201B05373600F3830D /* CSSSimpleSequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AB31D1B05373600F3830D /* CSSSimpleSequence.m */; };
 		624AB3221B053A5800F3830D /* CSSSimpleSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 624AB3211B053A5800F3830D /* CSSSimpleSelector.h */; };
+		624717181B22333200C11912 /* HTMLNodeTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717161B22333200C11912 /* HTMLNodeTraversal.h */; };
+		624717191B22333200C11912 /* HTMLNodeTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717171B22333200C11912 /* HTMLNodeTraversal.m */; };
+		6247171A1B22333200C11912 /* HTMLNodeTraversal.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717171B22333200C11912 /* HTMLNodeTraversal.m */; };
+		6247171C1B2240B800C11912 /* HTMLTreeWalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */; };
+		6247171D1B2240B800C11912 /* HTMLTreeWalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */; };
+		624717B81B21FE5400B38302 /* HTMLNodeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717B71B21FE5400B38302 /* HTMLNodeFilter.m */; };
+		624717B91B21FE5400B38302 /* HTMLNodeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717B71B21FE5400B38302 /* HTMLNodeFilter.m */; };
+		624717BC1B22009200B38302 /* HTMLTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717BA1B22009200B38302 /* HTMLTreeWalker.h */; };
+		624717BD1B22009200B38302 /* HTMLTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717BB1B22009200B38302 /* HTMLTreeWalker.m */; };
+		624717BE1B22009200B38302 /* HTMLTreeWalker.m in Sources */ = {isa = PBXBuildFile; fileRef = 624717BB1B22009200B38302 /* HTMLTreeWalker.m */; };
+		6247A9431B152F4F00CCF25C /* HTMLNodeIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */; };
+		6247A9441B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */; };
+		6247A9451B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */; };
+		6247A9471B152F8C00CCF25C /* HTMLNodeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */; };
 		624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */ = {isa = PBXBuildFile; fileRef = 624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */; };
 		624AC90119FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */; };
 		624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */; };
@@ -145,7 +156,7 @@
 		62AE594B19F9948A0043F069 /* HTMLCharacterToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 62AE594819F9948A0043F069 /* HTMLCharacterToken.m */; };
 		62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
 		62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
-		62D89DB01AE7080300B6243D /* HTMLNodes.h in Headers */ = {isa = PBXBuildFile; fileRef = 62362A3F1A9FDE8A00301989 /* HTMLNodes.h */; };
+		62D89DB01AE7080300B6243D /* HTMLDOM.h in Headers */ = {isa = PBXBuildFile; fileRef = 62362A3F1A9FDE8A00301989 /* HTMLDOM.h */; };
 		62D89DB11AE7081600B6243D /* HTMLTokenizerStates.h in Headers */ = {isa = PBXBuildFile; fileRef = 624493A919CCE84A00BCDDF4 /* HTMLTokenizerStates.h */; };
 		62D89DB21AE7081600B6243D /* HTMLTokenizerCharacters.h in Headers */ = {isa = PBXBuildFile; fileRef = 62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */; };
 		62D89DB31AE7081600B6243D /* HTMLNamespaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 628B7CE61A080E1000602C87 /* HTMLNamespaces.h */; };
@@ -214,7 +225,7 @@
 		6235CE9F1AA5170A0026937B /* HTMLMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLMarker.m; sourceTree = "<group>"; };
 		62362A3A1A9FA70400301989 /* HTMLText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLText.h; sourceTree = "<group>"; };
 		62362A3B1A9FA70400301989 /* HTMLText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLText.m; sourceTree = "<group>"; };
-		62362A3F1A9FDE8A00301989 /* HTMLNodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNodes.h; sourceTree = "<group>"; };
+		62362A3F1A9FDE8A00301989 /* HTMLDOM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLDOM.h; sourceTree = "<group>"; };
 		62363C3B1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLListOfActiveFormattingElements.h; sourceTree = "<group>"; };
 		62363C3C1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLListOfActiveFormattingElements.m; sourceTree = "<group>"; };
 		6236738D1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTokenizerPerformance.m; sourceTree = "<group>"; };
@@ -227,11 +238,9 @@
 		623857951A9E8606003A45D9 /* HTMLDocumentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocumentType.m; sourceTree = "<group>"; };
 		623857991A9E8934003A45D9 /* HTMLComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLComment.h; sourceTree = "<group>"; };
 		6238579A1A9E8934003A45D9 /* HTMLComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLComment.m; sourceTree = "<group>"; };
-		6238C9831AB8D6330006512E /* HTMLKitExceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLKitExceptions.h; sourceTree = "<group>"; };
-		6238C9841AB8D6330006512E /* HTMLKitExceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitExceptions.m; sourceTree = "<group>"; };
-		623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeTreeEnumerator.h; sourceTree = "<group>"; };
-		623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeTreeEnumerator.m; sourceTree = "<group>"; };
-		623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitNodeTreeEnumratorTests.m; sourceTree = "<group>"; };
+		6238C9831AB8D6330006512E /* HTMLKitDOMExceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLKitDOMExceptions.h; sourceTree = "<group>"; };
+		6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitDOMExceptions.m; sourceTree = "<group>"; };
+		623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitNodeIteratorTests.m; sourceTree = "<group>"; };
 		623975591AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTreeConstructionTests.m; sourceTree = "<group>"; };
 		6239755C1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTML5LibTreeConstructionTest.h; sourceTree = "<group>"; };
 		6239755D1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTML5LibTreeConstructionTest.m; sourceTree = "<group>"; };
@@ -251,6 +260,15 @@
 		624AB31C1B05373600F3830D /* CSSSimpleSequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSSimpleSequence.h; sourceTree = "<group>"; };
 		624AB31D1B05373600F3830D /* CSSSimpleSequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSimpleSequence.m; sourceTree = "<group>"; };
 		624AB3211B053A5800F3830D /* CSSSimpleSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSSimpleSelector.h; sourceTree = "<group>"; };
+		624717161B22333200C11912 /* HTMLNodeTraversal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeTraversal.h; sourceTree = "<group>"; };
+		624717171B22333200C11912 /* HTMLNodeTraversal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeTraversal.m; sourceTree = "<group>"; };
+		6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeWalkerTests.m; sourceTree = "<group>"; };
+		624717B71B21FE5400B38302 /* HTMLNodeFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeFilter.m; sourceTree = "<group>"; };
+		624717BA1B22009200B38302 /* HTMLTreeWalker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTreeWalker.h; sourceTree = "<group>"; };
+		624717BB1B22009200B38302 /* HTMLTreeWalker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeWalker.m; sourceTree = "<group>"; };
+		6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeIterator.h; sourceTree = "<group>"; };
+		6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeIterator.m; sourceTree = "<group>"; };
+		6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNodeFilter.h; sourceTree = "<group>"; };
 		624AC8FE19FBF4F700BD3C4A /* HTMLTokens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLTokens.h; sourceTree = "<group>"; };
 		624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTokenizerTests.m; sourceTree = "<group>"; };
 		624AC90419FBFE8A00BD3C4A /* html5lib-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "html5lib-tests"; sourceTree = "<group>"; };
@@ -380,32 +398,40 @@
 			name = Tokenizer;
 			sourceTree = "<group>";
 		};
-		623719441AA1472B002E03C8 /* Nodes */ = {
+		623719441AA1472B002E03C8 /* DOM */ = {
 			isa = PBXGroup;
 			children = (
-				624B28BB1B03DAB70048D328 /* HTMLNodeFilter.h */,
-				623719431AA12EE8002E03C8 /* HTMLQuirksMode.h */,
-				62362A3F1A9FDE8A00301989 /* HTMLNodes.h */,
+				62362A3F1A9FDE8A00301989 /* HTMLDOM.h */,
 				6234584C1A9D2FA4009BD491 /* HTMLNode.h */,
 				6234584D1A9D2FA4009BD491 /* HTMLNode.m */,
-				6279F87219E1808D00F12EE5 /* HTMLElement.h */,
-				6279F87319E1808D00F12EE5 /* HTMLElement.m */,
 				6238578F1A9E772B003A45D9 /* HTMLDocument.h */,
 				623857901A9E772B003A45D9 /* HTMLDocument.m */,
 				623857941A9E8606003A45D9 /* HTMLDocumentType.h */,
 				623857951A9E8606003A45D9 /* HTMLDocumentType.m */,
+				623406E41ADB05AD004677A3 /* HTMLDocumentFragment.h */,
+				623406E51ADB05AD004677A3 /* HTMLDocumentFragment.m */,
+				6279F87219E1808D00F12EE5 /* HTMLElement.h */,
+				6279F87319E1808D00F12EE5 /* HTMLElement.m */,
 				623857991A9E8934003A45D9 /* HTMLComment.h */,
 				6238579A1A9E8934003A45D9 /* HTMLComment.m */,
 				62362A3A1A9FA70400301989 /* HTMLText.h */,
 				62362A3B1A9FA70400301989 /* HTMLText.m */,
 				623406DF1ADB04F9004677A3 /* HTMLTemplate.h */,
 				623406E01ADB04F9004677A3 /* HTMLTemplate.m */,
-				623406E41ADB05AD004677A3 /* HTMLDocumentFragment.h */,
-				623406E51ADB05AD004677A3 /* HTMLDocumentFragment.m */,
-				623916C11AC707250066B4FE /* HTMLNodeTreeEnumerator.h */,
-				623916C21AC707250066B4FE /* HTMLNodeTreeEnumerator.m */,
+				6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */,
+				6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */,
+				624717BA1B22009200B38302 /* HTMLTreeWalker.h */,
+				624717BB1B22009200B38302 /* HTMLTreeWalker.m */,
+				624717161B22333200C11912 /* HTMLNodeTraversal.h */,
+				624717171B22333200C11912 /* HTMLNodeTraversal.m */,
+				6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */,
+				624717B71B21FE5400B38302 /* HTMLNodeFilter.m */,
+				6238C9831AB8D6330006512E /* HTMLKitDOMExceptions.h */,
+				6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */,
+				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
+				623719431AA12EE8002E03C8 /* HTMLQuirksMode.h */,
 			);
-			name = Nodes;
+			name = DOM;
 			sourceTree = "<group>";
 		};
 		623975581AC362A5007E26F1 /* Tree Construction */ = {
@@ -419,15 +445,15 @@
 			name = "Tree Construction";
 			sourceTree = "<group>";
 		};
-		624B9FB71AE072CB00646C4C /* Nodes */ = {
+		624B9FB71AE072CB00646C4C /* DOM */ = {
 			isa = PBXGroup;
 			children = (
-				623916C61AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m */,
-				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
+				623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */,
+				6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */,
 				624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */,
 				62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */,
 			);
-			name = Nodes;
+			name = DOM;
 			sourceTree = "<group>";
 		};
 		624B9FB81AE072D500646C4C /* Categories */ = {
@@ -436,6 +462,14 @@
 				624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		624E1A2D1B1D1C8A00E66AAC /* Structures */ = {
+			isa = PBXGroup;
+			children = (
+				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
+			);
+			name = Structures;
 			sourceTree = "<group>";
 		};
 		625A14A219C7829400AD0C32 = {
@@ -485,11 +519,9 @@
 			children = (
 				625A14BC19C7829400AD0C32 /* HTMLKit.h */,
 				625A14BD19C7829400AD0C32 /* HTMLKit.m */,
-				6238C9831AB8D6330006512E /* HTMLKitExceptions.h */,
-				6238C9841AB8D6330006512E /* HTMLKitExceptions.m */,
 				62AE593219F97CCA0043F069 /* Tokenizing */,
 				628E16EC1ADAE71700B15A06 /* Parsing */,
-				623719441AA1472B002E03C8 /* Nodes */,
+				623719441AA1472B002E03C8 /* DOM */,
 				628E16ED1ADAE73700B15A06 /* Categories */,
 				628E16EE1ADAE75300B15A06 /* Structures */,
 				62079BE61AF5656600D3B402 /* Selectors */,
@@ -514,8 +546,9 @@
 			children = (
 				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				623975581AC362A5007E26F1 /* Tree Construction */,
-				624B9FB71AE072CB00646C4C /* Nodes */,
+				624B9FB71AE072CB00646C4C /* DOM */,
 				624B9FB81AE072D500646C4C /* Categories */,
+				624E1A2D1B1D1C8A00E66AAC /* Structures */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
 				624AB3161B0508AE00F3830D /* CSSTypeSelectorTests.m */,
 				624AB3191B050A4D00F3830D /* CSSAttributeSelectorTests.m */,
@@ -544,7 +577,6 @@
 				6234BEED1AABBF1400DEB15F /* HTMLStackOfOpenElements.m */,
 				62363C3B1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h */,
 				62363C3C1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m */,
-				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
 				6223211D1A969B9300BACED5 /* HTMLElementTypes.h */,
 				6234C3361AB3BF710046F527 /* HTMLElementAdjustment.h */,
 				6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */,
@@ -611,6 +643,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				624717181B22333200C11912 /* HTMLNodeTraversal.h in Headers */,
 				6235CE9B1AA509430026937B /* NSString+HTMLKit.h in Headers */,
 				62D89DB11AE7081600B6243D /* HTMLTokenizerStates.h in Headers */,
 				62079BE91AF56F1E00D3B402 /* CSSSelector.h in Headers */,
@@ -622,10 +655,9 @@
 				62D89DB51AE7081600B6243D /* HTMLElementAdjustment.h in Headers */,
 				62D89DB61AE7081600B6243D /* HTMLParserInsertionModes.h in Headers */,
 				62D89DB71AE7081600B6243D /* HTMLQuirksMode.h in Headers */,
-				62D89DB01AE7080300B6243D /* HTMLNodes.h in Headers */,
+				62D89DB01AE7080300B6243D /* HTMLDOM.h in Headers */,
 				62F873EB19E088C90062683C /* HTMLParser.h in Headers */,
 				624AC8FF19FBF59800BD3C4A /* HTMLTokens.h in Headers */,
-				623916C31AC707250066B4FE /* HTMLNodeTreeEnumerator.h in Headers */,
 				62AE594419F992F30043F069 /* HTMLCommentToken.h in Headers */,
 				624493AC19CD0CBE00BCDDF4 /* HTMLToken.h in Headers */,
 				6235CEA01AA5170A0026937B /* HTMLMarker.h in Headers */,
@@ -634,8 +666,8 @@
 				623406E11ADB04F9004677A3 /* HTMLTemplate.h in Headers */,
 				624B28B81B03DA820048D328 /* CSSTypeSelector.h in Headers */,
 				6234BEEE1AABBF1400DEB15F /* HTMLStackOfOpenElements.h in Headers */,
-				6238C9851AB8D6330006512E /* HTMLKitExceptions.h in Headers */,
 				624AB3221B053A5800F3830D /* CSSSimpleSelector.h in Headers */,
+				6238C9851AB8D6330006512E /* HTMLKitDOMExceptions.h in Headers */,
 				6238039F1AB63A8C008A53D0 /* HTMLEOFToken.h in Headers */,
 				6279F87419E1808D00F12EE5 /* HTMLElement.h in Headers */,
 				62AE593F19F9907C0043F069 /* HTMLTagToken.h in Headers */,
@@ -643,7 +675,9 @@
 				624B28C41B04190D0048D328 /* NSCharacterSet+HTMLKit.h in Headers */,
 				624493A619CCC54100BCDDF4 /* HTMLTokenizer.h in Headers */,
 				62AE593A19F97E1C0043F069 /* HTMLDOCTYPEToken.h in Headers */,
+				6247A9471B152F8C00CCF25C /* HTMLNodeFilter.h in Headers */,
 				623424881AB467B200726190 /* HTMLOrderedDictionary.h in Headers */,
+				6247A9431B152F4F00CCF25C /* HTMLNodeIterator.h in Headers */,
 				625A150419C783EB00AD0C32 /* HTMLKit.h in Headers */,
 				625A150819C78ABA00AD0C32 /* HTMLInputStreamReader.h in Headers */,
 				6238579B1A9E8934003A45D9 /* HTMLComment.h in Headers */,
@@ -654,6 +688,7 @@
 				623857961A9E8606003A45D9 /* HTMLDocumentType.h in Headers */,
 				623406E61ADB05AD004677A3 /* HTMLDocumentFragment.h in Headers */,
 				62363C3D1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.h in Headers */,
+				624717BC1B22009200B38302 /* HTMLTreeWalker.h in Headers */,
 				62362A3C1A9FA70400301989 /* HTMLText.h in Headers */,
 				6234584E1A9D2FA4009BD491 /* HTMLNode.h in Headers */,
 			);
@@ -807,18 +842,20 @@
 			files = (
 				62362A3E1A9FA70400301989 /* HTMLText.m in Sources */,
 				6235CE9D1AA509430026937B /* NSString+HTMLKit.m in Sources */,
+				6247A9451B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */,
 				6238579D1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				6234BEF01AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */,
 				624493AE19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				6235CEA21AA5170A0026937B /* HTMLMarker.m in Sources */,
 				6234248A1AB467B200726190 /* HTMLOrderedDictionary.m in Sources */,
+				624717BE1B22009200B38302 /* HTMLTreeWalker.m in Sources */,
 				62AE594119F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594619F992F30043F069 /* HTMLCommentToken.m in Sources */,
 				62363C3F1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
-				623916C51AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */,
 				62AE593C19F97E1C0043F069 /* HTMLDOCTYPEToken.m in Sources */,
 				623406E31ADB04F9004677A3 /* HTMLTemplate.m in Sources */,
-				6238C9871AB8D6330006512E /* HTMLKitExceptions.m in Sources */,
+				6238C9871AB8D6330006512E /* HTMLKitDOMExceptions.m in Sources */,
+				6247171A1B22333200C11912 /* HTMLNodeTraversal.m in Sources */,
 				62F873ED19E088C90062683C /* HTMLParser.m in Sources */,
 				623803A11AB63A8C008A53D0 /* HTMLEOFToken.m in Sources */,
 				624B28C61B04190D0048D328 /* NSCharacterSet+HTMLKit.m in Sources */,
@@ -826,6 +863,7 @@
 				625A150A19C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				623857931A9E772B003A45D9 /* HTMLDocument.m in Sources */,
 				623406E81ADB05AD004677A3 /* HTMLDocumentFragment.m in Sources */,
+				624717B91B21FE5400B38302 /* HTMLNodeFilter.m in Sources */,
 				624493A819CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */,
 				624AB3201B05373600F3830D /* CSSSimpleSequence.m in Sources */,
 				623F13AC1AFC11D900C90BF4 /* CSSTokenizer.m in Sources */,
@@ -848,6 +886,7 @@
 			files = (
 				6239755B1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */,
 				623CAF9E1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */,
+				6247171D1B2240B800C11912 /* HTMLTreeWalkerTests.m in Sources */,
 				62EC7AE71AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m in Sources */,
 				624AB31B1B050A4D00F3830D /* CSSAttributeSelectorTests.m in Sources */,
 				624B9FB61AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m in Sources */,
@@ -855,7 +894,7 @@
 				6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
 				624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
 				624B9FB31AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */,
-				623916C81AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */,
+				623916C81AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m in Sources */,
 				62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 				6239755F1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */,
 				624FC37B1AE591D80015DDF9 /* HTMLKitNodesTests.m in Sources */,
@@ -868,18 +907,20 @@
 			files = (
 				62362A3D1A9FA70400301989 /* HTMLText.m in Sources */,
 				6235CE9C1AA509430026937B /* NSString+HTMLKit.m in Sources */,
+				6247A9441B152F4F00CCF25C /* HTMLNodeIterator.m in Sources */,
 				6238579C1A9E8934003A45D9 /* HTMLComment.m in Sources */,
 				6234BEEF1AABBF1400DEB15F /* HTMLStackOfOpenElements.m in Sources */,
 				624493AD19CD0CBE00BCDDF4 /* HTMLToken.m in Sources */,
 				6235CEA11AA5170A0026937B /* HTMLMarker.m in Sources */,
 				623424891AB467B200726190 /* HTMLOrderedDictionary.m in Sources */,
+				624717BD1B22009200B38302 /* HTMLTreeWalker.m in Sources */,
 				62AE594019F9907C0043F069 /* HTMLTagToken.m in Sources */,
 				62AE594519F992F30043F069 /* HTMLCommentToken.m in Sources */,
 				62363C3E1ABE428200DAB4C6 /* HTMLListOfActiveFormattingElements.m in Sources */,
-				623916C41AC707250066B4FE /* HTMLNodeTreeEnumerator.m in Sources */,
 				62AE593B19F97E1C0043F069 /* HTMLDOCTYPEToken.m in Sources */,
 				623406E21ADB04F9004677A3 /* HTMLTemplate.m in Sources */,
-				6238C9861AB8D6330006512E /* HTMLKitExceptions.m in Sources */,
+				6238C9861AB8D6330006512E /* HTMLKitDOMExceptions.m in Sources */,
+				624717191B22333200C11912 /* HTMLNodeTraversal.m in Sources */,
 				62F873EC19E088C90062683C /* HTMLParser.m in Sources */,
 				623803A01AB63A8C008A53D0 /* HTMLEOFToken.m in Sources */,
 				624B28C51B04190D0048D328 /* NSCharacterSet+HTMLKit.m in Sources */,
@@ -887,6 +928,7 @@
 				625A150919C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */,
 				623857921A9E772B003A45D9 /* HTMLDocument.m in Sources */,
 				623406E71ADB05AD004677A3 /* HTMLDocumentFragment.m in Sources */,
+				624717B81B21FE5400B38302 /* HTMLNodeFilter.m in Sources */,
 				624493A719CCC54100BCDDF4 /* HTMLTokenizer.m in Sources */,
 				624AB31F1B05373600F3830D /* CSSSimpleSequence.m in Sources */,
 				623F13AB1AFC11D900C90BF4 /* CSSTokenizer.m in Sources */,
@@ -909,6 +951,7 @@
 			files = (
 				6239755A1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */,
 				623CAF9D1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */,
+				6247171C1B2240B800C11912 /* HTMLTreeWalkerTests.m in Sources */,
 				62EC7AE61AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m in Sources */,
 				624AB31A1B050A4D00F3830D /* CSSAttributeSelectorTests.m in Sources */,
 				624B9FB51AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m in Sources */,
@@ -916,7 +959,7 @@
 				6236738E1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
 				624AC90119FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
 				624B9FB21AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */,
-				623916C71AC7209E0066B4FE /* HTMLKitNodeTreeEnumratorTests.m in Sources */,
+				623916C71AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m in Sources */,
 				62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 				6239755E1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */,
 				624FC37A1AE591D80015DDF9 /* HTMLKitNodesTests.m in Sources */,
@@ -1066,7 +1109,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
-					"$(SDKROOT)/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
@@ -1089,7 +1131,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
-					"$(SDKROOT)/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
@@ -1138,7 +1179,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
@@ -1162,7 +1202,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);

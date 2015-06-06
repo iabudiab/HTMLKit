@@ -7,6 +7,7 @@
 //
 
 #import "HTMLElement.h"
+#import "HTMLParser.h"
 #import "HTMLDocument.h"
 #import "HTMLText.h"
 
@@ -35,10 +36,10 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
 {
-	return [self initWithTagName:tagName attributes:attributes namespace:HTMLNamespaceHTML];
+	return [self initWithTagName:tagName namespace:HTMLNamespaceHTML attributes:attributes];
 }
 
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes namespace:(HTMLNamespace)htmlNamespace
+- (instancetype)initWithTagName:(NSString *)tagName namespace:(HTMLNamespace)htmlNamespace attributes:(NSDictionary *)attributes
 {
 	self = [super initWithName:tagName type:HTMLNodeElement];
 	if (self) {
@@ -87,8 +88,8 @@
 - (NSString *)textContent
 {
 	NSMutableString *content = [NSMutableString string];
-	for (HTMLNode *node in self.treeEnumerator) {
-		if (node.type == HTMLNodeText) {
+	for (HTMLNode *node in self.nodeIterator) {
+		if (node.nodeType == HTMLNodeText) {
 			[content appendString:[(HTMLText *)node data]];
 		}
 	}
@@ -99,6 +100,14 @@
 {
 	HTMLText *node = [[HTMLText alloc] initWithData:textContent];
 	[self replaceAllChildNodesWithNode:node];
+}
+
+- (void)setInnerHTML:(NSString *)innerHTML
+{
+	HTMLParser *parser = [[HTMLParser alloc] initWithString:innerHTML];
+	NSArray	*fragmentNodes = [parser parseFragmentWithContextElement:self];
+	[self removeAllChildNodes];
+	[self appendNodes:fragmentNodes];
 }
 
 #pragma mark - NSCopying
@@ -137,8 +146,8 @@
 		return result;
 	}
 
-	if ([self.tagName isEqualToAny:@"pre", @"textarea", @"listing", nil] && self.firstChiledNode.type == HTMLNodeText) {
-		HTMLText *textNode = (HTMLText *)self.firstChiledNode;
+	if ([self.tagName isEqualToAny:@"pre", @"textarea", @"listing", nil] && self.firstChild.nodeType == HTMLNodeText) {
+		HTMLText *textNode = (HTMLText *)self.firstChild;
 		if ([textNode.data hasPrefix:@"\n"]) {
 			[result appendString:@"\n"];
 		}
