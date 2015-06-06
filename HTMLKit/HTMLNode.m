@@ -70,12 +70,12 @@
 	return _parentNode.nodeType == HTMLNodeElement ? (HTMLElement *)_parentNode : nil;
 }
 
-- (HTMLNode *)firstChiledNode
+- (HTMLNode *)firstChild
 {
 	return self.childNodes.firstObject;
 }
 
-- (HTMLNode *)lastChildNode
+- (HTMLNode *)lastChild
 {
 	return self.childNodes.lastObject;
 }
@@ -147,13 +147,13 @@
 
 - (HTMLNode *)prependNode:(HTMLNode *)node
 {
-	return [self insertNode:node beforeChildNode:self.firstChiledNode];
+	return [self insertNode:node beforeChildNode:self.firstChild];
 }
 
 - (void)prependNodes:(NSArray *)nodes
 {
 	for (id node in nodes.reverseObjectEnumerator) {
-		[self insertNode:node beforeChildNode:self.firstChiledNode];
+		[self insertNode:node beforeChildNode:self.firstChild];
 	}
 }
 

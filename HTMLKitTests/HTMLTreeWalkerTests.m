@@ -109,7 +109,7 @@
 
 	HTMLTreeWalker *walker = [[HTMLTreeWalker alloc] initWithNode:root];
 
-	HTMLNode *f = root.lastChildNode.firstChiledNode.childNodes[1];
+	HTMLNode *f = root.lastChild.firstChild.childNodes[1];
 
 	AssertElementWithId(walker.currentNode, @"a");
 	XCTAssertNil(walker.parentNode);
@@ -157,7 +157,7 @@
 - (void)testThatTreeWalkerParentHasNoEffectCurrentNodeWhenParentIsNotUnderRoot
 {
 	HTMLDocument *document = self.currentNodeDOM;
-	HTMLNode *first = document.body.firstChiledNode;
+	HTMLNode *first = document.body.firstChild;
 
 	HTMLTreeWalker *walker = [[HTMLTreeWalker alloc] initWithNode:first
 													  showOptions:HTMLNodeFilterShowElement
@@ -171,7 +171,7 @@
 - (void)testThatSettingCurrentNodeToNodesNotUnderRootIsHandledCorrectly
 {
 	HTMLDocument *document = self.currentNodeDOM;
-	HTMLNode *first = document.body.firstChiledNode;
+	HTMLNode *first = document.body.firstChild;
 
 	HTMLTreeWalker *walker = [[HTMLTreeWalker alloc] initWithNode:first
 													  showOptions:HTMLNodeFilterShowElement|HTMLNodeFilterShowComment
@@ -181,20 +181,20 @@
 	XCTAssertEqualObjects(walker.currentNode, document.documentElement);
 
 	walker.currentNode = document.documentElement;
-	XCTAssertEqualObjects(walker.nextNode, document.documentElement.firstChiledNode);
-	XCTAssertEqualObjects(walker.currentNode, document.documentElement.firstChiledNode);
+	XCTAssertEqualObjects(walker.nextNode, document.documentElement.firstChild);
+	XCTAssertEqualObjects(walker.currentNode, document.documentElement.firstChild);
 
 	walker.currentNode = document.documentElement;
 	XCTAssertNil(walker.previousNode);
 	XCTAssertEqualObjects(walker.currentNode, document.documentElement);
 
 	walker.currentNode = document.documentElement;
-	XCTAssertEqualObjects(walker.firstChild, document.documentElement.firstChiledNode);
-	XCTAssertEqualObjects(walker.currentNode, document.documentElement.firstChiledNode);
+	XCTAssertEqualObjects(walker.firstChild, document.documentElement.firstChild);
+	XCTAssertEqualObjects(walker.currentNode, document.documentElement.firstChild);
 
 	walker.currentNode = document.documentElement;
-	XCTAssertEqualObjects(walker.lastChild, document.documentElement.lastChildNode);
-	XCTAssertEqualObjects(walker.currentNode, document.documentElement.lastChildNode);
+	XCTAssertEqualObjects(walker.lastChild, document.documentElement.lastChild);
+	XCTAssertEqualObjects(walker.currentNode, document.documentElement.lastChild);
 
 	walker.currentNode = document.documentElement;
 	XCTAssertNil(walker.nextSibling);

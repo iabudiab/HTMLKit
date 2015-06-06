@@ -89,7 +89,7 @@ typedef NS_ENUM(short, TraverseDirection)
 	}
 
 	if (_pointerBeforeReferenceNode) {
-		HTMLNode *nextSibling = oldPreviousSibling != nil ? oldPreviousSibling.nextSibling : oldParent.firstChiledNode;
+		HTMLNode *nextSibling = oldPreviousSibling != nil ? oldPreviousSibling.nextSibling : oldParent.firstChild;
 		if (nextSibling != nil) {
 			_referenceNode = nextSibling;
 			return;
@@ -105,8 +105,8 @@ typedef NS_ENUM(short, TraverseDirection)
 	}
 
 	HTMLNode * (^ lastInclusiveDescendant) (HTMLNode *) = ^ HTMLNode * (HTMLNode *node) {
-		while (node.lastChildNode) {
-			node = node.lastChildNode;
+		while (node.lastChild) {
+			node = node.lastChild;
 		}
 		return node;
 	};

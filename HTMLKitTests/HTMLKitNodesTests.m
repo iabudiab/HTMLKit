@@ -37,10 +37,10 @@
 	XCTAssertNil(node.ownerDocument);
 	XCTAssertNil(node.parentNode);
 	XCTAssertNil(node.parentElement);
-	XCTAssertNil(node.firstChiledNode);
-	XCTAssertNil(node.lastChildNode);
+	XCTAssertNil(node.firstChild);
+	XCTAssertNil(node.lastChild);
 	XCTAssertNil(node.previousSibling);
-	XCTAssertNil(node.lastChildNode);
+	XCTAssertNil(node.lastChild);
 }
 
 - (void)testAppendNode
@@ -50,7 +50,7 @@
 	[element appendNode:comment];
 
 	XCTAssertEqual(element.childNodesCount, 1);
-	XCTAssertEqual(element.firstChiledNode, comment);
+	XCTAssertEqual(element.firstChild, comment);
 
 	HTMLElement *firstElement = [HTMLElement new];
 	HTMLElement *secondElement = [HTMLElement new];
@@ -59,8 +59,8 @@
 	[element appendNodes:nodes];
 
 	XCTAssertEqual(element.childNodesCount, 3);
-	XCTAssertEqual(element.firstChiledNode, comment);
-	XCTAssertEqual(element.lastChildNode, secondElement);
+	XCTAssertEqual(element.firstChild, comment);
+	XCTAssertEqual(element.lastChild, secondElement);
 }
 
 - (void)testPrependNode
@@ -73,7 +73,7 @@
 	[element prependNode:comment];
 
 	XCTAssertEqual(element.childNodesCount, 2);
-	XCTAssertEqual(element.firstChiledNode, comment);
+	XCTAssertEqual(element.firstChild, comment);
 
 	HTMLElement *firstElement = [HTMLElement new];
 	HTMLElement *secondElement = [HTMLElement new];
@@ -82,8 +82,8 @@
 	[element prependNodes:nodes];
 
 	XCTAssertEqual(element.childNodesCount, 4);
-	XCTAssertEqual(element.firstChiledNode, firstElement);
-	XCTAssertEqual(element.lastChildNode, text);
+	XCTAssertEqual(element.firstChild, firstElement);
+	XCTAssertEqual(element.lastChild, text);
 }
 
 - (void)testAppendDocumentFragment
@@ -104,10 +104,10 @@
 
 	XCTAssertEqualObjects(firstChild.parentNode, element);
 	XCTAssertEqualObjects(secondChild.parentNode, element);
-	XCTAssertEqualObjects(element.firstChiledNode, comment);
-	XCTAssertEqualObjects(element.firstChiledNode.nextSibling, firstChild);
-	XCTAssertEqualObjects(element.lastChildNode.previousSibling, firstChild);
-	XCTAssertEqualObjects(element.lastChildNode, secondChild);
+	XCTAssertEqualObjects(element.firstChild, comment);
+	XCTAssertEqualObjects(element.firstChild.nextSibling, firstChild);
+	XCTAssertEqualObjects(element.lastChild.previousSibling, firstChild);
+	XCTAssertEqualObjects(element.lastChild, secondChild);
 }
 
 - (void)testParentNode
@@ -170,20 +170,20 @@
 	HTMLNode *firstChild = [[HTMLNode alloc] initWithName:@"first" type:HTMLNodeElement];
 	[node appendNode:firstChild];
 
-	XCTAssertEqualObjects(node.firstChiledNode, firstChild);
-	XCTAssertEqualObjects(node.lastChildNode, firstChild);
+	XCTAssertEqualObjects(node.firstChild, firstChild);
+	XCTAssertEqualObjects(node.lastChild, firstChild);
 
 	HTMLNode *secondChild = [[HTMLNode alloc] initWithName:@"second" type:HTMLNodeElement];
 	[node appendNode:secondChild];
 
-	XCTAssertEqualObjects(node.firstChiledNode, firstChild);
-	XCTAssertEqualObjects(node.lastChildNode, secondChild);
+	XCTAssertEqualObjects(node.firstChild, firstChild);
+	XCTAssertEqualObjects(node.lastChild, secondChild);
 
 	HTMLNode *thirdChild = [[HTMLNode alloc] initWithName:@"third" type:HTMLNodeElement];
 	[node appendNode:thirdChild];
 
-	XCTAssertEqualObjects(node.firstChiledNode, firstChild);
-	XCTAssertEqualObjects(node.lastChildNode, thirdChild);
+	XCTAssertEqualObjects(node.firstChild, firstChild);
+	XCTAssertEqualObjects(node.lastChild, thirdChild);
 }
 
 - (void)testNextAndPreviousSiblingNodes
@@ -478,7 +478,7 @@
 
 	XCTAssertEqual(element.childNodesCount, 2);
 
-	XCTAssertEqualObjects(element.firstChiledNode.asElement.tagName, @"p");
+	XCTAssertEqualObjects(element.firstChild.asElement.tagName, @"p");
 	XCTAssertEqualObjects([element childNodeAtIndex:1].asElement.tagName, @"p");
 }
 

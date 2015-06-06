@@ -72,7 +72,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 {
 	HTMLNode *node = _currentNode;
 
-	node = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.firstChiledNode : node.lastChildNode;
+	node = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.firstChild : node.lastChild;
 
 	while (node != nil) {
 		HTMLNodeFilterValue result = FilterNode(self.filter, self.whatToShow, node);
@@ -82,7 +82,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 		}
 
 		if (result == HTMLNodeFilterSkip) {
-			HTMLNode *child = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.firstChiledNode : node.lastChildNode;
+			HTMLNode *child = (type == HTMLTreeWalkerChildrenTypeFirst) ? node.firstChild : node.lastChild;
 			if (child != nil) {
 				node = child;
 				continue;
@@ -135,7 +135,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 				return node;
 			}
 
-			sibling = (type == HTMLTreeWalkerSiblingsTypeNext) ? node.firstChiledNode : node.lastChildNode;
+			sibling = (type == HTMLTreeWalkerSiblingsTypeNext) ? node.firstChild : node.lastChild;
 			if (result == HTMLNodeFilterReject || sibling == nil) {
 				sibling = (type == HTMLTreeWalkerSiblingsTypeNext) ? node.nextSibling : node.previousSibling;
 			}
@@ -176,7 +176,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 
 			HTMLNodeFilterValue result = FilterNode(self.filter, self.whatToShow, node);
 			while (result != HTMLNodeFilterReject && node.hasChildNodes) {
-				node = node.lastChildNode;
+				node = node.lastChild;
 				result = FilterNode(self.filter, self.whatToShow, node);
 			}
 
@@ -210,7 +210,7 @@ typedef NS_ENUM(short, HTMLTreeWalkerSiblingsType)
 
 	while (YES) {
 		while (result != HTMLNodeFilterReject && node.hasChildNodes) {
-			node = node.firstChiledNode;
+			node = node.firstChild;
 			result = FilterNode(self.filter, self.whatToShow, node);
 			if (result == HTMLNodeFilterAccept) {
 				_currentNode = node;

@@ -367,8 +367,8 @@ static void (^ IterateUpToNode)(HTMLNodeIterator *, HTMLNode *) = ^ (HTMLNodeIte
 };
 
 static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node) {
-	while (node.lastChildNode) {
-		node = node.lastChildNode;
+	while (node.lastChild) {
+		node = node.lastChild;
 	}
 	return node;
 };
@@ -376,7 +376,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 - (void)testThatRemovingRootNodeShouldNotAffectIterator
 {
 	HTMLDocument *document = self.document;
-	HTMLNode *node = document.body.firstChiledNode; // <span>
+	HTMLNode *node = document.body.firstChild; // <span>
 
 	HTMLNodeIterator *iterator = node.nodeIterator;
 
@@ -401,7 +401,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	RemoveThenInsertNode(iterator.root.childNodes[1]); // Remove <p>
 
 	XCTAssertEqualObjects(iterator.root, body);
-	XCTAssertEqualObjects(iterator.referenceNode, body.firstChiledNode);
+	XCTAssertEqualObjects(iterator.referenceNode, body.firstChild);
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
 }
 
@@ -420,7 +420,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
 
 	HTMLNode *next = iterator.nextNode; // "Hello"
-	XCTAssertEqualObjects(next, iterator.root.firstChiledNode);
+	XCTAssertEqualObjects(next, iterator.root.firstChild);
 }
 
 - (void)testThatRemovingReferenceNodeShouldUpdateIterator_NonNilOldPreviousSibling_NotBeforeReference
@@ -434,7 +434,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	IterateUpToNode(iterator, node); // Reference node: <p>, pointer-before-reference: NO
 	RemoveThenInsertNode(node); // Remove <p> with old previos sibling being <span>
 
-	XCTAssertEqualObjects(iterator.referenceNode, LastDescendant(body.firstChiledNode));
+	XCTAssertEqualObjects(iterator.referenceNode, LastDescendant(body.firstChild));
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
 }
 
@@ -450,7 +450,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	[iterator previousNode]; // pointer-before-reference: YES
 	RemoveThenInsertNode(node); // Remove <p> with old previos sibling being <span>
 
-	XCTAssertEqualObjects(iterator.referenceNode, body.firstChiledNode);
+	XCTAssertEqualObjects(iterator.referenceNode, body.firstChild);
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, YES);
 }
 
@@ -502,7 +502,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	[iterator nextNode]; // Reference node: "This is an "
 	RemoveThenInsertNode(parent);
 
-	XCTAssertEqualObjects(iterator.referenceNode, LastDescendant(body.firstChiledNode));
+	XCTAssertEqualObjects(iterator.referenceNode, LastDescendant(body.firstChild));
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
 }
 
@@ -519,7 +519,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	[iterator previousNode]; // pointer-before-reference: YES
 	RemoveThenInsertNode(parent);
 
-	XCTAssertEqualObjects(iterator.referenceNode, body.firstChiledNode);
+	XCTAssertEqualObjects(iterator.referenceNode, body.firstChild);
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, YES);
 }
 
@@ -555,13 +555,13 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 
 	body.innerHTML = @"<div><p><a></a></p></div><div></div>";
 
-	HTMLNodeIterator *iterator = body.firstChiledNode.nodeIterator;
+	HTMLNodeIterator *iterator = body.firstChild.nodeIterator;
 
-	IterateUpToNode(iterator, LastDescendant(body.firstChiledNode)); // Referecne node: <a>
+	IterateUpToNode(iterator, LastDescendant(body.firstChild)); // Referecne node: <a>
 	HTMLNode *node = [iterator previousNode]; // pointer-before-reference: YES
 	RemoveThenInsertNode(node);
 
-	XCTAssertEqualObjects(iterator.referenceNode, iterator.root.firstChiledNode);
+	XCTAssertEqualObjects(iterator.referenceNode, iterator.root.firstChild);
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
 }
 

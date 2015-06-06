@@ -146,8 +146,8 @@
 		return result;
 	}
 
-	if ([self.tagName isEqualToAny:@"pre", @"textarea", @"listing", nil] && self.firstChiledNode.nodeType == HTMLNodeText) {
-		HTMLText *textNode = (HTMLText *)self.firstChiledNode;
+	if ([self.tagName isEqualToAny:@"pre", @"textarea", @"listing", nil] && self.firstChild.nodeType == HTMLNodeText) {
+		HTMLText *textNode = (HTMLText *)self.firstChild;
 		if ([textNode.data hasPrefix:@"\n"]) {
 			[result appendString:@"\n"];
 		}

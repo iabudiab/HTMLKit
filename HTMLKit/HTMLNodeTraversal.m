@@ -14,8 +14,8 @@ HTMLNode * PrecedingNode(HTMLNode *node, HTMLNode *root)
 {
 	HTMLNode *previous = node.previousSibling;
 	if (previous != nil) {
-		while (previous.lastChildNode != nil) {
-			previous = previous.lastChildNode;
+		while (previous.lastChild != nil) {
+			previous = previous.lastChild;
 		}
 		return previous;
 	}
@@ -29,8 +29,8 @@ HTMLNode * PrecedingNode(HTMLNode *node, HTMLNode *root)
 
 HTMLNode * FollowingNode(HTMLNode *node, HTMLNode *root)
 {
-	if (node.firstChiledNode != nil) {
-		return node.firstChiledNode;
+	if (node.firstChild != nil) {
+		return node.firstChild;
 	}
 
 	do {

@@ -77,7 +77,7 @@
 
 - (HTMLElement *)rootElement
 {
-	for (HTMLNode *node = self.firstChiledNode; node; node = node.nextSibling) {
+	for (HTMLNode *node = self.firstChild; node; node = node.nextSibling) {
 		if (node.nodeType == HTMLNodeElement) {
 			return node.asElement;
 		}

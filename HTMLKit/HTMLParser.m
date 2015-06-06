@@ -455,8 +455,8 @@
 	if (adjustedInsertionLocation.nodeType != HTMLNodeDocument) {
 		if (child != nil && child.previousSibling.nodeType == HTMLNodeText) {
 			[(HTMLText *)child.previousSibling appendString:data];
-		} else if (adjustedInsertionLocation.lastChildNode.nodeType == HTMLNodeText) {
-			[(HTMLText *)adjustedInsertionLocation.lastChildNode appendString:data];
+		} else if (adjustedInsertionLocation.lastChild.nodeType == HTMLNodeText) {
+			[(HTMLText *)adjustedInsertionLocation.lastChild appendString:data];
 		} else {
 			HTMLText *text = [[HTMLText alloc] initWithData:data];
 			[adjustedInsertionLocation insertNode:text beforeChildNode:child];
