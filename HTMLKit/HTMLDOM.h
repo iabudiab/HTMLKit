@@ -14,3 +14,6 @@
 #import "HTMLComment.h"
 #import "HTMLText.h"
 #import "HTMLTemplate.h"
+#import "HTMLNodeIterator.h"
+#import "HTMLTreeWalker.h"
+#import "HTMLNodeFilter.h"
