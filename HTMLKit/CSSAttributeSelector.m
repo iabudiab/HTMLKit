@@ -49,8 +49,15 @@
 		return HTMLNodeFilterSkip;
 	}
 
-	HTMLElement *element = (HTMLElement *)node;
+	if ([self acceptElement:node.asElement]) {
+		return HTMLNodeFilterAccept;
+	}
 
+	return HTMLNodeFilterSkip;
+}
+
+- (BOOL)acceptElement:(HTMLElement *)element
+{
 	switch (_type) {
 		case CSSAttributeSelectorExists:
 		{

@@ -30,22 +30,22 @@
 																  attributeName:@"attr"
 																 attrbiuteValue:@""];
 
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"class"] = @"class";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"value 2";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"value 3";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	[_element.attributes removeObjectForKey:@"attr"];
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 }
 
 - (void)testAttributeExactMatch
@@ -54,25 +54,25 @@
 																  attributeName:@"attr"
 																 attrbiuteValue:@"value"];
 
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"class"] = @"class";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value 1";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value 2";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value 3";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	[_element.attributes removeObjectForKey:@"attr"];
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 }
 
 - (void)testAttributeIncludes
@@ -81,22 +81,22 @@
 																  attributeName:@"attr"
 																 attrbiuteValue:@"value"];
 
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"class"] = @"class";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"a b value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"a value b";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	[_element.attributes removeObjectForKey:@"attr"];
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 }
 
 - (void)testAttributeBegins
@@ -105,25 +105,25 @@
 																  attributeName:@"attr"
 																 attrbiuteValue:@"value"];
 
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"class"] = @"class";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"val";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"a value";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"values";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	[_element.attributes removeObjectForKey:@"attr"];
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 }
 
 - (void)testAttributeEnds
@@ -132,25 +132,25 @@
 																  attributeName:@"attr"
 																 attrbiuteValue:@"value"];
 
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"class"] = @"class";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"val";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"a value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"some-value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	[_element.attributes removeObjectForKey:@"attr"];
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 }
 
 - (void)testAttributeContains
@@ -159,25 +159,25 @@
 																  attributeName:@"attr"
 																 attrbiuteValue:@"value"];
 
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"class"] = @"class";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"val";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"a value b";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"some-values";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	[_element.attributes removeObjectForKey:@"attr"];
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 }
 
 - (void)testAttributeHyphen
@@ -186,25 +186,25 @@
 																  attributeName:@"attr"
 																 attrbiuteValue:@"top"];
 
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"class"] = @"class";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"top_text";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"toptext";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"top";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	_element[@"attr"] = @"top-text";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	[_element.attributes removeObjectForKey:@"attr"];
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 }
 
 - (void)testChangeAttributeName
@@ -214,13 +214,13 @@
 																 attrbiuteValue:@""];
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.name = @"new-attr";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"new-attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 }
 
 - (void)testChangeAttributeValue
@@ -230,13 +230,13 @@
 																 attrbiuteValue:@"value"];
 
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.value = @"new-value";
-	XCTAssertFalse([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterSkip);
 
 	_element[@"attr"] = @"new-value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 }
 
 - (void)testChangeAttributeType
@@ -246,31 +246,31 @@
 																 attrbiuteValue:@"value"];
 
 	_element[@"attr"] = @"";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.type = CSSAttributeSelectorExactMatch;
 	_element[@"attr"] = @"value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.type = CSSAttributeSelectorIncludes;
 	_element[@"attr"] = @"first-value value another-value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.type = CSSAttributeSelectorBegins;
 	_element[@"attr"] = @"values";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.type = CSSAttributeSelectorEnds;
 	_element[@"attr"] = @"some-value";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.type = CSSAttributeSelectorContains;
 	_element[@"attr"] = @"here-is-a-value-";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 
 	selector.type = CSSAttributeSelectorHyphen;
 	_element[@"attr"] = @"value-";
-	XCTAssertTrue([selector acceptNode:_element]);
+	XCTAssertEqual([selector acceptNode:_element], HTMLNodeFilterAccept);
 }
 
 @end

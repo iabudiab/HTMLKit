@@ -43,7 +43,11 @@
 		return HTMLNodeFilterSkip;
 	}
 
-	return [_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:[(HTMLElement *)node tagName]];
+	if ([_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:[node.asElement tagName]]) {
+		return HTMLNodeFilterAccept;
+	}
+
+	return HTMLNodeFilterSkip;
 }
 
 - (NSString *)description
