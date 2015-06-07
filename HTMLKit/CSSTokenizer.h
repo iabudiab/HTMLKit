@@ -31,7 +31,15 @@ typedef NS_ENUM(int, CSSToken)
 	CSSTokenPercentage,
 	CSSTokenDimension,
 	CSSTokenCDO,
-	CSSTokenCDC
+	CSSTokenCDC,
+	CSSTokenRightParenthesis = 41,
+	CSSTokenWildcard = 42,
+	CSSTokenMinus = 45,
+	CSSTokenDot = 46,
+	CSSTokenColon = 58,
+	CSSTokenEqual = 61,
+	CSSTokenLeftSquareBracket = 91,
+	CSSTokenRightSquareBracket = 93
 };
 
 @interface CSSTokenizer : NSObject
