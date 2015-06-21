@@ -288,6 +288,7 @@
 		624B28C31B04190D0048D328 /* NSCharacterSet+HTMLKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+HTMLKit.m"; sourceTree = "<group>"; };
 		624B371C1B24E9BA0010BDDF /* CSSInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSInputStream.h; sourceTree = "<group>"; };
 		624B371D1B24E9BA0010BDDF /* CSSInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSInputStream.m; sourceTree = "<group>"; };
+		624B37211B250BB50010BDDF /* CSSTokenizerCodePoints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CSSTokenizerCodePoints.h; sourceTree = "<group>"; };
 		624B7DDA1B2E3AAB00A4BD61 /* CSSToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSToken.h; sourceTree = "<group>"; };
 		624B7DDB1B2E3AAB00A4BD61 /* CSSToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSToken.m; sourceTree = "<group>"; };
 		624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitStringCategoryTests.m; sourceTree = "<group>"; };
@@ -386,6 +387,7 @@
 				623F13A91AFC11D900C90BF4 /* CSSTokenizer.m */,
 				624B7DDA1B2E3AAB00A4BD61 /* CSSToken.h */,
 				624B7DDB1B2E3AAB00A4BD61 /* CSSToken.m */,
+				624B37211B250BB50010BDDF /* CSSTokenizerCodePoints.h */,
 				62491C461AFE51F100ACF9E2 /* CSSLexer.h */,
 				62491C451AFE51F100ACF9E2 /* CSSLexer.c */,
 				62079BE71AF56F1E00D3B402 /* CSSSelector.h */,
