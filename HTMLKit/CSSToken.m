@@ -28,6 +28,13 @@
 
 @end
 
+#pragma mark - Unicode Range
+
+@implementation CSSUnicodeRangeToken
+@end
+
+#pragma mark - Numeric
+
 @implementation CSSNumericToken
 @end
 

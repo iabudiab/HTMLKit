@@ -47,12 +47,19 @@ typedef NS_ENUM(NSUInteger, CSSTokenType)
 @interface CSSToken : NSObject
 
 @property (nonatomic, assign) CSSTokenType type;
-@property (nonatomic, assign) NSUInteger start;
-@property (nonatomic, assign) NSUInteger end;
+@property (nonatomic, assign) NSUInteger location;
+@property (nonatomic, assign) NSUInteger length;
 @property (nonatomic, copy) NSString *text;
 
 + (instancetype)tokenWithType:(CSSTokenType)type;
 
+@end
+
+#pragma mark - Unicode Range
+
+@interface CSSUnicodeRangeToken : CSSToken
+@property (nonatomic, assign) unsigned int start;
+@property (nonatomic, assign) unsigned int end;
 @end
 
 #pragma mark - Numeric Tokens
@@ -62,7 +69,6 @@ typedef NS_ENUM(NSUInteger, CSSNumericTokenType)
 	CSSNumericTokenTypeInteger,
 	CSSNumericTokenTypeNumber
 };
-
 
 @interface CSSNumericToken : CSSToken
 @property (nonatomic, assign) CSSNumericTokenType numericType;

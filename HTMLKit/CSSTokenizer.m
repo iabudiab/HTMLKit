@@ -231,9 +231,9 @@
 		token = [CSSToken tokenWithType:CSSTokenTypeDelim];
 	}
 
-	token.start = start;
-	token.end = _inputStream.location;
-	token.text = [_string substringWithRange:NSMakeRange(token.start, token.end - token.start)];
+	token.location = start;
+	token.length = _inputStream.location - start;
+	token.text = [_string substringWithRange:NSMakeRange(token.location, token.length)];
 
 	return token;
 }
@@ -434,24 +434,60 @@
 
 - (CSSToken *)consumeUnicodeRange
 {
-	CFMutableStringRef hexDigits = CFStringCreateMutable(kCFAllocatorDefault, 6);
-	while (isHexDigit([_inputStream nextCodePoint]) && CFStringGetLength(hexDigits) < 6) {
-		UniChar codePoint = [_inputStream consumeNextCodePoint];
-		CFStringAppendCharacters(hexDigits, &codePoint, 1);
-	}
+	unsigned int (^ parseHexInt) (NSString *) = ^ unsigned int (NSString *string) {
+		NSScanner *scanner = [NSScanner scannerWithString:string];
+		unsigned int num;
+		[scanner scanHexInt:&num];
+		return num;
+	};
 
-	if (CFStringGetLength(hexDigits) < 6) {
+	void (^ consumeHexDigits)(CFMutableStringRef) = ^ (CFMutableStringRef ref) {
+		while (isHexDigit([_inputStream nextCodePoint]) && CFStringGetLength(ref) < 6) {
+			UniChar codePoint = [_inputStream consumeNextCodePoint];
+			CFStringAppendCharacters(ref, &codePoint, 1);
+		}
+	};
+
+	CFMutableStringRef hexDigits = CFStringCreateMutable(kCFAllocatorDefault, 6);
+	consumeHexDigits(hexDigits);
+
+	unsigned int rangeStart = 0;
+	unsigned int rangeEnd = 0;
+
+	CFIndex length = CFStringGetLength(hexDigits);
+	if (length < 6) {
 		while ([_inputStream nextCodePoint] == QUESTION_MARK && CFStringGetLength(hexDigits) < 6) {
 			UniChar codePoint = [_inputStream consumeNextCodePoint];
 			CFStringAppendCharacters(hexDigits, &codePoint, 1);
 		}
 
-		NSScanner *scanner = [NSScanner scannerWithString:(__bridge NSString *)(hexDigits)];
-		UTF32Char number;
-		[scanner scanHexInt:&number];
+		NSString *string = (__bridge NSString *)(hexDigits);
+
+		if (string.length > length) {
+			rangeStart = parseHexInt([string stringByReplacingOccurrencesOfString:@"?" withString:@"0"]);
+			rangeEnd = parseHexInt([string stringByReplacingOccurrencesOfString:@"?" withString:@"F"]);
+
+			CSSUnicodeRangeToken *token = [CSSUnicodeRangeToken new];
+			token.start = rangeStart;
+			token.end = rangeEnd;
+			return token;
+		} else {
+			rangeStart = parseHexInt(string);
+		}
 	}
 
-	return nil;
+	if ([_inputStream nextCodePoint] == HYPHEN_MINUS && isDigit([_inputStream nextCodePointAtOffset:1])) {
+		[_inputStream consumeNextCodePoint];
+		consumeHexDigits(hexDigits);
+		rangeEnd = parseHexInt((__bridge NSString *)(hexDigits));
+	} else {
+		rangeEnd = rangeStart;
+	}
+
+	CSSUnicodeRangeToken *token = [CSSUnicodeRangeToken new];
+	token.start = rangeStart;
+	token.end = rangeEnd;
+	return token;
 }
 
 - (UTF32Char)consumeEscapedCodePoint
