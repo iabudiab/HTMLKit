@@ -59,7 +59,8 @@
 
 - (void)parseError
 {
-
+	NSString *errorMessage = [NSString stringWithFormat:@"Parse error at %lu", (unsigned long)_inputStream.location];
+	NSLog(@"%@", errorMessage);
 }
 
 - (CSSToken *)consumeToken
@@ -319,7 +320,7 @@
 - (CSSToken *)consumeStringTokenWithEndingCodePoint:(UTF32Char)endingCodePoint
 {
 	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
-	CSSToken *token = [CSSToken tokenWithType:CSSTokenTypeWhitespace];
+	CSSToken *token = [CSSToken tokenWithType:CSSTokenTypeString];
 
 	while (YES) {
 		UTF32Char codePoint = [_inputStream consumeNextCodePoint];
