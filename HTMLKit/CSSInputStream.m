@@ -12,7 +12,7 @@
 {
 	CFStringInlineBuffer _buffer;
 	NSUInteger _location;
-	UTF32Char _currentCodePoint;
+	UniChar _currentCodePoint;
 }
 @end
 
@@ -30,25 +30,25 @@
 	return self;
 }
 
-- (UTF32Char)currentCodePoint
+- (UniChar)currentCodePoint
 {
 	return _currentCodePoint;
 }
 
-- (UTF32Char)nextCodePointAtOffset:(NSUInteger)offset;
+- (UniChar)nextCodePointAtOffset:(NSUInteger)offset;
 {
-	UTF32Char codePoint = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + offset);
+	UniChar codePoint = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + offset);
 	return codePoint;
 }
 
-- (UTF32Char)nextCodePoint
+- (UniChar)nextCodePoint
 {
 	return [self nextCodePointAtOffset:0];
 }
 
-- (UTF32Char)consumeNextCodePoint
+- (UniChar)consumeNextCodePoint
 {
-	UTF32Char codePoint = [self nextCodePoint];
+	UniChar codePoint = [self nextCodePoint];
 	_currentCodePoint = codePoint;
 	if (codePoint != 0) {
 		_location++;

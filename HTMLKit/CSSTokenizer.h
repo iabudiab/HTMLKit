@@ -11,6 +11,8 @@
 
 @interface CSSTokenizer : NSEnumerator
 
+@property (nonatomic, readonly, strong) NSString *string;
+
 - (instancetype)initWithString:(NSString *)string;
 
 @end

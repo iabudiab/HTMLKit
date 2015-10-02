@@ -14,10 +14,10 @@
 
 - (instancetype)initWithString:(NSString *)string;
 
-- (UTF32Char)currentCodePoint;
-- (UTF32Char)nextCodePoint;
-- (UTF32Char)nextCodePointAtOffset:(NSUInteger)offset;
-- (UTF32Char)consumeNextCodePoint;
+- (UniChar)currentCodePoint;
+- (UniChar)nextCodePoint;
+- (UniChar)nextCodePointAtOffset:(NSUInteger)offset;
+- (UniChar)consumeNextCodePoint;
 - (void)reconsumeCurrentCodePoint;
 
 @end

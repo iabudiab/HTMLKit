@@ -19,6 +19,7 @@
 @end
 
 @implementation CSSTokenizer
+@synthesize string = _string;
 
 #pragma mark - Lifecycle
 
@@ -68,7 +69,7 @@
 	[self consumeComments];
 
 	NSUInteger start = _inputStream.location;
-	UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+	UniChar codePoint = [_inputStream consumeNextCodePoint];
 	CSSToken *token = nil;
 
 	if (isWhitespace(codePoint)) {
@@ -246,7 +247,7 @@
 		[_inputStream consumeNextCodePoint];
 		[_inputStream consumeNextCodePoint];
 		while (YES) {
-			UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+			UniChar codePoint = [_inputStream consumeNextCodePoint];
 			if (codePoint == EOF_CHARACTER) {
 				return;
 			}
@@ -317,13 +318,13 @@
 	}
 }
 
-- (CSSToken *)consumeStringTokenWithEndingCodePoint:(UTF32Char)endingCodePoint
+- (CSSToken *)consumeStringTokenWithEndingCodePoint:(UniChar)endingCodePoint
 {
 	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
 	CSSToken *token = [CSSToken tokenWithType:CSSTokenTypeString];
 
 	while (YES) {
-		UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+		UniChar codePoint = [_inputStream consumeNextCodePoint];
 
 		if (codePoint == endingCodePoint || codePoint == EOF_CHARACTER) {
 			break;
@@ -342,7 +343,7 @@
 				AppendCodePoint(value, escapedCodePoint);
 			}
 		} else {
-			AppendCodePoint(value, codePoint);
+			CFStringAppendCharacters(value, &codePoint, 1);
 		}
 	}
 
@@ -367,7 +368,7 @@
 		return token;
 	}
 
-	UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+	UniChar codePoint = [_inputStream consumeNextCodePoint];
 	if (codePoint == QUOTATION_MARK || codePoint == APOSTROPHE) {
 		CSSToken *stringToken = [self consumeStringTokenWithEndingCodePoint:codePoint];
 		if (stringToken.type == CSSTokenTypeBadString) {
@@ -390,7 +391,7 @@
 	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
 
 	while (YES) {
-		UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+		UniChar codePoint = [_inputStream consumeNextCodePoint];
 
 		if (codePoint == RIGHT_PARENTHESIS || codePoint == EOF_CHARACTER) {
 			return token;
@@ -419,7 +420,8 @@
 
 		if (codePoint == REVERSE_SOLIDUS) {
 			if (isValidEscape([_inputStream currentCodePoint], [_inputStream nextCodePoint])) {
-				AppendCodePoint(value, [self consumeEscapedCodePoint]);
+				UTF32Char escapedCodePoint = [self consumeEscapedCodePoint];
+				AppendCodePoint(value, escapedCodePoint);
 			} else {
 				[self parseError];
 				[self consumeRemnantsOfBadURL];
@@ -427,7 +429,7 @@
 			}
 		}
 
-		AppendCodePoint(value, codePoint);
+		CFStringAppendCharacters(value, &codePoint, 1);
 	}
 	
 	return token;
@@ -493,11 +495,11 @@
 
 - (UTF32Char)consumeEscapedCodePoint
 {
-	UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+	UniChar codePoint = [_inputStream consumeNextCodePoint];
 
 	if (isHexDigit(codePoint)) {
 		CFMutableStringRef hexString = CFStringCreateMutable(kCFAllocatorDefault, 6);
-		AppendCodePoint(hexString, codePoint);
+		CFStringAppendCharacters(hexString, &codePoint, 1);
 
 		while (isHexDigit([_inputStream nextCodePoint]) && CFStringGetLength(hexString) <= 6) {
 			UniChar codePoint = [_inputStream consumeNextCodePoint];
@@ -524,11 +526,12 @@
 {
 	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
 	while (YES) {
-		UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+		UniChar codePoint = [_inputStream consumeNextCodePoint];
 		if (isName(codePoint)) {
-			AppendCodePoint(value, codePoint);
+			CFStringAppendCharacters(value, &codePoint, 1);
 		} else if (isValidEscape([_inputStream nextCodePoint], [_inputStream nextCodePointAtOffset:1])) {
-			AppendCodePoint(value, [self consumeEscapedCodePoint]);
+			UTF32Char escapedCodePoint = [self consumeEscapedCodePoint];
+			AppendCodePoint(value, escapedCodePoint);
 		} else {
 			break;
 		}
@@ -567,9 +570,9 @@
 		consumeDigits();
 	}
 
-	UTF32Char first = [_inputStream nextCodePoint];
-	UTF32Char second = [_inputStream nextCodePointAtOffset:1];
-	UTF32Char third = [_inputStream nextCodePointAtOffset:2];
+	UniChar first = [_inputStream nextCodePoint];
+	UniChar second = [_inputStream nextCodePointAtOffset:1];
+	UniChar third = [_inputStream nextCodePointAtOffset:2];
 
 	if (first == LATIN_CAPITAL_LETTER_E || first == LATIN_SMALL_LETTER_E) {
 		if (isDigit(second)) {
@@ -646,7 +649,7 @@
 - (void)consumeRemnantsOfBadURL
 {
 	while (YES) {
-		UTF32Char codePoint = [_inputStream consumeNextCodePoint];
+		UniChar codePoint = [_inputStream consumeNextCodePoint];
 		if (codePoint == RIGHT_PARENTHESIS || codePoint == EOF_CHARACTER) {
 			return;
 		}
