@@ -11,5 +11,6 @@
 @interface NSCharacterSet (HTMLKit)
 
 + (instancetype)HTMLWhitespaceCharacterSet;
++ (instancetype)HTMLHexNumberCharacterSet;
 
 @end

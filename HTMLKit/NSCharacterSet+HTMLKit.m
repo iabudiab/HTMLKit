@@ -12,7 +12,22 @@
 
 + (instancetype)HTMLWhitespaceCharacterSet
 {
-	return [NSCharacterSet characterSetWithCharactersInString:@" \t\n\r\f"];
+	static NSCharacterSet *set = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		set = [NSCharacterSet characterSetWithCharactersInString:@" \t\n\r\f"];
+	});
+	return set;
+}
+
++ (instancetype)HTMLHexNumberCharacterSet
+{
+	static NSCharacterSet *set = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		set = [NSCharacterSet characterSetWithCharactersInString:@"0123456789ABCDEFabcdef"];
+	});
+	return set;
 }
 
 @end

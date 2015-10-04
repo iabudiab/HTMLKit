@@ -8,6 +8,7 @@
 
 #import "HTMLInputStreamReader.h"
 #import "HTMLTokenizerCharacters.h"
+#import "NSCharacterSet+HTMLKit.h"
 
 #pragma mark - HTMLInputStreamReader
 
@@ -145,7 +146,7 @@
 
 - (BOOL)consumeHexNumber:(unsigned long long *)result
 {
-	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"0123456789ABCDEFabcdef"];
+	NSCharacterSet *set = [NSCharacterSet HTMLHexNumberCharacterSet];
 
 	NSString *string = nil;
 	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];
