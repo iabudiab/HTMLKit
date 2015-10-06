@@ -23,11 +23,6 @@
 	return [[self alloc] initWithType:@"*"];
 }
 
-+ (instancetype)selectorForType:(NSString *)type
-{
-	return [[self alloc] initWithType:type];
-}
-
 - (instancetype)initWithType:(NSString *)type
 {
 	self = [super init];

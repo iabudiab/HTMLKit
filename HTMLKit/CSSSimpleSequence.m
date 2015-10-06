@@ -16,16 +16,6 @@
 
 @implementation CSSSimpleSequence
 
-+ (instancetype)sequenceForType:(CSSTypeSelector *)typeSelector
-{
-	return [[self alloc] initWithType:typeSelector];
-}
-
-+ (instancetype)sequenceWithSelectors:(NSArray *)selectors
-{
-	return [[self alloc] initWithSelectors:selectors];
-}
-
 - (instancetype)init
 {
 	return [self initWithSelectors:nil];
