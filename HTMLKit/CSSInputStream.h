@@ -7,17 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLInputStreamReader.h"
 
-@interface CSSInputStream : NSObject
+@interface CSSInputStream : HTMLInputStreamReader
 
-@property (nonatomic, readonly) NSUInteger location;
-
-- (instancetype)initWithString:(NSString *)string;
-
-- (UniChar)currentCodePoint;
-- (UniChar)nextCodePoint;
-- (UniChar)nextCodePointAtOffset:(NSUInteger)offset;
-- (UniChar)consumeNextCodePoint;
-- (void)reconsumeCurrentCodePoint;
+- (void)consumeWhitespace;
+- (NSString *)consumeIdentifier;
+- (UTF32Char)consumeEscapedCodePoint;
 
 @end

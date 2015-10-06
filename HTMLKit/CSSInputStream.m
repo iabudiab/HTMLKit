@@ -7,59 +7,65 @@
 //
 
 #import "CSSInputStream.h"
-
-@interface CSSInputStream ()
-{
-	CFStringInlineBuffer _buffer;
-	NSUInteger _location;
-	UniChar _currentCodePoint;
-}
-@end
+#import "CSSTokenizerCodePoints.h"
 
 @implementation CSSInputStream
-@synthesize location = _location;
 
-- (instancetype)initWithString:(NSString *)string
+- (void)consumeWhitespace
 {
-	self = [super init];
-	if (self) {
-		CFStringInitInlineBuffer((CFStringRef)string, &_buffer, CFRangeMake(0, string.length));
-		_location = 0;
-		_currentCodePoint = 0;
+	while (isWhitespace(self.nextInputCharacter)) {
+		[self consumeNextInputCharacter];
 	}
-	return self;
 }
 
-- (UniChar)currentCodePoint
+- (NSString *)consumeIdentifier
 {
-	return _currentCodePoint;
+	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
+
+	while (YES) {
+		UniChar codePoint = [self consumeNextInputCharacter];
+		if (isName(codePoint)) {
+			CFStringAppendCharacters(value, &codePoint, 1);
+		} else if (isValidEscape(self.nextInputCharacter, [self inputCharacterPointAtOffset:1])) {
+			UTF32Char escapedCodePoint = [self consumeNextInputCharacter];
+			AppendCodePoint(value, escapedCodePoint);
+		} else {
+			[self reconsumeCurrentInputCharacter];
+			break;
+		}
+	}
+
+	return (__bridge NSString *)(CFStringGetLength(value) > 0 ? value : nil);
 }
 
-- (UniChar)nextCodePointAtOffset:(NSUInteger)offset;
+- (UTF32Char)consumeEscapedCodePoint
 {
-	UniChar codePoint = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + offset);
+	UniChar codePoint = [self consumeNextInputCharacter];
+
+	if (isHexDigit(codePoint)) {
+		CFMutableStringRef hexString = CFStringCreateMutable(kCFAllocatorDefault, 6);
+		CFStringAppendCharacters(hexString, &codePoint, 1);
+
+		while (isHexDigit(self.nextInputCharacter) && CFStringGetLength(hexString) <= 6) {
+			UniChar codePoint = [self consumeNextInputCharacter];
+			CFStringAppendCharacters(hexString, &codePoint, 1);
+		}
+
+		if (isWhitespace(self.nextInputCharacter)) {
+			[self consumeNextInputCharacter];
+		}
+
+		NSScanner *scanner = [NSScanner scannerWithString:(__bridge NSString *)(hexString)];
+		UTF32Char number;
+		[scanner scanHexInt:&number];
+
+		return isValidEscapedCodePoint(number) ? number : REPLACEMENT_CHARACTER;
+	} else if (codePoint == EOF_CHARACTER) {
+		return REPLACEMENT_CHARACTER;
+	}
+
 	return codePoint;
 }
 
-- (UniChar)nextCodePoint
-{
-	return [self nextCodePointAtOffset:0];
-}
-
-- (UniChar)consumeNextCodePoint
-{
-	UniChar codePoint = [self nextCodePoint];
-	_currentCodePoint = codePoint;
-	if (codePoint != 0) {
-		_location++;
-	}
-
-	return codePoint;
-}
-
-- (void)reconsumeCurrentCodePoint
-{
-	_location = _location - 1;
-}
 
 @end

@@ -107,6 +107,11 @@
 	return nextInputCharacter;
 }
 
+- (UTF32Char)inputCharacterPointAtOffset:(NSUInteger)offset
+{
+	return CFStringGetCharacterFromInlineBuffer(&_buffer, _location + offset);
+}
+
 - (UTF32Char)consumeNextInputCharacter
 {
 	if (_reconsume) {
