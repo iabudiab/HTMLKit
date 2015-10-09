@@ -45,9 +45,14 @@
 	return HTMLNodeFilterSkip;
 }
 
+- (NSString *)debugDescription
+{
+	return self.type;
+}
+
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.type];
+	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.debugDescription];
 }
 
 @end

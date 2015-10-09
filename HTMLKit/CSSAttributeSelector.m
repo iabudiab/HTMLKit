@@ -93,7 +93,7 @@
 	}
 }
 
-- (NSString *)description
+- (NSString *)debugDescription
 {
 	if (self.type == CSSAttributeSelectorExists) {
 		return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.name];
@@ -106,7 +106,12 @@
 						  @(CSSAttributeSelectorContains): @"*=",
 						  @(CSSAttributeSelectorHyphen): @"|="}[@(self.type)];
 
-	return [NSString stringWithFormat:@"<%@: %p '%@' %@ '%@'>", self.class, self, self.name, matcher, self.value];
+	return [NSString stringWithFormat:@"[%@%@'%@']", self.name, matcher, self.value];
+}
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.debugDescription];
 }
 
 @end

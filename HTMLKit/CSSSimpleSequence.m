@@ -50,4 +50,15 @@
 	return HTMLNodeFilterAccept;
 }
 
+- (NSString *)debugDescription
+{
+	NSArray *descriptions = [_selectors valueForKey:@"debugDescription"];
+	return [descriptions componentsJoinedByString:@""];
+}
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.debugDescription];
+}
+
 @end
