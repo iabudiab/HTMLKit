@@ -30,4 +30,14 @@
 	return set;
 }
 
++ (instancetype)CSSNthExpressionCharacterSet
+{
+	static NSCharacterSet *set = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		set = [NSCharacterSet characterSetWithCharactersInString:@" 0123456789nN-+"];
+	});
+	return set;
+}
+
 @end

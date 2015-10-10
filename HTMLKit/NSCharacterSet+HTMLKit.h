@@ -12,5 +12,6 @@
 
 + (instancetype)HTMLWhitespaceCharacterSet;
 + (instancetype)HTMLHexNumberCharacterSet;
++ (instancetype)CSSNthExpressionCharacterSet;
 
 @end
