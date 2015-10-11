@@ -10,18 +10,7 @@
 #import "HTMLNode.h"
 #import	"HTMLElement.h"
 
-@interface CSSSelector ()
-{
-	NSString *_string;
-}
-@end
-
 @implementation CSSSelector
-
-+ (instancetype)selectorWithSting:(NSString *)string
-{
-	return nil;
-}
 
 - (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
 {

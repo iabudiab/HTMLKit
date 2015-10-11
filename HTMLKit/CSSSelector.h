@@ -13,6 +13,4 @@
 
 @interface CSSSelector : NSObject <HTMLNodeFilter>
 
-+ (instancetype)selectorWithSting:(NSString *)string;
-
 @end
