@@ -11,3 +11,4 @@
 #import "CSSSimpleSequence.h"
 #import "CSSTypeSelector.h"
 #import "CSSAttributeSelector.h"
+#import "CSSPseudoClassSelector.h"
