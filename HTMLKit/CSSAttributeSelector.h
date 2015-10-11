@@ -18,20 +18,21 @@ typedef NS_ENUM(NSUInteger, CSSAttributeSelectorType)
 	CSSAttributeSelectorBegins,
 	CSSAttributeSelectorEnds,
 	CSSAttributeSelectorContains,
-	CSSAttributeSelectorHyphen
+	CSSAttributeSelectorHyphen,
+	CSSAttributeSelectorNot
 };
 
 @interface CSSAttributeSelector : CSSSelector <CSSSimpleSelector>
 
 @property (nonatomic, assign) CSSAttributeSelectorType type;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *value;
+@property (nonatomic, copy) NSString * _Nonnull name;
+@property (nonatomic, copy) NSString * _Nonnull value;
 
-+ (instancetype)selectorForClass:(NSString *)className;
-+ (instancetype)selectorForId:(NSString *)elementId;
++ (nullable instancetype)selectorForClass:(nonnull NSString *)className;
++ (nullable instancetype)selectorForId:(nonnull NSString *)elementId;
 
-- (instancetype)initWithType:(CSSAttributeSelectorType)type
-			   attributeName:(NSString *)name
-			  attrbiuteValue:(NSString *)value;
+- (nullable instancetype)initWithType:(CSSAttributeSelectorType)type
+						attributeName:(nonnull NSString *)name
+					   attrbiuteValue:(nullable NSString *)value;
 
 @end
