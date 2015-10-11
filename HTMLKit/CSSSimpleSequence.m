@@ -18,7 +18,7 @@
 
 - (instancetype)init
 {
-	return [self initWithSelectors:nil];
+	return [self initWithSelectors:@[]];
 }
 
 - (instancetype)initWithType:(CSSTypeSelector *)selector

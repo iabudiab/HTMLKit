@@ -14,9 +14,9 @@
 
 @interface CSSSimpleSequence : CSSSelector
 
-- (instancetype)initWithType:(CSSTypeSelector *)selector;
-- (instancetype)initWithSelectors:(NSArray *)selectors;
+- (nullable instancetype)initWithType:(nonnull CSSTypeSelector *)selector;
+- (nullable instancetype)initWithSelectors:(nonnull NSArray<id<CSSSimpleSelector>> *)selectors;
 
-- (void)addSelector:(id<CSSSimpleSelector>)selector;
+- (void)addSelector:(nonnull id<CSSSimpleSelector>)selector;
 
 @end
