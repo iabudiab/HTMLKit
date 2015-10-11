@@ -12,10 +12,10 @@
 
 @interface CSSTypeSelector : CSSSelector <CSSSimpleSelector>
 
-@property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSString * _Nonnull type;
 
-+ (instancetype)universalSelector;
++ (nullable instancetype)universalSelector;
 
-- (instancetype)initWithType:(NSString *)type;
+- (nullable instancetype)initWithType:(nonnull NSString *)type;
 
 @end
