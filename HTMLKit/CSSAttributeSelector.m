@@ -88,6 +88,10 @@
 		{
 			return [element[_name] isEqualToString:_value] || [element[_name] hasPrefix:[_value stringByAppendingString:@"-"]];
 		}
+		case CSSAttributeSelectorNot:
+		{
+			return ![element[_name] isEqualTo:_value];
+		}
 		default:
 			return NO;
 	}
@@ -104,7 +108,8 @@
 						  @(CSSAttributeSelectorBegins): @"^=",
 						  @(CSSAttributeSelectorEnds): @"$=",
 						  @(CSSAttributeSelectorContains): @"*=",
-						  @(CSSAttributeSelectorHyphen): @"|="}[@(self.type)];
+						  @(CSSAttributeSelectorHyphen): @"|=",
+						  @(CSSAttributeSelectorNot): @"!="}[@(self.type)];
 
 	return [NSString stringWithFormat:@"[%@%@'%@']", self.name, matcher, self.value];
 }
