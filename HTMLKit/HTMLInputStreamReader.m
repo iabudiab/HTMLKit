@@ -64,7 +64,6 @@
 - (UTF32Char)nextInputCharacter
 {
 	if (_reconsume) {
-		_reconsume = NO;
 		return _currentInputCharacter;
 	}
 
@@ -197,6 +196,23 @@
 	consumed = [consumed stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\r"];
 	consumed = [consumed stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
 	return consumed;
+}
+
+- (NSString *)consumeCharactersInString:(NSString *)characters
+{
+	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:characters];
+
+	if (_reconsume) {
+		_reconsume = NO;
+		_scanner.scanLocation--;
+	}
+
+	NSString *string = nil;
+	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];
+	if (success == NO) return nil;
+
+	_location = _scanner.scanLocation;
+	return string;
 }
 
 - (NSString *)consumeAlphanumericCharacters

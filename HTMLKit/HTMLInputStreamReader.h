@@ -36,6 +36,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 - (BOOL)consumeString:(NSString *)string caseSensitive:(BOOL)caseSensitive;
 - (NSString *)consumeCharactersUpToCharactersInString:(NSString *)characters;
 - (NSString *)consumeCharactersUpToString:(NSString *)string;
+- (NSString *)consumeCharactersInString:(NSString *)characters;
 - (NSString *)consumeAlphanumericCharacters;
 
 - (void)markCurrentLocation;
