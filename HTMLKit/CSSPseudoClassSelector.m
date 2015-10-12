@@ -12,7 +12,7 @@
 
 @interface CSSPseudoClassSelector ()
 {
-	CSSSelectorAcceptNodeBlock _block;
+	CSSSelectorAcceptElementBlock _block;
 }
 @end
 
@@ -24,7 +24,7 @@
 
 @implementation CSSPseudoClassSelector
 
-- (instancetype)initWithClassName:(NSString *)className andBlock:(CSSSelectorAcceptNodeBlock)block
+- (instancetype)initWithClassName:(NSString *)className andBlock:(CSSSelectorAcceptElementBlock)block
 {
 	self = [super init];
 	if (self) {
@@ -33,12 +33,9 @@
 	return self;
 }
 
-- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
+-(BOOL)acceptElement:(HTMLElement *)element
 {
-	if (node.nodeType != HTMLNodeElement) {
-		return HTMLNodeFilterSkip;
-	}
-	return _block(node);
+	return _block ? _block(element) : NO;
 }
 
 - (NSString *)debugDescription

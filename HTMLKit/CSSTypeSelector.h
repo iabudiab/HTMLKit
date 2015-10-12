@@ -10,7 +10,7 @@
 #import "CSSSelector.h"
 #import "CSSSimpleSelector.h"
 
-@interface CSSTypeSelector : CSSSelector <CSSSimpleSelector>
+@interface CSSTypeSelector : NSObject <CSSSimpleSelector>
 
 @property (nonatomic, copy) NSString * _Nonnull type;
 

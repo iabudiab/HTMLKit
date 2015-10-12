@@ -40,14 +40,14 @@
 	[_selectors addObject:selector];
 }
 
-- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
+- (BOOL)acceptElement:(HTMLElement *)element
 {
-	for (CSSSelector *selector in _selectors) {
-		if (![selector acceptNode:node]) {
-			return HTMLNodeFilterSkip;
+	for (id<CSSSelector> selector in _selectors) {
+		if (![selector acceptElement:element]) {
+			return NO;
 		}
 	}
-	return HTMLNodeFilterAccept;
+	return YES;
 }
 
 - (NSString *)debugDescription

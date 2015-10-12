@@ -43,19 +43,6 @@
 	return self;
 }
 
-- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
-{
-	if (node.nodeType != HTMLNodeElement) {
-		return HTMLNodeFilterSkip;
-	}
-
-	if ([self acceptElement:node.asElement]) {
-		return HTMLNodeFilterAccept;
-	}
-
-	return HTMLNodeFilterSkip;
-}
-
 - (BOOL)acceptElement:(HTMLElement *)element
 {
 	switch (_type) {

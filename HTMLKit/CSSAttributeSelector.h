@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CSSSelector.h"
 #import "CSSSimpleSelector.h"
 
 typedef NS_ENUM(NSUInteger, CSSAttributeSelectorType)
@@ -22,7 +21,7 @@ typedef NS_ENUM(NSUInteger, CSSAttributeSelectorType)
 	CSSAttributeSelectorNot
 };
 
-@interface CSSAttributeSelector : CSSSelector <CSSSimpleSelector>
+@interface CSSAttributeSelector : NSObject <CSSSimpleSelector>
 
 @property (nonatomic, assign) CSSAttributeSelectorType type;
 @property (nonatomic, copy) NSString * _Nonnull name;

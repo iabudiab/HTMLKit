@@ -12,7 +12,7 @@
 
 @class CSSTypeSelector;
 
-@interface CSSSimpleSequence : CSSSelector
+@interface CSSSimpleSequence : NSObject  <CSSSelector>
 
 - (nullable instancetype)initWithType:(nonnull CSSTypeSelector *)selector;
 - (nullable instancetype)initWithSelectors:(nonnull NSArray<id<CSSSimpleSelector>> *)selectors;

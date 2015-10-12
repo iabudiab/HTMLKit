@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CSSSelector.h"
 
-@protocol CSSSimpleSelector <NSObject>
+@protocol CSSSimpleSelector <CSSSelector>
 
 @end

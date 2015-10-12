@@ -9,11 +9,11 @@
 #import "CSSSelector.h"
 #import "CSSSimpleSelector.h"
 
-@interface CSSPseudoClassSelector : CSSSelector <CSSSimpleSelector>
+@interface CSSPseudoClassSelector : NSObject <CSSSimpleSelector>
 
 @property (nonatomic, strong, readonly) NSString * _Nonnull className;
 
 - (nullable instancetype)initWithClassName:(nonnull NSString *)className
-								  andBlock:(nonnull CSSSelectorAcceptNodeBlock)block;
+								  andBlock:(nonnull CSSSelectorAcceptElementBlock)block;
 
 @end

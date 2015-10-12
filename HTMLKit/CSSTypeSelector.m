@@ -32,17 +32,13 @@
 	return self;
 }
 
-- (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node
+- (BOOL)acceptElement:(HTMLElement *)element
 {
-	if (node.nodeType != HTMLNodeElement) {
-		return HTMLNodeFilterSkip;
+	if ([_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:element.tagName]) {
+		return YES;
 	}
 
-	if ([_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:[node.asElement tagName]]) {
-		return HTMLNodeFilterAccept;
-	}
-
-	return HTMLNodeFilterSkip;
+	return NO;
 }
 
 - (NSString *)debugDescription

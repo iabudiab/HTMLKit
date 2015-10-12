@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HTMLNodeFilter.h"
 
 @class HTMLElement;
 
-@interface CSSSelector : NSObject <HTMLNodeFilter>
+typedef BOOL (^ CSSSelectorAcceptElementBlock)(HTMLElement * _Nonnull node);
 
+@protocol CSSSelector <NSObject>
+@required
+- (BOOL)acceptElement:(nonnull HTMLElement *)element;
 @end
