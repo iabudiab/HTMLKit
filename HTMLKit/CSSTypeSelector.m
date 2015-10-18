@@ -27,7 +27,7 @@
 {
 	self = [super init];
 	if (self) {
-		self.type = [type copy];
+		_type = [type copy];
 	}
 	return self;
 }
@@ -37,18 +37,14 @@
 	if ([_type isEqualToString:@"*"] || [_type isEqualToStringIgnoringCase:element.tagName]) {
 		return YES;
 	}
-
 	return NO;
 }
+
+#pragma mark - Description
 
 - (NSString *)debugDescription
 {
 	return self.type;
-}
-
-- (NSString *)description
-{
-	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.debugDescription];
 }
 
 @end

@@ -20,14 +20,19 @@
 
 @implementation CSSAttributeSelector
 
-+ (instancetype)selectorForClass:(NSString *)className
++ (instancetype)classSelector:(NSString *)className
 {
 	return [[self alloc] initWithType:CSSAttributeSelectorIncludes attributeName:@"class" attrbiuteValue:className];
 }
 
-+ (instancetype)selectorForId:(NSString *)elementId
++ (instancetype)idSelector:(NSString *)elementId
 {
 	return [[self alloc] initWithType:CSSAttributeSelectorExactMatch attributeName:@"id" attrbiuteValue:elementId];
+}
+
++ (nullable instancetype)attributeSelector:(nonnull NSString *)attributeName
+{
+	return [[self alloc] initWithType:CSSAttributeSelectorExists attributeName:attributeName attrbiuteValue:@""];
 }
 
 - (instancetype)initWithType:(CSSAttributeSelectorType)type
@@ -37,8 +42,8 @@
 	self = [super init];
 	if (self) {
 		self.type = type;
-		self.name = [name copy];
-		self.value = [value copy];
+		_name = [name copy];
+		_value = [value copy];
 	}
 	return self;
 }
@@ -84,6 +89,8 @@
 	}
 }
 
+#pragma mark - Description
+
 - (NSString *)debugDescription
 {
 	if (self.type == CSSAttributeSelectorExists) {
@@ -99,11 +106,6 @@
 						  @(CSSAttributeSelectorNot): @"!="}[@(self.type)];
 
 	return [NSString stringWithFormat:@"[%@%@'%@']", self.name, matcher, self.value];
-}
-
-- (NSString *)description
-{
-	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.debugDescription];
 }
 
 @end

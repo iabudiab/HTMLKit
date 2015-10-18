@@ -10,9 +10,8 @@
 
 @class HTMLElement;
 
-typedef BOOL (^ CSSSelectorAcceptElementBlock)(HTMLElement * _Nonnull node);
+@interface CSSSelector : NSObject 
 
-@protocol CSSSelector <NSObject>
-@required
 - (BOOL)acceptElement:(nonnull HTMLElement *)element;
+
 @end
