@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		62079BE91AF56F1E00D3B402 /* CSSSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 62079BE71AF56F1E00D3B402 /* CSSSelector.h */; };
 		620802021AFD939200F2962F /* CSSTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 623F13A81AFC11D900C90BF4 /* CSSTokenizer.h */; };
+		620C877E1BD4519A00FB3EEE /* CSSPseudoFunctionSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */; settings = {ASSET_TAGS = (); }; };
+		620C877F1BD4519A00FB3EEE /* CSSPseudoFunctionSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */; settings = {ASSET_TAGS = (); }; };
 		620EE9491BC46F2A0028ED34 /* CSSPseudoClassSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */; settings = {ASSET_TAGS = (); }; };
 		620EE94A1BC46F2A0028ED34 /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */; settings = {ASSET_TAGS = (); }; };
 		620EE94B1BC46F2A0028ED34 /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */; settings = {ASSET_TAGS = (); }; };
@@ -315,6 +317,8 @@
 		6279F87319E1808D00F12EE5 /* HTMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLElement.m; sourceTree = "<group>"; };
 		628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSNthExpressionsParserTests.m; sourceTree = "<group>"; };
 		628B7CE61A080E1000602C87 /* HTMLNamespaces.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLNamespaces.h; sourceTree = "<group>"; };
+		62ACB8DB1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSPseudoFunctionSelector.h; sourceTree = "<group>"; };
+		62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSPseudoFunctionSelector.m; sourceTree = "<group>"; };
 		62AE593319F97D880043F069 /* HTMLParseErrorToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParseErrorToken.h; sourceTree = "<group>"; };
 		62AE593419F97D880043F069 /* HTMLParseErrorToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParseErrorToken.m; sourceTree = "<group>"; };
 		62AE593819F97E1C0043F069 /* HTMLDOCTYPEToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDOCTYPEToken.h; sourceTree = "<group>"; };
@@ -399,6 +403,8 @@
 				624B28BE1B0413200048D328 /* CSSAttributeSelector.m */,
 				620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */,
 				620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */,
+				62ACB8DB1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.h */,
+				62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */,
 			);
 			name = Selectors;
 			sourceTree = "<group>";
@@ -892,6 +898,7 @@
 				625A14BE19C7829400AD0C32 /* HTMLKit.m in Sources */,
 				62FC60471BD0519B0042BBE7 /* CSSSelector.m in Sources */,
 				623857981A9E8606003A45D9 /* HTMLDocumentType.m in Sources */,
+				620C877F1BD4519A00FB3EEE /* CSSPseudoFunctionSelector.m in Sources */,
 				62AE594B19F9948A0043F069 /* HTMLCharacterToken.m in Sources */,
 				623458501A9D2FA4009BD491 /* HTMLNode.m in Sources */,
 				624B28C11B0413200048D328 /* CSSAttributeSelector.m in Sources */,
@@ -961,6 +968,7 @@
 				623857971A9E8606003A45D9 /* HTMLDocumentType.m in Sources */,
 				62FC60461BD0519B0042BBE7 /* CSSSelector.m in Sources */,
 				62AE594A19F9948A0043F069 /* HTMLCharacterToken.m in Sources */,
+				620C877E1BD4519A00FB3EEE /* CSSPseudoFunctionSelector.m in Sources */,
 				6234584F1A9D2FA4009BD491 /* HTMLNode.m in Sources */,
 				624B28C01B0413200048D328 /* CSSAttributeSelector.m in Sources */,
 				62F31FDE19E9DCCF007F0657 /* HTMLTokenizerEntities.m in Sources */,
