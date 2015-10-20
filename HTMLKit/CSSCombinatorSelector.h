@@ -8,11 +8,15 @@
 
 #import "CSSSelector.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CSSCombinatorSelector : CSSSelector
 
-+ (nullable instancetype)childOfElementCombinator:(nonnull CSSSelector *)selector;
-+ (nullable instancetype)descendantOfElementCombinator:(nonnull CSSSelector *)selector;
-+ (nullable instancetype)adjacentSiblingCombinator:(nonnull CSSSelector *)selector;
-+ (nullable instancetype)generalSiblingCombinator:(nonnull CSSSelector *)selector;
++ (instancetype)childOfElementCombinator:(CSSSelector *)selector;
++ (instancetype)descendantOfElementCombinator:(CSSSelector *)selector;
++ (instancetype)adjacentSiblingCombinator:(CSSSelector *)selector;
++ (instancetype)generalSiblingCombinator:(CSSSelector *)selector;
 
 @end
+
+NS_ASSUME_NONNULL_END

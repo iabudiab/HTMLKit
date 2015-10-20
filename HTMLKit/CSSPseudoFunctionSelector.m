@@ -29,12 +29,12 @@
 @implementation CSSPseudoFunctionSelector
 @synthesize selector = _selector;
 
-+ (nullable instancetype)notSelector:(nonnull CSSSelector *)selector
++ (instancetype)notSelector:(CSSSelector *)selector
 {
 	return [[CSSNotSelector alloc] initWithSelector:selector];
 }
 
-+ (nullable instancetype)hasSelector:(nonnull CSSSelector *)selector
++ (instancetype)hasSelector:(CSSSelector *)selector
 {
 	return [[CSSHasSelector alloc] initWithSelector:selector];
 }

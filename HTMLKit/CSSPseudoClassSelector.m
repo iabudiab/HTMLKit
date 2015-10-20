@@ -7,35 +7,30 @@
 //
 
 #import "CSSPseudoClassSelector.h"
-#import "HTMLElement.h"
-#import "NSString+HTMLKit.h"
-
-@interface CSSPseudoClassSelector ()
-{
-	CSSSelectorAcceptElementBlock _block;
-}
-@end
 
 @interface CSSPseudoClassSelector ()
 {
 	NSString *_className;
+	CSSSelector *_selector;
 }
 @end
 
 @implementation CSSPseudoClassSelector
+@synthesize className = _className;
 
-- (instancetype)initWithClassName:(NSString *)className andBlock:(CSSSelectorAcceptElementBlock)block
+- (instancetype)initWithClassName:(NSString *)className selector:(CSSSelector *)selector
 {
 	self = [super init];
 	if (self) {
-		_block = block;
+		_className = [className copy];
+		_selector = selector;
 	}
 	return self;
 }
 
 -(BOOL)acceptElement:(HTMLElement *)element
 {
-	return _block ? _block(element) : NO;
+	return [_selector acceptElement:element];
 }
 
 - (NSString *)debugDescription

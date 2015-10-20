@@ -8,9 +8,13 @@
 
 #import "CSSSelector.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CSSCompoundSelector : CSSSelector
 
-+ (nullable instancetype)andSelector:(nonnull NSArray<CSSSelector *> *)selectors;
-+ (nullable instancetype)orSelector:(nonnull NSArray<CSSSelector *> *)selectors;
++ (instancetype)andSelector:(NSArray<CSSSelector *> *)selectors;
++ (instancetype)orSelector:(NSArray<CSSSelector *> *)selectors;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -7,13 +7,15 @@
 //
 
 #import "CSSSelector.h"
-#import "CSSSimpleSelector.h"
 
-@interface CSSPseudoClassSelector : NSObject <CSSSimpleSelector>
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, strong, readonly) NSString * _Nonnull className;
+@interface CSSPseudoClassSelector : CSSSelector
 
-- (nullable instancetype)initWithClassName:(nonnull NSString *)className
-								  andBlock:(nonnull CSSSelectorAcceptElementBlock)block;
+@property (nonatomic, strong, readonly)  NSString *className;
+
+- (instancetype)initWithClassName:(NSString *)className selector:(CSSSelector *)selector;
 
 @end
+
+NS_ASSUME_NONNULL_END

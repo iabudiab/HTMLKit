@@ -9,30 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "CSSSelector.h"
 
-typedef NS_ENUM(NSUInteger, CSSAttributeSelectorType)
-{
-	CSSAttributeSelectorExists,
-	CSSAttributeSelectorExactMatch,
-	CSSAttributeSelectorIncludes,
-	CSSAttributeSelectorBegins,
-	CSSAttributeSelectorEnds,
-	CSSAttributeSelectorContains,
-	CSSAttributeSelectorHyphen,
-	CSSAttributeSelectorNot
-};
+NS_ASSUME_NONNULL_BEGIN
 
 @interface CSSAttributeSelector : CSSSelector
 
 @property (nonatomic, assign) CSSAttributeSelectorType type;
-@property (nonatomic, strong, readonly) NSString * _Nonnull name;
-@property (nonatomic, strong, readonly) NSString * _Nonnull value;
+@property (nonatomic, strong, readonly) NSString *name;
+@property (nonatomic, strong, readonly) NSString *value;
 
-+ (nullable instancetype)classSelector:(nonnull NSString *)className;
-+ (nullable instancetype)idSelector:(nonnull NSString *)elementId;
-+ (nullable instancetype)attributeSelector:(nonnull NSString *)attributeName;
++ (instancetype)classSelector:(NSString *)className;
++ (instancetype)idSelector:(NSString *)elementId;
++ (instancetype)hasAttributeSelector:(NSString *)attributeName;
 
-- (nullable instancetype)initWithType:(CSSAttributeSelectorType)type
-						attributeName:(nonnull NSString *)name
-					   attrbiuteValue:(nonnull NSString *)value;
+- (instancetype)initWithType:(CSSAttributeSelectorType)type
+						attributeName:(NSString *)name
+			  attrbiuteValue:(NSString *)value;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -9,12 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "CSSSelector.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface CSSTypeSelector : CSSSelector
 
-@property (nonatomic, strong, readonly) NSString * _Nonnull type;
+@property (nonatomic, strong, readonly) NSString *type;
 
-+ (nullable instancetype)universalSelector;
++ (instancetype)universalSelector;
 
-- (nullable instancetype)initWithType:(nonnull NSString *)type;
+- (instancetype)initWithType:(NSString *)type;
 
 @end
+
+NS_ASSUME_NONNULL_END

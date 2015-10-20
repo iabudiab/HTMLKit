@@ -30,7 +30,7 @@
 	return [[self alloc] initWithType:CSSAttributeSelectorExactMatch attributeName:@"id" attrbiuteValue:elementId];
 }
 
-+ (nullable instancetype)attributeSelector:(nonnull NSString *)attributeName
++ (instancetype)hasAttributeSelector:(NSString *)attributeName
 {
 	return [[self alloc] initWithType:CSSAttributeSelectorExists attributeName:attributeName attrbiuteValue:@""];
 }

@@ -35,22 +35,22 @@
 @implementation CSSCombinatorSelector
 @synthesize selector = _selector;
 
-+ (nullable instancetype)childOfElementCombinator:(nonnull CSSSelector *)selector
++ (instancetype)childOfElementCombinator:(CSSSelector *)selector
 {
 	return [[CSSChildOfElementCombinatorSelector alloc] initWithSelector:selector];
 }
 
-+ (nullable instancetype)descendantOfElementCombinator:(nonnull CSSSelector *)selector
++ (instancetype)descendantOfElementCombinator:(CSSSelector *)selector
 {
 	return [[CSSDecendantOfElementCombinatorSelector alloc] initWithSelector:selector];
 }
 
-+ (nullable instancetype)adjacentSiblingCombinator:(nonnull CSSSelector *)selector
++ (instancetype)adjacentSiblingCombinator:(CSSSelector *)selector
 {
 	return [[CSSAdjacentSiblingCombinatorSelector alloc] initWithSelector:selector];
 }
 
-+ (nullable instancetype)generalSiblingCombinator:(nonnull CSSSelector *)selector
++ (instancetype)generalSiblingCombinator:(CSSSelector *)selector
 {
 	return [[CSSGeneralSiblingCombinatorSelector alloc] initWithSelector:selector];
 }
@@ -78,7 +78,7 @@
 
 - (NSString *)debugDescription
 {
-	return @" > ";
+	return @">";
 }
 
 @end
@@ -123,7 +123,7 @@
 
 - (NSString *)debugDescription
 {
-	return @" + ";
+	return @"+";
 }
 
 @end
@@ -148,7 +148,7 @@
 
 - (NSString *)debugDescription
 {
-	return @" ~ ";
+	return @"~";
 }
 
 @end
