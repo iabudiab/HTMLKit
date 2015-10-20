@@ -13,9 +13,11 @@
 
 @implementation CSSNthExpressionParser
 
-+ (CSSNthExpression)parseExpression:(NSString *)string
++ (CSSNthExpression)parseExpression:(NSString *)expression
 {
 	NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+
+	NSString *string = [expression copy];
 
 	string = [string stringByTrimmingCharactersInSet:whitespace];
 	string = string.lowercaseString;
