@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "CSSSelectors.h"
 #import "HTMLDOM.h"
+#import "CSSSelectorParser.h"
 
 @interface CSSTypeSelectorTests : XCTestCase
 
@@ -16,46 +17,34 @@
 
 @implementation CSSTypeSelectorTests
 
+- (void)testX
+{
+	CSSSelectorParser *parser = [[CSSSelectorParser alloc] initWithString:@"div:root"];
+	CSSSimpleSequence *sequence = [parser parse];
+	NSLog(@"%@", sequence);
+}
+
 - (void)testUniversalSelector
 {
-	CSSTypeSelector *selector = [CSSTypeSelector universalSelector];
+	CSSSelector *selector = universalSelector();
 
-	XCTAssertEqual([selector acceptNode:[HTMLDocumentType new]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[HTMLDocumentFragment new]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLText alloc] initWithData:@"Text"]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLComment alloc] initWithData:@"Comment"]], HTMLNodeFilterSkip);
-
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:nil]], HTMLNodeFilterAccept);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@""]], HTMLNodeFilterAccept);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"div"]], HTMLNodeFilterAccept);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"p"]], HTMLNodeFilterAccept);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"any other name"]], HTMLNodeFilterAccept);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:nil]], YES);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@""]], YES);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"div"]], YES);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"p"]], YES);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"any other name"]], YES);
 }
 
 - (void)testTypeSelector
 {
-	CSSTypeSelector *selector = [[CSSTypeSelector alloc] initWithType:@"div"];
+	CSSSelector *selector = typeSelector(@"div");
 
-	XCTAssertEqual([selector acceptNode:[HTMLDocumentType new]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[HTMLDocumentFragment new]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLText alloc] initWithData:@"Text"]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLComment alloc] initWithData:@"Comment"]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:nil]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@""]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"p"]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"any other name"]], HTMLNodeFilterSkip);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:nil]], NO);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@""]], NO);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"p"]], NO);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"any other name"]], NO);
 
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"div"]], HTMLNodeFilterAccept);
-}
-
-- (void)testChangeSelectorType
-{
-	CSSTypeSelector *selector = [[CSSTypeSelector alloc] initWithType:@"div"];
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"div"]], HTMLNodeFilterAccept);
-
-	selector.type = @"p";
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"div"]], HTMLNodeFilterSkip);
-	XCTAssertEqual([selector acceptNode:[[HTMLElement alloc] initWithTagName:@"p"]], HTMLNodeFilterAccept);
+	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"div"]], YES);
 }
 
 @end
