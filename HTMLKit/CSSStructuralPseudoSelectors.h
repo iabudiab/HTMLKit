@@ -30,6 +30,8 @@ extern CSSSelector * textSelector();
 extern CSSSelector * enabledSelector();
 extern CSSSelector * disabledSelector();
 extern CSSSelector * checkedSelector();
+extern CSSSelector * optionalSelector();
+extern CSSSelector * requiredSelector();
 
 extern CSSSelector * ltSelector();
 extern CSSSelector * gtSelector();

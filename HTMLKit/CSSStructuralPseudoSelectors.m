@@ -241,6 +241,33 @@ CSSSelector * checkedElementSelector()
 	return namedPseudoSelector(@"checked", allOf(@[candidate, hasAttribute]));
 }
 
+CSSSelector * optionalSelector()
+{
+	// https://html.spec.whatwg.org/multipage/scripting.html#selector-optional
+	CSSSelector *candidate = anyOf(@[
+									 typeSelector(@"input"),
+									 typeSelector(@"select"),
+									 typeSelector(@"textarea")
+									 ]);
+	CSSSelector *noAttribute = nay(hasAttributeSelector(@"required"));
+
+	return namedPseudoSelector(@"optional", allOf(@[candidate, noAttribute]));
+}
+
+CSSSelector * requiredSelector()
+{
+	// https://html.spec.whatwg.org/multipage/scripting.html#selector-required
+	// https://html.spec.whatwg.org/multipage/forms.html#concept-input-required
+	CSSSelector *candidate = anyOf(@[
+									 typeSelector(@"input"),
+									 typeSelector(@"select"),
+									 typeSelector(@"textarea")
+									 ]);
+	CSSSelector *hasAttribute = hasAttributeSelector(@"required");
+
+	return namedPseudoSelector(@"required", allOf(@[candidate, hasAttribute]));
+}
+
 #pragma mark - Positional
 
 CSSSelector * ltSelector(NSUInteger index)
