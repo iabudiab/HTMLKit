@@ -37,40 +37,89 @@ NSString * _Nonnull NSStringFromNthExpression(CSSNthExpression expression)
 
 #pragma mark - Implementation
 
+NSInteger computeIndex(NSEnumerator *enumerator, HTMLElement *element)
+{
+	NSInteger index = 0;
+	for (HTMLNode *node in enumerator) {
+		if (node.nodeType != HTMLNodeElement) {
+			continue;
+		}
+
+		if ([node.asElement.tagName isEqualToString:element.tagName]) {
+			index++;
+		}
+
+		if (node == element) {
+			break;
+		}
+	}
+
+	return index;
+}
+
 @interface CSSNthExpressionSelector ()
 {
+	NSString *_className;
 	CSSNthExpression _expression;
+	NSInteger (^ _computeIndex)(HTMLElement *);
 }
 @end
 
 @implementation CSSNthExpressionSelector
 @synthesize expression = _expression;
+@synthesize className = _className;
 
 + (instancetype)nthChildSelector:(CSSNthExpression)expression
 {
-	return nil;
+	return [[self alloc] initWithClassName:@"nth-child" expression:expression block:^NSInteger(HTMLElement *element) {
+		return [element.parentElement indexOfChildNode:element] + 1;
+	}];
 }
 
 + (instancetype)nthLastChildSelector:(CSSNthExpression)expression
 {
-	return nil;
+	return [[self alloc] initWithClassName:@"nth-last-child" expression:expression block:^NSInteger(HTMLElement *element) {
+		return element.parentElement.childNodesCount - [element.parentElement indexOfChildNode:element];
+	}];
 }
 
 + (instancetype)nthOfTypeSelector:(CSSNthExpression)expression
 {
-	return nil;
+	return [[self alloc] initWithClassName:@"nth-of-type" expression:expression block:^NSInteger(HTMLElement *element) {
+		return computeIndex(element.parentElement.childNodes.array.objectEnumerator, element);
+	}];
 }
 
 + (instancetype)nthLastOfTypeSelector:(CSSNthExpression)expression
 {
-	return nil;
+	return [[self alloc] initWithClassName:@"nth-last-of-type" expression:expression block:^NSInteger(HTMLElement *element) {
+		return computeIndex(element.parentElement.childNodes.array.reverseObjectEnumerator, element);
+	}];
 }
 
-#pragma mark - 
+- (instancetype)initWithClassName:(NSString *)className
+					   expression:(CSSNthExpression)expression
+							block:(NSInteger (^)(HTMLElement *element))block
+{
+	self = [super init];
+	if (self) {
+		_className = [className copy];
+		_expression = expression;
+		_computeIndex = [block copy];
+	}
+	return self;
+}
 
 - (BOOL)acceptElement:(HTMLElement *)element
 {
-	return NO;
+	NSInteger index = _computeIndex(element);
+
+	if (_expression.an == 0) {
+		return index == _expression.b;
+	} else {
+		NSInteger diff = (index - _expression.b);
+		return (diff * _expression.an >= 0) && (diff % _expression.an == 0);
+	}
 }
 
 - (NSString *)debugDescription

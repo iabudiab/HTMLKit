@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CSSNthExpressionSelector : CSSSelector
 
+@property (nonatomic, strong, readonly) NSString *className;
 @property (nonatomic, assign, readonly) CSSNthExpression expression;
 
 + (instancetype)nthChildSelector:(CSSNthExpression)expression;
