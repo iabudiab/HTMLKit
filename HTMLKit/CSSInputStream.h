@@ -13,6 +13,7 @@
 
 - (void)consumeWhitespace;
 - (NSString *)consumeIdentifier;
+- (NSString *)consumeStringWithEndingCodePoint:(UTF32Char)endingCodePoint;
 - (UTF32Char)consumeEscapedCodePoint;
 
 @end

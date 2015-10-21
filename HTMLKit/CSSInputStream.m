@@ -9,6 +9,10 @@
 #import "CSSInputStream.h"
 #import "CSSTokenizerCodePoints.h"
 
+@interface HTMLInputStreamReader ()
+- (void)emitParseError:(NSString *)reason;
+@end
+
 @implementation CSSInputStream
 
 - (void)consumeWhitespace
@@ -23,9 +27,11 @@
 	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
 
 	while (YES) {
-		UniChar codePoint = [self consumeNextInputCharacter];
-		if (isName(codePoint)) {
-			CFStringAppendCharacters(value, &codePoint, 1);
+		UTF32Char codePoint = [self consumeNextInputCharacter];
+		if (codePoint == EOF) {
+			break;
+		} else if (isName(codePoint)) {
+			AppendCodePoint(value, codePoint);
 		} else if (isValidEscape(self.nextInputCharacter, [self inputCharacterPointAtOffset:1])) {
 			UTF32Char escapedCodePoint = [self consumeNextInputCharacter];
 			AppendCodePoint(value, escapedCodePoint);
@@ -38,13 +44,51 @@
 	return (__bridge NSString *)(CFStringGetLength(value) > 0 ? value : nil);
 }
 
+- (NSString *)consumeStringWithEndingCodePoint:(UTF32Char)endingCodePoint
+{
+	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
+
+	while (YES) {
+		UTF32Char codePoint = [self consumeNextInputCharacter];
+		if (codePoint == endingCodePoint) {
+			break;
+		}
+
+		switch (codePoint) {
+			case EOF:
+				break;
+			case LINE_FEED:
+				[self emitParseError:@"New-line character (0x000A) in CSS attribute value"];
+				[self reconsumeCurrentInputCharacter];
+				break;
+			case REVERSE_SOLIDUS:
+			{
+				UTF32Char next = self.nextInputCharacter;
+				if (next == EOF) {
+					continue;
+				} else if (next == LINE_FEED) {
+					[self consumeNextInputCharacter];
+				} else {
+					UTF32Char escapedCodePoint = [self consumeNextInputCharacter];
+					AppendCodePoint(value, escapedCodePoint);
+				}
+			}
+			default:
+				AppendCodePoint(value, codePoint);
+				break;
+		}
+	}
+
+	return (__bridge NSString *)(CFStringGetLength(value) > 0 ? value : nil);
+}
+
 - (UTF32Char)consumeEscapedCodePoint
 {
-	UniChar codePoint = [self consumeNextInputCharacter];
+	UTF32Char codePoint = [self consumeNextInputCharacter];
 
 	if (isHexDigit(codePoint)) {
 		CFMutableStringRef hexString = CFStringCreateMutable(kCFAllocatorDefault, 6);
-		CFStringAppendCharacters(hexString, &codePoint, 1);
+		AppendCodePoint(hexString, codePoint);
 
 		while (isHexDigit(self.nextInputCharacter) && CFStringGetLength(hexString) <= 6) {
 			UniChar codePoint = [self consumeNextInputCharacter];
@@ -60,7 +104,7 @@
 		[scanner scanHexInt:&number];
 
 		return isValidEscapedCodePoint(number) ? number : REPLACEMENT_CHARACTER;
-	} else if (codePoint == EOF_CHARACTER) {
+	} else if (codePoint == EOF) {
 		return REPLACEMENT_CHARACTER;
 	}
 
