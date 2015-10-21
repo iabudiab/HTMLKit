@@ -190,6 +190,9 @@
 		62FA04E51BCC360D009ABF98 /* CSSCombinatorSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FA04E21BCC360D009ABF98 /* CSSCombinatorSelector.m */; settings = {ASSET_TAGS = (); }; };
 		62FA98041BD57B6200A2AF86 /* CSSSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FA98031BD57B6200A2AF86 /* CSSSelectors.m */; settings = {ASSET_TAGS = (); }; };
 		62FA98051BD57B6200A2AF86 /* CSSSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FA98031BD57B6200A2AF86 /* CSSSelectors.m */; settings = {ASSET_TAGS = (); }; };
+		62FA98081BD5A7E200A2AF86 /* CSSSelectorBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = 62FA98061BD5A7E200A2AF86 /* CSSSelectorBlock.h */; settings = {ASSET_TAGS = (); }; };
+		62FA98091BD5A7E200A2AF86 /* CSSSelectorBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FA98071BD5A7E200A2AF86 /* CSSSelectorBlock.m */; settings = {ASSET_TAGS = (); }; };
+		62FA980A1BD5A7E200A2AF86 /* CSSSelectorBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FA98071BD5A7E200A2AF86 /* CSSSelectorBlock.m */; settings = {ASSET_TAGS = (); }; };
 		62FC60461BD0519B0042BBE7 /* CSSSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FC60451BD0519B0042BBE7 /* CSSSelector.m */; settings = {ASSET_TAGS = (); }; };
 		62FC60471BD0519B0042BBE7 /* CSSSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62FC60451BD0519B0042BBE7 /* CSSSelector.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -355,6 +358,8 @@
 		62F873E919E088C90062683C /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
 		62F873EA19E088C90062683C /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		62FA98031BD57B6200A2AF86 /* CSSSelectors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSelectors.m; sourceTree = "<group>"; };
+		62FA98061BD5A7E200A2AF86 /* CSSSelectorBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSSelectorBlock.h; sourceTree = "<group>"; };
+		62FA98071BD5A7E200A2AF86 /* CSSSelectorBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSelectorBlock.m; sourceTree = "<group>"; };
 		62FC60451BD0519B0042BBE7 /* CSSSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSelector.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -414,6 +419,8 @@
 				624B37211B250BB50010BDDF /* CSSTokenizerCodePoints.h */,
 				62079BE71AF56F1E00D3B402 /* CSSSelector.h */,
 				62FC60451BD0519B0042BBE7 /* CSSSelector.m */,
+				62FA98061BD5A7E200A2AF86 /* CSSSelectorBlock.h */,
+				62FA98071BD5A7E200A2AF86 /* CSSSelectorBlock.m */,
 				624B28B61B03DA820048D328 /* CSSTypeSelector.h */,
 				624B28B71B03DA820048D328 /* CSSTypeSelector.m */,
 				624B28BD1B0413200048D328 /* CSSAttributeSelector.h */,
@@ -693,6 +700,7 @@
 				6235CE9B1AA509430026937B /* NSString+HTMLKit.h in Headers */,
 				62D89DB11AE7081600B6243D /* HTMLTokenizerStates.h in Headers */,
 				62079BE91AF56F1E00D3B402 /* CSSSelector.h in Headers */,
+				62FA98081BD5A7E200A2AF86 /* CSSSelectorBlock.h in Headers */,
 				62D89DB21AE7081600B6243D /* HTMLTokenizerCharacters.h in Headers */,
 				62D89DB31AE7081600B6243D /* HTMLNamespaces.h in Headers */,
 				624B28BC1B03DAB70048D328 /* HTMLNodeFilter.h in Headers */,
@@ -908,6 +916,7 @@
 				623406E31ADB04F9004677A3 /* HTMLTemplate.m in Sources */,
 				62FA04E51BCC360D009ABF98 /* CSSCombinatorSelector.m in Sources */,
 				6238C9871AB8D6330006512E /* HTMLKitDOMExceptions.m in Sources */,
+				62FA980A1BD5A7E200A2AF86 /* CSSSelectorBlock.m in Sources */,
 				6247171A1B22333200C11912 /* HTMLNodeTraversal.m in Sources */,
 				62F873ED19E088C90062683C /* HTMLParser.m in Sources */,
 				623803A11AB63A8C008A53D0 /* HTMLEOFToken.m in Sources */,
@@ -980,6 +989,7 @@
 				62AE593B19F97E1C0043F069 /* HTMLDOCTYPEToken.m in Sources */,
 				623406E21ADB04F9004677A3 /* HTMLTemplate.m in Sources */,
 				62FA04E41BCC360D009ABF98 /* CSSCombinatorSelector.m in Sources */,
+				62FA98091BD5A7E200A2AF86 /* CSSSelectorBlock.m in Sources */,
 				6238C9861AB8D6330006512E /* HTMLKitDOMExceptions.m in Sources */,
 				624717191B22333200C11912 /* HTMLNodeTraversal.m in Sources */,
 				62F873EC19E088C90062683C /* HTMLParser.m in Sources */,
