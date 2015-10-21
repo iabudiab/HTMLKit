@@ -7,7 +7,7 @@
 //
 
 #import "CSSInputStream.h"
-#import "CSSTokenizerCodePoints.h"
+#import "CSSCodePoints.h"
 
 @interface HTMLInputStreamReader ()
 - (void)emitParseError:(NSString *)reason;

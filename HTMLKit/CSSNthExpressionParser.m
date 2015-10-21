@@ -7,7 +7,7 @@
 //
 
 #import "CSSNthExpressionParser.h"
-#import "CSSTokenizerCodePoints.h"
+#import "CSSCodePoints.h"
 #import "NSString+HTMLKit.h"
 #import "NSCharacterSet+HTMLKit.h"
 

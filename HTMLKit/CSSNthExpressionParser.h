@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CSSSelectors.h"
 
 @interface CSSNthExpressionParser : NSObject
 
