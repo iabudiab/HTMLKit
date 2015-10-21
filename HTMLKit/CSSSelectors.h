@@ -7,6 +7,7 @@
 //
 
 #import "CSSSelector.h"
+#import "CSSStructuralPseudoSelectors.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -59,8 +60,12 @@ extern CSSSelector * has(CSSSelector *selector);
 extern CSSSelector * allOf(NSArray<CSSSelector *> *selectors);
 extern CSSSelector * anyOf(NSArray<CSSSelector *> *selectors);
 
+#pragma mark - Pseudo
+
+extern CSSSelector * namedPseudoSelector(NSString *name, CSSSelector *selector);
+
 #pragma mark - Block
 
-extern CSSSelector * selectorWithBlock(BOOL (^ acceptBlock)(HTMLElement *));
+extern CSSSelector * namedBlockSelector(NSString *name, BOOL (^ acceptBlock)(HTMLElement *element));
 
 NS_ASSUME_NONNULL_END

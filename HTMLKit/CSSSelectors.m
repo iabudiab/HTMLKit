@@ -12,41 +12,40 @@
 #import "CSSPseudoClassSelector.h"
 #import "CSSPseudoFunctionSelector.h"
 #import "CSSNthExpressionSelector.h"
-#import "CSSStructuralPseudoSelector.h"
 #import "CSSCombinatorSelector.h"
 #import "CSSCompoundSelector.h"
 #import "CSSSelectorBlock.h"
 
 #pragma mark - Type Selectors
 
-CSSSelector *universalSelector()
+CSSSelector * universalSelector()
 {
 	return [CSSTypeSelector universalSelector];
 }
 
-CSSSelector *typeSelector(NSString *type)
+CSSSelector * typeSelector(NSString *type)
 {
 	return [[CSSTypeSelector alloc] initWithType:type];
 }
 
 #pragma mark - Atribute Selectors
 
-CSSSelector *idSelector(NSString *elementId)
+CSSSelector * idSelector(NSString *elementId)
 {
 	return [CSSAttributeSelector idSelector:elementId];
 }
 
-CSSSelector *classSelector(NSString *className)
+CSSSelector * classSelector(NSString *className)
 {
 	return [CSSAttributeSelector classSelector:className];
 }
 
-CSSSelector *hasAttributeSelector(NSString *attribute)
+CSSSelector * hasAttributeSelector(NSString *attribute)
 {
 	return [CSSAttributeSelector hasAttributeSelector:attribute];
 }
 
-CSSSelector *attributeSelector(CSSAttributeSelectorType type,
+CSSSelector * attributeSelector(CSSAttributeSelectorType type,
 												NSString *attribute,
 												NSString *value)
 {
@@ -55,115 +54,124 @@ CSSSelector *attributeSelector(CSSAttributeSelectorType type,
 
 #pragma mark - Nth-Expression Selectors
 
-CSSSelector *nthChildSelector(CSSNthExpression expression)
+CSSSelector * nthChildSelector(CSSNthExpression expression)
 {
 	return [CSSNthExpressionSelector nthChildSelector:expression];
 }
 
-CSSSelector *nthLastChildSelector(CSSNthExpression expression)
+CSSSelector * nthLastChildSelector(CSSNthExpression expression)
 {
 	return [CSSNthExpressionSelector nthLastChildSelector:expression];
 }
 
-CSSSelector *nthOfTypeSelector(CSSNthExpression expression)
+CSSSelector * nthOfTypeSelector(CSSNthExpression expression)
 {
 	return [CSSNthExpressionSelector nthOfTypeSelector:expression];
 }
 
-CSSSelector *nthLastOfTypeSelector(CSSNthExpression expression)
+CSSSelector * nthLastOfTypeSelector(CSSNthExpression expression)
 {
 	return [CSSNthExpressionSelector nthLastOfTypeSelector:expression];
 }
 
+#pragma mark - Nth-Expression Shorthand
+
 CSSSelector * oddSelector()
 {
-	return [CSSNthExpressionSelector nthChildSelector:CSSNthExpressionOdd];
+	return namedPseudoSelector(@"odd", nthChildSelector(CSSNthExpressionOdd));
 }
 
 CSSSelector * evenSlector()
 {
-	return [CSSNthExpressionSelector nthChildSelector:CSSNthExpressionEven];
+	return namedPseudoSelector(@"even", nthChildSelector(CSSNthExpressionEven));
 }
 
-CSSSelector *firstChildSelector()
+CSSSelector * firstChildSelector()
 {
-	return [CSSNthExpressionSelector nthChildSelector:CSSNthExpressionMake(0, 1)];
+	return namedPseudoSelector(@"first-child", nthChildSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector *lastChildSelector()
+CSSSelector * lastChildSelector()
 {
-	return [CSSNthExpressionSelector nthLastChildSelector:CSSNthExpressionMake(0, 1)];
+	return namedPseudoSelector(@"last-child", nthChildSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector *firstOfTypeSelector()
+CSSSelector * firstOfTypeSelector()
 {
-	return [CSSNthExpressionSelector nthOfTypeSelector:CSSNthExpressionMake(0, 1)];
+	return namedPseudoSelector(@"first-of-type", nthChildSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector *lastOfTypeSelector()
+CSSSelector * lastOfTypeSelector()
 {
-	return [CSSNthExpressionSelector nthLastOfTypeSelector:CSSNthExpressionMake(0, 1)];
+	return namedPseudoSelector(@"last-of-type", nthChildSelector(CSSNthExpressionMake(0, 1)));
 }
 
-CSSSelector *onlyChildSelector()
+CSSSelector * onlyChildSelector()
 {
-	return allOf(@[firstChildSelector(), lastChildSelector()]);
+	return namedPseudoSelector(@"only-child", allOf(@[firstChildSelector(), lastChildSelector()]));
 }
 
-CSSSelector *onlyOfTypeSelector()
+CSSSelector * onlyOfTypeSelector()
 {
-	return allOf(@[firstOfTypeSelector(), lastOfTypeSelector()]);
+	return namedPseudoSelector(@"only-of-type", allOf(@[firstOfTypeSelector(), lastOfTypeSelector()]));
 }
 
 #pragma mark - Combinators
 
-CSSSelector *childOfElementSelector(CSSSelector *selector)
+CSSSelector * childOfElementSelector(CSSSelector *selector)
 {
 	return [CSSCombinatorSelector childOfElementCombinator:selector];
 }
 
-CSSSelector *descendantOfElementSelector(CSSSelector *selector)
+CSSSelector * descendantOfElementSelector(CSSSelector *selector)
 {
 	return [CSSCombinatorSelector descendantOfElementCombinator:selector];
 }
 
-CSSSelector *adjacentSiblingSelector(CSSSelector *selector)
+CSSSelector * adjacentSiblingSelector(CSSSelector *selector)
 {
 	return [CSSCombinatorSelector adjacentSiblingCombinator:selector];
 }
 
-CSSSelector *generalSiblingSelector(CSSSelector *selector)
+CSSSelector * generalSiblingSelector(CSSSelector *selector)
 {
 	return [CSSCombinatorSelector generalSiblingCombinator:selector];
 }
 
 #pragma mark - Pseudo Functions
 
-CSSSelector *nay(CSSSelector *selector)
+CSSSelector * nay(CSSSelector *selector)
 {
 	return [CSSPseudoFunctionSelector notSelector:selector];
 }
 
-CSSSelector *has(CSSSelector *selector)
+CSSSelector * has(CSSSelector *selector)
 {
 	return [CSSPseudoFunctionSelector hasSelector:selector];
 }
 
 #pragma mark - Compound Selectors
 
-CSSSelector *allOf( NSArray<CSSSelector *> * selectors)
+CSSSelector * allOf( NSArray<CSSSelector *> * selectors)
 {
 	return [CSSCompoundSelector andSelector:selectors];
 }
 
-CSSSelector *anyOf( NSArray<CSSSelector *> * selectors)
+CSSSelector * anyOf( NSArray<CSSSelector *> * selectors)
 {
 	return [CSSCompoundSelector andSelector:selectors];
+}
+
+#pragma mark - Pseudo
+
+CSSSelector * namedPseudoSelector(NSString *name, CSSSelector *selector)
+{
+	return [[CSSPseudoClassSelector alloc] initWithClassName:name selector:selector];
 }
 
 #pragma mark - Block
 
-CSSSelector * selectorWithBlock(BOOL (^ acceptBlock)(HTMLElement *))
+CSSSelector * namedBlockSelector(NSString *name, BOOL (^ acceptBlock)(HTMLElement *element))
 {
-	return nil;
+	return [[CSSSelectorBlock alloc] initWithName:name block:acceptBlock];
 }
