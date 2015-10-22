@@ -1260,6 +1260,7 @@
 				);
 				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = " -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braincookie.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1280,6 +1281,7 @@
 				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
 				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = " -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braincookie.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
