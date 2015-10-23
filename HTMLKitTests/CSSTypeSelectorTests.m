@@ -17,13 +17,6 @@
 
 @implementation CSSTypeSelectorTests
 
-- (void)testX
-{
-	CSSSelectorParser *parser = [[CSSSelectorParser alloc] initWithString:@"div:root"];
-	CSSSimpleSequence *sequence = [parser parse];
-	NSLog(@"%@", sequence);
-}
-
 - (void)testUniversalSelector
 {
 	CSSSelector *selector = universalSelector();
