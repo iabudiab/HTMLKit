@@ -93,17 +93,17 @@ CSSSelector * firstChildSelector()
 
 CSSSelector * lastChildSelector()
 {
-	return namedPseudoSelector(@"last-child", nthChildSelector(CSSNthExpressionMake(0, 1)));
+	return namedPseudoSelector(@"last-child", nthLastChildSelector(CSSNthExpressionMake(0, 1)));
 }
 
 CSSSelector * firstOfTypeSelector()
 {
-	return namedPseudoSelector(@"first-of-type", nthChildSelector(CSSNthExpressionMake(0, 1)));
+	return namedPseudoSelector(@"first-of-type", nthOfTypeSelector(CSSNthExpressionMake(0, 1)));
 }
 
 CSSSelector * lastOfTypeSelector()
 {
-	return namedPseudoSelector(@"last-of-type", nthChildSelector(CSSNthExpressionMake(0, 1)));
+	return namedPseudoSelector(@"last-of-type", nthLastOfTypeSelector(CSSNthExpressionMake(0, 1)));
 }
 
 CSSSelector * onlyChildSelector()
