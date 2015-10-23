@@ -38,6 +38,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 @class HTMLDocument;
 @class HTMLElement;
+@class CSSSelector;
 
 @interface HTMLNode : NSObject <NSCopying>
 
@@ -120,6 +121,9 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 										   filter:(id<HTMLNodeFilter>)filter;
 - (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
 									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter;
+
+- (HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector;
+- (NSArray<HTMLElement *> *)elementsMatchingSelector:(CSSSelector *)selector;
 
 - (NSString *)treeDescription;
 

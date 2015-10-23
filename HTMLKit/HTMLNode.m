@@ -13,6 +13,7 @@
 #import "HTMLText.h"
 #import "HTMLComment.h"
 #import "HTMLKitDOMExceptions.h"
+#import "CSSSelector.h"
 
 @interface HTMLDocument (Private)
 - (void)runRemovingStepsForNode:(HTMLNode *)oldNode
@@ -386,6 +387,29 @@
 	return [HTMLNodeIterator iteratorWithNode:self showOptions:showOptions filter:filter];
 }
 
+#pragma mark - Selectors
+
+- (HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector
+{
+	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([selector acceptElement:element]) {
+			return element;
+		}
+	}
+	return nil;
+}
+
+- (NSArray<HTMLElement *> *)elementsMatchingSelector:(CSSSelector *)selector
+{
+	NSMutableArray *result = [NSMutableArray array];
+	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([selector acceptElement:element]) {
+			[result addObject:element];
+		}
+	}
+	return result;
+}
+
 #ifndef HTMLKIT_NO_DOM_CHECKS
 
 #pragma mark - Validity Checks
@@ -610,12 +634,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p %@>", self.class, self, self.name];
-}
-
-- (NSString *)debugDescription
-{
-	return self.treeDescription;
+	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.name];
 }
 
 - (id)debugQuickLookObject
