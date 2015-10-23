@@ -94,7 +94,7 @@
 - (NSString *)debugDescription
 {
 	if (self.type == CSSAttributeSelectorExists) {
-		return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.name];
+		return [NSString stringWithFormat:@"[%@]", self.name];
 	}
 
 	NSString *matcher = @{@(CSSAttributeSelectorExactMatch): @"=",
