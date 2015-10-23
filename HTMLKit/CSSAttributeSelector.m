@@ -82,7 +82,7 @@
 		}
 		case CSSAttributeSelectorNot:
 		{
-			return ![element[_name] isEqualTo:_value];
+			return ![element[_name] isEqualToString:_value];
 		}
 		default:
 			return NO;
