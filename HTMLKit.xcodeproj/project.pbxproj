@@ -16,6 +16,8 @@
 		620EE9491BC46F2A0028ED34 /* CSSPseudoClassSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */; settings = {ASSET_TAGS = (); }; };
 		620EE94A1BC46F2A0028ED34 /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */; settings = {ASSET_TAGS = (); }; };
 		620EE94B1BC46F2A0028ED34 /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */; settings = {ASSET_TAGS = (); }; };
+		621FBE5D1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */; settings = {ASSET_TAGS = (); }; };
+		621FBE5E1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */; settings = {ASSET_TAGS = (); }; };
 		623406E11ADB04F9004677A3 /* HTMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 623406DF1ADB04F9004677A3 /* HTMLTemplate.h */; };
 		623406E21ADB04F9004677A3 /* HTMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 623406E01ADB04F9004677A3 /* HTMLTemplate.m */; };
 		623406E31ADB04F9004677A3 /* HTMLTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 623406E01ADB04F9004677A3 /* HTMLTemplate.m */; };
@@ -232,6 +234,7 @@
 		620C877A1BD44CBE00FB3EEE /* CSSCompoundSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSCompoundSelector.m; sourceTree = "<group>"; };
 		620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSPseudoClassSelector.h; sourceTree = "<group>"; };
 		620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSPseudoClassSelector.m; sourceTree = "<group>"; };
+		621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSCombinatorSelectorTests.m; sourceTree = "<group>"; };
 		6223211D1A969B9300BACED5 /* HTMLElementTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLElementTypes.h; sourceTree = "<group>"; };
 		623406DF1ADB04F9004677A3 /* HTMLTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLTemplate.h; sourceTree = "<group>"; };
 		623406E01ADB04F9004677A3 /* HTMLTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLTemplate.m; sourceTree = "<group>"; };
@@ -602,6 +605,7 @@
 				624AB3191B050A4D00F3830D /* CSSAttributeSelectorTests.m */,
 				628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */,
 				62F6586F1BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m */,
+				621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */,
 			);
 			name = Tests;
 			path = HTMLKitTests;
@@ -959,6 +963,7 @@
 				62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 				6239755F1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */,
 				624FC37B1AE591D80015DDF9 /* HTMLKitNodesTests.m in Sources */,
+				621FBE5E1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m in Sources */,
 				628AF6301BC99A6C00496128 /* CSSNthExpressionsParserTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1033,6 +1038,7 @@
 				62D8345919FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 				6239755E1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */,
 				624FC37A1AE591D80015DDF9 /* HTMLKitNodesTests.m in Sources */,
+				621FBE5D1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m in Sources */,
 				628AF62F1BC99A6C00496128 /* CSSNthExpressionsParserTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

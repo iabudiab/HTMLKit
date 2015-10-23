@@ -73,7 +73,7 @@
 - (BOOL)acceptElement:(HTMLElement *)element
 {
 	HTMLElement *parent = element.parentElement;
-	return parent != nil && [self.selector acceptElement:element];
+	return parent != nil && [self.selector acceptElement:parent];
 }
 
 - (NSString *)debugDescription
