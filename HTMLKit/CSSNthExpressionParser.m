@@ -17,10 +17,8 @@
 {
 	NSCharacterSet *whitespace = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
-	NSString *string = [expression copy];
-
-	string = [string stringByTrimmingCharactersInSet:whitespace];
-	string = string.lowercaseString;
+	NSString *string = [expression.lowercaseString copy];
+	string = [[string stringByTrimmingCharactersInSet:whitespace] copy];
 
 	if ([string isEqualToStringIgnoringCase:@"odd"]) {
 		return CSSNthExpressionOdd;
