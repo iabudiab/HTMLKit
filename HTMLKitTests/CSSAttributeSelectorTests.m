@@ -170,7 +170,7 @@
 
 - (void)testAttributeHyphen
 {
-	CSSSelector *selector = attributeSelector(CSSAttributeSelectorHyphen, @"attr", @"value");
+	CSSSelector *selector = attributeSelector(CSSAttributeSelectorHyphen, @"attr", @"top");
 
 	XCTAssertEqual([selector acceptElement:_element], NO);
 
