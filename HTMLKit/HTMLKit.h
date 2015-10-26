@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-@interface HTMLKit : NSObject
-
-@end
+#import "HTMLParser.h"
+#import "HTMLDOM.h"
+#import "CSSSelectors.h"
