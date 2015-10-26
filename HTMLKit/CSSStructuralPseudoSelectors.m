@@ -225,7 +225,7 @@ CSSSelector * disabledSelector()
 							   anyOf(@[disabledOption, disabledOptgroup, disabledMenuItem, disabledForm, disabledFieldset]));
 }
 
-CSSSelector * checkedElementSelector()
+CSSSelector * checkedSelector()
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-checked
 	CSSSelector *candidate = anyOf(@[
