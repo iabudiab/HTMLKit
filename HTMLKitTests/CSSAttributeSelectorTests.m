@@ -221,4 +221,18 @@
 	XCTAssertEqual([selector acceptElement:_element], NO);
 }
 
+- (void)testIdSelector
+{
+	_element[@"id"] = @"id";
+	XCTAssertEqual([idSelector(@"id") acceptElement:_element], YES);
+	XCTAssertEqual([idSelector(@"other id") acceptElement:_element], NO);
+}
+
+- (void)testClassSelector
+{
+	_element[@"class"] = @"class";
+	XCTAssertEqual([classSelector(@"class") acceptElement:_element], YES);
+	XCTAssertEqual([classSelector(@"other class") acceptElement:_element], NO);
+}
+
 @end
