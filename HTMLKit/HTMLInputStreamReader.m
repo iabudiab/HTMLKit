@@ -40,6 +40,7 @@
 	if (self) {
 		_string = [string copy];
 		_scanner = [[NSScanner alloc] initWithString:string];
+		_scanner.charactersToBeSkipped = nil;
 		CFStringInitInlineBuffer((CFStringRef)_string, &_buffer, CFRangeMake(0, _string.length));
 	}
 	return self;
@@ -132,6 +133,7 @@
 		_location += _consume;
 		_scanner.scanLocation = _location;
 		_currentInputCharacter = nextInputCharacter;
+		_reconsume = NO;
 		return YES;
 	}
 	return NO;
@@ -203,14 +205,17 @@
 	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:characters];
 
 	if (_reconsume) {
-		_reconsume = NO;
 		_scanner.scanLocation--;
 	}
 
 	NSString *string = nil;
 	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];
-	if (success == NO) return nil;
+	if (success == NO) {
+		_scanner.scanLocation++;
+		return nil;
+	}
 
+	_reconsume = NO;
 	_location = _scanner.scanLocation;
 	return string;
 }
