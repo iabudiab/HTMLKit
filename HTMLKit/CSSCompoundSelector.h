@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)andSelector:(NSArray<CSSSelector *> *)selectors;
 + (instancetype)orSelector:(NSArray<CSSSelector *> *)selectors;
 
+- (void)addSelector:(CSSSelector *)selector;
+
 @end
 
 NS_ASSUME_NONNULL_END

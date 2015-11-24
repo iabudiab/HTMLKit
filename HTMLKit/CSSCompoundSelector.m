@@ -20,7 +20,7 @@
 
 @interface CSSCompoundSelector ()
 {
-	NSArray *_selectors;
+	NSMutableArray *_selectors;
 }
 @property (nonatomic, strong, readonly) NSArray *selectors;
 @end
@@ -42,15 +42,14 @@
 {
 	self = [super init];
 	if (self) {
-		_selectors = [[NSArray alloc] initWithArray:selectors];
+		_selectors = [[NSMutableArray alloc] initWithArray:selectors];
 	}
 	return self;
 }
 
-- (NSString *)debugDescription
+- (void)addSelector:(CSSSelector *)selector
 {
-	NSArray *descriptions = [_selectors valueForKey:@"debugDescription"];
-	return [descriptions componentsJoinedByString:@""];
+	[_selectors addObject:selector];
 }
 
 @end
