@@ -117,5 +117,12 @@
 	return codePoint;
 }
 
+- (NSString *)consumeCombinator
+{
+	NSString *combinator = [self consumeCharactersInString:@" >+~"];
+	combinator = [combinator stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+	return combinator;
+}
 
 @end

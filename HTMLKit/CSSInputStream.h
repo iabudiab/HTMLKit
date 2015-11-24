@@ -15,5 +15,6 @@
 - (NSString *)consumeIdentifier;
 - (NSString *)consumeStringWithEndingCodePoint:(UTF32Char)endingCodePoint;
 - (UTF32Char)consumeEscapedCodePoint;
+- (NSString *)consumeCombinator;
 
 @end
