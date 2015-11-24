@@ -159,7 +159,7 @@ CSSSelector * allOf( NSArray<CSSSelector *> * selectors)
 
 CSSSelector * anyOf( NSArray<CSSSelector *> * selectors)
 {
-	return [CSSCompoundSelector andSelector:selectors];
+	return [CSSCompoundSelector orSelector:selectors];
 }
 
 #pragma mark - Pseudo
