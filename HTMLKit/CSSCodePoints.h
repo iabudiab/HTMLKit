@@ -113,6 +113,25 @@ NS_INLINE BOOL isValidEscapedCodePoint(UTF32Char codePoint)
 			codePoint <= 0x10FFFF);
 }
 
+NS_INLINE BOOL isValidIdentifierStart(UTF32Char first, UTF32Char second, UTF32Char third)
+{
+	if (first == HYPHEN_MINUS) {
+		if (isNameStart(second) ||
+			second == HYPHEN_MINUS ||
+			isValidEscape(second, third)) {
+			return YES;
+		} else {
+			return NO;
+		}
+	} else if (isNameStart(first)) {
+		return YES;
+	} else if (first == REVERSE_SOLIDUS) {
+		return isValidEscape(first, second);
+	} else {
+		return NO;
+	}
+}
+
 NS_INLINE void AppendCodePoint(CFMutableStringRef string, UTF32Char codePoint)
 {
 	UniChar pair[2];

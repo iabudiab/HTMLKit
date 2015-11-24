@@ -26,6 +26,12 @@
 {
 	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
 
+	if (!isValidIdentifierStart([self inputCharacterPointAtOffset:0],
+								[self inputCharacterPointAtOffset:1],
+								[self inputCharacterPointAtOffset:2])) {
+		return nil;
+	}
+
 	while (YES) {
 		UTF32Char codePoint = [self consumeNextInputCharacter];
 		if (codePoint == EOF) {
