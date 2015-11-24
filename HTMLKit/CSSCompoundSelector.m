@@ -68,6 +68,12 @@
 	return YES;
 }
 
+- (NSString *)debugDescription
+{
+	NSArray *descriptions = [self.selectors valueForKey:@"debugDescription"];
+	return [descriptions componentsJoinedByString:@""];
+}
+
 @end
 
 #pragma mark - Or Compound Selector
@@ -82,6 +88,12 @@
 		}
 	}
 	return NO;
+}
+
+- (NSString *)debugDescription
+{
+	NSArray *descriptions = [self.selectors valueForKey:@"debugDescription"];
+	return [descriptions componentsJoinedByString:@","];
 }
 
 @end
