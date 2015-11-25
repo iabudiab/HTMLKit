@@ -38,8 +38,8 @@
 			break;
 		} else if (isName(codePoint)) {
 			AppendCodePoint(value, codePoint);
-		} else if (isValidEscape(self.nextInputCharacter, [self inputCharacterPointAtOffset:1])) {
-			UTF32Char escapedCodePoint = [self consumeNextInputCharacter];
+		} else if (isValidEscape(codePoint, [self inputCharacterPointAtOffset:1])) {
+			UTF32Char escapedCodePoint = [self consumeEscapedCodePoint];
 			AppendCodePoint(value, escapedCodePoint);
 		} else {
 			[self reconsumeCurrentInputCharacter];
