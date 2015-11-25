@@ -78,7 +78,7 @@
 
 - (NSString *)debugDescription
 {
-	return [NSString stringWithFormat:@"%@ > ", self.selector];
+	return [NSString stringWithFormat:@"%@ > ", self.selector.debugDescription];
 }
 
 @end
@@ -103,7 +103,7 @@
 
 - (NSString *)debugDescription
 {
-	return [NSString stringWithFormat:@"%@ ", self.selector];
+	return [NSString stringWithFormat:@"%@ ", self.selector.debugDescription];
 }
 
 @end
@@ -123,7 +123,7 @@
 
 - (NSString *)debugDescription
 {
-	return [NSString stringWithFormat:@"%@ + ", self.selector];
+	return [NSString stringWithFormat:@"%@ + ", self.selector.debugDescription];
 }
 
 @end
@@ -148,7 +148,7 @@
 
 - (NSString *)debugDescription
 {
-	return [NSString stringWithFormat:@"%@ ~ ", self.selector];
+	return [NSString stringWithFormat:@"%@ ~ ", self.selector.debugDescription];
 }
 
 @end
