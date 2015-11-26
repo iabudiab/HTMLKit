@@ -43,7 +43,7 @@
 	if (self) {
 		self.type = type;
 		_name = [name copy];
-		_value = [value copy];
+		_value = value ? [value copy]: @"";
 	}
 	return self;
 }
