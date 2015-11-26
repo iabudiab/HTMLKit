@@ -146,6 +146,34 @@
 	return [self.childNodes indexOfObject:node];
 }
 
+- (HTMLElement *)childElementAtIndex:(NSUInteger)index
+{
+	NSUInteger counter = 0;
+	for (HTMLNode *node in self.childNodes) {
+		if (node.nodeType == HTMLNodeElement) {
+			if (counter == index) {
+				return node.asElement;
+			}
+			counter++;
+		}
+	}
+	return nil;
+}
+
+- (NSUInteger)indexOfChildElement:(HTMLElement *)element
+{
+	NSUInteger counter = 0;
+	for (HTMLNode *node in self.childNodes) {
+		if (node.nodeType == HTMLNodeElement) {
+			if (node == element) {
+				return counter;
+			}
+			counter++;
+		}
+	}
+	return NSNotFound;
+}
+
 - (HTMLNode *)prependNode:(HTMLNode *)node
 {
 	return [self insertNode:node beforeChildNode:self.firstChild];

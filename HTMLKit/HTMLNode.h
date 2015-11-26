@@ -84,6 +84,10 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node;
 
+- (HTMLElement *)childElementAtIndex:(NSUInteger)index;
+
+- (NSUInteger)indexOfChildElement:(HTMLElement *)element;
+
 - (HTMLNode *)prependNode:(HTMLNode *)node;
 
 - (void)prependNodes:(NSArray *)nodes;
