@@ -72,14 +72,14 @@ NSInteger computeIndex(NSEnumerator *enumerator, HTMLElement *element)
 + (instancetype)nthChildSelector:(CSSNthExpression)expression
 {
 	return [[self alloc] initWithClassName:@"nth-child" expression:expression block:^NSInteger(HTMLElement *element) {
-		return [element.parentElement indexOfChildNode:element] + 1;
+		return [element.parentElement indexOfChildElement:element] + 1;
 	}];
 }
 
 + (instancetype)nthLastChildSelector:(CSSNthExpression)expression
 {
 	return [[self alloc] initWithClassName:@"nth-last-child" expression:expression block:^NSInteger(HTMLElement *element) {
-		return element.parentElement.childNodesCount - [element.parentElement indexOfChildNode:element];
+		return element.parentElement.childNodesCount - [element.parentElement indexOfChildElement:element];
 	}];
 }
 
