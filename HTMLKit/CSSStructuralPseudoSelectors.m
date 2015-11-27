@@ -15,14 +15,14 @@
 
 CSSSelector * rootSelector()
 {
-	return namedBlockSelector(@"root", ^BOOL(HTMLElement * element) {
+	return namedBlockSelector(@":root", ^BOOL(HTMLElement * element) {
 		return element.parentElement == nil;
 	});
 }
 
 CSSSelector * emptySelector()
 {
-	return namedBlockSelector(@"empty", ^BOOL(HTMLElement * element) {
+	return namedBlockSelector(@":empty", ^BOOL(HTMLElement * element) {
 		for (HTMLNode *child in element.childNodes) {
 			if (child.nodeType == HTMLNodeElement) {
 				return NO;
@@ -36,14 +36,14 @@ CSSSelector * emptySelector()
 
 CSSSelector * parentSelector()
 {
-	return namedBlockSelector(@"parent", ^BOOL(HTMLElement * element) {
+	return namedBlockSelector(@":parent", ^BOOL(HTMLElement * element) {
 		return element.childNodesCount > 0;
 	});
 }
 
 CSSSelector * buttonSelector()
 {
-	return namedBlockSelector(@"button", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":button", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToString:@"button"]) {
 			return YES;
 		}
@@ -56,7 +56,7 @@ CSSSelector * buttonSelector()
 
 CSSSelector * checkboxSelector()
 {
-	return namedBlockSelector(@"checkbox", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":checkbox", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"checkbox"]) {
 			return YES;
 		}
@@ -66,7 +66,7 @@ CSSSelector * checkboxSelector()
 
 CSSSelector * fileSelector()
 {
-	return namedBlockSelector(@"file", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":file", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"file"]) {
 			return YES;
 		}
@@ -76,7 +76,7 @@ CSSSelector * fileSelector()
 
 CSSSelector * headerSelector()
 {
-	return namedBlockSelector(@"header", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":header", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
 			return YES;
 		}
@@ -86,7 +86,7 @@ CSSSelector * headerSelector()
 
 CSSSelector * imageSelector()
 {
-	return namedBlockSelector(@"image", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":image", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"image"]) {
 			return YES;
 		}
@@ -96,7 +96,7 @@ CSSSelector * imageSelector()
 
 CSSSelector * inputSelector()
 {
-	return namedBlockSelector(@"input", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":input", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToAny:@"button", @"input", @"select", @"textarea", nil]) {
 			return YES;
 		}
@@ -107,7 +107,7 @@ CSSSelector * inputSelector()
 CSSSelector * linkSelector()
 {
 	// https://html.spec.whatwg.org/multipage/scripting.html#selector-link
-	return namedBlockSelector(@"root", ^BOOL(HTMLElement * element) {
+	return namedBlockSelector(@":link", ^BOOL(HTMLElement * element) {
 		if ([element hasAttribute:@"href"]) {
 			return [element.tagName isEqualToAny:@"a", @"area", @"link", nil];
 		}
@@ -117,7 +117,7 @@ CSSSelector * linkSelector()
 
 CSSSelector * passwordSelector()
 {
-	return namedBlockSelector(@"password", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":password", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"password"]) {
 			return YES;
 		}
@@ -127,7 +127,7 @@ CSSSelector * passwordSelector()
 
 CSSSelector * radioSelector()
 {
-	return namedBlockSelector(@"radio", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":radio", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"radio"]) {
 			return YES;
 		}
@@ -137,7 +137,7 @@ CSSSelector * radioSelector()
 
 CSSSelector * resetSelector()
 {
-	return namedBlockSelector(@"reset", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":reset", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"reset"]) {
 			return YES;
 		}
@@ -147,7 +147,7 @@ CSSSelector * resetSelector()
 
 CSSSelector * submitSelector()
 {
-	return namedBlockSelector(@"submit", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":submit", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element.tagName isEqualToString:@"input"] && [element[@"type"] isEqualToString:@"submit"]) {
 			return YES;
 		}
@@ -160,7 +160,7 @@ CSSSelector * submitSelector()
 
 CSSSelector * textSelector()
 {
-	return namedBlockSelector(@"text", ^BOOL(HTMLElement * _Nonnull element) {
+	return namedBlockSelector(@":text", ^BOOL(HTMLElement * _Nonnull element) {
 		if ([element[@"type"] isEqualToString:@"text"]) {
 			return YES;
 		}
@@ -272,21 +272,24 @@ CSSSelector * requiredSelector()
 
 CSSSelector * ltSelector(NSUInteger index)
 {
-	return namedBlockSelector(@"lt", ^BOOL(HTMLElement * _Nonnull element) {
+	NSString *name = [NSString stringWithFormat:@":lt(%lu)", (unsigned long)index];
+	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
 		return [element.parentElement indexOfChildNode:element] < index;
 	});
 }
 
 CSSSelector * gtSelector(NSUInteger index)
 {
-	return namedBlockSelector(@"gt", ^BOOL(HTMLElement * _Nonnull element) {
+	NSString *name = [NSString stringWithFormat:@":gt(%lu)", (unsigned long)index];
+	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
 		return [element.parentElement indexOfChildNode:element] > index;
 	});
 }
 
 CSSSelector * eqSelector(NSInteger index)
 {
-	return namedBlockSelector(@"eq", ^BOOL(HTMLElement * _Nonnull element) {
+	NSString *name = [NSString stringWithFormat:@":eq(%lu)", (unsigned long)index];
+	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
 		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
 
 		if (index > 0) {
