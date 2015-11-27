@@ -114,7 +114,7 @@
 
 - (BOOL)acceptElement:(HTMLElement *)element
 {
-	HTMLNode *previous = element.previousSibling;
+	HTMLNode *previous = element.previousSiblingElement;
 	if (previous == nil || previous.nodeType != HTMLNodeElement) {
 		return NO;
 	}
@@ -134,7 +134,7 @@
 
 - (BOOL)acceptElement:(HTMLElement *)element
 {
-	HTMLNode *previous = element.previousSibling;
+	HTMLNode *previous = element.previousSiblingElement;
 
 	while (previous != nil && previous.nodeType == HTMLNodeElement) {
 		if ([self.selector acceptElement:previous.asElement]) {
