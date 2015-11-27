@@ -99,6 +99,24 @@
 	return [_parentNode childNodeAtIndex:index + 1];
 }
 
+- (HTMLElement *)previousSiblingElement
+{
+	HTMLNode *node = self.previousSibling;
+	while (node && node.nodeType != HTMLNodeElement) {
+		node = node.previousSibling;
+	}
+	return node.asElement;
+}
+
+- (HTMLElement *)nextSiblingElement
+{
+	HTMLNode *node = self.previousSibling;
+	while (node && node.nodeType != HTMLNodeElement) {
+		node = node.nextSibling;
+	}
+	return node.asElement;
+}
+
 - (NSString *)textContent
 {
 	return nil;

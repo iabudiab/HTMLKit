@@ -62,6 +62,10 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 @property (nonatomic, strong, readonly) HTMLNode *nextSibling;
 
+@property (nonatomic, strong, readonly) HTMLElement *previousSiblingElement;
+
+@property (nonatomic, strong, readonly) HTMLElement *nextSiblingElement;
+
 @property (nonatomic, copy) NSString *textContent;
 
 @property (nonatomic, strong, readonly)	NSString *outerHTML;
