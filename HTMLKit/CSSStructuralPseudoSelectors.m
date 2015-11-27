@@ -16,7 +16,7 @@
 CSSSelector * rootSelector()
 {
 	return namedBlockSelector(@"root", ^BOOL(HTMLElement * element) {
-		return !!element.parentElement;
+		return element.parentElement == nil;
 	});
 }
 
