@@ -198,7 +198,7 @@ CSSSelector * disabledSelector()
 
 	// https://html.spec.whatwg.org/multipage/forms.html#concept-fe-disabled
 	CSSSelector *disabledForm = anyOf(@[
-										allOf(@[
+										anyOf(@[
 												allOf(@[typeSelector(@"button"), disabledAttribute]),
 												allOf(@[typeSelector(@"input"), disabledAttribute]),
 												allOf(@[typeSelector(@"select"), disabledAttribute]),
