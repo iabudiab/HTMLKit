@@ -13,6 +13,8 @@
 		620C877F1BD4519A00FB3EEE /* CSSPseudoFunctionSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */; };
 		620EE94A1BC46F2A0028ED34 /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */; };
 		620EE94B1BC46F2A0028ED34 /* CSSPseudoClassSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */; };
+		62132E591C01F83200084175 /* CSSSelectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62132E581C01F83200084175 /* CSSSelectorTest.m */; };
+		62132E5A1C01F83200084175 /* CSSSelectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62132E581C01F83200084175 /* CSSSelectorTest.m */; };
 		62132E5C1C021FF200084175 /* css-tests in Resources */ = {isa = PBXBuildFile; fileRef = 62132E5B1C021FF200084175 /* css-tests */; };
 		62132E5D1C021FF200084175 /* css-tests in Resources */ = {isa = PBXBuildFile; fileRef = 62132E5B1C021FF200084175 /* css-tests */; };
 		621FBE5A1BDAD68700BC9555 /* CSSSelectorParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */; };
@@ -241,6 +243,8 @@
 		620C877A1BD44CBE00FB3EEE /* CSSCompoundSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSCompoundSelector.m; sourceTree = "<group>"; };
 		620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSPseudoClassSelector.h; sourceTree = "<group>"; };
 		620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSPseudoClassSelector.m; sourceTree = "<group>"; };
+		62132E571C01F83200084175 /* CSSSelectorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSSelectorTest.h; sourceTree = "<group>"; };
+		62132E581C01F83200084175 /* CSSSelectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSelectorTest.m; sourceTree = "<group>"; };
 		62132E5B1C021FF200084175 /* css-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "css-tests"; sourceTree = "<group>"; };
 		621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSelectorParserTests.m; sourceTree = "<group>"; };
 		621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSCombinatorSelectorTests.m; sourceTree = "<group>"; };
@@ -615,6 +619,8 @@
 				624B9FB81AE072D500646C4C /* Categories */,
 				624E1A2D1B1D1C8A00E66AAC /* Structures */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
+				62132E571C01F83200084175 /* CSSSelectorTest.h */,
+				62132E581C01F83200084175 /* CSSSelectorTest.m */,
 				621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */,
 				628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */,
 				624AB3161B0508AE00F3830D /* CSSTypeSelectorTests.m */,
@@ -970,6 +976,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62132E5A1C01F83200084175 /* CSSSelectorTest.m in Sources */,
 				6239755B1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */,
 				62F658711BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m in Sources */,
 				623CAF9E1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */,
@@ -1046,6 +1053,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62132E591C01F83200084175 /* CSSSelectorTest.m in Sources */,
 				6239755A1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */,
 				62F658701BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m in Sources */,
 				623CAF9D1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */,
