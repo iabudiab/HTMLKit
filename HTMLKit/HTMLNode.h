@@ -88,6 +88,8 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node;
 
+- (NSUInteger)childElementsCount;
+
 - (HTMLElement *)childElementAtIndex:(NSUInteger)index;
 
 - (NSUInteger)indexOfChildElement:(HTMLElement *)element;

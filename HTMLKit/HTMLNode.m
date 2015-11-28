@@ -159,6 +159,13 @@
 	return [self.childNodes objectAtIndex:index];
 }
 
+- (NSUInteger)childElementsCount
+{
+	return [self.childNodes indexesOfObjectsPassingTest:^BOOL(HTMLNode *  _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
+		return node.nodeType == HTMLNodeElement;
+	}].count;
+}
+
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node
 {
 	return [self.childNodes indexOfObject:node];
