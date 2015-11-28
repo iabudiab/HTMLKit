@@ -108,6 +108,7 @@
 		625A150319C783E200AD0C32 /* HTMLKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 625A14BC19C7829400AD0C32 /* HTMLKit.h */; };
 		625A150919C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */; };
 		625A150A19C78ABA00AD0C32 /* HTMLInputStreamReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */; };
+		626652F91C03D7AC00C3F121 /* HTMLKitErrorDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 626652F81C03D30F00C3F121 /* HTMLKitErrorDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6279F87519E1808D00F12EE5 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6279F87319E1808D00F12EE5 /* HTMLElement.m */; };
 		6279F87619E1808D00F12EE5 /* HTMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6279F87319E1808D00F12EE5 /* HTMLElement.m */; };
 		628AF62F1BC99A6C00496128 /* CSSNthExpressionsParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */; };
@@ -331,6 +332,7 @@
 		625A14EC19C7834100AD0C32 /* HTMLKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLInputStreamReader.h; sourceTree = "<group>"; };
 		625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReader.m; sourceTree = "<group>"; };
+		626652F81C03D30F00C3F121 /* HTMLKitErrorDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLKitErrorDomain.h; sourceTree = "<group>"; };
 		6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParserInsertionModes.h; sourceTree = "<group>"; };
 		6279F87219E1808D00F12EE5 /* HTMLElement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = HTMLElement.h; sourceTree = "<group>"; };
 		6279F87319E1808D00F12EE5 /* HTMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLElement.m; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 			isa = PBXGroup;
 			children = (
 				625A14BC19C7829400AD0C32 /* HTMLKit.h */,
+				626652F81C03D30F00C3F121 /* HTMLKitErrorDomain.h */,
 				62AE593219F97CCA0043F069 /* Tokenizing */,
 				628E16EC1ADAE71700B15A06 /* Parsing */,
 				623719441AA1472B002E03C8 /* DOM */,
@@ -707,6 +710,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				629AA0EA1BDD9C2900D5CC98 /* HTMLKit.h in Headers */,
+				626652F91C03D7AC00C3F121 /* HTMLKitErrorDomain.h in Headers */,
 				629AA0EB1BDD9C2900D5CC98 /* HTMLParser.h in Headers */,
 				629AA0EC1BDD9C2900D5CC98 /* HTMLDOM.h in Headers */,
 				629AA0ED1BDD9C2900D5CC98 /* HTMLNode.h in Headers */,

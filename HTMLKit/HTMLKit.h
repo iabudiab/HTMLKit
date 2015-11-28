@@ -9,3 +9,4 @@
 #import "HTMLParser.h"
 #import "HTMLDOM.h"
 #import "CSSSelectors.h"
+#import "HTMLKitErrorDomain.h"
