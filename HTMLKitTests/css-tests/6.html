@@ -1,0 +1,21 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "address[title=\"foo\"]",
+            "match": ["1"]
+        },
+        {
+            "selector": "span[title=\"a\"]",
+            "match": []
+        },
+        {
+            "selector": "address[title='foo']",
+            "match": ["1"]
+        }]
+</script>
+<div id="testDOM">
+    <address id="1" title="foo">
+    <span id="2" title="b">This line should </span>
+      <span id="3" title="aa">have a green background.
+    </span>
+    </address>
+</div>

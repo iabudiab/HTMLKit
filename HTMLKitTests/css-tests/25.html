@@ -1,0 +1,20 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "input:checked",
+            "match": ["2"]
+        },
+        {
+            "selector": "input:checked + span",
+            "match": ["3"]
+        },
+        {
+            "selector": "input:checked, input:checked + span",
+            "match": ["2", "3"]
+        }]
+</script>
+<div id="testDOM">
+    <p id="1">
+        <input id="2" type="checkbox" checked="checked">
+        <span id="3">Everything in this paragraph should have a green background</span>
+    </p>
+</div>

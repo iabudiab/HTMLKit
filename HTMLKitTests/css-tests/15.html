@@ -1,0 +1,27 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "#t1",
+            "match": ["t1"]
+        },
+        {
+            "selector": "li#t2",
+            "match": ["t2"]
+        },
+        {
+            "selector": "li#t3",
+            "match": ["t3"]
+        },
+        {
+            "selector": "#t4",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <ul id="1">
+      <li id="t1">This list item should have a green background. because its ID is &quot;t1&quot;</li>
+      <li id="t2">This list item should have a green background. because its ID is &quot;t2&quot;</li>
+      <li id="t3">
+          <span id="t44">This list item should have a green background. because the inner SPAN does not match &quot;#t4&quot;</span>
+      </li>
+    </ul>
+</div>

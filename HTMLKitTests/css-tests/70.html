@@ -1,0 +1,18 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "input:not(:checked)",
+            "match": ["2"]
+        },
+        {
+            "selector": "input:not(:checked) + span",
+            "match": ["3"]
+        },
+        {
+            "selector": "input:not(:checked), input:not(:checked) + span",
+            "match": ["2", "3"]
+        }]
+</script>
+<div id="testDOM">
+   <p id="1">
+   <input id="2" type="checkbox"> <span id="3">Everything in this paragraph should have a green background</span></p>
+</div>

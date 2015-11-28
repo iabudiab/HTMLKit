@@ -1,0 +1,23 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".t1",
+            "match": ["1"]
+        },
+        {
+            "selector": "li.t2",
+            "match": ["2", "3"]
+        },
+        {
+            "selector": ".t3",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <ul>
+      <li  id="1" class="t1">This list item should have green background because its class is &quot;t1&quot;</li>
+      <li  id="2" class="t2">This list item should have green background because its class is &quot;t2&quot;</li>
+      <li  id="3" class="t2">
+          <span  id="4" class="t33">This list item should have green background because the inner SPAN does not match SPAN.t3</span>
+        </li>
+    </ul>
+</div>

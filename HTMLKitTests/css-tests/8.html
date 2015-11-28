@@ -1,0 +1,21 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "p[lang|=\"en\"]",
+            "match": ["1"]
+        },
+        {
+            "selector": "address[lang=\"fi\"]",
+            "match": ["2"]
+        },
+        {
+            "selector": "span[lang|=\"fr\"]",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <p id="1" lang="en-gb">This paragraph should have green background because its language is &quot;en-gb&quot;</p>
+    <address id="2" lang="fi">
+        <span id="3" lang="en-us">This address should also</span>
+        <span id="4" lang="en-fr">have green background because the language of the inner SPANs id=""  is not French.</span>
+    </address>
+</div>

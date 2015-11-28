@@ -1,0 +1,22 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".t1.fail",
+            "match": []
+        },
+        {
+            "selector": ".fail.t2",
+            "match": []
+        },
+        {
+            "selector": ".t2.fail",
+            "match": []
+        },
+        {
+            "selector": ".fail.t2",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <p id="1" class="t1">This line should be green.</p>
+    <p id="2" class="t1 t2">This line should be green.</p>
+</div>

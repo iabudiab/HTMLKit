@@ -1,0 +1,26 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".ci P",
+            "match": ["2", "3", "4"]
+        },
+        {
+            "selector": ".ci .a",
+            "match": []
+        },
+        {
+            "selector": ".ci SPAN",
+            "match": ["5"]
+        }]
+</script>
+<div id="testDOM">
+    <div>
+
+
+        <div id="1" class="ci">
+            <p id="2">This line should be green.</p>
+            <p id="3" class="A">This line should be green.</p>
+            <p id="4"><SPAN id="5">This line should be green.</SPAN></p>
+        </div>
+
+    </div>
+</div>

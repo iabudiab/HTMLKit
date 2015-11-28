@@ -1,0 +1,14 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "address:last-of-type",
+            "match": ["3"]
+        }]
+</script>
+<div id="testDOM">
+    <div>
+        <address>A first address with normal background</address>
+        <address>A second address with normal background</address>
+        <address id="3" class="red">A third address that should have a green background</address>
+        This div contains 3 addresses above this sentence.
+    </div>
+</div>

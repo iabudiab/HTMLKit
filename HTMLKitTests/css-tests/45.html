@@ -1,0 +1,15 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "div.stub > p + p",
+            "match": ["1", "2"]
+        }]
+</script>
+<div id="testDOM">
+    <div class="stub">
+        <p>This paragraph should be unstyled.</p>
+        <p id="1" class="red">But this one should have a green background.</p>
+        <p id="2" class="red">And this one should also have a green background.</p>
+        <address>This address is only here to fill some space between two paragraphs.</address>
+        <p>This paragraph should be unstyled.</p>
+    </div>
+</div>

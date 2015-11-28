@@ -1,0 +1,12 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "blockquote ~ div + p",
+            "match": ["5"]
+        }]
+</script>
+<div id="testDOM">
+    <blockquote id="1"><div id="2">This text should be unstyled.</div></blockquote>
+    <div id="3">This text should be unstyled.</div>
+    <div id="4">This text should be unstyled.</div>
+    <p id="5">This text should be green.</p>
+</div>

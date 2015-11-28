@@ -1,0 +1,23 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "div > p.test",
+            "match": ["1", "2"]
+        }]
+</script>
+<div id="testDOM">
+    <div>
+        <p id="1" class="red test">This paragraph should have a green background</p>
+        <div>
+            <p id="2" class="red test">This paragraph should have a green background</p>
+        </div>
+    </div>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <p id="3" class="white test">This paragraph should be unstyled.</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

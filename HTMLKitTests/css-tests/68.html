@@ -1,0 +1,17 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "button:not(:enabled)",
+            "match": ["2"]
+        },
+        {
+            "selector": "input:not(:enabled)",
+            "match": ["3"]
+        }]
+</script>
+<div id="testDOM">
+    <p id="1">
+        <button id="2" disabled="disabled">A button (disabled) with green background</button>
+        <br>
+        <input id="3" disabled="disabled" type="text" size="36" value="a text area (disabled) with green background">
+    </p>
+</div>
