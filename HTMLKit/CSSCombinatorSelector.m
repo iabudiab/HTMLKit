@@ -140,7 +140,7 @@
 		if ([self.selector acceptElement:previous.asElement]) {
 			return YES;
 		}
-		previous = previous.previousSibling;
+		previous = previous.previousSiblingElement;
 	}
 
 	return NO;
