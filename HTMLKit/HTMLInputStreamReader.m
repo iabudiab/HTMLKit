@@ -130,9 +130,11 @@
 {
 	UTF32Char nextInputCharacter = [self nextInputCharacter];
 	if (nextInputCharacter == character) {
-		_location += _consume;
-		_scanner.scanLocation = _location;
-		_currentInputCharacter = nextInputCharacter;
+		if (!_reconsume) {
+			_location += _consume;
+			_scanner.scanLocation = _location;
+			_currentInputCharacter = nextInputCharacter;
+		}
 		_reconsume = NO;
 		return YES;
 	}
