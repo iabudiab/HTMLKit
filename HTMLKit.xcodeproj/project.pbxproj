@@ -618,15 +618,8 @@
 				624B9FB71AE072CB00646C4C /* DOM */,
 				624B9FB81AE072D500646C4C /* Categories */,
 				624E1A2D1B1D1C8A00E66AAC /* Structures */,
+				62FF516C1C0A430A009BFDFE /* Selectors */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
-				62132E571C01F83200084175 /* CSSSelectorTest.h */,
-				62132E581C01F83200084175 /* CSSSelectorTest.m */,
-				621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */,
-				628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */,
-				624AB3161B0508AE00F3830D /* CSSTypeSelectorTests.m */,
-				624AB3191B050A4D00F3830D /* CSSAttributeSelectorTests.m */,
-				62F6586F1BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m */,
-				621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */,
 			);
 			name = Tests;
 			path = HTMLKitTests;
@@ -710,6 +703,21 @@
 				6238039E1AB63A8C008A53D0 /* HTMLEOFToken.m */,
 			);
 			name = Tokenizing;
+			sourceTree = "<group>";
+		};
+		62FF516C1C0A430A009BFDFE /* Selectors */ = {
+			isa = PBXGroup;
+			children = (
+				62132E571C01F83200084175 /* CSSSelectorTest.h */,
+				62132E581C01F83200084175 /* CSSSelectorTest.m */,
+				621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */,
+				628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */,
+				624AB3161B0508AE00F3830D /* CSSTypeSelectorTests.m */,
+				624AB3191B050A4D00F3830D /* CSSAttributeSelectorTests.m */,
+				62F6586F1BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m */,
+				621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */,
+			);
+			name = Selectors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
