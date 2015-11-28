@@ -13,6 +13,7 @@
 #import "HTMLText.h"
 #import "HTMLComment.h"
 #import "HTMLKitDOMExceptions.h"
+#import "CSSSelector.h"
 
 @interface HTMLDocument (Private)
 - (void)runRemovingStepsForNode:(HTMLNode *)oldNode
@@ -98,6 +99,24 @@
 	return [_parentNode childNodeAtIndex:index + 1];
 }
 
+- (HTMLElement *)previousSiblingElement
+{
+	HTMLNode *node = self.previousSibling;
+	while (node && node.nodeType != HTMLNodeElement) {
+		node = node.previousSibling;
+	}
+	return node.asElement;
+}
+
+- (HTMLElement *)nextSiblingElement
+{
+	HTMLNode *node = self.previousSibling;
+	while (node && node.nodeType != HTMLNodeElement) {
+		node = node.nextSibling;
+	}
+	return node.asElement;
+}
+
 - (NSString *)textContent
 {
 	return nil;
@@ -140,9 +159,44 @@
 	return [self.childNodes objectAtIndex:index];
 }
 
+- (NSUInteger)childElementsCount
+{
+	return [self.childNodes indexesOfObjectsPassingTest:^BOOL(HTMLNode *  _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
+		return node.nodeType == HTMLNodeElement;
+	}].count;
+}
+
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node
 {
 	return [self.childNodes indexOfObject:node];
+}
+
+- (HTMLElement *)childElementAtIndex:(NSUInteger)index
+{
+	NSUInteger counter = 0;
+	for (HTMLNode *node in self.childNodes) {
+		if (node.nodeType == HTMLNodeElement) {
+			if (counter == index) {
+				return node.asElement;
+			}
+			counter++;
+		}
+	}
+	return nil;
+}
+
+- (NSUInteger)indexOfChildElement:(HTMLElement *)element
+{
+	NSUInteger counter = 0;
+	for (HTMLNode *node in self.childNodes) {
+		if (node.nodeType == HTMLNodeElement) {
+			if (node == element) {
+				return counter;
+			}
+			counter++;
+		}
+	}
+	return NSNotFound;
 }
 
 - (HTMLNode *)prependNode:(HTMLNode *)node
@@ -386,6 +440,29 @@
 	return [HTMLNodeIterator iteratorWithNode:self showOptions:showOptions filter:filter];
 }
 
+#pragma mark - Selectors
+
+- (HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector
+{
+	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([selector acceptElement:element]) {
+			return element;
+		}
+	}
+	return nil;
+}
+
+- (NSArray<HTMLElement *> *)elementsMatchingSelector:(CSSSelector *)selector
+{
+	NSMutableArray *result = [NSMutableArray array];
+	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
+		if ([selector acceptElement:element]) {
+			[result addObject:element];
+		}
+	}
+	return result;
+}
+
 #ifndef HTMLKIT_NO_DOM_CHECKS
 
 #pragma mark - Validity Checks
@@ -610,12 +687,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p %@>", self.class, self, self.name];
-}
-
-- (NSString *)debugDescription
-{
-	return self.treeDescription;
+	return [NSString stringWithFormat:@"<%@: %p '%@'>", self.class, self, self.name];
 }
 
 - (id)debugQuickLookObject

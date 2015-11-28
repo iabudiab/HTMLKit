@@ -1,0 +1,25 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "..test",
+            "match": [],
+            "error": 1
+        },
+        {
+            "selector": ".foo..quux ",
+            "match": [],
+            "error": 5
+        },
+        {
+            "selector": ".bar.",
+            "match": [],
+            "error": 5
+        }]
+</script>
+<div id="testDOM">
+    <p class="test">This text should be green.</p>
+    <p class=".test">This text should be green.</p>
+    <p class="foo">This text should be green.</p>
+    <p class="foo quux">This text should be green.</p>
+    <p class="foo  quux">This text should be green.</p>
+    <p class=" bar ">This text should be green.</p>
+</div>

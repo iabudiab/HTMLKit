@@ -1,0 +1,18 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "*",
+            "match": ["testDOM", "1", "2", "3", "4"]
+        },
+        {
+            "selector": "*.t1",
+            "match": ["2", "4"]
+        }]
+</script>
+<div id="testDOM">
+    <p id="1">
+    <span id="2" class="t1">This paragraph, and all textual contents in the document, should be green.</span>
+    </p>
+    <ul id="3">
+      <li  id="4" class="t1">This item should be green.</li>
+    </ul>
+</div>

@@ -1,0 +1,19 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "div.stub > *",
+            "match": ["2", "3", "4"]
+        },
+        {
+            "selector": "div.stub *:not(.foo)",
+            "match": ["2", "3", "5"]
+        }]
+</script>
+<div id="testDOM">
+    <div id="1" class="stub">
+        <p id="2">This paragraph should be in green characters.</p>
+        <p id="3" class="bar foofoo tut">This paragraph should be in green characters.</p>
+        <p id="4" class="bar foo tut">
+            <span id="5" class="tut foo2">This paragraph should be in green characters.</span>
+        </p>
+    </div>
+</div>

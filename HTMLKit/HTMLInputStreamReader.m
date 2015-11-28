@@ -8,6 +8,7 @@
 
 #import "HTMLInputStreamReader.h"
 #import "HTMLTokenizerCharacters.h"
+#import "NSCharacterSet+HTMLKit.h"
 
 #pragma mark - HTMLInputStreamReader
 
@@ -39,6 +40,7 @@
 	if (self) {
 		_string = [string copy];
 		_scanner = [[NSScanner alloc] initWithString:string];
+		_scanner.charactersToBeSkipped = nil;
 		CFStringInitInlineBuffer((CFStringRef)_string, &_buffer, CFRangeMake(0, _string.length));
 	}
 	return self;
@@ -63,7 +65,6 @@
 - (UTF32Char)nextInputCharacter
 {
 	if (_reconsume) {
-		_reconsume = NO;
 		return _currentInputCharacter;
 	}
 
@@ -106,6 +107,11 @@
 	return nextInputCharacter;
 }
 
+- (UTF32Char)inputCharacterPointAtOffset:(NSUInteger)offset
+{
+	return CFStringGetCharacterFromInlineBuffer(&_buffer, _location + offset);
+}
+
 - (UTF32Char)consumeNextInputCharacter
 {
 	if (_reconsume) {
@@ -124,9 +130,12 @@
 {
 	UTF32Char nextInputCharacter = [self nextInputCharacter];
 	if (nextInputCharacter == character) {
-		_location += _consume;
-		_scanner.scanLocation = _location;
-		_currentInputCharacter = nextInputCharacter;
+		if (!_reconsume) {
+			_location += _consume;
+			_scanner.scanLocation = _location;
+			_currentInputCharacter = nextInputCharacter;
+		}
+		_reconsume = NO;
 		return YES;
 	}
 	return NO;
@@ -145,7 +154,7 @@
 
 - (BOOL)consumeHexNumber:(unsigned long long *)result
 {
-	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"0123456789ABCDEFabcdef"];
+	NSCharacterSet *set = [NSCharacterSet HTMLHexNumberCharacterSet];
 
 	NSString *string = nil;
 	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];
@@ -191,6 +200,26 @@
 	consumed = [consumed stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\r"];
 	consumed = [consumed stringByReplacingOccurrencesOfString:@"\r" withString:@"\n"];
 	return consumed;
+}
+
+- (NSString *)consumeCharactersInString:(NSString *)characters
+{
+	NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:characters];
+
+	if (_reconsume) {
+		_scanner.scanLocation--;
+	}
+
+	NSString *string = nil;
+	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];
+	if (success == NO) {
+		_scanner.scanLocation++;
+		return nil;
+	}
+
+	_reconsume = NO;
+	_location = _scanner.scanLocation;
+	return string;
 }
 
 - (NSString *)consumeAlphanumericCharacters

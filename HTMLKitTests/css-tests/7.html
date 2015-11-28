@@ -1,0 +1,21 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "p[class~=\"b\"]",
+            "match": ["1"]
+        },
+        {
+            "selector": "address[title~=\"foo\"]",
+            "match": ["2"]
+        },
+        {
+            "selector": "span[class~=\"b\"]",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <p id="1" class="a b c">This paragraph should have green background because CLASS contains &quot;b&quot;</p>
+    <address id="2" title="tot foo bar">
+    <span id="3" class="a c">This address should also</span>
+      <span id="4" class="a bb c">have green background because the selector in the last rule does not apply to the inner SPANs.</span>
+    </address>
+</div>

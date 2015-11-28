@@ -1,0 +1,21 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".t1:not(.t2)",
+            "match": []
+        },
+        {
+            "selector": ":not(.t2).t1",
+            "match": []
+        },
+        {
+            "selector": ".t2:not(.t1)",
+            "match": []
+        },
+        {
+            "selector": ":not(.t1).t2",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <p id="1" class="t1 t2">This line should be green.</p>
+</div>

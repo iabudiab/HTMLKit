@@ -1,0 +1,30 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "p:nth-last-of-type(3)",
+            "match": ["1"]
+        },
+        {
+            "selector": "dl > :nth-last-of-type(3n+1)",
+            "match": ["2", "3", "4", "5"]
+        }]
+</script>
+<div id="testDOM">
+    <p id="1" class="red">This paragraph should have green background</p>
+    <address>But this address is here only to fill space in the dom..</address>
+    <p>So does this paragraph !</p>
+    <p>And so does this one too.</p>
+    <dl>
+        <dt>First definition term</dt>
+        <dd>First definition</dd>
+        <dt>Second definition term</dt>
+        <dd>Second definition</dd>
+        <dt id="2" class="red">Third definition term that should have green background</dt>
+        <dd id="3" class="red">Third definition that should have green background</dd>
+        <dt>Fourth definition term</dt>
+        <dd>Fourth definition</dd>
+        <dt>Fifth definition term</dt>
+        <dd>Fifth definition</dd>
+        <dt id="4" class="red">Sixth definition term that should have green background</dt>
+        <dd id="5" class="red">Sixth definition that should have green background</dd>
+    </dl>
+</div>

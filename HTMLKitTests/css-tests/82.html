@@ -1,0 +1,13 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".t1 *:not(:only-of-type)",
+            "match": ["2", "4"]
+        }]
+</script>
+<div id="testDOM">
+    <div id="1" class="t1">
+        <p id="2" class="red">This paragraph should have green background.</p>
+        <address id="3">But this address should be unstyled.</address>
+        <p id="4" class="red">This paragraph should have green background.</p>
+    </div>
+</div>

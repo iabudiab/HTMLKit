@@ -1,0 +1,16 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "p:not(:only-child)",
+            "match": ["1"]
+        },
+        {
+            "selector": "div#testDOM > div > p",
+            "match": ["3"]
+        }]
+</script>
+<div id="testDOM">
+    <p id="1" class="red">This paragraph should have a green background.</p>
+    <div id="2">This div contains only one paragraph.
+        <p id="3">This paragraph should be unstyled.</p>
+    </div>
+</div>
