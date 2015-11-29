@@ -44,6 +44,7 @@ extern NSString * _Nonnull NSStringFromNthExpression(CSSNthExpression expression
 
 @interface CSSSelector : NSObject 
 
-- (BOOL)acceptElement:(nonnull HTMLElement *)element;
++ (nullable instancetype)selectorWithString:(NSString *)stirng;
+- (BOOL)acceptElement:(HTMLElement *)element;
 
 @end
