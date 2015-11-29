@@ -420,40 +420,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		62079BE61AF5656600D3B402 /* Selectors */ = {
+		62079BE61AF5656600D3B402 /* CSS */ = {
 			isa = PBXGroup;
 			children = (
 				624AB3151B04EA4200F3830D /* CSSSelectors.h */,
 				62FA98031BD57B6200A2AF86 /* CSSSelectors.m */,
-				624B37211B250BB50010BDDF /* CSSCodePoints.h */,
-				624B371C1B24E9BA0010BDDF /* CSSInputStream.h */,
-				624B371D1B24E9BA0010BDDF /* CSSInputStream.m */,
-				622BF57F1BBF2FD700363583 /* CSSSelectorParser.h */,
-				622BF5801BBF2FD700363583 /* CSSSelectorParser.m */,
-				62F501631BC9576B0069F47B /* CSSNthExpressionParser.h */,
-				62F501641BC9576B0069F47B /* CSSNthExpressionParser.m */,
-				62079BE71AF56F1E00D3B402 /* CSSSelector.h */,
-				62FC60451BD0519B0042BBE7 /* CSSSelector.m */,
-				62FA98061BD5A7E200A2AF86 /* CSSSelectorBlock.h */,
-				62FA98071BD5A7E200A2AF86 /* CSSSelectorBlock.m */,
-				624B28B61B03DA820048D328 /* CSSTypeSelector.h */,
-				624B28B71B03DA820048D328 /* CSSTypeSelector.m */,
-				624B28BD1B0413200048D328 /* CSSAttributeSelector.h */,
-				624B28BE1B0413200048D328 /* CSSAttributeSelector.m */,
-				620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */,
-				620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */,
 				628AF63C1BC9D6FB00496128 /* CSSStructuralPseudoSelectors.h */,
 				628AF63D1BC9D6FB00496128 /* CSSStructuralPseudoSelectors.m */,
-				628AF6311BC9A63D00496128 /* CSSNthExpressionSelector.h */,
-				628AF6321BC9A63D00496128 /* CSSNthExpressionSelector.m */,
-				62ACB8DB1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.h */,
-				62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */,
-				62FA04E11BCC360D009ABF98 /* CSSCombinatorSelector.h */,
-				62FA04E21BCC360D009ABF98 /* CSSCombinatorSelector.m */,
-				620C87791BD44CBE00FB3EEE /* CSSCompoundSelector.h */,
-				620C877A1BD44CBE00FB3EEE /* CSSCompoundSelector.m */,
+				62ECBEDF1C0B671000AF847B /* Parsing */,
+				62ECBEE01C0B672200AF847B /* Selectors */,
 			);
-			name = Selectors;
+			name = CSS;
 			sourceTree = "<group>";
 		};
 		6236738C1AC0CD2400FF89B3 /* Tokenizer */ = {
@@ -593,7 +570,7 @@
 				623719441AA1472B002E03C8 /* DOM */,
 				628E16ED1ADAE73700B15A06 /* Categories */,
 				628E16EE1ADAE75300B15A06 /* Structures */,
-				62079BE61AF5656600D3B402 /* Selectors */,
+				62079BE61AF5656600D3B402 /* CSS */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
 			);
 			name = "Source Code";
@@ -703,6 +680,45 @@
 				6238039E1AB63A8C008A53D0 /* HTMLEOFToken.m */,
 			);
 			name = Tokenizing;
+			sourceTree = "<group>";
+		};
+		62ECBEDF1C0B671000AF847B /* Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				624B37211B250BB50010BDDF /* CSSCodePoints.h */,
+				624B371C1B24E9BA0010BDDF /* CSSInputStream.h */,
+				624B371D1B24E9BA0010BDDF /* CSSInputStream.m */,
+				622BF57F1BBF2FD700363583 /* CSSSelectorParser.h */,
+				622BF5801BBF2FD700363583 /* CSSSelectorParser.m */,
+				62F501631BC9576B0069F47B /* CSSNthExpressionParser.h */,
+				62F501641BC9576B0069F47B /* CSSNthExpressionParser.m */,
+			);
+			name = Parsing;
+			sourceTree = "<group>";
+		};
+		62ECBEE01C0B672200AF847B /* Selectors */ = {
+			isa = PBXGroup;
+			children = (
+				62079BE71AF56F1E00D3B402 /* CSSSelector.h */,
+				62FC60451BD0519B0042BBE7 /* CSSSelector.m */,
+				62FA98061BD5A7E200A2AF86 /* CSSSelectorBlock.h */,
+				62FA98071BD5A7E200A2AF86 /* CSSSelectorBlock.m */,
+				624B28B61B03DA820048D328 /* CSSTypeSelector.h */,
+				624B28B71B03DA820048D328 /* CSSTypeSelector.m */,
+				624B28BD1B0413200048D328 /* CSSAttributeSelector.h */,
+				624B28BE1B0413200048D328 /* CSSAttributeSelector.m */,
+				620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */,
+				620EE9481BC46F2A0028ED34 /* CSSPseudoClassSelector.m */,
+				628AF6311BC9A63D00496128 /* CSSNthExpressionSelector.h */,
+				628AF6321BC9A63D00496128 /* CSSNthExpressionSelector.m */,
+				62ACB8DB1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.h */,
+				62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */,
+				62FA04E11BCC360D009ABF98 /* CSSCombinatorSelector.h */,
+				62FA04E21BCC360D009ABF98 /* CSSCombinatorSelector.m */,
+				620C87791BD44CBE00FB3EEE /* CSSCompoundSelector.h */,
+				620C877A1BD44CBE00FB3EEE /* CSSCompoundSelector.m */,
+			);
+			name = Selectors;
 			sourceTree = "<group>";
 		};
 		62FF516C1C0A430A009BFDFE /* Selectors */ = {
