@@ -442,8 +442,24 @@
 
 #pragma mark - Selectors
 
+- (HTMLElement *)querySelector:(NSString *)selectorString
+{
+	CSSSelector *selector = [CSSSelector selectorWithString:selectorString];
+	return [self firstElementMatchingSelector:selector];
+}
+
+- (NSArray<HTMLElement *> *)querySelectorAll:(NSString *)selectorString
+{
+	CSSSelector *selector = [CSSSelector selectorWithString:selectorString];
+	return [self elementsMatchingSelector:selector];
+}
+
 - (HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector
 {
+	if (selector == nil) {
+		return nil;
+	}
+
 	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
 		if ([selector acceptElement:element]) {
 			return element;
@@ -454,6 +470,10 @@
 
 - (NSArray<HTMLElement *> *)elementsMatchingSelector:(CSSSelector *)selector
 {
+	if (selector == nil) {
+		return @[];
+	}
+
 	NSMutableArray *result = [NSMutableArray array];
 	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
 		if ([selector acceptElement:element]) {
