@@ -38,9 +38,6 @@
 	[_dictionary setObject:@"3" forKey:@"C"];
 	expected =  @[@"A", @"B", @"C"];
 	XCTAssertEqualObjects(_dictionary.keyEnumerator.allObjects, expected);
-
-	XCTAssertThrows([_dictionary setObject:nil forKey:@"Key"]);
-	XCTAssertThrows([_dictionary setObject:@"Object" forKey:nil]);
 }
 
 - (void)testIndexOfKey
@@ -51,7 +48,6 @@
 	XCTAssertEqual([_dictionary indexOfKey:@"A"], 0);
 	XCTAssertEqual([_dictionary indexOfKey:@"B"], 1);
 	XCTAssertEqual([_dictionary indexOfKey:@"C"], 2);
-	XCTAssertEqual([_dictionary indexOfKey:nil], NSNotFound);
 }
 
 - (void)testObjectAtIndex
@@ -64,8 +60,6 @@
 	[_dictionary setObject:@"3" forKey:@"C" atIndex:1];
 	XCTAssertEqualObjects([_dictionary objectAtIndex:1], @"3");
 
-	XCTAssertThrows([_dictionary setObject:nil forKey:@"Key" atIndex:0]);
-	XCTAssertThrows([_dictionary setObject:@"Object" forKey:nil atIndex:0]);
 	XCTAssertThrows([_dictionary setObject:@"Object" forKey:@"Key" atIndex:100]);
 }
 
@@ -120,8 +114,6 @@
 	XCTAssertEqualObjects(_dictionary[2], @"5");
 	XCTAssertEqualObjects(_dictionary[@"A"], @"5");
 
-	XCTAssertThrows([_dictionary setObject:nil forKey:@"Key" atIndex:0]);
-	XCTAssertThrows([_dictionary setObject:@"Object" forKey:nil atIndex:0]);
 	XCTAssertThrows([_dictionary setObject:@"Object" forKey:@"Key" atIndex:100]);
 }
 
@@ -158,8 +150,6 @@
 	XCTAssertEqualObjects(_dictionary[0], @"5");
 	XCTAssertEqualObjects(_dictionary[@"E"], @"5");
 
-	XCTAssertThrows([_dictionary replaceKeyValueAtIndex:1 withObject:nil andKey:@"Key"]);
-	XCTAssertThrows([_dictionary replaceKeyValueAtIndex:1 withObject:@"Object" andKey:nil]);
 	XCTAssertThrows([_dictionary replaceKeyValueAtIndex:100 withObject:@"Object" andKey:@"Key"]);
 }
 

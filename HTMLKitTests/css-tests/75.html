@@ -1,0 +1,30 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "p:not(:nth-of-type(3))",
+            "match": ["1", "2"]
+        },
+        {
+            "selector": "dl > *:not(:nth-of-type(3n+1))",
+            "match": ["3", "4", "5", "6", "7", "8", "9", "10"]
+        }]
+</script>
+<div id="testDOM">
+    <p id="1" class="red">This paragraph should have green background</p>
+    <address>And this address should be unstyled.</address>
+    <p id="2" class="red">This paragraph should also have green background!</p>
+    <p>But this one should be unstyled again.</p>
+    <dl>
+        <dt>First definition term</dt>
+        <dd>First definition</dd>
+        <dt id="3" class="red">Second definition term that should have green background</dt>
+        <dd id="4" class="red">Second definition that should have green background</dd>
+        <dt id="5" class="red">Third definition term that should have green background</dt>
+        <dd id="6" class="red">Third definition that should have green background</dd>
+        <dt>Fourth definition term</dt>
+        <dd>Fourth definition</dd>
+        <dt id="7" class="red">Fifth definition term that should have green background</dt>
+        <dd id="8" class="red">Fifth definition that should have green background</dd>
+        <dt id="9" class="red">Sixth definition term that should have green background</dt>
+        <dd id="10" class="red">Sixth definition that should have green background</dd>
+    </dl>
+</div>

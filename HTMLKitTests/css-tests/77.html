@@ -1,0 +1,32 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".t1 td:not(:first-child)",
+            "match": ["td12", "td13", "td22", "td23", "td32", "td33"]
+        },
+        {
+            "selector": "p > *:not(:first-child)",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <div>
+        <table id="t1" class="t1" border="1">
+            <tr>
+                <td>1.1</td>
+                <td id="td12" class="red">green cell</td>
+                <td id="td13" class="red">green cell</td>
+            </tr>
+            <tr>
+                <td>2.1</td>
+                <td id="td22" class="red">green cell</td>
+                <td id="td23" class="red">green cell</td>
+            </tr>
+            <tr>
+                <td>3.1</td>
+                <td id="td32" class="red">green cell</td>
+                <td id="td33" class="red">green cell</td>
+            </tr>
+        </table>
+    </div>
+    <p>This paragraph <span id="span">should be</span> unstyled.</p>
+</div>

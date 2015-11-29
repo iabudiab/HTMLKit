@@ -38,6 +38,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 @class HTMLDocument;
 @class HTMLElement;
+@class CSSSelector;
 
 @interface HTMLNode : NSObject <NSCopying>
 
@@ -61,6 +62,10 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 @property (nonatomic, strong, readonly) HTMLNode *nextSibling;
 
+@property (nonatomic, strong, readonly) HTMLElement *previousSiblingElement;
+
+@property (nonatomic, strong, readonly) HTMLElement *nextSiblingElement;
+
 @property (nonatomic, copy) NSString *textContent;
 
 @property (nonatomic, strong, readonly)	NSString *outerHTML;
@@ -82,6 +87,12 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 - (HTMLNode *)childNodeAtIndex:(NSUInteger)index;
 
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node;
+
+- (NSUInteger)childElementsCount;
+
+- (HTMLElement *)childElementAtIndex:(NSUInteger)index;
+
+- (NSUInteger)indexOfChildElement:(HTMLElement *)element;
 
 - (HTMLNode *)prependNode:(HTMLNode *)node;
 
@@ -120,6 +131,9 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 										   filter:(id<HTMLNodeFilter>)filter;
 - (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
 									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter;
+
+- (HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector;
+- (NSArray<HTMLElement *> *)elementsMatchingSelector:(CSSSelector *)selector;
 
 - (NSString *)treeDescription;
 

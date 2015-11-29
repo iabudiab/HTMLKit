@@ -24,6 +24,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 
 - (UTF32Char)currentInputCharacter;
 - (UTF32Char)nextInputCharacter;
+- (UTF32Char)inputCharacterPointAtOffset:(NSUInteger)offset;
 
 - (UTF32Char)consumeNextInputCharacter;
 - (void)reconsumeCurrentInputCharacter;
@@ -35,6 +36,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 - (BOOL)consumeString:(NSString *)string caseSensitive:(BOOL)caseSensitive;
 - (NSString *)consumeCharactersUpToCharactersInString:(NSString *)characters;
 - (NSString *)consumeCharactersUpToString:(NSString *)string;
+- (NSString *)consumeCharactersInString:(NSString *)characters;
 - (NSString *)consumeAlphanumericCharacters;
 
 - (void)markCurrentLocation;

@@ -180,4 +180,9 @@
 	return description;
 }
 
+- (NSString *)debugDescription
+{
+	return self.description;
+}
+
 @end

@@ -1,0 +1,13 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "address:not(:first-of-type)",
+            "match": ["2", "3"]
+        }]
+</script>
+<div id="testDOM">
+    <div>This div contains 3 addresses :
+        <address id="1">A first address with normal background</address>
+        <address id="2" class="red">A second address that should have a green background</address>
+        <address id="3" class="red">A third address that should have a green background</address>
+    </div>
+</div>

@@ -96,8 +96,8 @@
 			actual = [parser parseFragmentWithContextElement:contextElement];
 		}
 
-		NSString *expectedNodes = [[test.nodes valueForKey:@"debugDescription"] componentsJoinedByString:@"\n"];
-		NSString *actualNodes = [[parser.document.childNodes.array valueForKey:@"debugDescription"] componentsJoinedByString:@"\n"];
+		NSString *expectedNodes = [[test.nodes valueForKey:@"treeDescription"] componentsJoinedByString:@"\n"];
+		NSString *actualNodes = [[actual valueForKey:@"treeDescription"] componentsJoinedByString:@"\n"];
 
 		NSString *message = [NSString stringWithFormat:@"HTML5Lib test in file: \'%@\'\nInput:\n%@\nExpected:\n%@\nActual:\n%@\n",
 							 test.testFile,

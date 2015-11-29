@@ -26,6 +26,9 @@ typedef NS_OPTIONS(unsigned long, HTMLNodeFilterShowOptions)
 	HTMLNodeFilterShowDocumentFragment = 0x400
 };
 
+
+#pragma mark - Node Filter
+
 @class HTMLNode;
 
 @protocol HTMLNodeFilter <NSObject>
@@ -34,8 +37,20 @@ typedef NS_OPTIONS(unsigned long, HTMLNodeFilterShowOptions)
 
 @end
 
+#pragma mark - Block Filter
+
 @interface HTMLNodeFilterBlock : NSObject <HTMLNodeFilter>
 
 + (instancetype)filterWithBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))block;
+
+@end
+
+#pragma mark - CSS Selector Filter
+
+@class CSSSelector;
+
+@interface HTMLSelectorNodeFilter : NSObject <HTMLNodeFilter>
+
++ (instancetype)filterWithSelector:(CSSSelector *)selector;
 
 @end

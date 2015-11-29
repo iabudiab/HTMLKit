@@ -1,0 +1,30 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": "p:not(#other).class:not(.fail).test#id#id",
+            "match": ["id"]
+        },
+        {
+            "selector": "div:not(#theid).class:not(.fail).test#theid#theid",
+            "match": []
+        },
+        {
+            "selector": "div:not(#other).notclass:not(.fail).test#theid#theid",
+            "match": []
+        },
+        {
+            "selector": "div:not(#other).class:not(.test).test#theid#theid",
+            "match": []
+        },
+        {
+            "selector": "div:not(#other).class:not(.fail).nottest#theid#theid",
+            "match": []
+        },
+        {
+            "selector": "div:not(#other).class:not(.fail).nottest#theid#other",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <p id="id" class="class test">This line should be green.</p>
+    <div id="theid" class="class test">This line should be green.</div>
+</div>

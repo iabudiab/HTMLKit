@@ -1,0 +1,34 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".t1 td:last-child",
+            "match": ["td13", "td23", "td33"]
+        },
+        {
+            "selector": "p > *:last-child",
+            "match": ["span"]
+        }]
+</script>
+<div id="testDOM">
+    <div>
+        <table class="t1" border="1">
+            <tr>
+                <td>1.1</td>
+                <td>1.2</td>
+                <td id="td13" class="red">green cell</td>
+            </tr>
+            <tr>
+                <td>2.1</td>
+                <td>2.2</td>
+                <td id="td23" class="red">green cell</td>
+            </tr>
+            <tr>
+                <td>3.1</td>
+                <td>3.2</td>
+                <td id="td33" class="red">green cell</td>
+            </tr>
+        </table>
+    </div>
+    <p>
+        <span id="span">This paragraph contains a span that should
+            have a green background</span> and some text after it.</p>
+</div>

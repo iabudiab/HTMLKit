@@ -8,18 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HTMLOrderedDictionary : NSMutableDictionary
+NS_ASSUME_NONNULL_BEGIN
 
-- (id)objectAtIndex:(NSUInteger)index;
-- (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey atIndex:(NSUInteger)index;
+@interface HTMLOrderedDictionary<KeyType, ObjectType> : NSMutableDictionary<KeyType, ObjectType>
+
+- (ObjectType)objectAtIndex:(NSUInteger)index;
+- (void)setObject:(ObjectType)anObject forKey:(KeyType<NSCopying>)aKey atIndex:(NSUInteger)index;
 - (void)removeObjectAtIndex:(NSUInteger)index;
-- (void)replaceKeyValueAtIndex:(NSUInteger)index withObject:(id)anObject andKey:(id<NSCopying>)aKey;
-- (void)replaceKey:(id<NSCopying>)aKey withKey:(id<NSCopying>)newKey;
-- (NSUInteger)indexOfKey:(id<NSCopying>)aKey;
+- (void)replaceKeyValueAtIndex:(NSUInteger)index withObject:(ObjectType)anObject andKey:(KeyType<NSCopying>)aKey;
+- (void)replaceKey:(KeyType<NSCopying>)aKey withKey:(KeyType<NSCopying>)newKey;
+- (NSUInteger)indexOfKey:(KeyType<NSCopying>)aKey;
 
-- (id)objectAtIndexedSubscript:(NSUInteger)index;
-- (void)setObject:(id)obj atIndexedSubscript:(NSUInteger)index;
+- (ObjectType)objectAtIndexedSubscript:(NSUInteger)index;
+- (void)setObject:(ObjectType)obj atIndexedSubscript:(NSUInteger)index;
 
 - (NSEnumerator *)reverseKeyEnumerator;
 
 @end
+
+NS_ASSUME_NONNULL_END

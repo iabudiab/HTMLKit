@@ -1,0 +1,32 @@
+<script type="application/json" id="selectors">
+        [{
+            "selector": ".t1 td:not(:last-child)",
+            "match": ["td11", "td12", "td21", "td22", "td31", "td32"]
+        },
+        {
+            "selector": "p > *:not(:last-child)",
+            "match": []
+        }]
+</script>
+<div id="testDOM">
+    <div>
+        <table id="t1" class="t1" border="1">
+            <tr>
+                <td id="td11" class="red">green cell</td>
+                <td id="td12" class="red">green cell</td>
+                <td>1.3</td>
+            </tr>
+            <tr>
+                <td id="td21" class="red">green cell</td>
+                <td id="td22" class="red">green cell</td>
+                <td>2.3</td>
+            </tr>
+            <tr>
+                <td id="td31" class="red">green cell</td>
+                <td id="td32" class="red">green cell</td>
+                <td>3.3</td>
+            </tr>
+        </table>
+    </div>
+    <p>This <span id="span">paragraph should</span> be unstyled.</p>
+</div>
