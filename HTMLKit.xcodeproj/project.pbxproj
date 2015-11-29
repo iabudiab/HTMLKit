@@ -28,7 +28,6 @@
 		625A14B019C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14BA19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14B819C7829400AD0C32 /* InfoPlist.strings */; };
 		625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14C419C7829400AD0C32 /* XCTest.framework */; };
-		625A14C619C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */; };
 		625A14CF19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14CD19C7829400AD0C32 /* InfoPlist.strings */; };
 		628AF6301BC99A6C00496128 /* CSSNthExpressionsParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */; };
@@ -436,7 +435,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */,
-				625A14C619C7829400AD0C32 /* Cocoa.framework in Frameworks */,
 				625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1412,6 +1410,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
 				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -1440,6 +1439,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
 				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -1464,7 +1464,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "HTMLKit-iOSTests/Info.plist";
+				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1482,7 +1482,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "HTMLKit-iOSTests/Info.plist";
+				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;

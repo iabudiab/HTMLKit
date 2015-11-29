@@ -6,6 +6,14 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
+//! Project version number for HTMLKit.
+extern double HTMLKitVersionNumber;
+
+//! Project version string for HTMLKit.
+extern const unsigned char HTMLKitVersionString[];
+
 #import "HTMLDOM.h"
 #import "HTMLParser.h"
 #import "HTMLKitErrorDomain.h"
