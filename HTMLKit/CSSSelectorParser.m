@@ -70,7 +70,7 @@
 							   CSSSelectorErrorLocationKey: @(location)
 							   };
 
-	if(error) {
+	if(error && *error == nil) {
 		*error = [NSError errorWithDomain:HTMLKitSelectorErrorDomain code:HTMLKitSelectorParseError userInfo:userInfo];
 	}
 }
@@ -102,7 +102,7 @@
 		_location += subSelector.length;
 	}
 
-	if (*error != nil) {
+	if (error && *error != nil) {
 		return nil;
 	}
 
