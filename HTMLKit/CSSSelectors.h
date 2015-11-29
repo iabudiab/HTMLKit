@@ -7,6 +7,14 @@
 //
 
 #import "CSSSelector.h"
+#import "CSSTypeSelector.h"
+#import "CSSAttributeSelector.h"
+#import "CSSPseudoClassSelector.h"
+#import "CSSPseudoFunctionSelector.h"
+#import "CSSNthExpressionSelector.h"
+#import "CSSCombinatorSelector.h"
+#import "CSSCompoundSelector.h"
+#import "CSSSelectorBlock.h"
 #import "CSSStructuralPseudoSelectors.h"
 
 NS_ASSUME_NONNULL_BEGIN
