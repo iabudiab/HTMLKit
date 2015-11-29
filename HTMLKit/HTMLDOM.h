@@ -17,3 +17,7 @@
 #import "HTMLNodeIterator.h"
 #import "HTMLTreeWalker.h"
 #import "HTMLNodeFilter.h"
+
+#import "HTMLKitDOMExceptions.h"
+#import "HTMLNamespaces.h"
+#import "HTMLQuirksMode.h"

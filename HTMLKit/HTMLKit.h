@@ -6,7 +6,11 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
-#import "HTMLParser.h"
 #import "HTMLDOM.h"
-#import "CSSSelectors.h"
+#import "HTMLParser.h"
 #import "HTMLKitErrorDomain.h"
+#import "HTMLOrderedDictionary.h"
+
+#import "CSSSelectors.h"
+#import "CSSSelectorParser.h"
+#import "CSSNthExpressionParser.h"
