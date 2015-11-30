@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HTMLNamespaces.h"
 #import "HTMLNode.h"
+#import "HTMLDOMTokenList.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,11 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSString *tagName;
 
-@property (nonatomic, strong) NSMutableDictionary *attributes;
-
 @property (nonatomic, copy)	NSString *elementId;
 
 @property (nonatomic, copy)	NSString *className;
+
+@property (nonatomic, strong, readonly)	HTMLDOMTokenList *classList;
+
+@property (nonatomic, strong) NSMutableDictionary *attributes;
 
 - (instancetype)initWithTagName:(NSString *)tagName;
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes;

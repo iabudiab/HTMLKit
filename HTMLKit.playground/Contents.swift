@@ -47,3 +47,7 @@ let filter = HTMLSelectorNodeFilter(selector: nay(typeSelector("p")))
 for node in body.nodeIteratorWithShowOptions([.Element], filter: filter) {
 	print(node.innerHTML)
 }
+
+h2.classList.add(["class2", "class3"])
+
+print(body.outerHTML)
