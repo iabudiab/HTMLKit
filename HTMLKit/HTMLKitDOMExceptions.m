@@ -11,3 +11,5 @@
 NSString * const HTMLKitHierarchyRequestError = @"HierarchyRequestError";
 NSString * const HTMLKitNotFoundError = @"NotFoundError";
 NSString * const HTMLKitNotSupportedError = @"NotSupportedError";
+NSString * const HTMLKitSyntaxError = @"SyntaxError";
+NSString * const HTMLKitInvalidCharacterError = @"InvalidCharacterError";

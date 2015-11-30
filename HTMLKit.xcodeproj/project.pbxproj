@@ -25,6 +25,12 @@
 		624B9FB31AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */; };
 		624B9FB61AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */; };
 		624FC37B1AE591D80015DDF9 /* HTMLKitNodesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */; };
+		62567F501C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */ = {isa = PBXBuildFile; fileRef = 62567F4E1C0CB5750025D458 /* HTMLDOMTokenList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62567F511C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */ = {isa = PBXBuildFile; fileRef = 62567F4E1C0CB5750025D458 /* HTMLDOMTokenList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62567F521C0CB5750025D458 /* HTMLDOMTokenList.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F4F1C0CB5750025D458 /* HTMLDOMTokenList.m */; };
+		62567F531C0CB5750025D458 /* HTMLDOMTokenList.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F4F1C0CB5750025D458 /* HTMLDOMTokenList.m */; };
+		62567F561C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */; };
+		62567F571C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */; };
 		625A14B019C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14BA19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14B819C7829400AD0C32 /* InfoPlist.strings */; };
 		625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14C419C7829400AD0C32 /* XCTest.framework */; };
@@ -362,6 +368,9 @@
 		624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitStringCategoryTests.m; sourceTree = "<group>"; };
 		624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitOrderedDictionaryTests.m; sourceTree = "<group>"; };
 		624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitNodesTests.m; sourceTree = "<group>"; };
+		62567F4E1C0CB5750025D458 /* HTMLDOMTokenList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDOMTokenList.h; sourceTree = "<group>"; };
+		62567F4F1C0CB5750025D458 /* HTMLDOMTokenList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDOMTokenList.m; sourceTree = "<group>"; };
+		62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitDOMTokenListTests.m; sourceTree = "<group>"; };
 		625A14AC19C7829400AD0C32 /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14AF19C7829400AD0C32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		625A14B219C7829400AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -501,6 +510,8 @@
 				62362A3B1A9FA70400301989 /* HTMLText.m */,
 				623406DF1ADB04F9004677A3 /* HTMLTemplate.h */,
 				623406E01ADB04F9004677A3 /* HTMLTemplate.m */,
+				62567F4E1C0CB5750025D458 /* HTMLDOMTokenList.h */,
+				62567F4F1C0CB5750025D458 /* HTMLDOMTokenList.m */,
 				6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */,
 				6247A9421B152F4F00CCF25C /* HTMLNodeIterator.m */,
 				624717BA1B22009200B38302 /* HTMLTreeWalker.h */,
@@ -551,6 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
+				62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */,
 			);
 			name = Structures;
 			sourceTree = "<group>";
@@ -796,6 +808,7 @@
 				62ECBEEC1C0B69FD00AF847B /* HTMLParseErrorToken.h in Headers */,
 				62ECBEED1C0B69FD00AF847B /* HTMLTagToken.h in Headers */,
 				62ECBEEE1C0B69FD00AF847B /* HTMLEOFToken.h in Headers */,
+				62567F501C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */,
 				62ECBEEF1C0B69FD00AF847B /* HTMLParser.h in Headers */,
 				62ECBEF01C0B69FD00AF847B /* HTMLStackOfOpenElements.h in Headers */,
 				62ECBEF11C0B69FD00AF847B /* HTMLListOfActiveFormattingElements.h in Headers */,
@@ -859,6 +872,7 @@
 				62ECBFB01C0B6D3C00AF847B /* HTMLTreeWalker.h in Headers */,
 				62ECBFB11C0B6D3C00AF847B /* HTMLNodeTraversal.h in Headers */,
 				62ECBFB21C0B6D3C00AF847B /* HTMLNodeFilter.h in Headers */,
+				62567F511C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */,
 				62ECBFB31C0B6D3C00AF847B /* HTMLKitDOMExceptions.h in Headers */,
 				62ECBFB41C0B6D3D00AF847B /* HTMLNamespaces.h in Headers */,
 				62ECBFB51C0B6D3D00AF847B /* HTMLQuirksMode.h in Headers */,
@@ -1109,6 +1123,7 @@
 				62ECBF451C0B6B7900AF847B /* CSSPseudoFunctionSelector.m in Sources */,
 				62ECBF461C0B6B7900AF847B /* CSSCombinatorSelector.m in Sources */,
 				62ECBF471C0B6B7A00AF847B /* CSSCompoundSelector.m in Sources */,
+				62567F521C0CB5750025D458 /* HTMLDOMTokenList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1126,6 +1141,7 @@
 				624B9FB61AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m in Sources */,
 				624AB3181B0508AE00F3830D /* CSSTypeSelectorTests.m in Sources */,
 				6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
+				62567F561C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */,
 				624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
 				624B9FB31AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */,
 				623916C81AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m in Sources */,
@@ -1186,6 +1202,7 @@
 				62ECBF8D1C0B6D2A00AF847B /* CSSPseudoFunctionSelector.m in Sources */,
 				62ECBF8E1C0B6D2A00AF847B /* CSSCombinatorSelector.m in Sources */,
 				62ECBF8F1C0B6D2A00AF847B /* CSSCompoundSelector.m in Sources */,
+				62567F531C0CB5750025D458 /* HTMLDOMTokenList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1203,6 +1220,7 @@
 				62ECBFD11C0B6E2E00AF847B /* HTMLTreeWalkerTests.m in Sources */,
 				62ECBFD21C0B6E2E00AF847B /* HTMLKitNodesTests.m in Sources */,
 				62ECBFD31C0B6E2E00AF847B /* HTMLKitMutationAlgorithmsTests.m in Sources */,
+				62567F571C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */,
 				62ECBFD41C0B6E2E00AF847B /* HTMLKitStringCategoryTests.m in Sources */,
 				62ECBFD51C0B6E2E00AF847B /* HTMLKitOrderedDictionaryTests.m in Sources */,
 				62ECBFD61C0B6E2E00AF847B /* CSSSelectorTest.m in Sources */,

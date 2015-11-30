@@ -9,3 +9,6 @@
 extern NSString * const HTMLKitHierarchyRequestError;
 extern NSString * const HTMLKitNotFoundError;
 extern NSString * const HTMLKitNotSupportedError;
+
+extern NSString * const HTMLKitSyntaxError;
+extern NSString * const HTMLKitInvalidCharacterError;
