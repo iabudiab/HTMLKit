@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HTMLNodeIterator.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(short, HTMLNodeType)
 {
 	HTMLNodeElement = 1,
@@ -102,7 +104,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 - (void)appendNodes:(NSArray *)nodes;
 
-- (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child;
+- (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(nullable HTMLNode *)child;
 
 - (HTMLNode *)replaceChildNode:(HTMLNode *)node withNode:(HTMLNode *)replacement;
 
@@ -128,13 +130,18 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
 - (HTMLNodeIterator	*)nodeIterator;
 - (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
-										   filter:(id<HTMLNodeFilter>)filter;
+										   filter:(nullable id<HTMLNodeFilter>)filter;
 - (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
 									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter;
 
-- (HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector;
+- (nullable HTMLElement *)querySelector:(NSString *)selector;
+- (NSArray<HTMLElement *> *)querySelectorAll:(NSString *)selector;
+
+- (nullable HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector;
 - (NSArray<HTMLElement *> *)elementsMatchingSelector:(CSSSelector *)selector;
 
 - (NSString *)treeDescription;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -12,7 +12,7 @@
 
 - (instancetype)init
 {
-	return [self initWithData:nil];
+	return [self initWithData:@""];
 }
 
 - (instancetype)initWithData:(NSString *)data

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSString (HTMLKit)
 
 - (BOOL)isEqualToStringIgnoringCase:(NSString *)aString;
@@ -17,3 +19,5 @@
 - (NSUInteger)leadingHTMLWhitespaceLength;
 
 @end
+
+NS_ASSUME_NONNULL_END

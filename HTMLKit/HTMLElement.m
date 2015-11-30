@@ -26,12 +26,12 @@
 
 - (instancetype)init
 {
-	return [self initWithTagName:nil];
+	return [self initWithTagName:@""];
 }
 
 - (instancetype)initWithTagName:(NSString *)tagName
 {
-	return [self initWithTagName:tagName attributes:nil];
+	return [self initWithTagName:tagName attributes:@{}];
 }
 
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes

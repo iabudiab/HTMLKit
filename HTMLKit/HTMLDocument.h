@@ -10,6 +10,8 @@
 #import "HTMLDocumentType.h"
 #import "HTMLQuirksMode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(short, HTMLDocumentReadyState)
 {
 	HTMLDocumentLoading,
@@ -19,7 +21,7 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
 
 @interface HTMLDocument : HTMLNode
 
-@property (nonatomic, strong) HTMLDocumentType *documentType;
+@property (nonatomic, strong, nullable) HTMLDocumentType *documentType;
 
 @property (nonatomic, assign) HTMLQuirksMode quirksMode;
 
@@ -27,13 +29,13 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
 
 @property (nonatomic, assign, readonly) HTMLDocumentReadyState readyState;
 
-@property (nonatomic, strong) HTMLElement *rootElement;
+@property (nonatomic, strong, nullable) HTMLElement *rootElement;
 
-@property (nonatomic, strong) HTMLElement *documentElement;
+@property (nonatomic, strong, nullable) HTMLElement *documentElement;
 
-@property (nonatomic, strong) HTMLElement *head;
+@property (nonatomic, strong, nullable) HTMLElement *head;
 
-@property (nonatomic, strong) HTMLElement *body;
+@property (nonatomic, strong, nullable) HTMLElement *body;
 
 + (instancetype)documentWithString:(NSString *)string;
 
@@ -42,3 +44,5 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
 - (HTMLDocument *)associatedInertTemplateDocument;
 
 @end
+
+NS_ASSUME_NONNULL_END

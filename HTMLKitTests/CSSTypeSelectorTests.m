@@ -21,7 +21,6 @@
 {
 	CSSSelector *selector = universalSelector();
 
-	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:nil]], YES);
 	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@""]], YES);
 	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"div"]], YES);
 	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"p"]], YES);
@@ -32,7 +31,6 @@
 {
 	CSSSelector *selector = typeSelector(@"div");
 
-	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:nil]], NO);
 	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@""]], NO);
 	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"p"]], NO);
 	XCTAssertEqual([selector acceptElement:[[HTMLElement alloc] initWithTagName:@"any other name"]], NO);

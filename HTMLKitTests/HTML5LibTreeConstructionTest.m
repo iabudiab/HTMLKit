@@ -110,7 +110,7 @@ static NSString * const TreeConstruction = @"tree-construction";
 					fragment = [fragment substringFromIndex:@"svg ".length];
 					namespace = HTMLNamespaceSVG;
 				}
-				test.documentFragment = [[HTMLElement alloc] initWithTagName:fragment namespace:namespace attributes:nil];
+				test.documentFragment = [[HTMLElement alloc] initWithTagName:fragment namespace:namespace attributes:@{}];
 			} else if ([match hasPrefix:@"#document\n"]) {
 				NSArray *parts = [[match substringFromIndex:@"#document\n".length] componentsSeparatedByString:@"| "];
 				NSArray *nodes = [HTML5LibTreeConstructionTest parseDocument:parts];
@@ -244,7 +244,7 @@ NS_INLINE HTMLElement * parseTag(NSString *str)
 	NSString *tagName = parts.count == 2 ? parts[1] : parts[0];
 	HTMLNamespace namespace = parts.count == 1 ? HTMLNamespaceHTML : ([parts[0] isEqualToString:@"math"] ? HTMLNamespaceMathML : HTMLNamespaceSVG);
 
-	HTMLElement *element = [[HTMLElement alloc] initWithTagName:tagName namespace:namespace attributes:nil];
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:tagName namespace:namespace attributes:@{}];
 	return element;
 }
 

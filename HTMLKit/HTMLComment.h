@@ -8,6 +8,8 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HTMLComment : HTMLNode
 
 @property (nonatomic, copy) NSString *data;
@@ -15,3 +17,5 @@
 - (instancetype)initWithData:(NSString *)data;
 
 @end
+
+NS_ASSUME_NONNULL_END

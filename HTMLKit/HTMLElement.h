@@ -10,6 +10,8 @@
 #import "HTMLNamespaces.h"
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HTMLElement : HTMLNode
 
 @property (nonatomic, assign, readonly) HTMLNamespace htmlNamespace;
@@ -27,8 +29,10 @@
 - (instancetype)initWithTagName:(NSString *)tagName namespace:(HTMLNamespace)htmlNamespace attributes:(NSDictionary *)attributes;
 
 - (BOOL)hasAttribute:(NSString *)name;
-- (NSString *)objectForKeyedSubscript:(NSString *)name;
+- (nullable NSString *)objectForKeyedSubscript:(NSString *)name;
 - (void)setObject:(NSString *)value forKeyedSubscript:(NSString *)attribute;
 - (void)removeAttribute:(NSString *)name;
 
 @end
+
+NS_ASSUME_NONNULL_END

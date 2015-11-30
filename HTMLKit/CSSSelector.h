@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - Attribute Selector Type
 
 typedef NS_ENUM(NSUInteger, CSSAttributeSelectorType)
@@ -48,3 +50,5 @@ extern NSString * _Nonnull NSStringFromNthExpression(CSSNthExpression expression
 - (BOOL)acceptElement:(HTMLElement *)element;
 
 @end
+
+NS_ASSUME_NONNULL_END

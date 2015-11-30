@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HTMLNodeFilter.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class HTMLNode;
 
 @interface HTMLNodeIterator : NSEnumerator
@@ -21,16 +23,18 @@
 
 + (instancetype)iteratorWithNode:(HTMLNode *)node
 					 showOptions:(HTMLNodeFilterShowOptions)showOptions
-						  filter:(HTMLNodeFilterValue (^)(HTMLNode *node))filter;
+						  filter:(nullable HTMLNodeFilterValue (^)(HTMLNode *node))filter;
 
 - (instancetype)initWithNode:(HTMLNode *)node;
 - (instancetype)initWithNode:(HTMLNode *)node
-					  filter:(id<HTMLNodeFilter>)filter;
+					  filter:(nullable id<HTMLNodeFilter>)filter;
 - (instancetype)initWithNode:(HTMLNode *)node
 				 showOptions:(HTMLNodeFilterShowOptions)showOptions
-					  filter:(id<HTMLNodeFilter>)filter;
+					  filter:(nullable id<HTMLNodeFilter>)filter;
 
-- (HTMLNode *)nextNode;
-- (HTMLNode *)previousNode;
+- (nullable HTMLNode *)nextNode;
+- (nullable HTMLNode *)previousNode;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -8,6 +8,8 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HTMLText : HTMLNode
 
 @property (nonatomic, copy) NSMutableString *data;
@@ -17,3 +19,5 @@
 - (void)appendString:(NSString *)string;
 
 @end
+
+NS_ASSUME_NONNULL_END

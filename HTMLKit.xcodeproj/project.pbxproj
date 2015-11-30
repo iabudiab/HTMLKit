@@ -64,7 +64,7 @@
 		62ECBEFE1C0B69FE00AF847B /* HTMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 623406DF1ADB04F9004677A3 /* HTMLTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBEFF1C0B69FE00AF847B /* HTMLNodeIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBF001C0B69FF00AF847B /* HTMLTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717BA1B22009200B38302 /* HTMLTreeWalker.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		62ECBF011C0B69FF00AF847B /* HTMLNodeTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717161B22333200C11912 /* HTMLNodeTraversal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62ECBF011C0B69FF00AF847B /* HTMLNodeTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717161B22333200C11912 /* HTMLNodeTraversal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		62ECBF021C0B69FF00AF847B /* HTMLNodeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBF031C0B69FF00AF847B /* HTMLKitDOMExceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6238C9831AB8D6330006512E /* HTMLKitDOMExceptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBF041C0B69FF00AF847B /* HTMLNamespaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 628B7CE61A080E1000602C87 /* HTMLNamespaces.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -211,7 +211,7 @@
 		62ECBFAE1C0B6D3B00AF847B /* HTMLTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 623406DF1ADB04F9004677A3 /* HTMLTemplate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBFAF1C0B6D3B00AF847B /* HTMLNodeIterator.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9411B152F4F00CCF25C /* HTMLNodeIterator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBFB01C0B6D3C00AF847B /* HTMLTreeWalker.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717BA1B22009200B38302 /* HTMLTreeWalker.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		62ECBFB11C0B6D3C00AF847B /* HTMLNodeTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717161B22333200C11912 /* HTMLNodeTraversal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62ECBFB11C0B6D3C00AF847B /* HTMLNodeTraversal.h in Headers */ = {isa = PBXBuildFile; fileRef = 624717161B22333200C11912 /* HTMLNodeTraversal.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		62ECBFB21C0B6D3C00AF847B /* HTMLNodeFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBFB31C0B6D3C00AF847B /* HTMLKitDOMExceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6238C9831AB8D6330006512E /* HTMLKitDOMExceptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBFB41C0B6D3D00AF847B /* HTMLNamespaces.h in Headers */ = {isa = PBXBuildFile; fileRef = 628B7CE61A080E1000602C87 /* HTMLNamespaces.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1530,6 +1530,7 @@
 				62ECBF601C0B6C7600AF847B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		62ECBF611C0B6C7600AF847B /* Build configuration list for PBXNativeTarget "HTMLKitTests-iOS" */ = {
 			isa = XCConfigurationList;
@@ -1538,6 +1539,7 @@
 				62ECBF631C0B6C7600AF847B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "HTMLElement.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HTMLParser : NSObject
 
 @property (nonatomic, strong, readonly) NSArray *parseErrors;
@@ -20,3 +22,5 @@
 - (NSArray *)parseFragmentWithContextElement:(HTMLElement *)contextElement;
 
 @end
+
+NS_ASSUME_NONNULL_END

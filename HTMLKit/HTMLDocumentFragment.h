@@ -8,8 +8,12 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface HTMLDocumentFragment : HTMLNode
 
-- (instancetype)initWithDocument:(HTMLDocument *)document;
+- (instancetype)initWithDocument:(nullable HTMLDocument *)document;
 
 @end
+
+NS_ASSUME_NONNULL_END
