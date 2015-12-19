@@ -852,7 +852,7 @@
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
-			[self switchToState:HTMLTokenizerStateRCDATAEndTagName];
+			[self switchToState:HTMLTokenizerStateRAWTEXTEndTagName];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateRAWTEXT];
