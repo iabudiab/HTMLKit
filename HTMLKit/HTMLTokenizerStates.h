@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
+///------------------------------------------------------
+/// HTMLKit private header
+///------------------------------------------------------
+
 #define TOKENIZER_STATES \
 	STATE_ENTRY( HTMLTokenizerStateData, = 0) \
 	STATE_ENTRY( HTMLTokenizerStateCharacterReferenceInData, ) \
