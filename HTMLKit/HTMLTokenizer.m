@@ -1431,7 +1431,6 @@
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
-			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in Attribute Name state"];
