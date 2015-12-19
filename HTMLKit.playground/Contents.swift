@@ -25,6 +25,9 @@ for link in links {
 	print(link["href"])
 }
 
+let firstLink = document.querySelector("h1 + p > a")
+print(firstLink)
+
 guard let body = document.body else {
 	XCPlaygroundPage.currentPage.finishExecution()
 }
@@ -50,4 +53,7 @@ for node in body.nodeIteratorWithShowOptions([.Element], filter: filter) {
 
 h2.classList.add(["class2", "class3"])
 
-print(body.outerHTML)
+print(h2.outerHTML)
+
+h2.classList.toggle("class2")
+
