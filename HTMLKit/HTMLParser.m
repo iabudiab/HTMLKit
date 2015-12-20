@@ -17,6 +17,7 @@
 #import "HTMLElementAdjustment.h"
 #import "HTMLMarker.h"
 #import "NSString+HTMLKit.h"
+#import "CSSSelectors.h"
 
 @interface HTMLTokenizer (Private)
 @property (nonatomic, weak) HTMLParser *parser;
@@ -124,11 +125,12 @@
 - (NSArray *)parseFragmentWithContextElement:(HTMLElement *)contextElement
 {
 	if (contextElement == nil) {
-		return nil;
+		return @[];
 	}
 
 	if ([_contextElement isEqual:contextElement]) {
-		return [_document childNodeAtIndex:0].childNodes.array;
+		HTMLElement *root = [_document firstElementMatchingSelector:rootSelector()];
+		return root? root.childNodes.objectEnumerator.allObjects: @[];
 	}
 
 	[self initializeDocument];
@@ -173,7 +175,7 @@
 
 	[self runParser];
 
-	return root.childNodes.array;
+	return root.childNodes.objectEnumerator.allObjects;
 }
 
 - (void)runParser
