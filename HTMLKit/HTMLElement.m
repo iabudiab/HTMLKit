@@ -13,6 +13,7 @@
 #import "HTMLDOMTokenList.h"
 #import "HTMLOrderedDictionary.h"
 #import "NSString+HTMLKit.h"
+#import "HTMLNode+Private.h"
 
 @interface HTMLElement ()
 {

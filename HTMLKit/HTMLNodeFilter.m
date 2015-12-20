@@ -8,6 +8,7 @@
 
 #import "HTMLNodeFilter.h"
 #import "HTMLNode.h"
+#import "HTMLNode+Private.h"
 #import "CSSSelector.h"
 
 #pragma mark - Block Filter

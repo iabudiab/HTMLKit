@@ -7,6 +7,7 @@
 //
 
 #import "HTMLNode.h"
+#import "HTMLNode+Private.h"
 #import "HTMLDocument.h"
 #import "HTMLDocumentType.h"
 #import "HTMLElement.h"
@@ -25,7 +26,6 @@
 {
 	NSMutableOrderedSet *_childNodes;
 }
-@property (nonatomic, weak) HTMLDocument *ownerDocument;
 @end
 
 @implementation HTMLNode

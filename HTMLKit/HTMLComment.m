@@ -7,6 +7,7 @@
 //
 
 #import "HTMLComment.h"
+#import "HTMLNode+Private.h"
 
 @implementation HTMLComment
 

@@ -8,6 +8,7 @@
 
 #import "HTMLDocumentType.h"
 #import "NSString+HTMLKit.h"
+#import "HTMLNode+Private.h"
 
 NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return (first == nil) || ([first isEqual:second]);

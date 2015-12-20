@@ -8,6 +8,7 @@
 
 #import "CSSPseudoFunctionSelector.h"
 #import "HTMLElement.h"
+#import "HTMLNode+Private.h"
 
 #pragma mark - Declarations
 

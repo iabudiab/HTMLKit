@@ -9,6 +9,7 @@
 #import "HTMLText.h"
 #import "HTMLElement.h"
 #import "NSString+HTMLKit.h"
+#import "HTMLNode+Private.h"
 
 @implementation HTMLText
 

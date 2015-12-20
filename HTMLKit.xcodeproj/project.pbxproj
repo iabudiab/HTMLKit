@@ -36,6 +36,8 @@
 		625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14C419C7829400AD0C32 /* XCTest.framework */; };
 		625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */; };
 		625A14CF19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14CD19C7829400AD0C32 /* InfoPlist.strings */; };
+		625D0F031C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; };
+		625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; };
 		628AF6301BC99A6C00496128 /* CSSNthExpressionsParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */; };
 		62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
 		62EC7AE71AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */; };
@@ -387,6 +389,7 @@
 		625A14DF19C7834100AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLInputStreamReader.h; sourceTree = "<group>"; };
 		625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReader.m; sourceTree = "<group>"; };
+		625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTMLNode+Private.h"; sourceTree = "<group>"; };
 		626652F81C03D30F00C3F121 /* HTMLKitErrorDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLKitErrorDomain.h; sourceTree = "<group>"; };
 		6279F87119E17DC700F12EE5 /* HTMLParserInsertionModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTMLParserInsertionModes.h; sourceTree = "<group>"; };
 		6279F87219E1808D00F12EE5 /* HTMLElement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = HTMLElement.h; sourceTree = "<group>"; };
@@ -524,6 +527,7 @@
 				6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */,
 				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
 				623719431AA12EE8002E03C8 /* HTMLQuirksMode.h */,
+				625D0F071C2717E400D7BEB0 /* Private */,
 			);
 			name = DOM;
 			sourceTree = "<group>";
@@ -663,6 +667,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		625D0F071C2717E400D7BEB0 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */,
+			);
+			name = Private;
+			sourceTree = "<group>";
+		};
 		628E16EC1ADAE71700B15A06 /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
@@ -799,6 +811,7 @@
 				62ECBEE41C0B69FD00AF847B /* HTMLTokenizerStates.h in Headers */,
 				62ECBEE51C0B69FD00AF847B /* HTMLTokenizerCharacters.h in Headers */,
 				62ECBEE61C0B69FD00AF847B /* HTMLTokenizerEntities.h in Headers */,
+				625D0F031C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */,
 				62ECBEE71C0B69FD00AF847B /* HTMLTokens.h in Headers */,
 				62ECBF1B1C0B6ABF00AF847B /* HTMLElement.h in Headers */,
 				62ECBEE81C0B69FD00AF847B /* HTMLToken.h in Headers */,
@@ -863,6 +876,7 @@
 				62ECBFA71C0B6D3A00AF847B /* HTMLNode.h in Headers */,
 				62ECBFA81C0B6D3A00AF847B /* HTMLDocument.h in Headers */,
 				62ECBFA91C0B6D3A00AF847B /* HTMLDocumentType.h in Headers */,
+				625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */,
 				62ECBFAA1C0B6D3A00AF847B /* HTMLDocumentFragment.h in Headers */,
 				62ECBFAB1C0B6D3B00AF847B /* HTMLElement.h in Headers */,
 				62ECBFAC1C0B6D3B00AF847B /* HTMLComment.h in Headers */,

@@ -8,6 +8,7 @@
 
 #import "CSSNthExpressionSelector.h"
 #import "HTMLElement.h"
+#import "HTMLNode+Private.h"
 
 #pragma mark - Nth-Expression
 

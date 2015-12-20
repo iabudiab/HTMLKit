@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "HTMLDOM.h"
+#import "HTMLNode+Private.h"
 
 @interface HTMLKitNodesTests : XCTestCase
 
