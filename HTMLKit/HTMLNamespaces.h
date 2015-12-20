@@ -10,8 +10,4 @@ typedef NS_ENUM(NSInteger, HTMLNamespace)
 {
 	HTMLNamespaceHTML,
 	HTMLNamespaceMathML,
-	HTMLNamespaceSVG,
-	HTMLNamespaceXLink,
-	HTMLNamespaceXML,
-	HTMLNamespaceXMLNS,
 };
