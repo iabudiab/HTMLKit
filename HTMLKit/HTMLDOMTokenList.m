@@ -83,7 +83,7 @@
 	}
 }
 
-- (void)replaceToke:(NSString *)token withToken:(NSString *)newToken
+- (void)replaceToken:(NSString *)token withToken:(NSString *)newToken
 {
 	NSUInteger index = [_tokens indexOfObject:token];
 	_tokens[index] = newToken;

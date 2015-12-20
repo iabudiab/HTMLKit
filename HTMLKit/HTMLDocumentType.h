@@ -11,17 +11,52 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ A HTML Document Type node. There is only one valid document type, which is `<!DOCTYPE html>`.
+ 
+ Other DOCTYPES, e.g. <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+ are obsolete but permitted.
+
+ https://dom.spec.whatwg.org/#interface-documenttype
+ */
 @interface HTMLDocumentType : HTMLNode
 
+/**
+ The public identifier
+ */
 @property (nonatomic, copy, readonly) NSString *publicIdentifier;
 
+/**
+ The system identifier
+ */
 @property (nonatomic, copy, readonly) NSString *systemIdentifier;
 
+/**
+ Initializes and returns a new isntance of a Document Type node.
+
+ @param name The name.
+ @param publicIdentifier The public identifier.
+ @param systemIdentifier The system identigier
+ @returns A new document type instance.
+ */
 - (instancetype)initWithName:(NSString *)name
 			publicIdentifier:(nullable NSString *)publicIdentifier
 			systemIdentifier:(nullable NSString *)systemIdentifier;
 
+/**
+ Checks whether this DOCTYPE is valid.
+ 
+ @returns `YES` if this is a valid DOCTYPE, `NO` otherwise.
+ */
 - (BOOL)isValid;
+
+/**
+ Return the quirks mode of this DOCTYPE.
+
+ @returns The quirks mode.
+
+ @see HTMLQuirksMode
+ */
 - (HTMLQuirksMode)quirksMode;
 
 @end
