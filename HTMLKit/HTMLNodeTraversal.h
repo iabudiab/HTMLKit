@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
+///------------------------------------------------------
+/// HTMLKit private header
+///------------------------------------------------------
+
 #import <Foundation/Foundation.h>
 #import "HTMLNodeFilter.h"
 

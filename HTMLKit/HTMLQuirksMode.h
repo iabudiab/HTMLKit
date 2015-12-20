@@ -8,6 +8,10 @@
 
 #import "NSString+HTMLKit.h"
 
+/**
+ HTML quirks modes
+ https://html.spec.whatwg.org/multipage/infrastructure.html#quirks-mode
+ */
 typedef NS_ENUM(short, HTMLQuirksMode)
 {
 	HTMLQuirksModeNoQuirks,
