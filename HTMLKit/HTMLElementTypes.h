@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
+///------------------------------------------------------
+/// HTMLKit private header
+///------------------------------------------------------
+
 #import	"HTMLElement.h"
 #import "HTMLNamespaces.h"
 #import "NSString+HTMLKit.h"
