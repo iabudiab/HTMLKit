@@ -33,8 +33,12 @@ extern CSSSelector * checkedSelector();
 extern CSSSelector * optionalSelector();
 extern CSSSelector * requiredSelector();
 
-extern CSSSelector * ltSelector();
-extern CSSSelector * gtSelector();
-extern CSSSelector * eqSelector();
+
+extern CSSSelector * ltSelector(NSUInteger index);
+
+extern CSSSelector * gtSelector(NSUInteger index);
+
+extern CSSSelector * eqSelector(NSInteger index);
+
 
 NS_ASSUME_NONNULL_END
