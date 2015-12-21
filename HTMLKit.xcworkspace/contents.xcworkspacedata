@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:HTMLKit.playground">
+      location = "group:HTMLKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:HTMLKit.xcodeproj">
+      location = "group:HTMLKit.playground">
    </FileRef>
 </Workspace>

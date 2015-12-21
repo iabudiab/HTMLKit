@@ -746,13 +746,13 @@
 		62ECBEDF1C0B671000AF847B /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
-				624B37211B250BB50010BDDF /* CSSCodePoints.h */,
-				624B371C1B24E9BA0010BDDF /* CSSInputStream.h */,
-				624B371D1B24E9BA0010BDDF /* CSSInputStream.m */,
 				622BF57F1BBF2FD700363583 /* CSSSelectorParser.h */,
 				622BF5801BBF2FD700363583 /* CSSSelectorParser.m */,
 				62F501631BC9576B0069F47B /* CSSNthExpressionParser.h */,
 				62F501641BC9576B0069F47B /* CSSNthExpressionParser.m */,
+				624B37211B250BB50010BDDF /* CSSCodePoints.h */,
+				624B371C1B24E9BA0010BDDF /* CSSInputStream.h */,
+				624B371D1B24E9BA0010BDDF /* CSSInputStream.m */,
 			);
 			name = Parsing;
 			sourceTree = "<group>";
