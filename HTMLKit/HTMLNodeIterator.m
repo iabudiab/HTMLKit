@@ -33,15 +33,6 @@ typedef NS_ENUM(short, TraverseDirection)
 
 #pragma mark - Lifecycle
 
-+ (instancetype)iteratorWithNode:(HTMLNode *)node
-					 showOptions:(HTMLNodeFilterShowOptions)showOptions
-						  filter:(HTMLNodeFilterValue (^)(HTMLNode *))filter
-{
-	return [[self alloc] initWithNode:node
-						  showOptions:showOptions
-							   filter:[HTMLNodeFilterBlock filterWithBlock:filter]];
-}
-
 - (instancetype)initWithNode:(HTMLNode *)node
 {
 	return [self initWithNode:node filter:nil];

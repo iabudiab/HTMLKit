@@ -14,6 +14,7 @@
 #import "HTMLText.h"
 #import "HTMLComment.h"
 #import "HTMLKitDOMExceptions.h"
+#import "HTMLNodeFilter.h"
 #import "CSSSelector.h"
 
 @interface HTMLDocument (Private)
@@ -435,9 +436,10 @@
 }
 
 - (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
-									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter
+									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))block
 {
-	return [HTMLNodeIterator iteratorWithNode:self showOptions:showOptions filter:filter];
+	HTMLNodeFilterBlock *filter = [HTMLNodeFilterBlock filterWithBlock:block];
+	return [[HTMLNodeIterator alloc] initWithNode:self showOptions:showOptions filter:filter];
 }
 
 #pragma mark - Selectors
