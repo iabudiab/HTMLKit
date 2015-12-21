@@ -73,8 +73,9 @@
 
 - (BOOL)acceptElement:(HTMLElement *)element
 {
-	for (HTMLNode *child in element.childNodes) {
-		if (child.nodeType == HTMLNodeElement && [self.selector acceptElement:child.asElement]) {
+	HTMLNodeIterator *iterator = [element nodeIteratorWithShowOptions:HTMLNodeFilterShowAll filter:nil];
+	for (HTMLNode *descendant in iterator) {
+		if (descendant.nodeType == HTMLNodeElement && [self.selector acceptElement:descendant.asElement]) {
 			return YES;
 		}
 	}
