@@ -358,6 +358,36 @@
 		} else if ([pseudoClass isEqualToString:@"checked"]) {
 			return checkedSelector();
 		}
+
+		else if ([pseudoClass isEqualToString:@"parent"]) {
+			return parentSelector();
+		} else if ([pseudoClass isEqualToString:@"button"]) {
+			return buttonSelector();
+		} else if ([pseudoClass isEqualToString:@"checkbox"]) {
+			return checkboxSelector();
+		} else if ([pseudoClass isEqualToString:@"file"]) {
+			return fileSelector();
+		} else if ([pseudoClass isEqualToString:@"header"]) {
+			return headerSelector();
+		} else if ([pseudoClass isEqualToString:@"image"]) {
+			return imageSelector();
+		} else if ([pseudoClass isEqualToString:@"optional"]) {
+			return optionalSelector();
+		} else if ([pseudoClass isEqualToString:@"parent"]) {
+			return parentSelector();
+		} else if ([pseudoClass isEqualToString:@"password"]) {
+			return passwordSelector();
+		} else if ([pseudoClass isEqualToString:@"radio"]) {
+			return radioSelector();
+		} else if ([pseudoClass isEqualToString:@"reset"]) {
+			return resetSelector();
+		} else if ([pseudoClass isEqualToString:@"submit"]) {
+			return submitSelector();
+		} else if ([pseudoClass isEqualToString:@"text"]) {
+			return textSelector();
+		} else if ([pseudoClass isEqualToString:@"required"]) {
+			return resetSelector();
+		}
 	}
 	NSString *reason = [NSString stringWithFormat:@"Unknown pseudo class: %@", pseudoClass];
 	[self emitError:error reason:reason location:_location + _inputStream.currentLocation];
