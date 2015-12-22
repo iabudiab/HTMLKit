@@ -272,7 +272,7 @@ CSSSelector * requiredSelector()
 
 CSSSelector * ltSelector(NSInteger index)
 {
-	NSString *name = [NSString stringWithFormat:@":lt(%lu)", (unsigned long)index];
+	NSString *name = [NSString stringWithFormat:@":lt(%ld)", (long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
 		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
 
@@ -286,7 +286,7 @@ CSSSelector * ltSelector(NSInteger index)
 
 CSSSelector * gtSelector(NSInteger index)
 {
-	NSString *name = [NSString stringWithFormat:@":gt(%lu)", (unsigned long)index];
+	NSString *name = [NSString stringWithFormat:@":gt(%ld)", (long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
 		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
 
@@ -300,7 +300,7 @@ CSSSelector * gtSelector(NSInteger index)
 
 CSSSelector * eqSelector(NSInteger index)
 {
-	NSString *name = [NSString stringWithFormat:@":eq(%lu)", (unsigned long)index];
+	NSString *name = [NSString stringWithFormat:@":eq(%ld)", (long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
 		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
 
