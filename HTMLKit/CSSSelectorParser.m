@@ -383,9 +383,7 @@
 			return checkedSelector();
 		}
 
-		else if ([pseudoClass isEqualToString:@"parent"]) {
-			return parentSelector();
-		} else if ([pseudoClass isEqualToString:@"button"]) {
+		else if ([pseudoClass isEqualToString:@"button"]) {
 			return buttonSelector();
 		} else if ([pseudoClass isEqualToString:@"checkbox"]) {
 			return checkboxSelector();
@@ -410,6 +408,8 @@
 		} else if ([pseudoClass isEqualToString:@"text"]) {
 			return textSelector();
 		} else if ([pseudoClass isEqualToString:@"required"]) {
+			return requiredSelector();
+		} else if ([pseudoClass isEqualToString:@"reset"]) {
 			return resetSelector();
 		}
 	}
