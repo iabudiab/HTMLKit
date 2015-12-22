@@ -346,9 +346,9 @@
 
 		NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
 		if ([pseudoClass isEqualToString:@"lt"]) {
-			return ltSelector(number.unsignedIntegerValue);
+			return ltSelector(number.integerValue);
 		} else if ([pseudoClass isEqualToString:@"gt"]) {
-			return gtSelector(number.unsignedIntegerValue);
+			return gtSelector(number.integerValue);
 		} else if ([pseudoClass isEqualToString:@"eq"]) {
 			return eqSelector(number.integerValue);
 		}

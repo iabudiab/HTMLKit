@@ -113,22 +113,23 @@ extern CSSSelector * requiredSelector();
 /**
  Less-than selector, e.g. 'lt(2)'
 
- Selects all elements at an index less than the specified index.
+ Selects all elements at an index less than the specified index. A negative index counts backwards from the last element.
 
  @param index The zero-based index of the element to match.
  @returns A Less-Than selector.
  */
-extern CSSSelector * ltSelector(NSUInteger index);
+extern CSSSelector * ltSelector(NSInteger index);
 
 /**
  Greater-than selector, e.g. 'gt(2)'
 
- Selects all elements at an index greater than the specified index.
+ Selects all elements at an index greater than the specified index. A negative index counts backwards from the 
+ last element.
 
  @param index The zero-based index of the element to match.
  @returns A Greater-Than selector.
  */
-extern CSSSelector * gtSelector(NSUInteger index);
+extern CSSSelector * gtSelector(NSInteger index);
 
 /**
  Equal selector, e.g. 'eq(3)'

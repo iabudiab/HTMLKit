@@ -270,19 +270,31 @@ CSSSelector * requiredSelector()
 
 #pragma mark - Positional
 
-CSSSelector * ltSelector(NSUInteger index)
+CSSSelector * ltSelector(NSInteger index)
 {
 	NSString *name = [NSString stringWithFormat:@":lt(%lu)", (unsigned long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
-		return [element.parentElement indexOfChildNode:element] < index;
+		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
+
+		if (index > 0) {
+			return elementIndex < index;
+		} else {
+			return elementIndex < element.parentElement.childNodesCount - index - 1;
+		}
 	});
 }
 
-CSSSelector * gtSelector(NSUInteger index)
+CSSSelector * gtSelector(NSInteger index)
 {
 	NSString *name = [NSString stringWithFormat:@":gt(%lu)", (unsigned long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
-		return [element.parentElement indexOfChildNode:element] > index;
+		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
+
+		if (index > 0) {
+			return elementIndex > index;
+		} else {
+			return elementIndex > element.parentElement.childNodesCount - index - 1;
+		}
 	});
 }
 
