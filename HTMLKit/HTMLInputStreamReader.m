@@ -152,6 +152,17 @@
 	return success;
 }
 
+- (BOOL)consumeDecimalNumber:(NSDecimal *)result
+{
+	NSDecimal scanned;
+	BOOL success = [_scanner scanDecimal:&scanned];
+	if (success == NO) return NO;
+
+	*result = scanned;
+	_location = _scanner.scanLocation;
+	return success;
+}
+
 - (BOOL)consumeHexNumber:(unsigned long long *)result
 {
 	NSCharacterSet *set = [NSCharacterSet HTMLHexNumberCharacterSet];

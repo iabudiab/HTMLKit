@@ -89,13 +89,22 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 - (BOOL)consumeCharacter:(UTF32Char)character;
 
 /**
+ Consumes characters at the current location matching an unsigned number.
+
+ @param result Upon return, contains the consumed unsigned number. Pass `NULL` to skip over an unsigned number at the
+ current location.
+ @returns YES if an unsigned number could be consumed at the current location, NO otherwise.
+ */
+- (BOOL)consumeNumber:(unsigned long long *)result;
+
+/**
  Consumes characters at the current location matching a decimal number.
 
  @param result Upon return, contains the consumed decimal number. Pass `NULL` to skip over a decimal number at the
  current location.
  @returns YES if a decimal number could be consumed at the current location, NO otherwise.
  */
-- (BOOL)consumeNumber:(unsigned long long *)result;
+- (BOOL)consumeDecimalNumber:(NSDecimal *)result;
 
 /**
  Consumes characters at the current location matching a hexadecimal number.
