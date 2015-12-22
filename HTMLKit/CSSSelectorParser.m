@@ -61,6 +61,11 @@
 
 #pragma mark - Errors
 
+- (void)emitError:(NSError * __autoreleasing *)error reason:(NSString *)reason
+{
+	[self emitError:error reason:reason location:_location + _inputStream.currentLocation];
+}
+
 - (void)emitError:(NSError * __autoreleasing *)error reason:(NSString *)reason location:(NSUInteger)location
 {
 	NSDictionary *userInfo = @{
@@ -204,7 +209,7 @@
 		{
 			NSString *elementId = [_inputStream consumeIdentifier];
 			if (elementId == nil) {
-				[self emitError:error reason:@"Invalid character" location:_location + _inputStream.currentLocation];
+				[self emitError:error reason:@"Invalid character"];
 				return nil;
 			}
 			return  idSelector(elementId);
@@ -213,7 +218,7 @@
 		{
 			NSString *className = [_inputStream consumeIdentifier];
 			if (className == nil) {
-				[self emitError:error reason:@"Invalid character" location:_location + _inputStream.currentLocation];
+				[self emitError:error reason:@"Invalid character"];
 				return nil;
 			}
 			return classSelector(className);
@@ -228,7 +233,7 @@
 		}
 		default:
 		{
-			[self emitError:error reason:@"Invalid character" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Invalid character"];
 			return nil;
 		}
 	}
@@ -278,7 +283,7 @@
 
 	// Consume RIGHT_SQUARE_BRACKET
 	if (![_inputStream consumeCharacter:RIGHT_SQUARE_BRACKET]) {
-		[self emitError:error reason:@"Expected closing right square bracket ']'" location:_location + _inputStream.currentLocation];
+		[self emitError:error reason:@"Expected closing right square bracket ']'"];
 	}
 
 	if (type == CSSAttributeSelectorExists) {
@@ -295,7 +300,7 @@
 	if ([pseudoClass hasPrefix:@"nth"]) {
 		[_inputStream consumeWhitespace];
 		if (![_inputStream consumeCharacter:LEFT_PARENTHESIS]) {
-			[self emitError:error reason:@"Expected opening left parenthesis '('" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Expected opening left parenthesis '('"];
 		}
 
 		NSString *functionExpression = [_inputStream consumeCharactersUpToString:@")"];
@@ -303,7 +308,7 @@
 
 		[_inputStream consumeWhitespace];
 		if (![_inputStream consumeCharacter:RIGHT_PARENTHESIS]) {
-			[self emitError:error reason:@"Expected closing right parenthesis ')'" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Expected closing right parenthesis ')'"];
 		}
 
 		if ([pseudoClass isEqualToString:@"nth-child"]) {
@@ -318,30 +323,30 @@
 	} else if ([pseudoClass isEqualToString:@"not"]) {
 		[_inputStream consumeWhitespace];
 		if (![_inputStream consumeCharacter:LEFT_PARENTHESIS]) {
-			[self emitError:error reason:@"Expected opening left parenthesis '('" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Expected opening left parenthesis '('"];
 		}
 
 		CSSSelector *subSelector = [self parseSimpleSelector:error];
 		[_inputStream consumeWhitespace];
 		if (![_inputStream consumeCharacter:RIGHT_PARENTHESIS]) {
-			[self emitError:error reason:@"Expected closing right parenthesis ')'" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Expected closing right parenthesis ')'"];
 		}
 
 		return nay(subSelector);
 	} else if ([pseudoClass isEqualToAny:@"lt", @"gt", @"eq", nil]) {
 		[_inputStream consumeWhitespace];
 		if (![_inputStream consumeCharacter:LEFT_PARENTHESIS]) {
-			[self emitError:error reason:@"Expected opening left parenthesis '('" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Expected opening left parenthesis '('"];
 		}
 
 		NSDecimal decimal;
 		if (![_inputStream consumeDecimalNumber:&decimal]) {
-			[self emitError:error reason:@"Expected a decimal number" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Expected a decimal number"];
 		}
 
 		[_inputStream consumeWhitespace];
 		if (![_inputStream consumeCharacter:RIGHT_PARENTHESIS]) {
-			[self emitError:error reason:@"Expected closing right parenthesis ')'" location:_location + _inputStream.currentLocation];
+			[self emitError:error reason:@"Expected closing right parenthesis ')'"];
 		}
 
 		NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
@@ -414,7 +419,7 @@
 		}
 	}
 	NSString *reason = [NSString stringWithFormat:@"Unknown pseudo class: %@", pseudoClass];
-	[self emitError:error reason:reason location:_location + _inputStream.currentLocation];
+	[self emitError:error reason:reason];
 	return nil;
 }
 
