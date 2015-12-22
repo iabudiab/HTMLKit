@@ -41,7 +41,7 @@
 {
 	self = [super init];
 	if (self) {
-		self.type = type;
+		_type = type;
 		_name = [name copy];
 		_value = value ? [value copy]: @"";
 	}
