@@ -37,6 +37,20 @@
                BlueprintName = "HTMLKitTests-OSX"
                ReferencedContainer = "container:HTMLKit.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "HTMLKitParserPerformance">
+               </Test>
+               <Test
+                  Identifier = "HTMLKitParserPerformance/testParserPerformance">
+               </Test>
+               <Test
+                  Identifier = "HTMLKitTokenizerPerformance">
+               </Test>
+               <Test
+                  Identifier = "HTMLKitTokenizerPerformance/testTokenizerPerformance">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
