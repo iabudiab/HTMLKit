@@ -328,6 +328,30 @@
 		}
 
 		return nay(subSelector);
+	} else if ([pseudoClass isEqualToAny:@"lt", @"gt", @"eq", nil]) {
+		[_inputStream consumeWhitespace];
+		if (![_inputStream consumeCharacter:LEFT_PARENTHESIS]) {
+			[self emitError:error reason:@"Expected opening left parenthesis '('" location:_location + _inputStream.currentLocation];
+		}
+
+		NSDecimal decimal;
+		if (![_inputStream consumeDecimalNumber:&decimal]) {
+			[self emitError:error reason:@"Expected a decimal number" location:_location + _inputStream.currentLocation];
+		}
+
+		[_inputStream consumeWhitespace];
+		if (![_inputStream consumeCharacter:RIGHT_PARENTHESIS]) {
+			[self emitError:error reason:@"Expected closing right parenthesis ')'" location:_location + _inputStream.currentLocation];
+		}
+
+		NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
+		if ([pseudoClass isEqualToString:@"lt"]) {
+			return ltSelector(number.unsignedIntegerValue);
+		} else if ([pseudoClass isEqualToString:@"gt"]) {
+			return gtSelector(number.unsignedIntegerValue);
+		} else if ([pseudoClass isEqualToString:@"eq"]) {
+			return eqSelector(number.integerValue);
+		}
 	} else {
 		if ([pseudoClass isEqualToString:@"even"]) {
 			return evenSlector();
