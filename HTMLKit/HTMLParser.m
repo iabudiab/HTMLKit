@@ -557,18 +557,18 @@
 		}
 
 		if (![_stackOfOpenElements containsElement:formattingElement]) {
-			[self emitParseError:@"Formatting element is not in the Stack of Open Elements"];
+			[self emitParseError:@"Formatting element <%@> is not in the Stack of Open Elements (Adoption Agency)", tagName];
 			[_listOfActiveFormattingElements removeElement:formattingElement];
 			return NO;
 		}
 
 		if (![_stackOfOpenElements hasElementInScopeWithTagName:formattingElement.tagName]) {
-			[self emitParseError:@"Formatting element is not in scope"];
+			[self emitParseError:@"Formatting element <%@> is not in scope (Adoption Agency)", tagName];
 			return NO;
 		}
 
 		if (![formattingElement isEqual:self.currentNode]) {
-			[self emitParseError:@"Formatting element is not the current node"];
+			[self emitParseError:@"Formatting element <%@> is not the current node (Adoption Agency)", tagName];
 		}
 
 		NSUInteger formattingElementIndex = [_stackOfOpenElements indexOfElement:formattingElement];
@@ -640,7 +640,7 @@
 {
 	[self generateImpliedEndTagsExceptForElement:nil];
 	if (![self.currentNode.tagName isEqualToAny:@"td", @"th", nil]) {
-		[self emitParseError:@"Misnested Cell"];
+		[self emitParseError:@"Closing misnested Cell <%@>", self.currentNode.tagName];
 	}
 	[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"td", @"th"]];
 	[_listOfActiveFormattingElements clearUptoLastMarker];
@@ -814,7 +814,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Expected a DOCTYPE but got %@", token];
+	[self emitParseError:@"Expected a DOCTYPE"];
 	_document.quirksMode = HTMLQuirksModeQuirks;
 	[self switchInsertionMode:HTMLInsertionModeBeforeHTML];
 	[self reprocessToken:token];
@@ -849,7 +849,7 @@
 			break;
 		case HTMLTokenTypeEndTag:
 			if (![token.asEndTagToken.tagName isEqualToAny:@"head", @"body", @"html", @"br", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) before <html>", token.asEndTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> before <html>", token.asEndTagToken.tagName];
 				return;
 			}
 			break;
@@ -895,7 +895,7 @@
 			return;
 		case HTMLTokenTypeEndTag:
 			if (![token.asEndTagToken.tagName isEqualToAny:@"head", @"body", @"html", @"br", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) before <head>", token.asEndTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> before <head>", token.asEndTagToken.tagName];
 				return;
 			}
 			break;
@@ -955,7 +955,7 @@
 				_originalInsertionMode = _insertionMode;
 				[self switchInsertionMode:HTMLInsertionModeText];
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"head"]) {
-				[self emitParseError:@"Unexpected Start Tag Token (head) in <head>"];
+				[self emitParseError:@"Unexpected start tag <head> in <head>"];
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"template"]) {
 				HTMLTemplate *template = [HTMLTemplate new];
 				[self insertElement:template];
@@ -975,19 +975,19 @@
 				break;
 			} else if ([token.asEndTagToken.tagName isEqualToString:@"template"]) {
 				if (![_stackOfOpenElements containsElementWithTagName:@"template"]) {
-					[self emitParseError:@"Unexpected End Tag Token (template) in <head>"];
+					[self emitParseError:@"Unexpected end tag </template> in <head>"];
 					return;
 				}
 				[self generateAllImpliedEndTagsThoroughly];
 				if (![self.currentNode.tagName isEqualToString:@"template"]) {
-					[self emitParseError:@"Unexpected End Tag Token in <head>"];
+					[self emitParseError:@"Unexpected end tag </%@> in <head>", self.currentNode.tagName];
 				}
 				[_stackOfOpenElements popElementsUntilTemplateElementPopped];
 				[_listOfActiveFormattingElements clearUptoLastMarker];
 				[_stackOfTemplateInsertionModes removeLastObject];
 				[self resetInsertionModeAppropriately];
 			} else {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <head>", token.asEndTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <head>", token.asEndTagToken.tagName];
 				return;
 			}
 			return;
@@ -1015,7 +1015,7 @@
 				[self HTMLInsertionModeInHead:token];
 				return;
 			} else if ([token.asStartTagToken.tagName isEqualToAny:@"head", @"noscript", nil]) {
-				[self emitParseError:@"Unexpected Start Tag Token (%@) in <head><noscript>", token.asStartTagToken.tagName];
+				[self emitParseError:@"Unexpected start tag <%@> in <head><noscript>", token.asStartTagToken.tagName];
 				return;
 			} else {
 				break;
@@ -1029,7 +1029,7 @@
 			} else if ([token.asEndTagToken.tagName isEqualToString:@"br"]) {
 				break;
 			} else {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <head><noscript>", token.asEndTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <head><noscript>", token.asEndTagToken.tagName];
 				return;
 			}
 			return;
@@ -1041,7 +1041,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Unexpected Tag Token (%@) in <head><noscript>", token.asTagToken.tagName];
+	[self emitParseError:@"Unexpected Tag Token <%@> in <head><noscript>", token.asTagToken.tagName];
 	[_stackOfOpenElements popCurrentNode];
 	[self switchInsertionMode:HTMLInsertionModeInHead];
 	[self reprocessToken:token];
@@ -1083,13 +1083,13 @@
 				return;
 			} else if ([token.asStartTagToken.tagName isEqualToAny:@"base", @"basefont", @"bgsound", @"link", @"meta",
 						@"noframes", @"script", @"style", @"template", @"title", nil]) {
-				[self emitParseError:@"Unexpected Start Tag Token (%@) after <head>", token.asStartTagToken.tagName];
+				[self emitParseError:@"Unexpected start tag <%@> after <head>", token.asStartTagToken.tagName];
 				[_stackOfOpenElements pushElement:_headElementPointer];
 				[self HTMLInsertionModeInHead:token];
 				[_stackOfOpenElements removeElement:_headElementPointer];
 				return;
 			} else if ([token.asStartTagToken.tagName isEqualToString:@"html"]) {
-				[self emitParseError:@"Unexpected Start Tag Token (head) after <head>"];
+				[self emitParseError:@"Unexpected start tag <head> after <head>"];
 				return;
 			} else {
 				break;
@@ -1102,7 +1102,7 @@
 			} else if ([token.asEndTagToken.tagName isEqualToAny:@"body", @"html", @"br", nil]) {
 				break;
 			} else {
-				[self emitParseError:@"Unexpected End Tag Token (%@) after <head>", token.asEndTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> after <head>", token.asEndTagToken.tagName];
 				return;
 			}
 			return;
@@ -1159,7 +1159,7 @@
 				for (HTMLElement *node in _stackOfOpenElements) {
 					if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
 						 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
-						[self emitParseError:@"EOF reached with unclosed element (%@)", node.tagName];
+						[self emitParseError:@"EOF reached with unclosed element <%@> in <body>", node.tagName];
 						break;
 					}
 				}
@@ -1176,7 +1176,7 @@
 	NSString *tagName = token.tagName;
 
 	if ([tagName isEqualToString:@"html"]) {
-		[self emitParseError:@"Unexpected Start Tag Token (html) in <body>"];
+		[self emitParseError:@"Unexpected start tag <html> in <body>"];
 		if ([_stackOfOpenElements containsElementWithTagName:@"template"]) {
 			return;
 		}
@@ -1190,7 +1190,7 @@
 				@"noframes", @"script", @"style", @"template", @"title", nil]) {
 		[self HTMLInsertionModeInHead:token];
 	} else if ([tagName isEqualToString:@"body"]) {
-		[self emitParseError:@"Unexpected Start Tag Token (body) in <body>"];
+		[self emitParseError:@"Unexpected start tag <body> in <body>"];
 		if (_stackOfOpenElements.count < 2 ||
 			![[_stackOfOpenElements[1] tagName] isEqualToString:@"body"] ||
 			[_stackOfOpenElements containsElementWithTagName:@"template"]) {
@@ -1204,7 +1204,7 @@
 			}
 		}
 	} else if ([tagName isEqualToString:@"frameset"]) {
-		[self emitParseError:@"Unexpected Start Tag Token (frameset) in <body>"];
+		[self emitParseError:@"Unexpected start tag <frameset> in <body>"];
 		if (_stackOfOpenElements.count == 1 ||
 			![[_stackOfOpenElements[1] tagName] isEqualToString:@"body"]) {
 			return;
@@ -1232,7 +1232,7 @@
 			[self closePElement];
 		}
 		if ([self.currentNode.tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
-			[self emitParseError:@"Unexpected nested Start Tag Token (%@) in <body>", self.currentNode.tagName];
+			[self emitParseError:@"Unexpected nested Start Tag Token <%@> in <body>", self.currentNode.tagName];
 			[_stackOfOpenElements popCurrentNode];
 		}
 		[self insertElementForToken:token];
@@ -1246,7 +1246,7 @@
 	} else if ([tagName isEqualToString:@"form"]) {
 		if (_formElementPointer != nil &&
 			![_stackOfOpenElements containsElementWithTagName:@"template"]) {
-			[self emitParseError:@"Unexpected nested Start Tag Token (form) in <body>"];
+			[self emitParseError:@"Unexpected nested Start Tag Token <form> in <body>"];
 		} else {
 			if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
 				[self closePElement];
@@ -1271,7 +1271,7 @@
 			if ([map[tagName] containsObject:node.tagName]) {
 				[self generateImpliedEndTagsExceptForElement:node.tagName];
 				if (![self.currentNode.tagName isEqualToString:node.tagName]) {
-					[self emitParseError:@"Unexpected Start Tag (%@) in <body>", node.tagName];
+					[self emitParseError:@"Unexpected Start Tag <%@> in <body>", node.tagName];
 				}
 				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:node.tagName];
 				break;
@@ -1292,7 +1292,7 @@
 		_tokenizer.state = HTMLTokenizerStatePLAINTEXT;
 	} else if ([tagName isEqualToString:@"button"]) {
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"button"]) {
-			[self emitParseError:@"Unexpected nested Start Tag (button) tag in <body>"];
+			[self emitParseError:@"Unexpected nested Start Tag <button> in <body>"];
 			[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"button"];
 		}
 		[self reconstructActiveFormattingElements];
@@ -1309,7 +1309,7 @@
 			return nil;
 		}();
 		if (element != nil) {
-			[self emitParseError:@"Unexpected nested Start Tag (a) in <body>"];
+			[self emitParseError:@"Unexpected nested Start Tag <a> in <body>"];
 			if ([self runAdoptionAgencyAlgorithmForTagName:@"a"]) {
 				[self processAnyOtherEndTagTokenInBody:token.asTagToken];
 				return;
@@ -1328,7 +1328,7 @@
 	} else if ([tagName isEqualToString:@"nobr"]) {
 		[self reconstructActiveFormattingElements];
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"nobr"]) {
-			[self emitParseError:@"Unexpected nested Start Tag (nobr) in <body>"];
+			[self emitParseError:@"Unexpected nested Start Tag <nobr> in <body>"];
 			if ([self runAdoptionAgencyAlgorithmForTagName:@"nobr"]) {
 				[self processAnyOtherEndTagTokenInBody:token.asTagToken];
 				return;
@@ -1374,11 +1374,11 @@
 		[_stackOfOpenElements popCurrentNode];
 		_framesetOkFlag = NO;
 	} else if ([tagName isEqualToString:@"image"]) {
-		[self emitParseError:@"Image Start Tag Token with tagname (image) should be (img). Don't ask."];
+		[self emitParseError:@"Image Start Tag Token with tagname <image> should be <img>. Don't ask."];
 		token.tagName = @"img";
 		[self reprocessToken:token];
 	} else if ([tagName isEqualToString:@"isindex"]) {
-		[self emitParseError:@"Unexpected Start Tag Token (isindex) in <body>"];
+		[self emitParseError:@"Unexpected start tag <isindex> in <body>"];
 		if (_formElementPointer != nil && ![_stackOfOpenElements containsElementWithTagName:@"template"]) {
 			return;
 		}
@@ -1465,7 +1465,7 @@
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"ruby"]) {
 			[self generateImpliedEndTagsExceptForElement:nil];
 			if (![self.currentNode.tagName isEqualToString:@"ruby"]) {
-				[self emitParseError:@"Unexpected Start Tag Token (%@) not in <ruby> in <body>", tagName];
+				[self emitParseError:@"Unexpected start tag <%@> outside of <ruby> in <body>", tagName];
 			}
 		}
 		[self insertElementForToken:token];
@@ -1487,7 +1487,7 @@
 		}
 	} else if ([tagName isEqualToAny:@"caption", @"col", @"colgroup", @"frame", @"head", @"tbody", @"td",
 				@"tfoot", @"th", @"thead", @"tr", nil]) {
-		[self emitParseError:@"Unexpected Start Tag Token (%@) in <body>", tagName];
+		[self emitParseError:@"Unexpected start tag <%@> in <body>", tagName];
 	} else {
 		[self reconstructActiveFormattingElements];
 		[self insertElementForToken:token];
@@ -1503,12 +1503,12 @@
 	} else if ([tagName isEqualToAny:@"body", @"html", nil]) {
 		// End tags "body" & "html" are identical, expect for the reprocessing step
 		if (![_stackOfOpenElements hasElementInScopeWithTagName:@"body"]) {
-			[self emitParseError:@"End Tag (body) without body element in scope in <body>"];
+			[self emitParseError:@"Unexpected end tag </body> without body element in scope in <body>"];
 		}
 		for (HTMLElement *node in _stackOfOpenElements) {
 			if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
 				 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
-				[self emitParseError:@"End Tag (%@) with open element (%@) in <body>", tagName, node.tagName];
+				[self emitParseError:@"Misnested end tag </%@> with open element <%@> in <body>", tagName, node.tagName];
 				break;
 			}
 		}
@@ -1521,12 +1521,12 @@
 				@"figure", @"footer", @"header", @"hgroup", @"listing", @"main", @"menu", @"nav",
 				@"ol", @"pre", @"section", @"summary", @"ul", nil]) {
 		if (![_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
-			[self emitParseError:@"End Tag (%@) with open element in <body>", tagName];
+			[self emitParseError:@"Misnested end tag </%@> with open element in <body>", tagName];
 			return;
 		}
 		[self generateImpliedEndTagsExceptForElement:nil];
 		if (![self.currentNode.tagName isEqualToString:tagName]) {
-			[self emitParseError:@"Unexpected End Tag Token (%@) in <body>", tagName];
+			[self emitParseError:@"Unexpected end tag </%@> in <body>", tagName];
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
 	} else if ([tagName isEqualToString:@"form"]) {
@@ -1534,60 +1534,60 @@
 			HTMLElement *node = _formElementPointer;
 			_formElementPointer = nil;
 			if (node == nil || ![_stackOfOpenElements hasElementInScopeWithTagName:node.tagName]) {
-				[self emitParseError:@"Unexpected closed (form) element in <body>"];
+				[self emitParseError:@"Misnested <form> element in <body>"];
 				return;
 			}
 			[self generateImpliedEndTagsExceptForElement:nil];
 			if ([self.currentNode isEqual:node]) {
-				[self emitParseError:@"Unexpected nested (form) element in <body>"];
+				[self emitParseError:@"Unexpected nested <form> element in <body>"];
 			}
 			[_stackOfOpenElements removeElement:node];
 		} else {
 			if ([_stackOfOpenElements hasElementInScopeWithTagName:@"form"]) {
-				[self emitParseError:@"Unexpected closed (form) element in <body>"];
+				[self emitParseError:@"Misnested <form> element in <body>"];
 				return;
 			}
 			[self generateImpliedEndTagsExceptForElement:nil];
 			if (![self.currentNode.tagName isEqualToString:@"form"]) {
-				[self emitParseError:@"Unexpected open element in <body>"];
+				[self emitParseError:@"Misnested <form> element with open <%@> in <body>", self.currentNode.tagName];
 			}
 			[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"form"];
 		}
 	} else if ([tagName isEqualToString:@"p"]) {
 		if (![_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-			[self emitParseError:@"Unexpected End Tag Token (p) in <body>"];
+			[self emitParseError:@"Unexpected <p> element in <body>"];
 			HTMLEndTagToken *pToken = [[HTMLEndTagToken alloc] initWithTagName:@"p"];
 			[self insertElementForToken:pToken];
 		}
 		[self closePElement];
 	} else if ([tagName isEqualToString:@"li"]) {
 		if (![_stackOfOpenElements hasElementInListItemScopeWithTagName:@"li"]) {
-			[self emitParseError:@"Unexpected closed (li) element in <body>"];
+			[self emitParseError:@"Unexpected <li> element in <body>"];
 			return;
 		}
 		[self generateImpliedEndTagsExceptForElement:@"li"];
 		if (![self.currentNode.tagName isEqualToString:@"li"]) {
-			[self emitParseError:@"Unexpected nested (li) element in <body>"];
+			[self emitParseError:@"Unexpected end tag </li> in <body>"];
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"li"];
 	} else if ([tagName isEqualToAny:@"dd", @"dt", nil]) {
 		if (![_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
-			[self emitParseError:@"Unexpected closed (%@) element in <body>", tagName];
+			[self emitParseError:@"Unexpected <%@> element in <body>", tagName];
 			return;
 		}
 		[self generateImpliedEndTagsExceptForElement:tagName];
 		if ([self.currentNode.tagName isEqualToString:@"li"]) {
-			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
+			[self emitParseError:@"Unexpected end tag </%@> in <body>", tagName];
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
 	} else if ([tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
 		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"h1", @"h2", @"h3", @"h4", @"h5", @"h6"]]) {
-			[self emitParseError:@"Unexpected closed (%@) element in <body>", tagName];
+			[self emitParseError:@"Unexpected <%@> element in <body>", tagName];
 			return;
 		}
 		[self generateImpliedEndTagsExceptForElement:nil];
 		if (![self.currentNode.tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
-			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
+			[self emitParseError:@"Unexpected end tag </%@> in <body>", tagName];
 		}
 		[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"h1", @"h2", @"h3", @"h4", @"h5", @"h6"]];
 	} else if ([tagName isEqualToString:@"sarcasm"]) {
@@ -1602,17 +1602,17 @@
 		}
 	} else if ([tagName isEqualToAny:@"applet", @"marquee", @"object", nil]) {
 		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]]) {
-			[self emitParseError:@"Unexpected closed (%@) element in <body>", tagName];
+			[self emitParseError:@"Unexpected <%@> element in <body>", tagName];
 			return;
 		}
 		[self generateImpliedEndTagsExceptForElement:nil];
 		if (![self.currentNode.tagName isEqualToAny:@"applet", @"marquee", @"object", nil]) {
-			[self emitParseError:@"Unexpected nested (%@) element in <body>", tagName];
+			[self emitParseError:@"Unexpected end tag </%@> in <body>", tagName];
 		}
 		[_stackOfOpenElements popElementsUntilAnElementPoppedWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]];
 		[_listOfActiveFormattingElements clearUptoLastMarker];
 	} else if ([tagName isEqualToString:@"br"]) {
-		[self emitParseError:@"Unexpected End Tag Token (br) in <body>"];
+		[self emitParseError:@"Unexpected end tag </br> in <body>"];
 		HTMLStartTagToken *brToken = [[HTMLStartTagToken alloc] initWithTagName:@"br"];
 		[self processStartTagTokenInBody:brToken];
 	} else {
@@ -1626,12 +1626,12 @@
 		if ([node.tagName isEqualToString:token.tagName]) {
 			[self generateImpliedEndTagsExceptForElement:token.tagName];
 			if (![node.tagName isEqualToString:self.currentNode.tagName]) {
-				[self emitParseError:@"Unexpected nested End Tag Token (%@) in <body>", node.tagName];
+				[self emitParseError:@"Unexpected <%@> element in <body>", node.tagName];
 			}
 			[_stackOfOpenElements popElementsUntilElementPopped:node];
 			break;
 		} else if (IsSpecialElement(node)) {
-			[self emitParseError:@"Unexpected End Tag Token (%@) in <body>", node.tagName];
+			[self emitParseError:@"Unexpected end tag </%@> in <body>", node.tagName];
 			return;
 		}
 	}
@@ -1644,7 +1644,7 @@
 			[self insertCharacters:token.asCharacterToken.characters];
 			return;
 		case HTMLTokenTypeEOF:
-			[self emitParseError:@"Unexpected EOF Token reached in 'text' insertion mode"];
+			[self emitParseError:@"EOF reached in 'text' insertion mode"];
 			[_stackOfOpenElements popCurrentNode];
 			[self switchInsertionMode:_originalInsertionMode];
 			[self reprocessToken:token];
@@ -1705,7 +1705,7 @@
 				[self switchInsertionMode:HTMLInsertionModeInTableBody];
 				[self reprocessToken:token];
 			} else if ([token.asTagToken.tagName isEqualToString:@"table"]) {
-				[self emitParseError:@"Unexpected nested Start Tag Token (table) in <table>"];
+				[self emitParseError:@"Unexpected start tag <table> in <table>"];
 				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"table"]) {
 					return;
 				}
@@ -1719,12 +1719,12 @@
 				if (type == nil || ![type isEqualToStringIgnoringCase:@"hidden"]) {
 					break;
 				} else {
-					[self emitParseError:@"Unexpected non-hidden Start Tag Token (input) in <table>"];
+					[self emitParseError:@"Unexpected non-hidden start tag <input> in <table>"];
 					[self insertElementForToken:token.asTagToken];
 					[_stackOfOpenElements popCurrentNode];
 				}
 			} else if ([token.asTagToken.tagName isEqualToString:@"form"]) {
-				[self emitParseError:@"Unexpected Start Tag Token (form) in <table>"];
+				[self emitParseError:@"Unexpected start tag <form> in <table>"];
 				if (_formElementPointer != nil || [_stackOfOpenElements containsElementWithTagName:@"template"]) {
 					return;
 				}
@@ -1738,7 +1738,7 @@
 		case HTMLTokenTypeEndTag:
 			if ([token.asTagToken.tagName isEqualToString:@"table"]) {
 				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"table"]) {
-					[self emitParseError:@"Unexpected End Tag Token (table) for element in <table>"];
+					[self emitParseError:@"Unexpected end tag </table> for misnested element in <table>"];
 					return;
 				}
 				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"table"];
@@ -1746,7 +1746,7 @@
 				return;
 			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup", @"html",
 						@"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <table>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <table>", token.asTagToken.tagName];
 				return;
 			} else if ([token.asTagToken.tagName isEqualToString:@"template"]) {
 				[self HTMLInsertionModeInHead:token];
@@ -1766,7 +1766,7 @@
 
 - (void)processAnythingElseInTable:(HTMLToken *)token
 {
-	[self emitParseError:@"Unexpected Token foster parenting in <table>"];
+	[self emitParseError:@"Unexpected token foster parenting in <table>"];
 	_fosterParenting = YES;
 	[self HTMLInsertionModeInBody:token];
 	_fosterParenting = NO;
@@ -1808,12 +1808,12 @@
 {
 	void (^ common) (BOOL) = ^ (BOOL reprocess) {
 		if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"caption"]) {
-			[self emitParseError:@"Unexpected Tag Token (caption) for element in <caption>"];
+			[self emitParseError:@"Unexpected end tag </caption> for misnested element in <caption>"];
 			return;
 		}
 		[self generateImpliedEndTagsExceptForElement:nil];
 		if (![self.currentNode.tagName isEqualToString:@"caption"]) {
-			[self emitParseError:@"Unexpected nested (caption) element in <caption>"];
+			[self emitParseError:@"Misnested <caption> element in <caption>"];
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"caption"];
 		[_listOfActiveFormattingElements clearUptoLastMarker];
@@ -1832,7 +1832,7 @@
 				common(YES);
 			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"col", @"colgroup", @"html",
 						@"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <caption>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <caption>", token.asTagToken.tagName];
 			} else {
 				break;
 			}
@@ -1888,14 +1888,14 @@
 		case HTMLTokenTypeEndTag:
 			if ([token.asTagToken.tagName isEqualToString:@"colgroup"]) {
 				if (![self.currentNode.tagName isEqualToString:@"colgroup"]) {
-					[self emitParseError:@"Unexpected nested (colgroup) element in <colgroup>"];
+					[self emitParseError:@"Unexpected end tag </colgroup> for misnested element in <colgroup>"];
 					return;
 				} else {
 					[_stackOfOpenElements popCurrentNode];
 					[self switchInsertionMode:HTMLInsertionModeInTable];
 				}
 			} else if ([token.asTagToken.tagName isEqualToString:@"col"]) {
-				[self emitParseError:@"Unexpected End Tag Token (col) in <colgroup>"];
+				[self emitParseError:@"Unexpected end tag </col> in <colgroup>"];
 			} else if ([token.asTagToken.tagName isEqualToString:@"template"]) {
 				[self HTMLInsertionModeInHead:token];
 			} else {
@@ -1910,7 +1910,7 @@
 	}
 
 	if (![self.currentNode.tagName isEqualToString:@"colgroup"]) {
-		[self emitParseError:@"Unexpected Token in <colgroup>"];
+		[self emitParseError:@"Unexpected tag '%@' in <colgroup>", self.currentNode.tagName];
 		return;
 	}
 	[_stackOfOpenElements popCurrentNode];
@@ -1922,7 +1922,7 @@
 {
 	void (^ common) (BOOL) = ^ (BOOL reprocess) {
 		if (![_stackOfOpenElements hasElementInTableScopeWithAnyOfTagNames:@[@"tbody", @"tfoot", @"thead"]]) {
-			[self emitParseError:@"Unexpected Tag Token (%@) for element in <tbody>", token.asTagToken.tagName];
+			[self emitParseError:@"Unexpected tag '%@' for misnested element in <tbody>", token.asTagToken.tagName];
 			return;
 		} else {
 			[_stackOfOpenElements clearBackToTableBodyContext];
@@ -1942,7 +1942,7 @@
 				[self insertElementForToken:token.asTagToken];
 				[self switchInsertionMode:HTMLInsertionModeInRow];
 			} else if ([token.asTagToken.tagName isEqualToAny:@"th", @"td", nil]) {
-				[self emitParseError:@"Unexpected Start Tag Token (%@) in <tbody>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected start tag <%@> in <tbody>", token.asTagToken.tagName];
 				[_stackOfOpenElements clearBackToTableBodyContext];
 				HTMLStartTagToken *trToken = [[HTMLStartTagToken alloc] initWithTagName:@"tr"];
 				[self insertElementForToken:trToken];
@@ -1962,7 +1962,7 @@
 				common(YES);
 			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup",
 						@"html", @"td", @"th", @"tr", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <tbody>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <tbody>", token.asTagToken.tagName];
 			} else {
 				break;
 			}
@@ -1978,7 +1978,7 @@
 {
 	void (^ common) (NSString *, BOOL) = ^ (NSString *elementTagName, BOOL reprocess) {
 		if (![_stackOfOpenElements hasElementInTableScopeWithTagName:elementTagName]) {
-			[self emitParseError:@"Unexpected Tag Token (%@) for element (%@) in <tr>", token.asTagToken.tagName, elementTagName];
+			[self emitParseError:@"Unexpected tag '%@' for misnested element <%@> in <tr>", token.asTagToken.tagName, elementTagName];
 			return;
 		} else {
 			[_stackOfOpenElements clearBackToTableRowContext];
@@ -2014,7 +2014,7 @@
 				common(token.asTagToken.tagName, NO);
 			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup",
 						@"html", @"td", @"th", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <tr>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <tr>", token.asTagToken.tagName];
 			} else {
 				break;
 			}
@@ -2032,12 +2032,12 @@
 		case HTMLTokenTypeEndTag:
 			if ([token.asTagToken.tagName isEqualToAny:@"td", @"th", nil]) {
 				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
-					[self emitParseError:@"Unexpected Tag Token (%@) for element in <td>", token.asTagToken.tagName];
+					[self emitParseError:@"Unexpected tag '%@' for misnested element in <td>", token.asTagToken.tagName];
 					return;
 				} else {
 					[self generateImpliedEndTagsExceptForElement:nil];
 					if (![self.currentNode.tagName isEqualToString:token.asTagToken.tagName]) {
-						[self emitParseError:@"Unexpected nested (%@) element in <td>", token.asTagToken.tagName];
+						[self emitParseError:@"Misnested element <%@> in <td>", token.asTagToken.tagName];
 					}
 					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:token.asTagToken.tagName];
 					[_listOfActiveFormattingElements clearUptoLastMarker];
@@ -2045,10 +2045,10 @@
 				}
 			} else if ([token.asTagToken.tagName isEqualToAny:@"body", @"caption", @"col", @"colgroup",
 						@"html", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <td>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <td>", token.asTagToken.tagName];
 			} else if ([token.asTagToken.tagName isEqualToAny:@"table", @"tbody", @"tfoot", @"thhead", @"tr", nil]) {
 				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
-					[self emitParseError:@"Unexpected End Tag Token (%@) for element in <td>", token.asTagToken.tagName];
+					[self emitParseError:@"Unexpected end tag </%@> for misnested element in <td>", token.asTagToken.tagName];
 					return;
 				} else {
 					[self closeTheCell];
@@ -2062,7 +2062,7 @@
 			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"col", @"colgroup", @"tbody",
 				 @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
 				if (![_stackOfOpenElements hasElementInTableScopeWithAnyOfTagNames:@[@"td", @"th"]]) {
-					[self emitParseError:@"Unexpected Start Tag Token (%@) for element in <td>", token.asTagToken.tagName];
+					[self emitParseError:@"Unexpected start tag <%@> for misnested element in <td>", token.asTagToken.tagName];
 					return;
 				} else {
 					[self closeTheCell];
@@ -2121,7 +2121,7 @@
 				}
 				[self insertElementForToken:token.asTagToken];
 			} else if ([token.asTagToken.tagName isEqualToString:@"select"]) {
-				[self emitParseError:@"Unexpect Start Tag Token (select) in <select>"];
+				[self emitParseError:@"Unexpect start tag <select> in <select>"];
 				if (![_stackOfOpenElements hasElementInSelectScopeWithTagName:@"select"]) {
 					return;
 				} else {
@@ -2129,7 +2129,7 @@
 					[self resetInsertionModeAppropriately];
 				}
 			} else if ([token.asTagToken.tagName isEqualToAny:@"input", @"keygen", @"textarea", nil]) {
-				[self emitParseError:@"Unexpect Start Tag Token (%@) in <select>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpect start tag <%@> in <select>", token.asTagToken.tagName];
 				if (![_stackOfOpenElements hasElementInSelectScopeWithTagName:@"select"]) {
 					return;
 				} else {
@@ -2153,19 +2153,19 @@
 				if ([self.currentNode.tagName isEqualToString:@"optgroup"]) {
 					[_stackOfOpenElements popCurrentNode];
 				} else {
-					[self emitParseError:@"Unexpected nested End Tag Token (optgroup) for element in <select>"];
+					[self emitParseError:@"Unexpected end tag </optgroup> for misnested element in <select>"];
 					return;
 				}
 			} else if ([token.asTagToken.tagName isEqualToString:@"option"]) {
 				if ([self.currentNode.tagName isEqualToString:@"option"]) {
 					[_stackOfOpenElements popCurrentNode];
 				} else {
-					[self emitParseError:@"Unexpected nested End Tag Token (option) for element in <select>"];
+					[self emitParseError:@"Unexpected end tag </option> for misnested element in <select>"];
 					return;
 				}
 			} else if ([token.asTagToken.tagName isEqualToString:@"select"]) {
 				if (![_stackOfOpenElements hasElementInSelectScopeWithTagName:@"select"]) {
-					[self emitParseError:@"Unexpected End Tag Token (select) for element in <select>"];
+					[self emitParseError:@"Unexpected end tag </select> for misnested lement in <select>"];
 					return;
 				} else {
 					[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
@@ -2184,7 +2184,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Unexpected Token in <select>"];
+	[self emitParseError:@"Unexpected token in <select>"];
 }
 
 - (void)HTMLInsertionModeInSelectInTable:(HTMLToken *)token
@@ -2193,7 +2193,7 @@
 		case HTMLTokenTypeStartTag:
 			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"table", @"tbody", @"tfoot", @"thead",
 				 @"tr", @"td", @"th", nil]) {
-				[self emitParseError:@"Unexpected Start Tag Token (%@) in <select> in <table>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected start tag <%@> in <select> in <table>", token.asTagToken.tagName];
 				[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"select"];
 				[self resetInsertionModeAppropriately];
 				[self reprocessToken:token];
@@ -2202,7 +2202,7 @@
 		case HTMLTokenTypeEndTag:
 			if ([token.asTagToken.tagName isEqualToAny:@"caption", @"table", @"tbody", @"tfoot", @"thead",
 				 @"tr", @"td", @"th", nil]) {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <select> in <table>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <select> in <table>", token.asTagToken.tagName];
 				if (![_stackOfOpenElements hasElementInTableScopeWithTagName:token.asTagToken.tagName]) {
 					return;
 				}
@@ -2266,7 +2266,7 @@
 			if ([token.asTagToken.tagName isEqualToString:@"template"]) {
 				[self HTMLInsertionModeInHead:token];
 			} else {
-				[self emitParseError:@"Unexpected End Tag Token (%@) in <template>", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@> in <template>", token.asTagToken.tagName];
 			}
 			return;
 		case HTMLTokenTypeEOF:
@@ -2315,7 +2315,7 @@
 		case HTMLTokenTypeEndTag:
 			if ([token.asTagToken.tagName isEqualToString:@"html"]) {
 				if (_fragmentParsingAlgorithm) {
-					[self emitParseError:@"Unexpected End Tag Token (html) fragment parsing afeter <body>"];
+					[self emitParseError:@"Unexpected end tag </html> in fragment parsing after <body>"];
 					return;
 				}
 				[self switchInsertionMode:HTMLInsertionModeAfterAfterBody];
@@ -2329,7 +2329,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Unexpected Token after <body>"];
+	[self emitParseError:@"Unexpected token after <body>"];
 	[self switchInsertionMode:HTMLInsertionModeInBody];
 	[self reprocessToken:token];
 }
@@ -2377,7 +2377,7 @@
 			if ([token.asTagToken.tagName isEqualToString:@"frameset"]) {
 				if (self.currentNode == _stackOfOpenElements.firstNode &&
 					[self.currentNode.tagName isEqualToString:@"html"]) {
-					[self emitParseError:@"Unexpected nested End Tag (frameset) in <frameset>"];
+					[self emitParseError:@"Unexpected end tag </frameset> for misnested element in <frameset>"];
 					return;
 				} else {
 					[_stackOfOpenElements popCurrentNode];
@@ -2399,7 +2399,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Unexpected Token in <frameset>"];
+	[self emitParseError:@"Unexpected token in <frameset>"];
 }
 
 - (void)HTMLInsertionModeAfterFrameset:(HTMLToken *)token
@@ -2449,7 +2449,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Unexpected Token after <frameset>"];
+	[self emitParseError:@"Unexpected token after <frameset>"];
 }
 
 - (void)HTMLInsertionModeAfterAfterBody:(HTMLToken *)token
@@ -2485,7 +2485,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Unexpected Token after after <body>"];
+	[self emitParseError:@"Unexpected token after after <body>"];
 	[self switchInsertionMode:HTMLInsertionModeInBody];
 	[self reprocessToken:token];
 }
@@ -2527,7 +2527,7 @@
 			break;
 	}
 
-	[self emitParseError:@"Unexpected Token after after <frameset>"];
+	[self emitParseError:@"Unexpected token after after <frameset>"];
 }
 
 - (void)processTokenByApplyingRulesForParsingTokensInForeignContent:(HTMLToken *)token
@@ -2578,7 +2578,7 @@
 			};
 
 			void (^ matchedCase)() = ^ {
-				[self emitParseError:@"Unexpected Start Tag Token (%@) in foreign content", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected start tag <%@> in foreign content", token.asTagToken.tagName];
 				if (_fragmentParsingAlgorithm) {
 					anythingElse();
 				} else {
@@ -2613,7 +2613,7 @@
 			NSUInteger index = _stackOfOpenElements.count - 1;
 
 			if (![node.tagName isEqualToStringIgnoringCase:token.asTagToken.tagName]) {
-				[self emitParseError:@"Unexpected nested End Tag Token (%@) in foreign content", token.asTagToken.tagName];
+				[self emitParseError:@"Unexpected end tag </%@>  for misnested element in foreign content", token.asTagToken.tagName];
 			}
 
 			while (YES) {
