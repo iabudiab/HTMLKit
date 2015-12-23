@@ -16,9 +16,9 @@ DOM mutations are validated as described in the [WHATWG DOM Standard](https://do
 
 ## Tests
 
-HTMLKit passes all of the [HTML5Lib](https://github.com/html5lib/html5lib-tests) Tokenizer and Tree Construction tests except the Blink changes introduced on 16.09.2015. The `html5lib-tests` is configured as a git-submodule. If you plan to run the tests, do not forget to pull it too.
+HTMLKit passes all of the [HTML5Lib](https://github.com/html5lib/html5lib-tests) Tokenizer and Tree Construction tests except for the Blink changes introduced on the 16.09.2015. The `html5lib-tests` is configured as a git-submodule. If you plan to run the tests, do not forget to pull it too.
 
-The CSS3 Selector implementation is tested with the an adapted version of the [CSS3 Selectors Test Suite](http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/html/full/flat/index.html), ignoring the tests that require user interaction, session history, and scripting.
+The CSS3 Selector implementation is tested with an adapted version of the [CSS3 Selectors Test Suite](http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/html/full/flat/index.html), ignoring the tests that require user interaction, session history, and scripting.
 
 ## Does it Swift?
 
@@ -67,7 +67,7 @@ Here are some of the things you can do:
 * Create new elements and assign attributes
 
 ```objective-c
-HTMLElement *description = [[HTMLElement alloc] initWithTagName:@"body"  attributes: @{@"name": @"description"}];
+HTMLElement *description = [[HTMLElement alloc] initWithTagName:@"meta"  attributes: @{@"name": @"description"}];
 description[@"content"] = @"HTMLKit for iOS & OSX";
 ```
 
