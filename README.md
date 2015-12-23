@@ -3,8 +3,6 @@
 ![HTMLKit Logo](HTMLKit.png)
 An Objective-C framework for your everyday HTML needs.
 
-[![Build Status](https://travis-ci.org/iabudiab/HTMLKit.svg?branch=master)](https://travis-ci.org/iabudiab/HTMLKit)
-
 # Quick Overview
 
 HTMLKit is a [WHATWG specification](https://html.spec.whatwg.org/multipage/)-compliant framework for parsing and serializing HTML documents and document fragments for iOS and OSX. HTMLKit parses real-world HTML the same way modern web browsers would.
