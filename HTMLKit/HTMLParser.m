@@ -108,6 +108,7 @@
 	if (_document == nil) {
 		_document = [HTMLDocument new];
 	}
+	_document.readyState = HTMLDocumentLoading;
 	_document.quirksMode = HTMLQuirksModeNoQuirks;
 	_document.documentType = nil;
 	[_document removeAllChildNodes];
