@@ -33,12 +33,6 @@ static NSString * const TreeConstruction = @"tree-construction";
 			continue;
 		}
 
-		if ([testFile hasPrefix:@"ruby"]) {
-			// <ruby> and friends are not yet completely supported
-			// https://www.w3.org/Bugs/Public/show_bug.cgi?id=26189
-			continue;
-		}
-
 		NSString *testFilePath = [path stringByAppendingPathComponent:testFile];
 		NSArray *tests = [HTML5LibTreeConstructionTest loadTestsWithFileAtPath:testFilePath];
 		[testsMap setObject:tests forKey:testFile];
@@ -73,12 +67,6 @@ static NSString * const TreeConstruction = @"tree-construction";
 
 		HTML5LibTreeConstructionTest *test = [HTML5LibTreeConstructionTest new];
 		test.testFile = filePath.lastPathComponent;
-
-		if ([rawTest rangeOfString:@"ruby"].location != NSNotFound) {
-			// <ruby> and friends are not yet completely supported
-			// https://www.w3.org/Bugs/Public/show_bug.cgi?id=26189
-			continue;
-		}
 
 		if ([rawTest rangeOfString:@"#script-off"].location != NSNotFound) {
 			// Ignore tests for "scripting flag disabled" case

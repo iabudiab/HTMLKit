@@ -519,7 +519,7 @@
 
 - (void)generateImpliedEndTagsExceptForElement:(NSString *)tagName
 {
-	while ([self.currentNode.tagName isEqualToAny:@"dd", @"dt", @"li", @"option", @"optgroup", @"p", @"rp", @"rt", nil] &&
+	while ([self.currentNode.tagName isEqualToAny:@"dd", @"dt", @"li", @"option", @"optgroup", @"p", @"rb", @"rp", @"rt", @"rtc", nil] &&
 		   ![self.currentNode.tagName isEqualToString:tagName]) {
 		[_stackOfOpenElements popCurrentNode];
 	}
@@ -528,7 +528,7 @@
 - (void)generateAllImpliedEndTagsThoroughly
 {
 	while ([self.currentNode.tagName isEqualToAny:@"caption", @"colgroup", @"dd", @"dt", @"li", @"option", @"optgroup", @"p",
-			@"rp", @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
+			@"rb", @"rp", @"rt", @"rtc", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", nil]) {
 		[_stackOfOpenElements popCurrentNode];
 	}
 }
@@ -1158,8 +1158,8 @@
 				[self HTMLInsertionModeInTemplate:token];
 			} else {
 				for (HTMLElement *node in _stackOfOpenElements) {
-					if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
-						 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
+					if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rb", @"rp",
+						 @"rt", @"rtc", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
 						[self emitParseError:@"EOF reached with unclosed element <%@> in <body>", node.tagName];
 						break;
 					}
@@ -1462,11 +1462,20 @@
 		}
 		[self reconstructActiveFormattingElements];
 		[self insertElementForToken:token];
-	} else if ([tagName isEqualToAny:@"rp", @"rt", nil]) {
+	} else if ([tagName isEqualToAny:@"rb", @"rtc", nil]) {
 		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"ruby"]) {
 			[self generateImpliedEndTagsExceptForElement:nil];
 			if (![self.currentNode.tagName isEqualToString:@"ruby"]) {
 				[self emitParseError:@"Unexpected start tag <%@> outside of <ruby> in <body>", tagName];
+			}
+		}
+		[self insertElementForToken:token];
+	} else if ([tagName isEqualToAny:@"rp", @"rt", nil]) {
+		if ([_stackOfOpenElements hasElementInScopeWithTagName:@"ruby"]) {
+			[self generateImpliedEndTagsExceptForElement:@"rtc"];
+			if (![self.currentNode.tagName isEqualToString:@"rtc"] &&
+				![self.currentNode.tagName isEqualToString:@"ruby"]) {
+				[self emitParseError:@"Unexpected start tag <%@> outside of <ruby> or <rtc> in <body>", tagName];
 			}
 		}
 		[self insertElementForToken:token];
@@ -1507,8 +1516,8 @@
 			[self emitParseError:@"Unexpected end tag </body> without body element in scope in <body>"];
 		}
 		for (HTMLElement *node in _stackOfOpenElements) {
-			if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rp"
-				 @"rt", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
+			if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rb", @"rp", @"rt",
+				 @"rtc", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
 				[self emitParseError:@"Misnested end tag </%@> with open element <%@> in <body>", tagName, node.tagName];
 				break;
 			}
