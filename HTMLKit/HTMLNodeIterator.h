@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  https://dom.spec.whatwg.org/#interface-nodeiterator
  */
-@interface HTMLNodeIterator : NSEnumerator
+@interface HTMLNodeIterator : NSEnumerator<HTMLNode *>
 
 /**
  The root element of this iterator, i.e. the traversed tree is rooted at this element.
