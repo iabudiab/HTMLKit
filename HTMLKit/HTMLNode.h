@@ -17,17 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(short, HTMLNodeType)
 {
 	HTMLNodeElement = 1,
-	HTMLNodeAttribute = 2, // historical
 	HTMLNodeText = 3,
-	HTMLNodeCDATASection = 4, // historical
-	HTMLNodeEntityReference = 5, // historical
-	HTMLNodeEntity = 6, // historical
 	HTMLNodeProcessingInstruction = 7,
 	HTMLNodeComment = 8,
 	HTMLNodeDocument = 9,
 	HTMLNodeDocumentType = 10,
 	HTMLNodeDocumentFragment = 11,
-	HTMLNodeNotation = 12 // historical
 };
 
 /**
