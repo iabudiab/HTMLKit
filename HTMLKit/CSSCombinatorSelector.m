@@ -8,6 +8,7 @@
 
 #import "CSSCombinatorSelector.h"
 #import "HTMLElement.h"
+#import "HTMLNode+Private.h"
 
 #pragma mark - Declarations
 

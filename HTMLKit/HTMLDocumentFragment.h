@@ -8,8 +8,24 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ A HTML Document Fragment. Represents a minimal document object that has no parent. It is used as a light-weight 
+ version of Document
+
+ https://dom.spec.whatwg.org/#interface-documentfragment
+ */
 @interface HTMLDocumentFragment : HTMLNode
 
-- (instancetype)initWithDocument:(HTMLDocument *)document;
+/**
+ Initializes a new document fragment with the given document as owner.
+ 
+ @param document The owner document.
+ @returns A new instance of a document fragment.
+ */
+- (instancetype)initWithDocument:(nullable HTMLDocument *)document;
 
 @end
+
+NS_ASSUME_NONNULL_END

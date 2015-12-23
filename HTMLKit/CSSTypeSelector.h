@@ -11,12 +11,29 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ CSS Type Selector.
+ */
 @interface CSSTypeSelector : CSSSelector
 
+/**
+ The type of elements being matched.
+ */
 @property (nonatomic, strong, readonly) NSString *type;
 
+/**
+ Returns the universal selector.
+
+ @returns A new instance of a universal selector that matches all elements.
+ */
 + (instancetype)universalSelector;
 
+/**
+ Initializes a new selector for the specified type.
+
+ @param type The type of elements that should be matched.
+ @returns A new instance of a type selector.
+ */
 - (instancetype)initWithType:(NSString *)type;
 
 @end

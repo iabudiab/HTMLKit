@@ -10,6 +10,12 @@
 #import "HTMLDocumentType.h"
 #import "HTMLQuirksMode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ The document's ready state. The document is `Loading` while being parsed, `Complete` otherwise. The `Interactive` state
+ is not supported.
+ */
 typedef NS_ENUM(short, HTMLDocumentReadyState)
 {
 	HTMLDocumentLoading,
@@ -17,28 +23,76 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
 	HTMLDocumentComplete
 };
 
+/**
+ The HTML Document. This is the root of a parsed DOM tree.
+
+ https://html.spec.whatwg.org/multipage/dom.html#documents
+ */
 @interface HTMLDocument : HTMLNode
 
-@property (nonatomic, strong) HTMLDocumentType *documentType;
+/** 
+ The document's DOCTYPE.
+ 
+ @see HTMLDocumentType
+ */
+@property (nonatomic, strong, nullable) HTMLDocumentType *documentType;
 
+/**
+ The document's quirks mode.
+
+ @see HTMLQuirksMode
+ */
 @property (nonatomic, assign) HTMLQuirksMode quirksMode;
 
-@property (nonatomic, copy, readonly) NSString *compatMode;
-
+/**
+ The document's ready state.
+ 
+ @see HTMLDocumentReadyState
+ */
 @property (nonatomic, assign, readonly) HTMLDocumentReadyState readyState;
 
-@property (nonatomic, strong) HTMLElement *rootElement;
+/**
+ The document's root element, which is the first element in tree order, if any. Usually it is the <html> element.
+ */
+@property (nonatomic, strong, nullable) HTMLElement *rootElement;
 
-@property (nonatomic, strong) HTMLElement *documentElement;
+/**
+ The document element, i.e. the <html> element, if it exists.
+ */
+@property (nonatomic, strong, nullable) HTMLElement *documentElement;
 
-@property (nonatomic, strong) HTMLElement *head;
+/**
+ The document's <head> element, if it exists.
+ */
+@property (nonatomic, strong, nullable) HTMLElement *head;
 
-@property (nonatomic, strong) HTMLElement *body;
+/**
+ The document's <body> element, if it exists.
+ */
+@property (nonatomic, strong, nullable) HTMLElement *body;
 
+/**
+ Retunrs a new HTML Document instance with the given HTML string.
+ 
+ @param string The HTML string to parse into a document.
+ */
 + (instancetype)documentWithString:(NSString *)string;
 
+/**
+ Adopts a given node into this document, i.e. the document becomes the new owner of the node. Raises a HTMLKitNotSupportedError
+ exception if node is an instance of HTMLDocument.
+ 
+ @param node The node to adopt.
+ @returns The adopted node
+ */
 - (HTMLNode *)adoptNode:(HTMLNode *)node;
 
+/**
+ Returns the associated HTML Document proxy instance, which owns the template contents of all its template elements.
+ https://html.spec.whatwg.org/multipage/scripting.html#associated-inert-template-document
+ */
 - (HTMLDocument *)associatedInertTemplateDocument;
 
 @end
+
+NS_ASSUME_NONNULL_END

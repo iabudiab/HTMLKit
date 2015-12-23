@@ -7,12 +7,14 @@
 //
 
 #import "HTMLNode.h"
+#import "HTMLNode+Private.h"
 #import "HTMLDocument.h"
 #import "HTMLDocumentType.h"
 #import "HTMLElement.h"
 #import "HTMLText.h"
 #import "HTMLComment.h"
 #import "HTMLKitDOMExceptions.h"
+#import "HTMLNodeFilter.h"
 #import "CSSSelector.h"
 
 @interface HTMLDocument (Private)
@@ -25,7 +27,6 @@
 {
 	NSMutableOrderedSet *_childNodes;
 }
-@property (nonatomic, weak) HTMLDocument *ownerDocument;
 @end
 
 @implementation HTMLNode
@@ -435,15 +436,32 @@
 }
 
 - (HTMLNodeIterator *)nodeIteratorWithShowOptions:(HTMLNodeFilterShowOptions)showOptions
-									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))filter
+									  filterBlock:(HTMLNodeFilterValue (^)(HTMLNode *node))block
 {
-	return [HTMLNodeIterator iteratorWithNode:self showOptions:showOptions filter:filter];
+	HTMLNodeFilterBlock *filter = [HTMLNodeFilterBlock filterWithBlock:block];
+	return [[HTMLNodeIterator alloc] initWithNode:self showOptions:showOptions filter:filter];
 }
 
 #pragma mark - Selectors
 
+- (HTMLElement *)querySelector:(NSString *)selectorString
+{
+	CSSSelector *selector = [CSSSelector selectorWithString:selectorString];
+	return [self firstElementMatchingSelector:selector];
+}
+
+- (NSArray<HTMLElement *> *)querySelectorAll:(NSString *)selectorString
+{
+	CSSSelector *selector = [CSSSelector selectorWithString:selectorString];
+	return [self elementsMatchingSelector:selector];
+}
+
 - (HTMLElement *)firstElementMatchingSelector:(CSSSelector *)selector
 {
+	if (selector == nil) {
+		return nil;
+	}
+
 	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
 		if ([selector acceptElement:element]) {
 			return element;
@@ -454,6 +472,10 @@
 
 - (NSArray<HTMLElement *> *)elementsMatchingSelector:(CSSSelector *)selector
 {
+	if (selector == nil) {
+		return @[];
+	}
+
 	NSMutableArray *result = [NSMutableArray array];
 	for (HTMLElement *element in [self nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:nil]) {
 		if ([selector acceptElement:element]) {

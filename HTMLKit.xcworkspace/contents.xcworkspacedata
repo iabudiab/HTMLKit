@@ -4,4 +4,7 @@
    <FileRef
       location = "group:HTMLKit.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:HTMLKit.playground">
+   </FileRef>
 </Workspace>

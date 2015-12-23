@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
+///------------------------------------------------------
+/// HTMLKit private header
+///------------------------------------------------------
+
 #define INSERTION_MODES \
 	MODE_ENTRY( HTMLInsertionModeInitial, = 0 ) \
 	MODE_ENTRY( HTMLInsertionModeBeforeHTML, ) \

@@ -7,12 +7,13 @@
 //
 
 #import "HTMLComment.h"
+#import "HTMLNode+Private.h"
 
 @implementation HTMLComment
 
 - (instancetype)init
 {
-	return [self initWithData:nil];
+	return [self initWithData:@""];
 }
 
 - (instancetype)initWithData:(NSString *)data

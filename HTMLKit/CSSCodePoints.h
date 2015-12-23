@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
+///------------------------------------------------------
+/// HTMLKit private header
+//------------------------------------------------------
+
 #define CODEPOINTS \
 	CODEPOINT( CONTROL, 0x0080 ) \
 	CODEPOINT( CHARACTER_TABULATION, 0x0009 ) \

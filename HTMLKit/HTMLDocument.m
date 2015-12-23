@@ -10,11 +10,7 @@
 #import "HTMLParser.h"
 #import "HTMLNodeIterator.h"
 #import "HTMLKitDOMExceptions.h"
-
-@interface HTMLNode (Private)
-@property (nonatomic, weak) HTMLDocument *ownerDocument;
-@property (nonatomic, weak) HTMLNode *parentNode;
-@end
+#import "HTMLNode+Private.h"
 
 @interface HTMLNodeIterator (Private)
 - (void)runRemovingStepsForNode:(HTMLNode *)oldNode

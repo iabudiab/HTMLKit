@@ -8,10 +8,7 @@
 
 #import "HTMLDocumentFragment.h"
 #import "HTMLText.h"
-
-@interface HTMLNode ()
-@property (nonatomic, weak) HTMLDocument *ownerDocument;
-@end
+#import "HTMLNode+Private.h"
 
 @implementation HTMLDocumentFragment
 

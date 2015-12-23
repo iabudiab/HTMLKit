@@ -140,7 +140,7 @@ CSSSelector * generalSiblingSelector(CSSSelector *selector)
 
 #pragma mark - Pseudo Functions
 
-CSSSelector * nay(CSSSelector *selector)
+CSSSelector * not(CSSSelector *selector)
 {
 	return [CSSPseudoFunctionSelector notSelector:selector];
 }

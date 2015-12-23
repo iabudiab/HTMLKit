@@ -852,7 +852,7 @@
 		case LATIN_SMALL_LETTER_A ... LATIN_SMALL_LETTER_Z:
 			_currentTagToken = [[HTMLEndTagToken alloc] initWithTagName:StringFromUniChar(character)];
 			[_temporaryBuffer appendString:StringFromUniChar(character)];
-			[self switchToState:HTMLTokenizerStateRCDATAEndTagName];
+			[self switchToState:HTMLTokenizerStateRAWTEXTEndTagName];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateRAWTEXT];
@@ -1431,7 +1431,6 @@
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
-			[self switchToState:HTMLTokenizerStateAttributeName];
 			return;
 		case NULL_CHAR:
 			[self emitParseError:@"NULL character (0x0000) in Attribute Name state"];

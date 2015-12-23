@@ -33,12 +33,6 @@ static NSString * const TreeConstruction = @"tree-construction";
 			continue;
 		}
 
-		if ([testFile hasPrefix:@"ruby"]) {
-			// <ruby> and friends are not yet completely supported
-			// https://www.w3.org/Bugs/Public/show_bug.cgi?id=26189
-			continue;
-		}
-
 		NSString *testFilePath = [path stringByAppendingPathComponent:testFile];
 		NSArray *tests = [HTML5LibTreeConstructionTest loadTestsWithFileAtPath:testFilePath];
 		[testsMap setObject:tests forKey:testFile];
@@ -74,12 +68,6 @@ static NSString * const TreeConstruction = @"tree-construction";
 		HTML5LibTreeConstructionTest *test = [HTML5LibTreeConstructionTest new];
 		test.testFile = filePath.lastPathComponent;
 
-		if ([rawTest rangeOfString:@"ruby"].location != NSNotFound) {
-			// <ruby> and friends are not yet completely supported
-			// https://www.w3.org/Bugs/Public/show_bug.cgi?id=26189
-			continue;
-		}
-
 		if ([rawTest rangeOfString:@"#script-off"].location != NSNotFound) {
 			// Ignore tests for "scripting flag disabled" case
 			continue;
@@ -110,7 +98,7 @@ static NSString * const TreeConstruction = @"tree-construction";
 					fragment = [fragment substringFromIndex:@"svg ".length];
 					namespace = HTMLNamespaceSVG;
 				}
-				test.documentFragment = [[HTMLElement alloc] initWithTagName:fragment namespace:namespace attributes:nil];
+				test.documentFragment = [[HTMLElement alloc] initWithTagName:fragment namespace:namespace attributes:@{}];
 			} else if ([match hasPrefix:@"#document\n"]) {
 				NSArray *parts = [[match substringFromIndex:@"#document\n".length] componentsSeparatedByString:@"| "];
 				NSArray *nodes = [HTML5LibTreeConstructionTest parseDocument:parts];
@@ -244,7 +232,7 @@ NS_INLINE HTMLElement * parseTag(NSString *str)
 	NSString *tagName = parts.count == 2 ? parts[1] : parts[0];
 	HTMLNamespace namespace = parts.count == 1 ? HTMLNamespaceHTML : ([parts[0] isEqualToString:@"math"] ? HTMLNamespaceMathML : HTMLNamespaceSVG);
 
-	HTMLElement *element = [[HTMLElement alloc] initWithTagName:tagName namespace:namespace attributes:nil];
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:tagName namespace:namespace attributes:@{}];
 	return element;
 }
 

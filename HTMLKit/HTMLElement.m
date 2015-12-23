@@ -10,9 +10,10 @@
 #import "HTMLParser.h"
 #import "HTMLDocument.h"
 #import "HTMLText.h"
-
+#import "HTMLDOMTokenList.h"
 #import "HTMLOrderedDictionary.h"
 #import "NSString+HTMLKit.h"
+#import "HTMLNode+Private.h"
 
 @interface HTMLElement ()
 {
@@ -26,12 +27,12 @@
 
 - (instancetype)init
 {
-	return [self initWithTagName:nil];
+	return [self initWithTagName:@""];
 }
 
 - (instancetype)initWithTagName:(NSString *)tagName
 {
-	return [self initWithTagName:tagName attributes:nil];
+	return [self initWithTagName:tagName attributes:@{}];
 }
 
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
@@ -53,17 +54,34 @@
 	return self;
 }
 
-#pragma mark - Attributes
+#pragma mark - Special Attributes
 
 - (NSString *)elementId
 {
 	return _attributes[@"id"] ?: @"";
 }
 
+- (void)setElementId:(NSString *)elementId
+{
+	_attributes[@"id"] = elementId;
+}
+
 - (NSString *)className
 {
-	return _attributes[@"class"];
+	return _attributes[@"class"] ?: @"";
 }
+
+- (void)setClassName:(NSString *)className
+{
+	_attributes[@"class"] = className;
+}
+
+- (HTMLDOMTokenList *)classList
+{
+	return [[HTMLDOMTokenList alloc] initWithElement:self attribute:@"class" value:self.className];
+}
+
+#pragma mark - Attributes
 
 - (BOOL)hasAttribute:(NSString *)name
 {

@@ -8,12 +8,31 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ A HTML Text node
+ */
 @interface HTMLText : HTMLNode
 
+/** @brief The text string. */
 @property (nonatomic, copy) NSMutableString *data;
 
+/**
+ Initializes a new HTML text node.
+
+ @param data The text string.
+ @returns A new isntance of a HTML text node.
+ */
 - (instancetype)initWithData:(NSString *)data;
 
+/**
+ Appends the string to this text node.
+ 
+ @param string The string to append.
+ */
 - (void)appendString:(NSString *)string;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
+///------------------------------------------------------
+/// HTMLKit private header
+///------------------------------------------------------
+
 #import	"HTMLToken.h"
 #import "HTMLCharacterToken.h"
 #import "HTMLCommentToken.h"

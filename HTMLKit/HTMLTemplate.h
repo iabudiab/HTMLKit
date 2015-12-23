@@ -9,8 +9,22 @@
 #import "HTMLElement.h"
 #import "HTMLDocumentFragment.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ A HTML Template node.
+ 
+ https://html.spec.whatwg.org/multipage/scripting.html#the-template-element
+ */
 @interface HTMLTemplate : HTMLElement
 
+/** 
+ The content of the template.
+ 
+ @see HTMLDocumentFragment
+ */
 @property (nonatomic, strong) HTMLDocumentFragment *content;
 
 @end
+
+NS_ASSUME_NONNULL_END

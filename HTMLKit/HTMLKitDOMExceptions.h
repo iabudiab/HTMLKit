@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-FOUNDATION_EXPORT NSString * const HTMLKitHierarchyRequestError;
-FOUNDATION_EXPORT NSString * const HTMLKitNotFoundError;
-FOUNDATION_EXPORT NSString * const HTMLKitNotSupportedError;
+extern NSString * const HTMLKitHierarchyRequestError;
+extern NSString * const HTMLKitNotFoundError;
+extern NSString * const HTMLKitNotSupportedError;
+
+extern NSString * const HTMLKitSyntaxError;
+extern NSString * const HTMLKitInvalidCharacterError;

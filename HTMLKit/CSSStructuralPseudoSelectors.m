@@ -183,7 +183,7 @@ CSSSelector * enabledSelector()
 									typeSelector(@"menuitem"),
 									typeSelector(@"fieldset"),
 									]);
-	return namedPseudoSelector(@"enabled", allOf(@[candiate, nay(disabledSelector())]));
+	return namedPseudoSelector(@"enabled", allOf(@[candiate, not(disabledSelector())]));
 }
 
 CSSSelector * disabledSelector()
@@ -206,7 +206,7 @@ CSSSelector * disabledSelector()
 												]),
 										allOf(@[
 												descendantOfElementSelector(disabledFieldset),
-												nay(firstLegendDecendantDisabledFieldSet)
+												not(firstLegendDecendantDisabledFieldSet)
 												])
 										]);
 
@@ -249,7 +249,7 @@ CSSSelector * optionalSelector()
 									 typeSelector(@"select"),
 									 typeSelector(@"textarea")
 									 ]);
-	CSSSelector *noAttribute = nay(hasAttributeSelector(@"required"));
+	CSSSelector *noAttribute = not(hasAttributeSelector(@"required"));
 
 	return namedPseudoSelector(@"optional", allOf(@[candidate, noAttribute]));
 }
@@ -270,25 +270,37 @@ CSSSelector * requiredSelector()
 
 #pragma mark - Positional
 
-CSSSelector * ltSelector(NSUInteger index)
+CSSSelector * ltSelector(NSInteger index)
 {
-	NSString *name = [NSString stringWithFormat:@":lt(%lu)", (unsigned long)index];
+	NSString *name = [NSString stringWithFormat:@":lt(%ld)", (long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
-		return [element.parentElement indexOfChildNode:element] < index;
+		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
+
+		if (index > 0) {
+			return elementIndex < index;
+		} else {
+			return elementIndex < element.parentElement.childNodesCount - index - 1;
+		}
 	});
 }
 
-CSSSelector * gtSelector(NSUInteger index)
+CSSSelector * gtSelector(NSInteger index)
 {
-	NSString *name = [NSString stringWithFormat:@":gt(%lu)", (unsigned long)index];
+	NSString *name = [NSString stringWithFormat:@":gt(%ld)", (long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
-		return [element.parentElement indexOfChildNode:element] > index;
+		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
+
+		if (index > 0) {
+			return elementIndex > index;
+		} else {
+			return elementIndex > element.parentElement.childNodesCount - index - 1;
+		}
 	});
 }
 
 CSSSelector * eqSelector(NSInteger index)
 {
-	NSString *name = [NSString stringWithFormat:@":eq(%lu)", (unsigned long)index];
+	NSString *name = [NSString stringWithFormat:@":eq(%ld)", (long)index];
 	return namedBlockSelector(name, ^BOOL(HTMLElement * _Nonnull element) {
 		NSUInteger elementIndex = [element.parentElement indexOfChildNode:element];
 

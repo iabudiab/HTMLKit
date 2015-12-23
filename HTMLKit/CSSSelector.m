@@ -8,8 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "CSSSelector.h"
+#import "CSSSelectorParser.h"
 
 @implementation CSSSelector
+
++ (instancetype)selectorWithString:(NSString *)string
+{
+	NSError *error = nil;
+	CSSSelector *instance = [CSSSelectorParser parseSelector:string error:&error];
+	if (error) {
+		return nil;
+	}
+	return instance;
+}
 
 - (BOOL)acceptElement:(HTMLElement *)element
 {
