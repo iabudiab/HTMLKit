@@ -220,7 +220,7 @@ extern CSSSelector * generalSiblingSelector(CSSSelector *selector);
  @param selector The selector which should be negated.
  @returns A negation selector.
  */
-extern CSSSelector * nay(CSSSelector *selector);
+extern CSSSelector * not(CSSSelector *selector);
 
 /**
  CSS has-descendant selector, e.g. 'div:has(p)'

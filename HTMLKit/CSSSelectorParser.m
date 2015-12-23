@@ -332,7 +332,7 @@
 			[self emitError:error reason:@"Expected closing right parenthesis ')'"];
 		}
 
-		return nay(subSelector);
+		return not(subSelector);
 	} else if ([pseudoClass isEqualToAny:@"lt", @"gt", @"eq", nil]) {
 		[_inputStream consumeWhitespace];
 		if (![_inputStream consumeCharacter:LEFT_PARENTHESIS]) {

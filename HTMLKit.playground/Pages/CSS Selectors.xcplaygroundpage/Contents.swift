@@ -46,7 +46,7 @@ hasAdjacentHeader = document.elementsMatchingSelector(generalSiblingSelector(typ
 nonParagraphChildOfDiv = document.elementsMatchingSelector(
 	allOf([
 		childOfElementSelector(typeSelector("div")),
-		nay(typeSelector("p"))
+		not(typeSelector("p"))
 	])
 )
 
@@ -66,8 +66,8 @@ secondOfType = firstDivElement.elementsMatchingSelector(nthOfTypeSelector(CSSNth
 var notParagraphAndNotDiv = firstDivElement.querySelectorAll(":not(p):not(div)")
 notParagraphAndNotDiv = firstDivElement.elementsMatchingSelector(
 	allOf([
-		nay(typeSelector("p")),
-		nay(typeSelector("div"))
+		not(typeSelector("p")),
+		not(typeSelector("div"))
 	])
 )
 

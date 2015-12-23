@@ -183,7 +183,7 @@ CSSSelector * enabledSelector()
 									typeSelector(@"menuitem"),
 									typeSelector(@"fieldset"),
 									]);
-	return namedPseudoSelector(@"enabled", allOf(@[candiate, nay(disabledSelector())]));
+	return namedPseudoSelector(@"enabled", allOf(@[candiate, not(disabledSelector())]));
 }
 
 CSSSelector * disabledSelector()
@@ -206,7 +206,7 @@ CSSSelector * disabledSelector()
 												]),
 										allOf(@[
 												descendantOfElementSelector(disabledFieldset),
-												nay(firstLegendDecendantDisabledFieldSet)
+												not(firstLegendDecendantDisabledFieldSet)
 												])
 										]);
 
@@ -249,7 +249,7 @@ CSSSelector * optionalSelector()
 									 typeSelector(@"select"),
 									 typeSelector(@"textarea")
 									 ]);
-	CSSSelector *noAttribute = nay(hasAttributeSelector(@"required"));
+	CSSSelector *noAttribute = not(hasAttributeSelector(@"required"));
 
 	return namedPseudoSelector(@"optional", allOf(@[candidate, noAttribute]));
 }
