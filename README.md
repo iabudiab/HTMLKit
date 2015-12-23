@@ -1,6 +1,7 @@
 # HTMLKit
 
 ![HTMLKit Logo](HTMLKit.png)
+
 An Objective-C framework for your everyday HTML needs.
 
 # Quick Overview
