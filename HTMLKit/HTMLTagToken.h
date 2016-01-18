@@ -32,7 +32,7 @@
  Initializes a new tag token.
 
  @param tagName The tag's name.
- @returns A new instance of a tag token.
+ @return A new instance of a tag token.
  */
 - (instancetype)initWithTagName:(NSString *)tagName;
 
@@ -41,7 +41,7 @@
 
  @param tagName The tag's name.
  @param attributes The tag's attributes.
- @returns A new instance of a tag token.
+ @return A new instance of a tag token.
  */
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSMutableDictionary *)attributes;
 

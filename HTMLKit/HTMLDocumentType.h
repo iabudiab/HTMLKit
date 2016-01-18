@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param name The name.
  @param publicIdentifier The public identifier.
  @param systemIdentifier The system identigier
- @returns A new document type instance.
+ @return A new document type instance.
  */
 - (instancetype)initWithName:(NSString *)name
 			publicIdentifier:(nullable NSString *)publicIdentifier
@@ -46,14 +46,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Checks whether this DOCTYPE is valid.
  
- @returns `YES` if this is a valid DOCTYPE, `NO` otherwise.
+ @return `YES` if this is a valid DOCTYPE, `NO` otherwise.
  */
 - (BOOL)isValid;
 
 /**
  Return the quirks mode of this DOCTYPE.
 
- @returns The quirks mode.
+ @return The quirks mode.
 
  @see HTMLQuirksMode
  */

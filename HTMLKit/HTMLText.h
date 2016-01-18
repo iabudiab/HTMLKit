@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new HTML text node.
 
  @param data The text string.
- @returns A new isntance of a HTML text node.
+ @return A new isntance of a HTML text node.
  */
 - (instancetype)initWithData:(NSString *)data;
 

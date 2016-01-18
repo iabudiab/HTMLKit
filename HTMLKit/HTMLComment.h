@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new HTML comment node.
 
  @param data The comment string.
- @returns A new isntance of a HTML comment node.
+ @return A new isntance of a HTML comment node.
  */
 - (instancetype)initWithData:(NSString *)data;
 

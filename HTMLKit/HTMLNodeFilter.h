@@ -55,7 +55,7 @@ typedef NS_OPTIONS(unsigned long, HTMLNodeFilterShowOptions)
  The implementation should return a HTMLNodeFilterValue to indicate accepting, skipping or rejecting a node.
  
  @param node The node to be filtered.
- @returns `HTMLNodeFilterAccept` if accepted, `HTMLNodeFilterSkip` if skipped, or `HTMLNodeFilterReject` if rejected.
+ @return `HTMLNodeFilterAccept` if accepted, `HTMLNodeFilterSkip` if skipped, or `HTMLNodeFilterReject` if rejected.
  */
 - (HTMLNodeFilterValue)acceptNode:(HTMLNode *)node;
 

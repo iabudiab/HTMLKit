@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Universal CSS selector: '*'
 
- @returns The universal CSS selector.
+ @return The universal CSS selector.
  */
 extern CSSSelector * universalSelector();
 
@@ -32,7 +32,7 @@ extern CSSSelector * universalSelector();
  CSS type selector, e.g. 'div', 'p', ...etc.
  
  @param type The element type.
- @returns Type selector for the specified type.
+ @return Type selector for the specified type.
  */
 extern CSSSelector * typeSelector(NSString *type);
 
@@ -42,7 +42,7 @@ extern CSSSelector * typeSelector(NSString *type);
  CSS id selector, e.g. '#someId'
 
  @param elementId The element id.
- @returns Id selector for the specified element id.
+ @return Id selector for the specified element id.
  */
 extern CSSSelector * idSelector(NSString *elementId);
 
@@ -50,7 +50,7 @@ extern CSSSelector * idSelector(NSString *elementId);
  CSS class selector, e.g. '.someClass'
 
  @param className The class name.
- @returns Class selector for the specified class name.
+ @return Class selector for the specified class name.
  */
 extern CSSSelector * classSelector(NSString *className);
 
@@ -58,7 +58,7 @@ extern CSSSelector * classSelector(NSString *className);
  CSS has-attribute selector, e.g. '[href]'
 
  @param attribute The attribute.
- @returns Has-Attribute selector for the specified attribute.
+ @return Has-Attribute selector for the specified attribute.
  */
 extern CSSSelector * hasAttributeSelector(NSString *attribute);
 
@@ -68,7 +68,7 @@ extern CSSSelector * hasAttributeSelector(NSString *attribute);
  @param type The attribute selector type.
  @param attribute The attribute.
  @param value The value of the attribute.
- @returns Attribute selector.
+ @return Attribute selector.
  
  @see CSSAttributeSelectorType
  */
@@ -82,7 +82,7 @@ extern CSSSelector * attributeSelector(CSSAttributeSelectorType type,
  CSS nth-child selector, e.g. ':nth-child(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Child selector for the specified expression.
+ @return Nth-Child selector for the specified expression.
 
  @see CSSNthExpression
  */
@@ -92,7 +92,7 @@ extern CSSSelector * nthChildSelector(CSSNthExpression expression);
  CSS nth-last-child selector, e.g. ':nth-last-child(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Last-Child selector for the specified expression.
+ @return Nth-Last-Child selector for the specified expression.
 
  @see CSSNthExpression
  */
@@ -102,7 +102,7 @@ extern CSSSelector * nthLastChildSelector(CSSNthExpression expression);
  CSS nth-of-type selector, e.g. ':nth-of-type(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Of-Type selector for the specified expression.
+ @return Nth-Of-Type selector for the specified expression.
 
  @see CSSNthExpression
  */
@@ -112,7 +112,7 @@ extern CSSSelector * nthOfTypeSelector(CSSNthExpression expression);
  CSS nth-last-of-type selector, e.g. ':nth-last-of-type(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Last-Of-Type selector for the specified expression.
+ @return Nth-Last-Of-Type selector for the specified expression.
 
  @see CSSNthExpression
  */
@@ -123,7 +123,7 @@ extern CSSSelector * nthLastOfTypeSelector(CSSNthExpression expression);
  
  This is analogous to ':nth-child(2n+1)'
 
- @returns Odd-Child selector.
+ @return Odd-Child selector.
  */
 extern CSSSelector * oddSelector();
 
@@ -132,49 +132,49 @@ extern CSSSelector * oddSelector();
 
  This is analogous to ':nth-child(2n)'
 
- @returns Even-Child selector.
+ @return Even-Child selector.
  */
 extern CSSSelector * evenSlector();
 
 /**
  CSS first-child selector: ':nth-child(1)'
 
- @returns First-Child selector.
+ @return First-Child selector.
  */
 extern CSSSelector * firstChildSelector();
 
 /**
  CSS first-child selector: ':nth-last-child(1)'
 
- @returns First-Child selector.
+ @return First-Child selector.
  */
 extern CSSSelector * lastChildSelector();
 
 /**
  CSS first-of-type selector: ':nth-first-of-type(1)'
 
- @returns First-Of-Type selector.
+ @return First-Of-Type selector.
  */
 extern CSSSelector * firstOfTypeSelector();
 
 /**
  CSS last-of-type selector: ':nth-last-of-type(1)'
 
- @returns Last-Of-Type selector.
+ @return Last-Of-Type selector.
  */
 extern CSSSelector * lastOfTypeSelector();
 
 /**
  CSS only-child selector: ':first-child:last-child'
 
- @returns Only-Child selector.
+ @return Only-Child selector.
  */
 extern CSSSelector * onlyChildSelector();
 
 /**
  CSS only-of-type selector: ':first-of-type:last-of-type'
 
- @returns Only-Of-Type selector.
+ @return Only-Of-Type selector.
  */
 extern CSSSelector * onlyOfTypeSelector();
 
@@ -184,7 +184,7 @@ extern CSSSelector * onlyOfTypeSelector();
  CSS child-of-element selector, e.g. 'div > p'
 
  @param selector The selector matching the parent element.
- @returns A child of element selector.
+ @return A child of element selector.
  */
 extern CSSSelector * childOfElementSelector(CSSSelector *selector);
 
@@ -192,7 +192,7 @@ extern CSSSelector * childOfElementSelector(CSSSelector *selector);
  CSS descendant-of-element selector, e.g. 'div p'
 
  @param selector The selector matching the ancestor element.
- @returns A descendant of element selector.
+ @return A descendant of element selector.
  */
 extern CSSSelector * descendantOfElementSelector(CSSSelector *selector);
 
@@ -200,7 +200,7 @@ extern CSSSelector * descendantOfElementSelector(CSSSelector *selector);
  CSS adjacent sibling selector, e.g. 'p + a'
 
  @param selector The selector matching the adjacent sibling element.
- @returns A adjacent sibling selector.
+ @return A adjacent sibling selector.
  */
 extern CSSSelector * adjacentSiblingSelector(CSSSelector *selector);
 
@@ -208,7 +208,7 @@ extern CSSSelector * adjacentSiblingSelector(CSSSelector *selector);
  CSS general sibling selector, e.g. 'p ~ a'
 
  @param selector The selector matching the general sibling element.
- @returns A general sibling selector.
+ @return A general sibling selector.
  */
 extern CSSSelector * generalSiblingSelector(CSSSelector *selector);
 
@@ -218,7 +218,7 @@ extern CSSSelector * generalSiblingSelector(CSSSelector *selector);
  CSS nagation selector: ':not(div)'
  
  @param selector The selector which should be negated.
- @returns A negation selector.
+ @return A negation selector.
  */
 extern CSSSelector * not(CSSSelector *selector);
 
@@ -228,7 +228,7 @@ extern CSSSelector * not(CSSSelector *selector);
  @discussion 'div:has(p)' matches all <div> elements which have a descendant <p> element.
 
  @param selector The selector matching a descendant element.
- @returns A has-descendant selector.
+ @return A has-descendant selector.
  */
 extern CSSSelector * has(CSSSelector *selector);
 
@@ -238,7 +238,7 @@ extern CSSSelector * has(CSSSelector *selector);
  A compound selector matching only elements that match all of the specified selectors.
 
  @param selectors The selectors list.
- @returns All-Of selector.
+ @return All-Of selector.
  */
 extern CSSSelector * allOf(NSArray<CSSSelector *> *selectors);
 
@@ -246,7 +246,7 @@ extern CSSSelector * allOf(NSArray<CSSSelector *> *selectors);
  A compound selector matching all elements that match at least one of the specified selectors.
 
  @param selectors The selectors list.
- @returns Any-Of selector.
+ @return Any-Of selector.
  */
 extern CSSSelector * anyOf(NSArray<CSSSelector *> *selectors);
 
@@ -259,7 +259,7 @@ extern CSSSelector * anyOf(NSArray<CSSSelector *> *selectors);
 
  @param name The name of the selector.
  @param selector The underlying selector.
- @returns A named-pseudo selector.
+ @return A named-pseudo selector.
  */
 extern CSSSelector * namedPseudoSelector(NSString *name, CSSSelector *selector);
 
@@ -270,7 +270,7 @@ extern CSSSelector * namedPseudoSelector(NSString *name, CSSSelector *selector);
 
  @param name The name of the selector.
  @param acceptBlock The block which provides the implementation for the accept-element logic.
- @returns A named-block selector.
+ @return A named-block selector.
  */
 extern CSSSelector * namedBlockSelector(NSString *name, BOOL (^ acceptBlock)(HTMLElement *element));
 

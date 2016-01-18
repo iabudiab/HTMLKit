@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  Returns the object at the specified index.
 
  @param index An index within the bounds of the dictionary.
- @returns The object located at index.
+ @return The object located at index.
  */
 - (ObjectType)objectAtIndex:(NSUInteger)index;
 
@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  Returns the index of the given key in the dictionary.
 
  @param aKey The key.
- @returns The index of the given key in the dictionary.
+ @return The index of the given key in the dictionary.
  */
 - (NSUInteger)indexOfKey:(KeyType<NSCopying>)aKey;
 
@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setObject:(ObjectType)obj atIndexedSubscript:(NSUInteger)index;
 
 /**
- @returns A reverse key enumerator.
+ @return A reverse key enumerator.
  */
 - (NSEnumerator<KeyType> *)reverseKeyEnumerator;
 

@@ -41,14 +41,14 @@ NS_ASSUME_NONNULL_BEGIN
  https://html.spec.whatwg.org/multipage/syntax.html#determining-the-character-encoding
 
  @param string The HTML string to parse
- @returns A new instance of the HTML parser.
+ @return A new instance of the HTML parser.
  */
 - (instancetype)initWithString:(NSString *)string;
 
 /**
  Runs the parsing algorithm and generates a valid HTML document object.
 
- @returns A HTML document object that is the result of parsing the HTML string, with which this parser instance was
+ @return A HTML document object that is the result of parsing the HTML string, with which this parser instance was
  initialized
  
  @see HTMLDocument
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
  instance. In this case the parser will reset its internal state and re-run the parsing algorithm.
 
  @param contextElement A context element used for parsing a HTML fragment
- @returns An array of HTML elements, that are the result of parsing the given HTML string with the given context element.
+ @return An array of HTML elements, that are the result of parsing the given HTML string with the given context element.
 
  @see HTMLElement
  */

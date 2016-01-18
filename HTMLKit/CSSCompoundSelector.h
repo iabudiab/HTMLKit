@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes and returns a new compound selector matching only elements that match all of the specified selectors.
 
  @param selectors The selectors list.
- @returns A new instance of the All-Of selector.
+ @return A new instance of the All-Of selector.
  */
 + (instancetype)andSelector:(NSArray<CSSSelector *> *)selectors;
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes and returns a new compound selector matching all elements that match at least one of the specified selectors.
 
  @param selectors The selectors list.
- @returns A new instance of the Any-Of selector.
+ @return A new instance of the Any-Of selector.
  */
 + (instancetype)orSelector:(NSArray<CSSSelector *> *)selectors;
 

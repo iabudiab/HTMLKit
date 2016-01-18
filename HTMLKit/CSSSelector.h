@@ -74,7 +74,7 @@ extern NSString * _Nonnull NSStringFromNthExpression(CSSNthExpression expression
  Initializes and returns a new instance of CSS Selector.
  
  @param string The selector string which will be parsed.
- @returns A new instance of a parsed CSS Selector, `nil` if the string is not a valid selector string.
+ @return A new instance of a parsed CSS Selector, `nil` if the string is not a valid selector string.
  */
 + (nullable instancetype)selectorWithString:(NSString *)stirng;
 

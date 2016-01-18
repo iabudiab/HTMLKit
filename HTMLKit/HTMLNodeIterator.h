@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new node iterator with no filter and HTMLNodeFilterShowAll show options.
 
  @param node The root node.
- @returns A new instance of a node iterator.
+ @return A new instance of a node iterator.
  */
 - (instancetype)initWithNode:(HTMLNode *)node;
 
@@ -63,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param node The root node.
  @param filter The node filter to use.
- @returns A new instance of a node iterator.
+ @return A new instance of a node iterator.
  */
 - (instancetype)initWithNode:(HTMLNode *)node
 					  filter:(nullable id<HTMLNodeFilter>)filter;
@@ -74,19 +74,19 @@ NS_ASSUME_NONNULL_BEGIN
  @param node The root node.
  @param showOptions The show options for the iterator.
  @param filter The node filter to use.
- @returns A new instance of a node iterator.
+ @return A new instance of a node iterator.
  */
 - (instancetype)initWithNode:(HTMLNode *)node
 				 showOptions:(HTMLNodeFilterShowOptions)showOptions
 					  filter:(nullable id<HTMLNodeFilter>)filter;
 
 /**
- @returns The next iterated node in tree order, `nil` if there are no more nodes to iterate.
+ @return The next iterated node in tree order, `nil` if there are no more nodes to iterate.
  */
 - (nullable HTMLNode *)nextNode;
 
 /**
- @returns The previous iterated node in tree order, `nil` if there are no more nodes to iterate.
+ @return The previous iterated node in tree order, `nil` if there are no more nodes to iterate.
  */
 - (nullable HTMLNode *)previousNode;
 

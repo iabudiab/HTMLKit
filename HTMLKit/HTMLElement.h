@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new HTML element with the given tag name.
  
  @param tagname The tag name.
- @returns A new HTML element.
+ @return A new HTML element.
  */
 - (instancetype)initWithTagName:(NSString *)tagName;
 
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param tagname The tag name.
  @param attributes The attributes.
- @returns A new HTML element.
+ @return A new HTML element.
  */
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes;
 
@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param tagname The tag name.
  @param namespace The namespace.
  @param attributes The attributes.
- @returns A new HTML element.
+ @return A new HTML element.
  */
 - (instancetype)initWithTagName:(NSString *)tagName namespace:(HTMLNamespace)htmlNamespace attributes:(NSDictionary *)attributes;
 
@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  Checks whether this element has an attribute with the given name.
  
  @param name The attribute name.
- @returns `YES` if the element has such an attributes, `NO` otherwise.
+ @return `YES` if the element has such an attributes, `NO` otherwise.
  */
 - (BOOL)hasAttribute:(NSString *)name;
 
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  Returns the value of the attribute with the given name.
  
  @param name The attribute's name.
- @returns The attribute's value, `nil` if the element doesn't have such attribute.
+ @return The attribute's value, `nil` if the element doesn't have such attribute.
  */
 - (nullable NSString *)objectForKeyedSubscript:(NSString *)name;
 

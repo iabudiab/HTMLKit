@@ -18,33 +18,33 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Checks whether this string is equal to another ignoring the case.
 
- @returns `YES` if the two string are equal ignroing the case, `NO` otherwise.
+ @return `YES` if the two string are equal ignroing the case, `NO` otherwise.
  */
 - (BOOL)isEqualToStringIgnoringCase:(NSString *)aString;
 
 /**
  Checks whether this string is equal to any of the given strings.
 
- @returns `YES` if there is an equal string, `NO` otherwise.
+ @return `YES` if there is an equal string, `NO` otherwise.
  */
 - (BOOL)isEqualToAny:(NSString *)first, ... NS_REQUIRES_NIL_TERMINATION;
 
 /**
  Checks whether this string has a prefix ignoring the case.
 
- @returns `YES` if this string has a given prefix ignroing the case, `NO` otherwise.
+ @return `YES` if this string has a given prefix ignroing the case, `NO` otherwise.
  */
 - (BOOL)hasPrefixIgnoringCase:(NSString *)aString;
 
 /**
  Checks whether this string is a HTML whitespace string.
 
- @returns `YES` if this string is a HTML whitespace string, `NO` otherwise.
+ @return `YES` if this string is a HTML whitespace string, `NO` otherwise.
  */
 - (BOOL)isHTMLWhitespaceString;
 
 /**
- @returns The length of the leading HTML whitespace characters in this string.
+ @return The length of the leading HTML whitespace characters in this string.
  */
 - (NSUInteger)leadingHTMLWhitespaceLength;
 

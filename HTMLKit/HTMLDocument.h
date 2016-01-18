@@ -83,7 +83,7 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
  exception if node is an instance of HTMLDocument.
  
  @param node The node to adopt.
- @returns The adopted node
+ @return The adopted node
  */
 - (HTMLNode *)adoptNode:(HTMLNode *)node;
 

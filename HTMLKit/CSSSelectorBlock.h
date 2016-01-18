@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param name The name of the selector.
  @param block The block that should match desired elements.
- @returns A new instance of the block-based selector.
+ @return A new instance of the block-based selector.
  */
 - (instancetype)initWithName:(NSString *)name block:(BOOL (^)(HTMLElement *))block;
 

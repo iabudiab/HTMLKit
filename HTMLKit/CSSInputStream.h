@@ -31,7 +31,7 @@
  http://www.w3.org/TR/css-syntax-3/#consume-a-string-token
  http://www.w3.org/TR/css-syntax-3/#would-start-an-identifier
 
- @returns A consumed identifier, `nil` if the stream doesn't start with a valid identifier.
+ @return A consumed identifier, `nil` if the stream doesn't start with a valid identifier.
  */
 - (NSString *)consumeIdentifier;
 
@@ -39,7 +39,7 @@
  Consumes characters until the specified code-point is met.
 
  @param endingCodePoint The code-point at which the input stream stops consuming.
- @returns The consumed string, `nil` nothing was consumed.
+ @return The consumed string, `nil` nothing was consumed.
  */
 - (NSString *)consumeStringWithEndingCodePoint:(UTF32Char)endingCodePoint;
 
@@ -48,14 +48,14 @@
  http://www.w3.org/TR/css-syntax-3/#consume-an-escaped-code-point
  http://www.w3.org/TR/css-syntax-3/#starts-with-a-valid-escape
 
- @returns The value of the escaped code-point.
+ @return The value of the escaped code-point.
  */
 - (UTF32Char)consumeEscapedCodePoint;
 
 /**
  Consumes a CSS selector combinator.
  
- @returns The consumed combinator, `nil` if nothing was consumed.
+ @return The consumed combinator, `nil` if nothing was consumed.
  */
 - (NSString *)consumeCombinator;
 

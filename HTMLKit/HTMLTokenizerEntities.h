@@ -25,7 +25,7 @@
  Returns the replacement entity at the given index.
 
  @param index The index of the character reference.
- @returns The replacement character reference entitiy.
+ @return The replacement character reference entitiy.
  */
 + (NSString *)replacementAtIndex:(NSUInteger)index;
 

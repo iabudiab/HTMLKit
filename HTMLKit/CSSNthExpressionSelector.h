@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new CSS nth-child selector, e.g. ':nth-child(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Child selector for the specified expression.
+ @return Nth-Child selector for the specified expression.
 
  @see CSSNthExpression
  */
@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new CSS nth-last-child selector, e.g. ':nth-last-child(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Last-Child selector for the specified expression.
+ @return Nth-Last-Child selector for the specified expression.
 
  @see CSSNthExpression
  */
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new CSS nth-of-type selector, e.g. ':nth-of-type(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Of-Type selector for the specified expression.
+ @return Nth-Of-Type selector for the specified expression.
 
  @see CSSNthExpression
  */
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new CSS nth-last-of-type selector, e.g. ':nth-last-of-type(2n+3)'
 
  @param expression The nth-expression.
- @returns Nth-Last-Of-Type selector for the specified expression.
+ @return Nth-Last-Of-Type selector for the specified expression.
 
  @see CSSNthExpression
  */
