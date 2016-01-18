@@ -12,8 +12,8 @@ script:
 - set -o pipefail
 - xcodebuild -version
 - xcodebuild -showsdks
-- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-OSX -sdk macosx -configuration Release ONLY_ACTIVE_ARCH=NO build | xcpretty -c
-- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-OSX -sdk macosx ONLY_ACTIVE_ARCH=NO test | xcpretty -c
-- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-iOS -sdk iphonesimulator -configuration Release ONLY_ACTIVE_ARCH=NO build | xcpretty -c
-- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-iOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-OSX -sdk macosx -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
+- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-OSX -sdk macosx -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-iOS -sdk iphonesimulator -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c
+- xcodebuild -project HTMLKit.xcodeproj -scheme HTMLKit-iOS -sdk iphonesimulator -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
 
