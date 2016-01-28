@@ -39,7 +39,7 @@
 		625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */; };
 		625A14CF19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14CD19C7829400AD0C32 /* InfoPlist.strings */; };
 		625D0F031C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; };
-		625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; };
+		625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		628AF6301BC99A6C00496128 /* CSSNthExpressionsParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */; };
 		62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
 		62EC7AE71AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */; };
@@ -880,7 +880,6 @@
 				62ECBFA71C0B6D3A00AF847B /* HTMLNode.h in Headers */,
 				62ECBFA81C0B6D3A00AF847B /* HTMLDocument.h in Headers */,
 				62ECBFA91C0B6D3A00AF847B /* HTMLDocumentType.h in Headers */,
-				625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */,
 				62ECBFAA1C0B6D3A00AF847B /* HTMLDocumentFragment.h in Headers */,
 				62ECBFAB1C0B6D3B00AF847B /* HTMLElement.h in Headers */,
 				62ECBFAC1C0B6D3B00AF847B /* HTMLComment.h in Headers */,
@@ -888,7 +887,6 @@
 				62ECBFAE1C0B6D3B00AF847B /* HTMLTemplate.h in Headers */,
 				62ECBFAF1C0B6D3B00AF847B /* HTMLNodeIterator.h in Headers */,
 				62ECBFB01C0B6D3C00AF847B /* HTMLTreeWalker.h in Headers */,
-				62ECBFB11C0B6D3C00AF847B /* HTMLNodeTraversal.h in Headers */,
 				62ECBFB21C0B6D3C00AF847B /* HTMLNodeFilter.h in Headers */,
 				62567F511C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */,
 				62ECBFB31C0B6D3C00AF847B /* HTMLKitDOMExceptions.h in Headers */,
@@ -909,7 +907,9 @@
 				62ECBFC41C0B6D4200AF847B /* CSSNthExpressionSelector.h in Headers */,
 				62ECBFC51C0B6D4200AF847B /* CSSPseudoFunctionSelector.h in Headers */,
 				62ECBFC61C0B6D4300AF847B /* CSSCombinatorSelector.h in Headers */,
+				625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */,
 				62ECBFC71C0B6D4300AF847B /* CSSCompoundSelector.h in Headers */,
+				62ECBFB11C0B6D3C00AF847B /* HTMLNodeTraversal.h in Headers */,
 				62ECBF921C0B6D3700AF847B /* HTMLInputStreamReader.h in Headers */,
 				62ECBF931C0B6D3700AF847B /* HTMLTokenizer.h in Headers */,
 				62ECBF941C0B6D3700AF847B /* HTMLTokenizerStates.h in Headers */,
