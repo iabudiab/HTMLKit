@@ -27,13 +27,13 @@ NSString * _Nonnull NSStringFromNthExpression(CSSNthExpression expression)
 	}
 
 	if (expression.an == 0) {
-		return [NSString stringWithFormat:@"%ld", expression.b];
+		return [NSString stringWithFormat:@"%ld", (long)expression.b];
 	}
 	if (expression.b == 0) {
-		return [NSString stringWithFormat:@"%ldn", expression.an];
+		return [NSString stringWithFormat:@"%ldn", (long)expression.an];
 	}
 
-	return [NSString stringWithFormat:@"%ldn%+ld", expression.an, expression.b];
+	return [NSString stringWithFormat:@"%ldn%+ld", (long)expression.an, (long)expression.b];
 }
 
 #pragma mark - Implementation
