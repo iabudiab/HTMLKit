@@ -22,3 +22,6 @@ extern const unsigned char HTMLKitVersionString[];
 #import "CSSSelectors.h"
 #import "CSSSelectorParser.h"
 #import "CSSNthExpressionParser.h"
+
+#import "NSString+HTMLKit.h"
+#import "NSCharacterSet+HTMLKit.h"
