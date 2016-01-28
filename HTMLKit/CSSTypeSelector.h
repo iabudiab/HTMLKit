@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Returns the universal selector.
 
- @returns A new instance of a universal selector that matches all elements.
+ @return A new instance of a universal selector that matches all elements.
  */
 + (instancetype)universalSelector;
 
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new selector for the specified type.
 
  @param type The type of elements that should be matched.
- @returns A new instance of a type selector.
+ @return A new instance of a type selector.
  */
 - (instancetype)initWithType:(NSString *)type;
 

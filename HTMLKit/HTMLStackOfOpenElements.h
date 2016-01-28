@@ -50,7 +50,7 @@
  Returns the index of the given node in the stack.
  
  @param node The node.
- @returns The index of the given node in the stack.
+ @return The index of the given node in the stack.
  */
 - (NSUInteger)indexOfElement:(id)node;
 
@@ -72,7 +72,7 @@
  Checks whether the given element is in the stack.
 
  @param element The element.
- @returns `YES` if the element is in the stack, `NO` otherwise.
+ @return `YES` if the element is in the stack, `NO` otherwise.
  */
 - (BOOL)containsElement:(id)element;
 
@@ -80,7 +80,7 @@
  Checks whether an element with the given tag name is in the stack.
 
  @param tagname The element's tag name.
- @returns `YES` if such an element is in the stack, `NO` otherwise.
+ @return `YES` if such an element is in the stack, `NO` otherwise.
  */
 - (BOOL)containsElementWithTagName:(NSString *)tagName;
 
@@ -178,35 +178,35 @@
  https://html.spec.whatwg.org/multipage/syntax.html#adoption-agency-algorithm
 
  @param index The index.
- @returns The furthest block after index.
+ @return The furthest block after index.
  */
 - (HTMLElement *)furthestBlockAfterIndex:(NSUInteger)index;
 
 /**
  Returns the count of elements in this stack.
  
- @returns The elements count.
+ @return The elements count.
  */
 - (NSUInteger)count;
 
 /**
  Checks whether this stack is empty.
  
- @returns `YES` if the stack is empty, `NO` otherwise.
+ @return `YES` if the stack is empty, `NO` otherwise.
  */
 - (BOOL)isEmpy;
 
 /**
  Return an object enumerator over this stack.
  
- @returns An enumerator
+ @return An enumerator
  */
 - (NSEnumerator *)enumerator;
 
 /**
  Return a reverse object enumerator over this stack.
 
- @returns A reverse enumerator
+ @return A reverse enumerator
  */
 - (NSEnumerator *)reverseObjectEnumerator;
 

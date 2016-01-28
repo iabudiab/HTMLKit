@@ -32,7 +32,7 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %p Reason='%@' Location='%lu'>", self.class, self, _reason, _location];
+	return [NSString stringWithFormat:@"<%@: %p Reason='%@' Location='%lu'>", self.class, self, _reason, (unsigned long)_location];
 }
 
 @end

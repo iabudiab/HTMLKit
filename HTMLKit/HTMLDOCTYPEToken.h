@@ -34,7 +34,7 @@
  Initializes a new DOCTYPE token.
 
  @param name The name with which to initialize the token.
- @returns A new instance of a DOCTYPE token.
+ @return A new instance of a DOCTYPE token.
  */
 - (instancetype)initWithName:(NSString *)name;
 

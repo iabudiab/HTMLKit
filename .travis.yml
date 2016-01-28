@@ -1,0 +1,34 @@
+language: objective-c
+osx_image: xcode7.2
+
+branches:
+  except:
+    - gh-pages
+
+install:
+  - gem install xcpretty
+
+env:
+  global:
+    - LC_CTYPE=en_US.UTF-8
+    - LANG=en_US.UTF-8
+    - WORKSPACE=HTMLKit.xcworkspace
+    - IOS_FRAMEWORK_SCHEME=HTMLKit-iOS
+    - OSX_FRAMEWORK_SCHEME=HTMLKit-OSX
+    - IOS_SDK=iphonesimulator9.2
+    - OSX_SDK=macosx10.11
+  matrix:
+    - DESTINATION="OS=9.0,name=iPhone 6 Plus"   SIMULATOR="iPhone 6 Plus (9.0)"   SCHEME="$IOS_FRAMEWORK_SCHEME"  SDK="$IOS_SDK"
+    - DESTINATION="OS=9.1,name=iPhone 6S"       SIMULATOR="iPhone 6S (9.1)"       SCHEME="$IOS_FRAMEWORK_SCHEME"  SDK="$IOS_SDK"
+    - DESTINATION="OS=9.2,name=iPhone 6S Plus"  SIMULATOR="iPhone 6S Plus (9.2)"  SCHEME="$IOS_FRAMEWORK_SCHEME"  SDK="$IOS_SDK"
+    - DESTINATION="arch=x86_64"                 SIMULATOR=""                      SCHEME="$OSX_FRAMEWORK_SCHEME"  SDK="$OSX_SDK"
+
+script:
+- set -o pipefail
+- xcodebuild -version
+- xcodebuild -showsdks
+- SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
+- open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
+- xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO clean build | xcpretty -c
+- xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+

@@ -29,7 +29,7 @@
 
  @param reason The error's reason message.
  @param location The error's location in the stream.
- @returns A new instance of a parse error token.
+ @return A new instance of a parse error token.
  */
 - (instancetype)initWithReasonMessage:(NSString *)reason andStreamLocation:(NSUInteger)location;
 

@@ -106,7 +106,7 @@
 		}
 
 		NSScanner *scanner = [NSScanner scannerWithString:(__bridge NSString *)(hexString)];
-		UTF32Char number;
+		unsigned int number;
 		[scanner scanHexInt:&number];
 
 		return isValidEscapedCodePoint(number) ? number : REPLACEMENT_CHARACTER;

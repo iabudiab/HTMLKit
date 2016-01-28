@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes and returns a CSS nagation selector, e.g. ':not(div)'
 
  @param selector The selector which should be negated.
- @returns A new instance of the negation selector.
+ @return A new instance of the negation selector.
  */
 + (instancetype)notSelector:(CSSSelector *)selector;
 
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion 'div:has(p)' matches all <div> elements which have a descendant <p> element.
 
  @param selector The selector matching a descendant element.
- @returns A new instance of the has-descendant selector.
+ @return A new instance of the has-descendant selector.
  */
 + (instancetype)hasSelector:(CSSSelector *)selector;
 

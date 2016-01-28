@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new document fragment with the given document as owner.
  
  @param document The owner document.
- @returns A new instance of a document fragment.
+ @return A new instance of a document fragment.
  */
 - (instancetype)initWithDocument:(nullable HTMLDocument *)document;
 

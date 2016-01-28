@@ -33,12 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param element The associated context element.
  @param attribute The associated attribute.
  @param value The initial attribute's value.
- @returns A new instance of the DOM token list.
+ @return A new instance of the DOM token list.
  */
 - (instancetype)initWithElement:(HTMLElement *)element attribute:(NSString *)attribute value:(NSString *)value;
 
 /**
- @returns The length of this token list
+ @return The length of this token list
  */
 - (NSUInteger)length;
 
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  Checks whether this list contains the given token.
  
  @param token The token.
- @returns `YES` if the given token is in this list, `NO` otherwise.
+ @return `YES` if the given token is in this list, `NO` otherwise.
  */
 - (BOOL)contains:(NSString *)token;
 
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  Toggles the given token.
 
  @param token The token to toggle.
- @returns `YES` if the token was added to the list, `NO` if it was removed from it.
+ @return `YES` if the token was added to the list, `NO` if it was removed from it.
  */
 - (BOOL)toggle:(NSString *)token;
 
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  Returns the value of the token at the given index.
 
  @param index The index at which to return the token.
- @returns The token at the given index. If index is greater than or equal to the value returned by count, an
+ @return The token at the given index. If index is greater than or equal to the value returned by count, an
  NSRangeException is raised.
  */
 - (NSString *)objectAtIndexedSubscript:(NSUInteger)index;
@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setObject:(NSString *)obj atIndexedSubscript:(NSUInteger)index;
 
 /**
- @returns The string representation of this token list, which can be used as the attribute's value.
+ @return The string representation of this token list, which can be used as the attribute's value.
  */
 - (NSString *)stringify;
 

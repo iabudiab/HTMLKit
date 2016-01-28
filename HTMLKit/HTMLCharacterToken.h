@@ -25,7 +25,7 @@
  Initializes a new character token.
  
  @param string The string with which to initialize the token.
- @returns A new instance of a character token.
+ @return A new instance of a character token.
  */
 - (instancetype)initWithString:(NSString *)string;
 
@@ -42,14 +42,14 @@
  @discussion HTML whitespace characters are: CHARACTER TABULATION U+0009, LINE FEED U+000A, FORM FEED U+000C,
  CARRIAGE RETURN U+000D, and SPACE U+0020
 
- @returns `YES` if this token contains only whitespace characters, `NO` otherwise.
+ @return `YES` if this token contains only whitespace characters, `NO` otherwise.
  */
 - (BOOL)isWhitespaceToken;
 
 /**
  Checks whether this token is empty.
 
- @returns `YES` if this token is empty, `NO` otherwise.
+ @return `YES` if this token is empty, `NO` otherwise.
  */
 - (BOOL)isEmpty;
 
@@ -74,7 +74,7 @@
  Splits this token retaining only characters after the leading whitespace. The leading whitespace characters are then
  returned a new characters token.
 
- @returns A characters token with leading whitespace characters. Returns 'nil` if no leading whitespace exists.
+ @return A characters token with leading whitespace characters. Returns 'nil` if no leading whitespace exists.
  */
 - (HTMLCharacterToken *)tokenBySplitingLeadingWhiteSpace;
 

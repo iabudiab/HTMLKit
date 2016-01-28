@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param node The root node.
  @param filter The node filter to use.
- @returns A new instance of a tree walker.
+ @return A new instance of a tree walker.
  */
 - (instancetype)initWithNode:(HTMLNode *)node;
 
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param node The root node.
  @param filter The node filter to use.
- @returns A new instance of a tree walker.
+ @return A new instance of a tree walker.
  */
 - (instancetype)initWithNode:(HTMLNode *)node
 					  filter:(nullable id<HTMLNodeFilter>)filter;
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param node The root node.
  @param showOptions The show options for the walker.
  @param filter The node filter to use.
- @returns A new instance of a tree walker.
+ @return A new instance of a tree walker.
  */
 - (instancetype)initWithNode:(HTMLNode *)node
 				 showOptions:(HTMLNodeFilterShowOptions)showOptions

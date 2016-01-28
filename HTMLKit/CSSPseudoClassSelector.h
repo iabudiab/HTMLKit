@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param className The pseudo class name.
  @param selector The underlying selector.
- @returns A new instance of a pseudo-class selector.
+ @return A new instance of a pseudo-class selector.
  */
 - (instancetype)initWithClassName:(NSString *)className selector:(CSSSelector *)selector;
 

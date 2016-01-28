@@ -145,7 +145,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 /**
  Checks whether this node has child nodes.
  
- @returns `YES` if this node has any children, `NO` otherwise.
+ @return `YES` if this node has any children, `NO` otherwise.
  */
 - (BOOL)hasChildNodes;
 
@@ -153,14 +153,14 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Checks whether this node has child nodes of the given type.
 
  @param type The type to check.
- @returns `YES` if this node has any children of the given type, `NO` otherwise.
+ @return `YES` if this node has any children of the given type, `NO` otherwise.
  */
 - (BOOL)hasChildNodeOfType:(HTMLNodeType)type;
 
 /**
  Returns the cound of child nodes.
 
- @returns The child nodes count.
+ @return The child nodes count.
  */
 - (NSUInteger)childNodesCount;
 
@@ -168,7 +168,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns the child node at a given index.
 
  @param index The index at which to return the child node.
- @returns The child node at a index. If index is greater than or equal to the value returned by count, an 
+ @return The child node at a index. If index is greater than or equal to the value returned by count, an 
  NSRangeException is raised.
  */
 - (HTMLNode *)childNodeAtIndex:(NSUInteger)index;
@@ -177,7 +177,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns the index of the given child node in the set of child nodes.
 
  @param node The node.
- @returns The index of the given node in the children set.
+ @return The index of the given node in the children set.
  */
 - (NSUInteger)indexOfChildNode:(HTMLNode *)node;
 
@@ -186,7 +186,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
  @discussion This method count only nodes of type HTMLNodeElement.
 
- @returns The child elements count.
+ @return The child elements count.
  */
 - (NSUInteger)childElementsCount;
 
@@ -194,7 +194,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns the child element at a given index.
 
  @param index The index at which to return the child element.
- @returns The child element at a index. If index is greater than or equal to the value returned by count, an
+ @return The child element at a index. If index is greater than or equal to the value returned by count, an
  NSRangeException is raised.
  */
 - (HTMLElement *)childElementAtIndex:(NSUInteger)index;
@@ -203,7 +203,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns the index of the given child element in the set of child nodes.
 
  @param node The element.
- @returns The index of the given element in the children set.
+ @return The index of the given element in the children set.
  */
 - (NSUInteger)indexOfChildElement:(HTMLElement *)element;
 
@@ -211,7 +211,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Prepends the given node to the set of child nodes.
 
  @param node The node to prepend.
- @returns The node being prepended.
+ @return The node being prepended.
  */
 - (HTMLNode *)prependNode:(HTMLNode *)node;
 
@@ -226,7 +226,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Appends the given node to the set of child nodes.
 
  @param node The node to append.
- @returns The node being appended.
+ @return The node being appended.
  */
 - (HTMLNode *)appendNode:(HTMLNode *)node;
 
@@ -243,7 +243,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  @param node The node to insert.
  @param child A reference child node before which the new node should be inserted. If child is `nil` then the new node
  will be inserted as the last child node.
- @returns The node being inserted.
+ @return The node being inserted.
  */
 - (HTMLNode *)insertNode:(HTMLNode *)node beforeChildNode:(nullable HTMLNode *)child;
 
@@ -252,7 +252,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
  @param child The child node to replace.
  @param replacement The replacement node.
- @returns The replacement node.
+ @return The replacement node.
  */
 - (HTMLNode *)replaceChildNode:(HTMLNode *)child withNode:(HTMLNode *)replacement;
 
@@ -303,7 +303,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Compares the position of this node with the given node in the document.
 
  @param node The node with which to comapre the position.
- @returns The HTMLDocumentPosition of this node in relation to the given node.
+ @return The HTMLDocumentPosition of this node in relation to the given node.
 
  @see HTMLDocumentPosition
  */
@@ -313,7 +313,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Checks whether this node is descendant of the given node.
  
  @param node The node to check.
- @returns `YES` if this node is descendant of the gicen node, `NO` otherwsie.
+ @return `YES` if this node is descendant of the gicen node, `NO` otherwsie.
  */
 - (BOOL)isDescendantOfNode:(HTMLNode *)node;
 
@@ -321,7 +321,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Checks whether this node contains the given node.
 
  @param node The node to check.
- @returns `YES` if this node contains the given node, `NO` otherwsie.
+ @return `YES` if this node contains the given node, `NO` otherwsie.
  */
 - (BOOL)containsNode:(HTMLNode *)node;
 
@@ -344,7 +344,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 /**
  Returns a node iterator rooted at this node whith no filter and HTMLNodeFilterShowAll.
 
- @returns A new node iterator whose root is this node.
+ @return A new node iterator whose root is this node.
 
  @see HTMLNodeIterator
  @see HTMLNodeFilterShowOptions
@@ -356,7 +356,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
  @param showOptions The iterator's show options.
  @param filter The iterator's filter.
- @returns A new node iterator whose root is this node.
+ @return A new node iterator whose root is this node.
 
  @see HTMLNodeIterator
  @see HTMLNodeFilterShowOptions
@@ -369,7 +369,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
  @param showOptions The iterator's show options.
  @param filter The iterator's filter block.
- @returns A new node iterator whose root is this node.
+ @return A new node iterator whose root is this node.
 
  @see HTMLNodeIterator
  @see HTMLNodeFilterShowOptions
@@ -381,7 +381,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns the first element in the DOM tree rooted at this node, that is matched by the given selector string.
  
  @param selector The CSS seletor string.
- @returns The first element that is matched by the parsed selector. Rerturns `nil` if the selector could not be parsed
+ @return The first element that is matched by the parsed selector. Rerturns `nil` if the selector could not be parsed
  or no element was matched.
 
  @see firstElementMatchingSelector:
@@ -393,7 +393,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns all elements in the DOM tree rooted at this node, that are matched by the given selector string.
 
  @param selector The CSS seletor string.
- @returns The elements that are matched by the parsed selector. Rerturns an empty array if the selector could not be parsed
+ @return The elements that are matched by the parsed selector. Rerturns an empty array if the selector could not be parsed
  or no elements were matched.
 
  @see elementsMatchingSelector:
@@ -405,7 +405,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns the first element in the DOM tree rooted at this node, that is matched by the given selector.
 
  @param selector The CSS seletor.
- @returns The first element that is matched by the parsed selector. Rerturns `nil` if no element was matched.
+ @return The first element that is matched by the parsed selector. Rerturns `nil` if no element was matched.
 
  @see CSSSelector
  */
@@ -415,7 +415,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  Returns all elements in the DOM tree rooted at this node, that are matched by the given selector.
 
  @param selector The CSS seletor.
- @returns The elements that are matched by the parsed selector. Rerturns an empty array if no elements were matched.
+ @return The elements that are matched by the parsed selector. Rerturns an empty array if no elements were matched.
 
  @see CSSSelector
  */

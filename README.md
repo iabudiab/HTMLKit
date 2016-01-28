@@ -4,6 +4,8 @@
 
 An Objective-C framework for your everyday HTML needs.
 
+[![Build Status](https://travis-ci.org/iabudiab/HTMLKit.svg?branch=develop)](https://travis-ci.org/iabudiab/HTMLKit) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![License MIT](https://img.shields.io/badge/license-MIT-4481C7.svg)](https://opensource.org/licenses/MIT)
+
 # Quick Overview
 
 HTMLKit is a [WHATWG specification](https://html.spec.whatwg.org/multipage/)-compliant framework for parsing and serializing HTML documents and document fragments for iOS and OSX. HTMLKit parses real-world HTML the same way modern web browsers would.
@@ -188,17 +190,17 @@ Here are more examples:
 ```objective-c
 HTMLNode *firstDivElement = [document firstElementMatchingSelector:typeSelector(@"div")];
 
-var secondChildOfDiv = [firstDivElement querySelectorAll:@":nth-child(2)"];
-var secondOfType = [firstDivElement querySelectorAll:@":nth-of-type(2n)"];
+NSArray *secondChildOfDiv = [firstDivElement querySelectorAll:@":nth-child(2)"];
+NSArray *secondOfType = [firstDivElement querySelectorAll:@":nth-of-type(2n)"];
 
 secondChildOfDiv = [firstDivElement elementsMatchingSelector:nthChildSelector(CSSNthExpressionMake(0, 2))];
 secondOfType = [firstDivElement elementsMatchingSelector:nthOfTypeSelector(CSSNthExpressionMake(2, 0))];
 
-var notParagraphAndNotDiv = [firstDivElement querySelectorAll:@":not(p):not(div)"];
+NSArray *notParagraphAndNotDiv = [firstDivElement querySelectorAll:@":not(p):not(div)"];
 notParagraphAndNotDiv = [firstDivElement elementsMatchingSelector:
 	allOf([
-		nay(typeSelector(@"p")),
-		nay(typeSelector(@"div"))
+		not(typeSelector(@"p")),
+		not(typeSelector(@"div"))
 	])
 ];
 ```

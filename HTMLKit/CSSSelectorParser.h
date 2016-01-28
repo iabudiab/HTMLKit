@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param string The CSS3 selector string.
  @param error If an error occurs, upon return contains an `NSError` object that describes the problem.
- @returns A parsed CSSSelector, `nil` if an error occurred.
+ @return A parsed CSSSelector, `nil` if an error occurred.
 
  @see CSSelector
  */

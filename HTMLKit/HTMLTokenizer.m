@@ -452,7 +452,6 @@
 	NSString *entityName = nil;
 	NSString *entityReplacement = nil;
 
-#warning Improve Named Entity Search
 	UTF32Char inputCharacter = [_inputStreamReader consumeNextInputCharacter];
 	NSArray *names = [HTMLTokenizerEntities entities];
 	NSMutableString *name = [NSMutableString stringWithString:StringFromUTF32Char(inputCharacter)];
@@ -671,7 +670,7 @@
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"Unexpected character (0x%X) in Tag Open state", character];
+			[self emitParseError:@"Unexpected character (0x%X) in Tag Open state", (unsigned int)character];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCharacterToken:LESS_THAN_SIGN];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
@@ -702,7 +701,7 @@
 			[_inputStreamReader	reconsumeCurrentInputCharacter];
 			break;
 		default:
-			[self emitParseError:@"Unexpected character (0x%X) in End Tag Open state", character];
+			[self emitParseError:@"Unexpected character (0x%X) in End Tag Open state", (unsigned int)character];
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;

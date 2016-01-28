@@ -43,7 +43,7 @@
  Initializes a new Tokenizer with the given string.
 
  @param string The HTML string
- @returns A new instance of the Tokenizer.
+ @return A new instance of the Tokenizer.
  */
 - (instancetype)initWithString:(NSString *)string;
 

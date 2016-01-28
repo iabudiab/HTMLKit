@@ -38,21 +38,21 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
  Initializes a new Input Stream Reader with the given string.
  
  @param string The HTML string
- @returns A new instance of the Input Stream Reader.
+ @return A new instance of the Input Stream Reader.
  */
 - (id)initWithString:(NSString *)string;
 
 /**
  Returns the current input character.
  
- @returns The current code point in the input stream as a `UTF32Char`.
+ @return The current code point in the input stream as a `UTF32Char`.
  */
 - (UTF32Char)currentInputCharacter;
 
 /**
  Returns the next input character without consuming it.
 
- @returns The next code point in the input stream as a `UTF32Char`. Returns `EOF` if the stream is fully consumed.
+ @return The next code point in the input stream as a `UTF32Char`. Returns `EOF` if the stream is fully consumed.
  */
 - (UTF32Char)nextInputCharacter;
 
@@ -60,7 +60,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
  Returns the input character at a given offset without consuming it.
 
  @param offset The offset of the character.
- @returns The code point in the input stream as a `UTF32Char` at the given offset.
+ @return The code point in the input stream as a `UTF32Char` at the given offset.
  */
 - (UTF32Char)inputCharacterPointAtOffset:(NSUInteger)offset;
 
@@ -68,7 +68,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
  Consumes and returns the next input character. Consuming a characters advances the current scan location of the
  input stream.
 
- @returns The next code point in the input stream as a `UTF32Char`. Returns `EOF` if the stream is fully consumed.
+ @return The next code point in the input stream as a `UTF32Char`. Returns `EOF` if the stream is fully consumed.
  */
 - (UTF32Char)consumeNextInputCharacter;
 
@@ -84,7 +84,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
  Consumes the given character at the current location.
  
  @param character The character to consume.
- @returns YES if the given character was consumed at the current location, NO otherwise.
+ @return YES if the given character was consumed at the current location, NO otherwise.
  */
 - (BOOL)consumeCharacter:(UTF32Char)character;
 
@@ -93,7 +93,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 
  @param result Upon return, contains the consumed unsigned number. Pass `NULL` to skip over an unsigned number at the
  current location.
- @returns YES if an unsigned number could be consumed at the current location, NO otherwise.
+ @return YES if an unsigned number could be consumed at the current location, NO otherwise.
  */
 - (BOOL)consumeNumber:(unsigned long long *)result;
 
@@ -102,7 +102,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 
  @param result Upon return, contains the consumed decimal number. Pass `NULL` to skip over a decimal number at the
  current location.
- @returns YES if a decimal number could be consumed at the current location, NO otherwise.
+ @return YES if a decimal number could be consumed at the current location, NO otherwise.
  */
 - (BOOL)consumeDecimalNumber:(NSDecimal *)result;
 
@@ -111,7 +111,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 
  @param result Upon return, contains the consumed hexadecimal number. Pass `NULL` to skip over a hexadecimal number at 
  the current location.
- @returns YES if a hexadecimal number could be consumed at the current location, NO otherwise.
+ @return YES if a hexadecimal number could be consumed at the current location, NO otherwise.
  */
 - (BOOL)consumeHexNumber:(unsigned long long *)result;
 
@@ -120,7 +120,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
 
  @param string The string to consume.
  @param caseSensitive YES if the string's case should be ignored, NO otherwise
- @returns YES if the given string was consumed at the current location, NO otherwise.
+ @return YES if the given string was consumed at the current location, NO otherwise.
  */
 - (BOOL)consumeString:(NSString *)string caseSensitive:(BOOL)caseSensitive;
 
@@ -128,7 +128,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
  Consumes characters starting at the current location until any character in a given string is encountered.
 
  @param characters The string containing the characters to consume up to.
- @returns A string containing the consumed characters. Returns `nil` if none were consumed.
+ @return A string containing the consumed characters. Returns `nil` if none were consumed.
  */
 - (NSString *)consumeCharactersUpToCharactersInString:(NSString *)characters;
 
@@ -136,7 +136,7 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
  Consumes characters starting at the current location until a given string is encountered.
 
  @param string The string to consume up to.
- @returns A string containing the consumed characters. Returns `nil` if none were consumed.
+ @return A string containing the consumed characters. Returns `nil` if none were consumed.
  */
 - (NSString *)consumeCharactersUpToString:(NSString *)string;
 
@@ -144,14 +144,14 @@ typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
  Consumes characters as long as the match the characters in the given string starting at the current location.
 
  @param characters A string with the characters to consume.
- @returns A string containing the consumed characters. Returns `nil` if none were found.
+ @return A string containing the consumed characters. Returns `nil` if none were found.
  */
 - (NSString *)consumeCharactersInString:(NSString *)characters;
 
 /**
  Consumes alphanumeric characters starting at the current location.
 
- @returns A string containing the consumed alphanumeric characters. Returns `nil` if none were found.
+ @return A string containing the consumed alphanumeric characters. Returns `nil` if none were found.
  */
 - (NSString *)consumeAlphanumericCharacters;
 

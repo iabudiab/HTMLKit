@@ -35,7 +35,7 @@
  
  @param name The node's name.
  @param type The node's type.
- @returns A new instance of a HTML Node.
+ @return A new instance of a HTML Node.
  */
 - (instancetype)initWithName:(NSString *)name type:(HTMLNodeType)type NS_DESIGNATED_INITIALIZER;
 

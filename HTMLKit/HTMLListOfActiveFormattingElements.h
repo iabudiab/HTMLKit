@@ -40,7 +40,7 @@
  Returns the index of the given node in the list.
 
  @param node The node.
- @returns The index of the given node in the list.
+ @return The index of the given node in the list.
  */
 - (NSUInteger)indexOfElement:(id)node;
 
@@ -62,7 +62,7 @@
  Checks whether the given element is in the list.
 
  @param element The element to check.
- @returns `YES` if element is in the list, `NO` otherwise.
+ @return `YES` if element is in the list, `NO` otherwise.
  */
 - (BOOL)containsElement:(id)element;
 
@@ -85,7 +85,7 @@
 /**
  Returns the last element in this list.
  
- @returns The last entry.
+ @return The last entry.
  */
 - (id)lastEntry;
 
@@ -104,35 +104,35 @@
  in the list, if any, or the start of the list otherwise.
  
  @param tagName The tag name.
- @returns The formatting element.
+ @return The formatting element.
  */
 - (HTMLElement *)formattingElementWithTagName:(NSString *)tagName;
 
 /**
  Returns the count of elements in this list.
 
- @returns The elements count.
+ @return The elements count.
  */
 - (NSUInteger)count;
 
 /**
  Checks whether this list is empty.
 
- @returns `YES` if the stack is empty, `NO` otherwise.
+ @return `YES` if the stack is empty, `NO` otherwise.
  */
 - (BOOL)isEmpty;
 
 /**
  Return an object enumerator over this list.
 
- @returns An enumerator
+ @return An enumerator
  */
 - (NSEnumerator *)enumerator;
 
 /**
  Return an object enumerator over this list.
 
- @returns An enumerator
+ @return An enumerator
  */
 - (NSEnumerator *)reverseObjectEnumerator;
 
