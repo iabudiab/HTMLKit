@@ -190,17 +190,17 @@ Here are more examples:
 ```objective-c
 HTMLNode *firstDivElement = [document firstElementMatchingSelector:typeSelector(@"div")];
 
-var secondChildOfDiv = [firstDivElement querySelectorAll:@":nth-child(2)"];
-var secondOfType = [firstDivElement querySelectorAll:@":nth-of-type(2n)"];
+NSArray *secondChildOfDiv = [firstDivElement querySelectorAll:@":nth-child(2)"];
+NSArray *secondOfType = [firstDivElement querySelectorAll:@":nth-of-type(2n)"];
 
 secondChildOfDiv = [firstDivElement elementsMatchingSelector:nthChildSelector(CSSNthExpressionMake(0, 2))];
 secondOfType = [firstDivElement elementsMatchingSelector:nthOfTypeSelector(CSSNthExpressionMake(2, 0))];
 
-var notParagraphAndNotDiv = [firstDivElement querySelectorAll:@":not(p):not(div)"];
+NSArray *notParagraphAndNotDiv = [firstDivElement querySelectorAll:@":not(p):not(div)"];
 notParagraphAndNotDiv = [firstDivElement elementsMatchingSelector:
 	allOf([
-		nay(typeSelector(@"p")),
-		nay(typeSelector(@"div"))
+		not(typeSelector(@"p")),
+		not(typeSelector(@"div"))
 	])
 ];
 ```
