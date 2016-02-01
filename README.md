@@ -219,6 +219,10 @@ CSSSelector *myAwesomeSelector = namedBlockSelector(@"myAwesomeSelector", ^BOOL 
 notParagraphAndNotDiv = [firstDivElement elementsMatchingSelector:myAwesomeSelector];
 ```
 
+# Change Log
+
+See the [CHANGELOG.md](CHANGELOG.md) for more info.
+
 # License
 
-HTMLKit is available under the MIT license. See the LICENSE file for more info.
+HTMLKit is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
