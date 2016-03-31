@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.9.1](https://github.com/iabudiab/HTMLKit/releases/tag/0.3.0)
+## [0.9.1](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.1)
 
 Released on 2016.01.29
 
@@ -20,7 +20,7 @@ Released on 2016.01.29
 - Replaced `@returns` with `@return` throughout the documentation to play nicely with Jazzy.
 - Some README examples used Swift syntax.
 
-## [0.9.0](https://github.com/iabudiab/HTMLKit/releases/tag/0.3.0)
+## [0.9.0](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.0)
 
 Released on 2015.12.23
 
