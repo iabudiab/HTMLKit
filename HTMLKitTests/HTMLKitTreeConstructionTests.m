@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
+#import "HTMLKitTestObserver.h"
 #import "HTML5LibTreeConstructionTest.h"
 #import "HTMLDOM.h"
 #import "HTMLParser.h"
@@ -26,6 +27,10 @@
 #pragma mark - HTML5Lib Test Suite
 
 @interface HTMLKitTreeConstructionTests : XCTestCase
+{
+	HTMLKitTestObserver<HTMLKitTreeConstructionTests *> *_observer;
+}
+
 @property (nonatomic, strong) NSString *testName;
 @property (nonatomic, strong) NSArray *testsList;
 @end
@@ -76,8 +81,23 @@
 }
 
 - (NSString *)description
+#pragma mark - Setup
+
+- (void)setUp
 {
-	return self.name;
+	_observer = [[HTMLKitTestObserver alloc] initWithName:self.testName];
+	[[XCTestObservationCenter sharedTestObservationCenter] addTestObserver:_observer];
+
+	[super setUp];
+}
+
+- (void)tearDown
+{
+	HTMLKitTestReport *testReport = [_observer generateReport];
+	XCTAssertTrue(testReport.failureCount == 0, @"%@", testReport.failureReport);
+
+	[[XCTestObservationCenter sharedTestObservationCenter] removeTestObserver:_observer];
+	[super tearDown];
 }
 
 #pragma mark - Tests
