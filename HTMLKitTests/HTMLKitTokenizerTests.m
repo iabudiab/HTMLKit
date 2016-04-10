@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <objc/runtime.h>
+
 #import "HTML5LibTokenizerTest.h"
 
 #import "HTMLTokenizer.h"
@@ -50,24 +52,30 @@
 
 + (void)addTestCaseForTestFile:(NSString *)testFile withTests:(NSArray *)tests toTestSuite:(XCTestSuite *)suite
 {
-	NSArray *allInvocations = [self testInvocations];
-	for (NSInvocation *invocation in allInvocations) {
-		XCTestCase *testCase = [[self alloc] initWithInvocation:invocation
-													   testName:testFile
-														  tests:tests];
-		[suite addTest:testCase];
-	}
+	IMP implementation = imp_implementationWithBlock(^ (HTMLKitTokenizerTests *instance){
+		[instance runTests];
+	});
+	const char *types = [[NSString stringWithFormat:@"%s%s%s", @encode(id), @encode(id), @encode(SEL)] UTF8String];
+
+	NSString *testName = [testFile.stringByDeletingPathExtension stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+	NSString *selectorName = [NSString stringWithFormat:@"testTokenizer__%@", testName];
+	SEL selector = NSSelectorFromString(selectorName);
+	class_addMethod(self, selector, implementation, types);
+
+	NSMethodSignature *signature = [self instanceMethodSignatureForSelector:selector];
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+	invocation.selector = selector;
+
+	XCTestCase *testCase = [[self alloc] initWithInvocation:invocation tests:tests];
+	[suite addTest:testCase];
 }
 
 #pragma mark - Instance
 
-- (instancetype)initWithInvocation:(NSInvocation *)invocation
-						  testName:(NSString *)testName
-							 tests:(NSArray *)tests
+- (instancetype)initWithInvocation:(NSInvocation *)invocation tests:(NSArray *)tests
 {
 	self = [super initWithInvocation:invocation];
 	if (self) {
-		_testName = testName;
 		_testsList = tests;
 	}
 	return self;
@@ -87,7 +95,7 @@
 
 #pragma mark - Tests
 
-- (void)testTokenizer
+- (void)runTests
 {
 	for (HTML5LibTokenizerTest *test in self.testsList) {
 
