@@ -7,7 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <objc/runtime.h>
+
+#import "HTMLKitTestUtil.h"
 
 #import "HTMLKitTestObserver.h"
 #import "HTML5LibTreeConstructionTest.h"
@@ -31,8 +32,6 @@
 {
 	HTMLKitTestObserver<HTMLKitTreeConstructionTests *> *_observer;
 }
-
-@property (nonatomic, strong) NSString *testName;
 @property (nonatomic, strong) NSArray *testsList;
 @end
 
@@ -51,19 +50,12 @@
 
 + (void)addTestCaseForTestFile:(NSString *)testFile withTests:(NSArray *)tests toTestSuite:(XCTestSuite *)suite
 {
-	IMP implementation = imp_implementationWithBlock(^ (HTMLKitTreeConstructionTests *instance){
-		[instance runTests];
-	});
-	const char *types = [[NSString stringWithFormat:@"%s%s%s", @encode(id), @encode(id), @encode(SEL)] UTF8String];
-
 	NSString *testName = [testFile.stringByDeletingPathExtension stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
-	NSString *selectorName = [NSString stringWithFormat:@"testPareser__%@", testName];
-	SEL selector = NSSelectorFromString(selectorName);
-	class_addMethod(self, selector, implementation, types);
+	testName = [NSString stringWithFormat:@"testPareser__%@", testName];
 
-	NSMethodSignature *signature = [self instanceMethodSignatureForSelector:selector];
-	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-	invocation.selector = selector;
+	NSInvocation *invocation = [HTMLKitTestUtil addTestToClass:self withName:testName block:^ (HTMLKitTreeConstructionTests *instance){
+		[instance runTests];
+	}];
 
 	XCTestCase *testCase = [[self alloc] initWithInvocation:invocation tests:tests];
 	[suite addTest:testCase];
@@ -80,16 +72,11 @@
 	return self;
 }
 
-- (NSString *)description
-{
-	return self.name;
-}
-
 #pragma mark - Setup
 
 - (void)setUp
 {
-	_observer = [[HTMLKitTestObserver alloc] initWithName:self.testName];
+	_observer = [[HTMLKitTestObserver alloc] initWithName:self.name];
 	[[XCTestObservationCenter sharedTestObservationCenter] addTestObserver:_observer];
 
 	[super setUp];

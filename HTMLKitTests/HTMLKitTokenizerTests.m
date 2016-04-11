@@ -7,10 +7,10 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <objc/runtime.h>
+
+#import "HTMLKitTestUtil.h"
 
 #import "HTML5LibTokenizerTest.h"
-
 #import "HTMLTokenizer.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
@@ -32,7 +32,6 @@
 #pragma mark - HTML5Lib Test Suite
 
 @interface HTMLKitTokenizerTests : XCTestCase
-@property (nonatomic, strong) NSString *testName;
 @property (nonatomic, strong) NSArray *testsList;
 @end
 
@@ -52,19 +51,12 @@
 
 + (void)addTestCaseForTestFile:(NSString *)testFile withTests:(NSArray *)tests toTestSuite:(XCTestSuite *)suite
 {
-	IMP implementation = imp_implementationWithBlock(^ (HTMLKitTokenizerTests *instance){
-		[instance runTests];
-	});
-	const char *types = [[NSString stringWithFormat:@"%s%s%s", @encode(id), @encode(id), @encode(SEL)] UTF8String];
-
 	NSString *testName = [testFile.stringByDeletingPathExtension stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
-	NSString *selectorName = [NSString stringWithFormat:@"testTokenizer__%@", testName];
-	SEL selector = NSSelectorFromString(selectorName);
-	class_addMethod(self, selector, implementation, types);
+	testName = [NSString stringWithFormat:@"testTokenizer__%@", testName];
 
-	NSMethodSignature *signature = [self instanceMethodSignatureForSelector:selector];
-	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-	invocation.selector = selector;
+	NSInvocation *invocation = [HTMLKitTestUtil addTestToClass:self withName:testName block:^ (HTMLKitTokenizerTests *instance){
+		[instance runTests];
+	}];
 
 	XCTestCase *testCase = [[self alloc] initWithInvocation:invocation tests:tests];
 	[suite addTest:testCase];
@@ -79,18 +71,6 @@
 		_testsList = tests;
 	}
 	return self;
-}
-
-- (NSString *)name
-{
-	NSInvocation *invocation = [self invocation];
-	NSString *title = self.testName.stringByDeletingPathExtension;
-	return [NSString stringWithFormat:@"-[%@ %@_%@]", self.class, NSStringFromSelector(invocation.selector), title];
-}
-
-- (NSString *)description
-{
-	return self.name;
 }
 
 #pragma mark - Tests
@@ -109,7 +89,7 @@
 			NSArray *tokens = tokenizer.allObjects;
 
 			NSString *message = [NSString stringWithFormat:@"HTML5Lib test in file: \'%@\' Title: '%@'\nInput: '%@'\nExpected:\n%@\nActual:\n%@\n",
-								 self.testName,
+								 test.testFile,
 								 test.title,
 								 test.input,
 								 expectedTokens,

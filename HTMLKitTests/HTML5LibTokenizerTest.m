@@ -39,7 +39,7 @@ static NSString * const TOKENIZER = @"tokenizer";
 
 + (NSArray *)loadTestsWithFileAtPath:(NSString *)filePath
 {
-	NSString *testName = filePath.lastPathComponent.stringByDeletingLastPathComponent;
+	NSString *testFile = filePath.lastPathComponent;
 
 	NSString *json = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
 	NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
@@ -52,7 +52,7 @@ static NSString * const TOKENIZER = @"tokenizer";
 
 	for (NSDictionary *test in jsonTests) {
 		HTML5LibTokenizerTest *html5libTest = [[HTML5LibTokenizerTest alloc] initWithTestDictionary:test];
-		html5libTest.testName = testName;
+		html5libTest.testFile = testFile;
 		[tests addObject:html5libTest];
 	}
 	return tests;
