@@ -1378,52 +1378,6 @@
 		[self emitParseError:@"Image Start Tag Token with tagname <image> should be <img>. Don't ask."];
 		token.tagName = @"img";
 		[self reprocessToken:token];
-	} else if ([tagName isEqualToString:@"isindex"]) {
-		[self emitParseError:@"Unexpected start tag <isindex> in <body>"];
-		if (_formElementPointer != nil && ![_stackOfOpenElements containsElementWithTagName:@"template"]) {
-			return;
-		}
-		_framesetOkFlag = NO;
-		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-			[self closePElement];
-		}
-
-		HTMLStartTagToken *formToken = [[HTMLStartTagToken alloc] initWithTagName:@"form"];
-		HTMLElement *form = [self insertElementForToken:formToken];
-		if (![_stackOfOpenElements containsElementWithTagName:@"template"]) {
-			_formElementPointer = form;
-		}
-		NSString *action = token.attributes[@"action"];
-		if (action != nil) {
-			form.attributes[@"action"] = action;
-		}
-
-		HTMLStartTagToken *hrToken = [[HTMLStartTagToken alloc] initWithTagName:@"hr"];
-		[self insertElementForToken:hrToken];
-
-		[_stackOfOpenElements popCurrentNode];
-		[self reconstructActiveFormattingElements];
-
-		HTMLStartTagToken *labelToken = [[HTMLStartTagToken alloc] initWithTagName:@"label"];
-		[self insertElementForToken:labelToken];
-
-		NSString *prompt = token.attributes[@"prompt"] ?: @"This is a searchable index. Enter search keywords: ";
-		[self insertCharacters:prompt];
-
-		NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:token.attributes];
-		attributes[@"name"] = @"isindex";
-		[attributes removeObjectForKey:@"action"];
-		[attributes removeObjectForKey:@"prompt"];
-
-		HTMLStartTagToken *inputToken = [[HTMLStartTagToken alloc] initWithTagName:@"input" attributes:attributes];
-		[self insertElementForToken:inputToken];
-		[_stackOfOpenElements popCurrentNode];
-
-		[_stackOfOpenElements popCurrentNode];
-		[self insertElementForToken:hrToken];
-		[_stackOfOpenElements popCurrentNode];
-		[_stackOfOpenElements popCurrentNode];
-		_formElementPointer = nil;
 	} else if ([tagName isEqualToString:@"textarea"]) {
 		[self insertElementForToken:token];
 		_ignoreNextLineFeedCharacterToken = YES;
