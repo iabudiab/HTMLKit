@@ -588,18 +588,27 @@
 		HTMLElement *lastNode = furthestBlock;
 
 		NSUInteger index = [_stackOfOpenElements indexOfElement:node];
-		for (int innerLoopCounter = 0; innerLoopCounter < 3; innerLoopCounter ++) {
 
-			index--;
+		int innerLoopCounter = 0;
+		while (YES) {
+
+			innerLoopCounter += 1;
+			index -= 1;
+
 			node = _stackOfOpenElements[index];
+
+			if ([node isEqual:formattingElement]) {
+				break;
+			}
+
+			if (innerLoopCounter > 3 && [_listOfActiveFormattingElements containsElement:node]) {
+				[_listOfActiveFormattingElements removeElement:node];
+				continue;
+			}
 
 			if (![_listOfActiveFormattingElements containsElement:node]) {
 				[_stackOfOpenElements removeElement:node];
 				continue;
-			}
-
-			if ([node isEqual:formattingElement]) {
-				break;
 			}
 
 			HTMLElement *newElement = [node copy];
