@@ -7,8 +7,10 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "HTML5LibTokenizerTest.h"
 
+#import "HTMLKitTestUtil.h"
+
+#import "HTML5LibTokenizerTest.h"
 #import "HTMLTokenizer.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
@@ -30,7 +32,6 @@
 #pragma mark - HTML5Lib Test Suite
 
 @interface HTMLKitTokenizerTests : XCTestCase
-@property (nonatomic, strong) NSString *testName;
 @property (nonatomic, strong) NSArray *testsList;
 @end
 
@@ -50,44 +51,31 @@
 
 + (void)addTestCaseForTestFile:(NSString *)testFile withTests:(NSArray *)tests toTestSuite:(XCTestSuite *)suite
 {
-	NSArray *allInvocations = [self testInvocations];
-	for (NSInvocation *invocation in allInvocations) {
-		XCTestCase *testCase = [[self alloc] initWithInvocation:invocation
-													   testName:testFile
-														  tests:tests];
-		[suite addTest:testCase];
-	}
+	NSString *testName = [testFile.stringByDeletingPathExtension stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+	testName = [NSString stringWithFormat:@"testTokenizer__%@", testName];
+
+	NSInvocation *invocation = [HTMLKitTestUtil addTestToClass:self withName:testName block:^ (HTMLKitTokenizerTests *instance){
+		[instance runTests];
+	}];
+
+	XCTestCase *testCase = [[self alloc] initWithInvocation:invocation tests:tests];
+	[suite addTest:testCase];
 }
 
 #pragma mark - Instance
 
-- (instancetype)initWithInvocation:(NSInvocation *)invocation
-						  testName:(NSString *)testName
-							 tests:(NSArray *)tests
+- (instancetype)initWithInvocation:(NSInvocation *)invocation tests:(NSArray *)tests
 {
 	self = [super initWithInvocation:invocation];
 	if (self) {
-		_testName = testName;
 		_testsList = tests;
 	}
 	return self;
 }
 
-- (NSString *)name
-{
-	NSInvocation *invocation = [self invocation];
-	NSString *title = self.testName.stringByDeletingPathExtension;
-	return [NSString stringWithFormat:@"-[%@ %@_%@]", self.class, NSStringFromSelector(invocation.selector), title];
-}
-
-- (NSString *)description
-{
-	return self.name;
-}
-
 #pragma mark - Tests
 
-- (void)testTokenizer
+- (void)runTests
 {
 	for (HTML5LibTokenizerTest *test in self.testsList) {
 
@@ -101,7 +89,7 @@
 			NSArray *tokens = tokenizer.allObjects;
 
 			NSString *message = [NSString stringWithFormat:@"HTML5Lib test in file: \'%@\' Title: '%@'\nInput: '%@'\nExpected:\n%@\nActual:\n%@\n",
-								 self.testName,
+								 test.testFile,
 								 test.title,
 								 test.input,
 								 expectedTokens,

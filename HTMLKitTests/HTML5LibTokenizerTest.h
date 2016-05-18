@@ -10,7 +10,7 @@
 
 @interface HTML5LibTokenizerTest : NSObject
 
-@property (nonatomic, copy) NSString *testName;
+@property (nonatomic, copy) NSString *testFile;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *input;
 @property (nonatomic, strong) NSArray *output;

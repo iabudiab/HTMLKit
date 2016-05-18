@@ -8,6 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
+#import "HTMLKitTestUtil.h"
+
+#import "HTMLKitTestObserver.h"
 #import "HTML5LibTreeConstructionTest.h"
 #import "HTMLDOM.h"
 #import "HTMLParser.h"
@@ -26,7 +29,9 @@
 #pragma mark - HTML5Lib Test Suite
 
 @interface HTMLKitTreeConstructionTests : XCTestCase
-@property (nonatomic, strong) NSString *testName;
+{
+	HTMLKitTestObserver<HTMLKitTreeConstructionTests *> *_observer;
+}
 @property (nonatomic, strong) NSArray *testsList;
 @end
 
@@ -45,50 +50,58 @@
 
 + (void)addTestCaseForTestFile:(NSString *)testFile withTests:(NSArray *)tests toTestSuite:(XCTestSuite *)suite
 {
-	NSArray *allInvocations = [self testInvocations];
-	for (NSInvocation *invocation in allInvocations) {
-		XCTestCase *testCase = [[self alloc] initWithInvocation:invocation
-													   testName:testFile
-														  tests:tests];
-		[suite addTest:testCase];
-	}
+	NSString *testName = [testFile.stringByDeletingPathExtension stringByReplacingOccurrencesOfString:@"-" withString:@"_"];
+	testName = [NSString stringWithFormat:@"testPareser__%@", testName];
+
+	NSInvocation *invocation = [HTMLKitTestUtil addTestToClass:self withName:testName block:^ (HTMLKitTreeConstructionTests *instance){
+		[instance runTests];
+	}];
+
+	XCTestCase *testCase = [[self alloc] initWithInvocation:invocation tests:tests];
+	[suite addTest:testCase];
 }
 
 #pragma mark - Instance
 
-- (instancetype)initWithInvocation:(NSInvocation *)invocation
-						  testName:(NSString *)testName
-							 tests:(NSArray *)tests
+- (instancetype)initWithInvocation:(NSInvocation *)invocation tests:(NSArray *)tests
 {
 	self = [super initWithInvocation:invocation];
 	if (self) {
-		_testName = testName;
 		_testsList = tests;
 	}
 	return self;
 }
 
-- (NSString *)name
+#pragma mark - Setup
+
+- (void)setUp
 {
-	NSInvocation *invocation = [self invocation];
-	NSString *title = self.testName.stringByDeletingPathExtension;
-	return [NSString stringWithFormat:@"-[%@ %@_%@]", self.class, NSStringFromSelector(invocation.selector), title];
+	_observer = [[HTMLKitTestObserver alloc] initWithName:self.name];
+	[[XCTestObservationCenter sharedTestObservationCenter] addTestObserver:_observer];
+
+	[super setUp];
 }
 
-- (NSString *)description
+- (void)tearDown
 {
-	return self.name;
+	HTMLKitTestReport *testReport = [_observer generateReport];
+	XCTAssertTrue(testReport.failureCount == 0, @"%@", testReport.failureReport);
+
+	[[XCTestObservationCenter sharedTestObservationCenter] removeTestObserver:_observer];
+	[super tearDown];
 }
 
 #pragma mark - Tests
 
-- (void)testParser
+- (void)runTests
 {
 	for (HTML5LibTreeConstructionTest *test in self.testsList) {
+		NSString *testInput = test.data;
+
+		[_observer addCaseForHTML5LibTestWithInput:testInput];
+
+		HTMLParser *parser = [[HTMLParser alloc] initWithString:testInput];
 		HTMLElement *contextElement = test.documentFragment;
-
-		HTMLParser *parser = [[HTMLParser alloc] initWithString:test.data];
-
 		NSArray *actual = nil;
 		if (contextElement == nil) {
 			actual = [parser parseDocument].childNodes.array;

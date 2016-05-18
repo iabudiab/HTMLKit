@@ -1,10 +1,15 @@
 # HTMLKit
 
-![HTMLKit Logo](HTMLKit.png)
+![HTMLKit Logo](https://raw.githubusercontent.com/iabudiab/HTMLKit/master/HTMLKit.png)
 
 An Objective-C framework for your everyday HTML needs.
 
-[![Build Status](https://travis-ci.org/iabudiab/HTMLKit.svg?branch=develop)](https://travis-ci.org/iabudiab/HTMLKit) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![License MIT](https://img.shields.io/badge/license-MIT-4481C7.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/travis/iabudiab/HTMLKit/develop.svg?style=flat)](https://travis-ci.org/iabudiab/HTMLKit)
+[![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/HTMLKit.svg?style=flat)](https://cocoapods.org/pods/HTMLKit)
+[![CocoaDocs](https://img.shields.io/cocoapods/metrics/doc-percent/HTMLKit.svg?style=flat)](http://cocoadocs.org/docsets/HTMLKit)
+[![Platform](https://img.shields.io/cocoapods/p/HTMLKit.svg?style=flat)](http://cocoadocs.org/docsets/HTMLKit)
+[![License MIT](https://img.shields.io/badge/license-MIT-4481C7.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 # Quick Overview
 
@@ -18,7 +23,7 @@ DOM mutations are validated as described in the [WHATWG DOM Standard](https://do
 
 ## Tests
 
-HTMLKit passes all of the [HTML5Lib](https://github.com/html5lib/html5lib-tests) Tokenizer and Tree Construction tests except for the Blink changes introduced on the 16.09.2015. The `html5lib-tests` is configured as a git-submodule. If you plan to run the tests, do not forget to pull it too.
+HTMLKit passes all of the [HTML5Lib](https://github.com/html5lib/html5lib-tests) Tokenizer and Tree Construction tests. The `html5lib-tests` is configured as a git-submodule. If you plan to run the tests, do not forget to pull it too.
 
 The CSS3 Selector implementation is tested with an adapted version of the [CSS3 Selectors Test Suite](http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/html/full/flat/index.html), ignoring the tests that require user interaction, session history, and scripting.
 
@@ -214,6 +219,10 @@ CSSSelector *myAwesomeSelector = namedBlockSelector(@"myAwesomeSelector", ^BOOL 
 notParagraphAndNotDiv = [firstDivElement elementsMatchingSelector:myAwesomeSelector];
 ```
 
+# Change Log
+
+See the [CHANGELOG.md](CHANGELOG.md) for more info.
+
 # License
 
-HTMLKit is available under the MIT license. See the LICENSE file for more info.
+HTMLKit is available under the MIT license. See the [LICENSE](LICENSE) file for more info.

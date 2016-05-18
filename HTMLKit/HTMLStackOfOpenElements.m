@@ -129,7 +129,11 @@
 
 - (void)popElementsUntilElementPoppedWithTagName:(NSString *)tagName
 {
-	while (self.currentNode && ![self.currentNode.tagName isEqualToString:tagName]) {
+	while (self.currentNode) {
+		if (self.currentNode.htmlNamespace == HTMLNamespaceHTML &&
+			[self.currentNode.tagName isEqualToString:tagName]) {
+			break;
+		}
 		[_stack removeLastObject];
 	}
 	[_stack removeLastObject];
@@ -137,7 +141,11 @@
 
 - (void)popElementsUntilAnElementPoppedWithAnyOfTagNames:(NSArray *)tagNames
 {
-	while (self.currentNode && ![tagNames containsObject:self.currentNode.tagName]) {
+	while (self.currentNode) {
+		if (self.currentNode.htmlNamespace == HTMLNamespaceHTML &&
+			[tagNames containsObject:self.currentNode.tagName]) {
+			break;
+		}
 		[_stack removeLastObject];
 	}
 	[_stack removeLastObject];
@@ -257,7 +265,10 @@
 {
 	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
 		if ([tagNames containsObject:node.tagName]) {
-			return node;
+			NSNumber *namespace = elementTypes[node.tagName] ?: @(HTMLNamespaceHTML);
+			if ([namespace isEqual:@(node.htmlNamespace)]) {
+				return node;
+			}
 		}
 		if ([elementTypes[node.tagName] isEqual:@(node.htmlNamespace)]) {
 			return nil;
