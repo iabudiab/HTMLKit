@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name               = "HTMLKit"
-  s.version            = "0.9.1"
+  s.version            = "0.9.2"
   s.summary            = "HTMLKit, an Objective-C framework for your everyday HTML needs."
   s.license            = "MIT"
   s.homepage           = "https://github.com/iabudiab/HTMLKit"
