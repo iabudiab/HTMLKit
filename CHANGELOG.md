@@ -1,5 +1,36 @@
 # Change Log
 
+## [0.9.2](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.2)
+
+Released on 2016.05.18
+
+This release passes all html5lib-tests as of 2016.05.18
+
+### Added
+
+- Handling for `<menu>` and `<menuitem>`
+- Changelog
+
+### Changed
+
+- Updated adoption agency algorithm according to the latest specification, see:
+	- [whatwg/html@22ce3c3](https://github.com/whatwg/html/commit/22ce3c3)
+	- [Mozilla Bug 901319](https://bugzilla.mozilla.org/show_bug.cgi?id=901319)
+	- [Chrome Issue 268121](https://bugs.chromium.org/p/chromium/issues/detail?id=268121) 
+	- [WebKit Bug 119478](https://bugs.webkit.org/show_bug.cgi?id=119478)
+- `<isindex>` is completely removed from the spec now, therefore it is dropped from the implementation
+- `Tokenizer` and `Tree-Construction` tests are now generated dynamically
+- Test failures are collected by a `XCTestObservation` for better reporting
+	
+- `<isindex>` is completely removed from the spec now, therefore it is dropped from the implementation
+- `Tokenizer` and `Tree-Construction` tests are now generated dynamically
+- Test failures are collected by a `XCTestObservation` for better reporting
+
+### Fixed
+
+- Parser now checks the qualified name instead of the local name when handling elements in the `MathML` and `SVG` namespaces
+
+
 ## [0.9.1](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.1)
 
 Released on 2016.01.29
