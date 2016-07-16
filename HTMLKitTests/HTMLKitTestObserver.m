@@ -69,7 +69,7 @@
 	NSUInteger totalCount = _cases.count;
 	NSUInteger failureCount = failedTests.count;
 
-	[reportDescription appendFormat:@"HTML5Lib test %@ failed [%lu] out of [%lu] total tests\n", _name, failureCount, _cases.count];
+	[reportDescription appendFormat:@"HTML5Lib test %@ failed [%lu] out of [%lu] total tests\n", _name, (unsigned long)failureCount, (unsigned long)_cases.count];
 
 	for (NSDictionary *testCase in failedTests) {
 		[reportDescription appendFormat:@"Failed test for input: %@\n", testCase[@"input"]];
