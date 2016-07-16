@@ -29,11 +29,14 @@ env:
     - DESTINATION="arch=x86_64"                     SIMULATOR=""                          SCHEME="$OSX_FRAMEWORK_SCHEME"      SDK="$OSX_SDK"
     - DESTINATION="OS=2.2,name=Apple Watch - 42mm"  SIMULATOR="Apple Watch - 42mm (2.2)"  SCHEME="$WATCHOS_FRAMEWORK_SCHEME"  SDK="$WATCHOS_SDK"
     - DESTINATION="OS=9.2,name=Apple TV 1080p"      SIMULATOR="Apple TV 1080p (9.2)"      SCHEME="$TVOS_FRAMEWORK_SCHEME"     SDK="$TVOS_SDK"
+
 script:
-- set -o pipefail
-- xcodebuild -version
-- xcodebuild -showsdks
-- SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
-- open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
-- xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO clean build | xcpretty -c
-- xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+  - set -o pipefail
+  - xcodebuild -version
+  - xcodebuild -showsdks
+  - SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
+  - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
+  - xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO clean build | xcpretty -c
+  - if [ "$SDK" != "$WATCHOS_SDK" ]; then
+      xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c
+    fi
