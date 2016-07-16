@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.9.3](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.3)
+
+Released on 2016.07.16
+
+This release passes all html5lib-tests as of 2016.07.16
+
+### Added
+
+- `watchOS` and `tvOS` targets
+- Updated HTML5Lib-Tests submodule (c305da7)
+
 ## [0.9.2](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.2)
 
 Released on 2016.05.18

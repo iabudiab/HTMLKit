@@ -4,7 +4,7 @@
 
 An Objective-C framework for your everyday HTML needs.
 
-[![Build Status](https://img.shields.io/travis/iabudiab/HTMLKit/develop.svg?style=flat)](https://travis-ci.org/iabudiab/HTMLKit)
+[![Build Status](https://img.shields.io/travis/iabudiab/HTMLKit/master.svg?style=flat)](https://travis-ci.org/iabudiab/HTMLKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/HTMLKit.svg?style=flat)](https://cocoapods.org/pods/HTMLKit)
 [![CocoaDocs](https://img.shields.io/cocoapods/metrics/doc-percent/HTMLKit.svg?style=flat)](http://cocoadocs.org/docsets/HTMLKit)
@@ -30,6 +30,69 @@ The CSS3 Selector implementation is tested with an adapted version of the [CSS3 
 ## Does it Swift?
 
 Check out the playground!
+
+# Installation
+
+### Carthage
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+If you don't have Carthage yet, you can install it with Homebrew using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
+```
+
+To add `HTMLKit` as a dependency into your project using Carthage just add the following line in your `Cartfile`:
+
+```
+github "iabudiab/HTMLKit"
+```
+
+Then run the following command to build the framework and drag the built `HTMLKit.framework` into your Xcode project.
+
+```bash
+$ carthage update
+```
+
+### CocoaPods
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
+
+If you don't have CocoaPods yet, you can install it with the following command:
+
+```bash
+$ gem install cocoapods
+```
+
+To add `HTMLKit` as a dependency into your project using CocoaPods just add the following in your `Podfile`:
+
+```ruby
+use_frameworks!
+
+target 'MyTarget' do
+  pod 'HTMLKit', '~> 0.9'
+end
+```
+
+Then, run the following command:
+
+```bash
+$ pod install
+```
+
+### Manually
+
+1- Add `HTMLKit` as git submodule
+
+```bash
+$ git submodule add https://github.com/iabudiab/HTMLKit.git
+```
+
+2- Open the `HTMLKit` folder and drag'n'drop the `HTMLKit.xcodeproj` into the Project Navigator in Xcode to add it as a sub-project.
+
+3- In the General panel of your target add `HTMLKit.framework` under the `Embedded Binaries` 
+
+# Features
 
 # Parsing Documents
 
@@ -185,7 +248,7 @@ NSArray *hasSiblingParagraph = [document elementsMatchingSelector:generalSibling
 NSArray *nonParagraphChildOfDiv = [document elementsMatchingSelector:
 	allOf(@[
 		childOfElementSelector(typeSelector(@"div")),
-		nay(typeSelector(@"p"))
+		not(typeSelector(@"p"))
 	])
 ];
 ```

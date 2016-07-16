@@ -2109,6 +2109,7 @@
 				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
 				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
@@ -2117,6 +2118,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
@@ -2140,6 +2142,7 @@
 				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
 				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
@@ -2148,6 +2151,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2402,6 +2406,7 @@
 				62857C541D398642008DC254 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		62857CFB1D39A262008DC254 /* Build configuration list for PBXNativeTarget "HTMLKit-tvOS" */ = {
 			isa = XCConfigurationList;
@@ -2410,6 +2415,7 @@
 				62857CFD1D39A262008DC254 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		62857CFE1D39A262008DC254 /* Build configuration list for PBXNativeTarget "HTMLKit-tvOSTests" */ = {
 			isa = XCConfigurationList;
@@ -2418,6 +2424,7 @@
 				62857D001D39A262008DC254 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		62ECBF5E1C0B6C7600AF847B /* Build configuration list for PBXNativeTarget "HTMLKit-iOS" */ = {
 			isa = XCConfigurationList;
