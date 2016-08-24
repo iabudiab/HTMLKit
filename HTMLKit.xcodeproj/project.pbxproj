@@ -936,7 +936,6 @@
 				625EE4591CBB171300F2CC8E /* HTMLKitTestUtil.h */,
 				625EE45A1CBB171300F2CC8E /* HTMLKitTestUtil.m */,
 			);
-			name = Tests;
 			path = Tests;
 			sourceTree = "<group>";
 		};
@@ -2019,10 +2018,10 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
 				PRODUCT_NAME = HTMLKit;
 				WRAPPER_EXTENSION = framework;
@@ -2039,10 +2038,10 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
 				PRODUCT_NAME = HTMLKit;
 				WRAPPER_EXTENSION = framework;
@@ -2059,13 +2058,13 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.braincookie.${PRODUCT_NAME:rfc1034identifier}";
+				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -2082,9 +2081,9 @@
 					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
-				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.braincookie.${PRODUCT_NAME:rfc1034identifier}";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
+				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -2105,8 +2104,9 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2138,8 +2138,9 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2173,8 +2174,9 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2206,8 +2208,9 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2233,7 +2236,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
+				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.HTMLKit-tvOSTests";
@@ -2251,7 +2254,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
+				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.HTMLKit-tvOSTests";
@@ -2276,12 +2279,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
 				GCC_WARN_PEDANTIC = NO;
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2310,12 +2313,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "HTMLKit/HTMLKit-Prefix.pch";
+				GCC_PREFIX_HEADER = "Sources/HTMLKit-Prefix.pch";
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
 				GCC_WARN_PEDANTIC = NO;
-				INFOPLIST_FILE = "HTMLKit/HTMLKit-Info.plist";
+				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2339,7 +2342,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
+				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2357,7 +2360,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "HTMLKitTests/HTMLKitTests-Info.plist";
+				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
