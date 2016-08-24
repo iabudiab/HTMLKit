@@ -937,7 +937,7 @@
 				625EE45A1CBB171300F2CC8E /* HTMLKitTestUtil.m */,
 			);
 			name = Tests;
-			path = HTMLKitTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		625A14CB19C7829400AD0C32 /* Supporting Files */ = {
