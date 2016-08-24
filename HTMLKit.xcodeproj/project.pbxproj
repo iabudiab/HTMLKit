@@ -853,7 +853,7 @@
 		625A14A219C7829400AD0C32 = {
 			isa = PBXGroup;
 			children = (
-				625A14B519C7829400AD0C32 /* Source Code */,
+				625A14B519C7829400AD0C32 /* Sources */,
 				625A14CA19C7829400AD0C32 /* Tests */,
 				625A14AE19C7829400AD0C32 /* Frameworks */,
 				625A14AD19C7829400AD0C32 /* Products */,
@@ -895,7 +895,7 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		625A14B519C7829400AD0C32 /* Source Code */ = {
+		625A14B519C7829400AD0C32 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				625A14BC19C7829400AD0C32 /* HTMLKit.h */,
@@ -908,8 +908,7 @@
 				62079BE61AF5656600D3B402 /* CSS */,
 				625A14B619C7829400AD0C32 /* Supporting Files */,
 			);
-			name = "Source Code";
-			path = HTMLKit;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		625A14B619C7829400AD0C32 /* Supporting Files */ = {
