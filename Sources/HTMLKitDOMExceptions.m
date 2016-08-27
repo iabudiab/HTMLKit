@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "HTMLKitDOMExceptions.h"
 
 NSString * const HTMLKitHierarchyRequestError = @"HierarchyRequestError";
