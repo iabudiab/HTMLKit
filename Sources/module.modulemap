@@ -1,0 +1,30 @@
+module HTMLKit {
+	umbrella header "HTMLKit.h"
+
+	private header "CSSCodePoints.h"
+	private header "CSSInputStream.h"
+	private header "HTMLCharacterToken.h"
+	private header "HTMLCommentToken.h"
+	private header "HTMLDOCTYPEToken.h"
+	private header "HTMLElementAdjustment.h"
+	private header "HTMLElementTypes.h"
+	private header "HTMLEOFToken.h"
+	private header "HTMLInputStreamReader.h"
+	private header "HTMLListOfActiveFormattingElements.h"
+	private header "HTMLMarker.h"
+	private header "HTMLNode+Private.h"
+	private header "HTMLNodeTraversal.h"
+	private header "HTMLParseErrorToken.h"
+	private header "HTMLParserInsertionModes.h"
+	private header "HTMLStackOfOpenElements.h"
+	private header "HTMLTagToken.h"
+	private header "HTMLToken.h"
+	private header "HTMLTokenizer.h"
+	private header "HTMLTokenizerCharacters.h"
+	private header "HTMLTokenizerEntities.h"
+	private header "HTMLTokenizerStates.h"
+	private header "HTMLTokens.h"
+
+	module * { export * }
+	export *
+}
