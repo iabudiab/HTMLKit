@@ -10,7 +10,7 @@
 /// HTMLKit private header
 ///------------------------------------------------------
 
-#import <HTMLKit/HTMLKit.h>
+#import "HTMLNode.h"
 
 /**
  Private HTML Node methods which are not intended for public API.
