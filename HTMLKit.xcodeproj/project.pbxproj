@@ -36,7 +36,6 @@
 		625A14B019C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14C419C7829400AD0C32 /* XCTest.framework */; };
 		625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */; };
-		625A14CF19C7829400AD0C32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14CD19C7829400AD0C32 /* InfoPlist.strings */; };
 		625D0F031C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		625EE4571CBAA41D00F2CC8E /* HTMLKitTestObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 625EE4561CBAA41D00F2CC8E /* HTMLKitTestObserver.m */; };
@@ -218,7 +217,6 @@
 		62857D451D39A353008DC254 /* css-tests in Resources */ = {isa = PBXBuildFile; fileRef = 62132E5B1C021FF200084175 /* css-tests */; };
 		62857D461D39A3D7008DC254 /* HTML Standard.html in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90D19FC702E00BD3C4A /* HTML Standard.html */; };
 		62857D471D39A3E4008DC254 /* html5lib-tests in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90419FBFE8A00BD3C4A /* html5lib-tests */; };
-		62857D481D39A3EB008DC254 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14CD19C7829400AD0C32 /* InfoPlist.strings */; };
 		62857D491D39A3F4008DC254 /* HTMLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A14BC19C7829400AD0C32 /* HTMLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62857D4A1D39A3F4008DC254 /* HTMLKitErrorDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 626652F81C03D30F00C3F121 /* HTMLKitErrorDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62857D4B1D39A40A008DC254 /* HTMLInputStreamReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -503,7 +501,6 @@
 		62ECBFDD1C0B6E4400AF847B /* css-tests in Resources */ = {isa = PBXBuildFile; fileRef = 62132E5B1C021FF200084175 /* css-tests */; };
 		62ECBFDE1C0B6E4400AF847B /* HTML Standard.html in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90D19FC702E00BD3C4A /* HTML Standard.html */; };
 		62ECBFDF1C0B6E4400AF847B /* html5lib-tests in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90419FBFE8A00BD3C4A /* html5lib-tests */; };
-		62ECBFE01C0B6E4400AF847B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 625A14CD19C7829400AD0C32 /* InfoPlist.strings */; };
 		62F658711BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F6586F1BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m */; };
 /* End PBXBuildFile section */
 
@@ -629,7 +626,6 @@
 		625A14C319C7829400AD0C32 /* HTMLKitTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HTMLKitTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14C419C7829400AD0C32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		625A14CC19C7829400AD0C32 /* HTMLKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HTMLKitTests-Info.plist"; sourceTree = "<group>"; };
-		625A14CE19C7829400AD0C32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		625A14DF19C7834100AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLInputStreamReader.h; path = include/HTMLInputStreamReader.h; sourceTree = "<group>"; };
 		625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReader.m; sourceTree = "<group>"; };
@@ -938,7 +934,6 @@
 				624AC90D19FC702E00BD3C4A /* HTML Standard.html */,
 				624AC90419FBFE8A00BD3C4A /* html5lib-tests */,
 				625A14CC19C7829400AD0C32 /* HTMLKitTests-Info.plist */,
-				625A14CD19C7829400AD0C32 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1537,7 +1532,6 @@
 				624AC90F19FC702E00BD3C4A /* HTML Standard.html in Resources */,
 				624AC90519FBFE9A00BD3C4A /* html5lib-tests in Resources */,
 				62132E5D1C021FF200084175 /* css-tests in Resources */,
-				625A14CF19C7829400AD0C32 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1560,7 +1554,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				62857D471D39A3E4008DC254 /* html5lib-tests in Resources */,
-				62857D481D39A3EB008DC254 /* InfoPlist.strings in Resources */,
 				62857D451D39A353008DC254 /* css-tests in Resources */,
 				62857D461D39A3D7008DC254 /* HTML Standard.html in Resources */,
 			);
@@ -1580,7 +1573,6 @@
 				62ECBFDD1C0B6E4400AF847B /* css-tests in Resources */,
 				62ECBFDE1C0B6E4400AF847B /* HTML Standard.html in Resources */,
 				62ECBFDF1C0B6E4400AF847B /* html5lib-tests in Resources */,
-				62ECBFE01C0B6E4400AF847B /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1904,17 +1896,6 @@
 			targetProxy = 62ECBF581C0B6C7600AF847B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		625A14CD19C7829400AD0C32 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				625A14CE19C7829400AD0C32 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		625A14D219C7829400AD0C32 /* Debug */ = {
