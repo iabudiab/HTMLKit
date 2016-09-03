@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 extern NSString * const HTMLKitHierarchyRequestError;
 extern NSString * const HTMLKitNotFoundError;
 extern NSString * const HTMLKitNotSupportedError;
