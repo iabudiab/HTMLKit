@@ -1,10 +1,18 @@
 # Change Log
 
+## [0.9.4](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.4) 
+
+Released on 2016.09.03
+
+### Added
+
+- `Swift Package Manager` support
+
 ## [0.9.3](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.3)
 
 Released on 2016.07.16
 
-This release passes all html5lib-tests as of 2016.07.16
+This release passes all tokenizer and tree construction html5lib-tests as of 2016.07.16
 
 ### Added
 
@@ -15,7 +23,7 @@ This release passes all html5lib-tests as of 2016.07.16
 
 Released on 2016.05.18
 
-This release passes all html5lib-tests as of 2016.05.18
+This release passes all tokenizer and tree construction html5lib-tests as of 2016.05.18
 
 ### Added
 

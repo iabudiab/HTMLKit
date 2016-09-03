@@ -34,6 +34,7 @@ Check out the playground!
 # Installation
 
 ### Carthage
+
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
 If you don't have Carthage yet, you can install it with Homebrew using the following command:
@@ -56,6 +57,7 @@ $ carthage update
 ```
 
 ### CocoaPods
+
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
 
 If you don't have CocoaPods yet, you can install it with the following command:
@@ -78,6 +80,22 @@ Then, run the following command:
 
 ```bash
 $ pod install
+```
+
+### Swift Package Manager
+
+[Swift Package Manager](https://github.com/apple/swift-package-manager) is the package manager for the Swift programming language.
+
+Add `HTMLKit` to your `Package.swift` dependecies:
+
+```swift
+.Package(url: "https://github.com/iabudiab/HTMLKit", majorVersion: 0, minor: 9)
+```
+
+Then run:
+
+```bash
+$ swift build
 ```
 
 ### Manually
