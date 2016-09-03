@@ -14,9 +14,9 @@ Pod::Spec.new do |s|
 
   s.source = { :git => "https://github.com/iabudiab/HTMLKit.git", :tag => s.version }
 
-  s.source_files         = "HTMLKit", "HTMLKit/**/*.{h,m}"
+  s.source_files         = "Sources", "Sources/**/*.{h,m}"
   s.private_header_files = [
-    'HTMLKit/**/*{HTMLToken,HTMLTokens,HTMLTagToken,HTMLCharacterToken,HTMLCommentToken,HTMLDOCTYPEToken,HTMLEOFToken,HTMLTokenizer,HTMLTokenizerCharacters,HTMLTokenizerEntities,HTMLTokenizerStates,HTMLElementAdjustment,HTMLElementTypes,HTMLInputStreamReader,HTMLListOfActiveFormattingElements,HTMLNodeTraversal,HTMLParseErrorToken,HTMLParserInsertionModes,HTMLStackOfOpenElements,HTMLNode+Private,HTMLMarker,CSSCodePoints,CSSInputStream}.h'
+    'Sources/**/*{HTMLToken,HTMLTokens,HTMLTagToken,HTMLCharacterToken,HTMLCommentToken,HTMLDOCTYPEToken,HTMLEOFToken,HTMLTokenizer,HTMLTokenizerCharacters,HTMLTokenizerEntities,HTMLTokenizerStates,HTMLElementAdjustment,HTMLElementTypes,HTMLInputStreamReader,HTMLListOfActiveFormattingElements,HTMLNodeTraversal,HTMLParseErrorToken,HTMLParserInsertionModes,HTMLStackOfOpenElements,HTMLNode+Private,HTMLMarker,CSSCodePoints,CSSInputStream}.h'
   ]
 
   s.requires_arc = true
