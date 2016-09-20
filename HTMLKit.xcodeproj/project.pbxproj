@@ -1995,6 +1995,8 @@
 				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
 				PRODUCT_NAME = HTMLKit;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -2015,6 +2017,8 @@
 				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
 				PRODUCT_NAME = HTMLKit;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -2269,8 +2273,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -2303,9 +2309,11 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
