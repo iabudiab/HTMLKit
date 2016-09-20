@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  An array of errors that occurred during document parsing.
  */
-@property (nonatomic, strong, readonly) NSArray *parseErrors;
+@property (nonatomic, strong, readonly) NSArray<NSString *> *parseErrors;
 
 /**
  The parsed HTML Document.
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @see HTMLElement
  */
-- (NSArray *)parseFragmentWithContextElement:(HTMLElement *)contextElement;
+- (NSArray<HTMLNode *> *)parseFragmentWithContextElement:(HTMLElement *)contextElement;
 
 @end
 

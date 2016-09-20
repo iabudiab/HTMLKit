@@ -86,7 +86,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 /**
  A read-only ordered set of child nodes.
  */
-@property (nonatomic, strong, readonly) NSOrderedSet *childNodes;
+@property (nonatomic, strong, readonly) NSOrderedSet<HTMLNode *> *childNodes;
 
 /**
  The first child node, if any.
@@ -220,7 +220,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
  @param node The nodes to prepend.
  */
-- (void)prependNodes:(NSArray *)nodes;
+- (void)prependNodes:(NSArray<HTMLNode *> *)nodes;
 
 /**
  Appends the given node to the set of child nodes.
@@ -235,7 +235,7 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 
  @param nodes The nodes to append.
  */
-- (void)appendNodes:(NSArray *)nodes;
+- (void)appendNodes:(NSArray<HTMLNode *> *)nodes;
 
 /**
  Inserts a given node before a child node.
