@@ -21,7 +21,7 @@ description["content"] = "HTMLKit for iOS & OSX"
 Append nodes to the document
 */
 let head = document.head!
-head.appendNode(description)
+head.append(description)
 document.innerHTML
 
 let body = document.body!
@@ -30,17 +30,17 @@ let nodes = [
 	HTMLElement(tagName: "div", attributes: ["class": "green"]),
 	HTMLElement(tagName: "div", attributes: ["class": "blue"])
 ]
-body.appendNodes(nodes)
+body.append(nodes)
 body.innerHTML
 
 /*:
 Enumerate child elements and perform DOM manipulation
 */
-body.enumerateChildElementsUsingBlock { (element, index, stop) -> Void in
+body.enumerateChildElements { (element, index, stop) -> Void in
 	if element.tagName == "div" {
 		let lorem = HTMLElement(tagName: "p")
 		lorem.textContent = "Lorem ipsum: \(index)"
-		element.appendNode(lorem)
+		element.append(lorem)
 	}
 }
 body.innerHTML
@@ -48,7 +48,7 @@ body.innerHTML
 /*:
 Remove nodes from the document
 */
-body.removeChildNodeAtIndex(1)
+body.removeChildNode(at: 1)
 body.innerHTML
 
 /*:
@@ -56,24 +56,26 @@ Navigate to child and sibling nodes
 */
 body.lastChild!.removeFromParentNode()
 let greenDiv = body.firstChild!.nextSibling!
+greenDiv.outerHTML
 
 /*:
 Manipulate the HTML directly
 */
 greenDiv.innerHTML = "<ul><li>item 1<li>item 2"
+greenDiv.outerHTML
 
 /*:
 Iterate the DOM tree with custom filters
 */
-let filter = HTMLNodeFilterBlock.filterWithBlock { (node) -> HTMLNodeFilterValue in
+let filter = HTMLNodeFilterBlock.filter { (node) -> HTMLNodeFilterValue in
 	if node.childNodesCount() != 1 {
-		return .Reject
+		return .reject
 	}
-	return .Accept
+	return .accept
 }
 
-for element in body.nodeIteratorWithShowOptions(.Element, filter: filter) {
-	element.outerHTML
+for element in body.nodeIterator(showOptions: .element, filter: filter) {
+	(element as! AnyObject).outerHTML
 }
 
 //: [Next](@next)

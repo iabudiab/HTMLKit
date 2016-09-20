@@ -9,7 +9,8 @@ import HTMLKit
 Given some HTML content
 */
 
-let htmlString = try! String(contentsOfURL: [#FileReference(fileReferenceLiteral: "HTMLKit.html")#])
+let htmlString = "<div><h1>HTMLKit</h1><p class='greeting'>Hello there!</p><p class='description'>This is a demo of HTMLKit</p></div>"
+htmlString
 
 /*:
 You can parse it using the HTMLParser:
