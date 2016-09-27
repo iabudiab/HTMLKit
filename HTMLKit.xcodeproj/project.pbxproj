@@ -623,7 +623,7 @@
 		625A14B419C7829400AD0C32 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		625A14B719C7829400AD0C32 /* HTMLKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HTMLKit-Info.plist"; sourceTree = "<group>"; };
 		625A14BC19C7829400AD0C32 /* HTMLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLKit.h; path = include/HTMLKit.h; sourceTree = "<group>"; };
-		625A14C319C7829400AD0C32 /* HTMLKitTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HTMLKitTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		625A14C319C7829400AD0C32 /* HTMLKitTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HTMLKitTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14C419C7829400AD0C32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		625A14CC19C7829400AD0C32 /* HTMLKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HTMLKitTests-Info.plist"; sourceTree = "<group>"; };
 		625A14DF19C7834100AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -854,7 +854,7 @@
 			isa = PBXGroup;
 			children = (
 				625A14AC19C7829400AD0C32 /* HTMLKit.framework */,
-				625A14C319C7829400AD0C32 /* HTMLKitTests-OSX.xctest */,
+				625A14C319C7829400AD0C32 /* HTMLKitTests-macOS.xctest */,
 				62ECBF4D1C0B6C7600AF847B /* HTMLKit.framework */,
 				62ECBF561C0B6C7600AF847B /* HTMLKitTests-iOS.xctest */,
 				62857C4E1D398642008DC254 /* HTMLKit.framework */,
@@ -1335,9 +1335,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		625A14AB19C7829400AD0C32 /* HTMLKit-OSX */ = {
+		625A14AB19C7829400AD0C32 /* HTMLKit-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-OSX" */;
+			buildConfigurationList = 625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-macOS" */;
 			buildPhases = (
 				625A14A719C7829400AD0C32 /* Sources */,
 				625A14A819C7829400AD0C32 /* Frameworks */,
@@ -1348,14 +1348,14 @@
 			);
 			dependencies = (
 			);
-			name = "HTMLKit-OSX";
+			name = "HTMLKit-macOS";
 			productName = HTMLKit;
 			productReference = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		625A14C219C7829400AD0C32 /* HTMLKitTests-OSX */ = {
+		625A14C219C7829400AD0C32 /* HTMLKitTests-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-OSX" */;
+			buildConfigurationList = 625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-macOS" */;
 			buildPhases = (
 				625A14BF19C7829400AD0C32 /* Sources */,
 				625A14C019C7829400AD0C32 /* Frameworks */,
@@ -1366,9 +1366,9 @@
 			dependencies = (
 				625A14C819C7829400AD0C32 /* PBXTargetDependency */,
 			);
-			name = "HTMLKitTests-OSX";
+			name = "HTMLKitTests-macOS";
 			productName = HTMLKitTests;
-			productReference = 625A14C319C7829400AD0C32 /* HTMLKitTests-OSX.xctest */;
+			productReference = 625A14C319C7829400AD0C32 /* HTMLKitTests-macOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		62857C4D1D398642008DC254 /* HTMLKit-watchOS */ = {
@@ -1506,8 +1506,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				625A14AB19C7829400AD0C32 /* HTMLKit-OSX */,
-				625A14C219C7829400AD0C32 /* HTMLKitTests-OSX */,
+				625A14AB19C7829400AD0C32 /* HTMLKit-macOS */,
+				625A14C219C7829400AD0C32 /* HTMLKitTests-macOS */,
 				62ECBF4C1C0B6C7600AF847B /* HTMLKit-iOS */,
 				62ECBF551C0B6C7600AF847B /* HTMLKitTests-iOS */,
 				62857CE91D39A262008DC254 /* HTMLKit-tvOS */,
@@ -1882,7 +1882,7 @@
 /* Begin PBXTargetDependency section */
 		625A14C819C7829400AD0C32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 625A14AB19C7829400AD0C32 /* HTMLKit-OSX */;
+			target = 625A14AB19C7829400AD0C32 /* HTMLKit-macOS */;
 			targetProxy = 625A14C719C7829400AD0C32 /* PBXContainerItemProxy */;
 		};
 		62857CF61D39A262008DC254 /* PBXTargetDependency */ = {
@@ -2366,7 +2366,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-OSX" */ = {
+		625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				625A14D519C7829400AD0C32 /* Debug */,
@@ -2375,7 +2375,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-OSX" */ = {
+		625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				625A14D819C7829400AD0C32 /* Debug */,

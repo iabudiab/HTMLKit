@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "625A14AB19C7829400AD0C32"
                BuildableName = "HTMLKit.framework"
-               BlueprintName = "HTMLKit-OSX"
+               BlueprintName = "HTMLKit-macOS"
                ReferencedContainer = "container:HTMLKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "625A14C219C7829400AD0C32"
-               BuildableName = "HTMLKitTests-OSX.xctest"
-               BlueprintName = "HTMLKitTests-OSX"
+               BuildableName = "HTMLKitTests-macOS.xctest"
+               BlueprintName = "HTMLKitTests-macOS"
                ReferencedContainer = "container:HTMLKit.xcodeproj">
             </BuildableReference>
             <SkippedTests>
@@ -58,7 +58,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "625A14AB19C7829400AD0C32"
             BuildableName = "HTMLKit.framework"
-            BlueprintName = "HTMLKit-OSX"
+            BlueprintName = "HTMLKit-macOS"
             ReferencedContainer = "container:HTMLKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,7 +80,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "625A14AB19C7829400AD0C32"
             BuildableName = "HTMLKit.framework"
-            BlueprintName = "HTMLKit-OSX"
+            BlueprintName = "HTMLKit-macOS"
             ReferencedContainer = "container:HTMLKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -98,7 +98,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "625A14AB19C7829400AD0C32"
             BuildableName = "HTMLKit.framework"
-            BlueprintName = "HTMLKit-OSX"
+            BlueprintName = "HTMLKit-macOS"
             ReferencedContainer = "container:HTMLKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
