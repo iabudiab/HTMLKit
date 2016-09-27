@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode7.3
+osx_image: xcode8
 
 branches:
   except:
@@ -17,18 +17,19 @@ env:
     - OSX_FRAMEWORK_SCHEME=HTMLKit-OSX
     - WATCHOS_FRAMEWORK_SCHEME="HTMLKit-watchOS"
     - TVOS_FRAMEWORK_SCHEME="HTMLKit-tvOS"
-    - IOS_SDK=iphonesimulator9.3
-    - OSX_SDK=macosx10.11
-    - WATCHOS_SDK=watchsimulator2.2
-    - TVOS_SDK=appletvsimulator9.2
+    - IOS_SDK=iphonesimulator10.0
+    - OSX_SDK=macosx10.12
+    - WATCHOS_SDK=watchsimulator3.0
+    - TVOS_SDK=appletvsimulator10.0
   matrix:
     - DESTINATION="OS=9.0,name=iPhone 6"            SIMULATOR="iPhone 6 (9.0)"            SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
     - DESTINATION="OS=9.1,name=iPhone 6 Plus"       SIMULATOR="iPhone 6 Plus (9.1)"       SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
     - DESTINATION="OS=9.2,name=iPhone 6S"           SIMULATOR="iPhone 6S (9.2)"           SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
     - DESTINATION="OS=9.3,name=iPhone 6S Plus"      SIMULATOR="iPhone 6S Plus (9.3)"      SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
+    - DESTINATION="OS=OS=10.0,name=iPhone 7 Plus"   SIMULATOR="iPhone 6S Plus (9.3)"      SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
     - DESTINATION="arch=x86_64"                     SIMULATOR=""                          SCHEME="$OSX_FRAMEWORK_SCHEME"      SDK="$OSX_SDK"
-    - DESTINATION="OS=2.2,name=Apple Watch - 42mm"  SIMULATOR="Apple Watch - 42mm (2.2)"  SCHEME="$WATCHOS_FRAMEWORK_SCHEME"  SDK="$WATCHOS_SDK"
-    - DESTINATION="OS=9.2,name=Apple TV 1080p"      SIMULATOR="Apple TV 1080p (9.2)"      SCHEME="$TVOS_FRAMEWORK_SCHEME"     SDK="$TVOS_SDK"
+    - DESTINATION="OS=3.0,name=Apple Watch - 42mm"  SIMULATOR="Apple Watch - 42mm (2.2)"  SCHEME="$WATCHOS_FRAMEWORK_SCHEME"  SDK="$WATCHOS_SDK"
+    - DESTINATION="OS=10.0,name=Apple TV 1080p"     SIMULATOR="Apple TV 1080p (9.2)"      SCHEME="$TVOS_FRAMEWORK_SCHEME"     SDK="$TVOS_SDK"
 
 script:
   - set -o pipefail
