@@ -623,7 +623,7 @@
 		625A14B419C7829400AD0C32 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		625A14B719C7829400AD0C32 /* HTMLKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HTMLKit-Info.plist"; sourceTree = "<group>"; };
 		625A14BC19C7829400AD0C32 /* HTMLKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLKit.h; path = include/HTMLKit.h; sourceTree = "<group>"; };
-		625A14C319C7829400AD0C32 /* HTMLKitTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HTMLKitTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		625A14C319C7829400AD0C32 /* HTMLKitTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HTMLKitTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14C419C7829400AD0C32 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		625A14CC19C7829400AD0C32 /* HTMLKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HTMLKitTests-Info.plist"; sourceTree = "<group>"; };
 		625A14DF19C7834100AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -854,7 +854,7 @@
 			isa = PBXGroup;
 			children = (
 				625A14AC19C7829400AD0C32 /* HTMLKit.framework */,
-				625A14C319C7829400AD0C32 /* HTMLKitTests-OSX.xctest */,
+				625A14C319C7829400AD0C32 /* HTMLKitTests-macOS.xctest */,
 				62ECBF4D1C0B6C7600AF847B /* HTMLKit.framework */,
 				62ECBF561C0B6C7600AF847B /* HTMLKitTests-iOS.xctest */,
 				62857C4E1D398642008DC254 /* HTMLKit.framework */,
@@ -1335,9 +1335,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		625A14AB19C7829400AD0C32 /* HTMLKit-OSX */ = {
+		625A14AB19C7829400AD0C32 /* HTMLKit-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-OSX" */;
+			buildConfigurationList = 625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-macOS" */;
 			buildPhases = (
 				625A14A719C7829400AD0C32 /* Sources */,
 				625A14A819C7829400AD0C32 /* Frameworks */,
@@ -1348,14 +1348,14 @@
 			);
 			dependencies = (
 			);
-			name = "HTMLKit-OSX";
+			name = "HTMLKit-macOS";
 			productName = HTMLKit;
 			productReference = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		625A14C219C7829400AD0C32 /* HTMLKitTests-OSX */ = {
+		625A14C219C7829400AD0C32 /* HTMLKitTests-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-OSX" */;
+			buildConfigurationList = 625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-macOS" */;
 			buildPhases = (
 				625A14BF19C7829400AD0C32 /* Sources */,
 				625A14C019C7829400AD0C32 /* Frameworks */,
@@ -1366,9 +1366,9 @@
 			dependencies = (
 				625A14C819C7829400AD0C32 /* PBXTargetDependency */,
 			);
-			name = "HTMLKitTests-OSX";
+			name = "HTMLKitTests-macOS";
 			productName = HTMLKitTests;
-			productReference = 625A14C319C7829400AD0C32 /* HTMLKitTests-OSX.xctest */;
+			productReference = 625A14C319C7829400AD0C32 /* HTMLKitTests-macOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		62857C4D1D398642008DC254 /* HTMLKit-watchOS */ = {
@@ -1467,7 +1467,7 @@
 		625A14A319C7829400AD0C32 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = BrainCookie;
 				TargetAttributes = {
 					625A14C219C7829400AD0C32 = {
@@ -1506,8 +1506,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				625A14AB19C7829400AD0C32 /* HTMLKit-OSX */,
-				625A14C219C7829400AD0C32 /* HTMLKitTests-OSX */,
+				625A14AB19C7829400AD0C32 /* HTMLKit-macOS */,
+				625A14C219C7829400AD0C32 /* HTMLKitTests-macOS */,
 				62ECBF4C1C0B6C7600AF847B /* HTMLKit-iOS */,
 				62ECBF551C0B6C7600AF847B /* HTMLKitTests-iOS */,
 				62857CE91D39A262008DC254 /* HTMLKit-tvOS */,
@@ -1882,7 +1882,7 @@
 /* Begin PBXTargetDependency section */
 		625A14C819C7829400AD0C32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 625A14AB19C7829400AD0C32 /* HTMLKit-OSX */;
+			target = 625A14AB19C7829400AD0C32 /* HTMLKit-macOS */;
 			targetProxy = 625A14C719C7829400AD0C32 /* PBXContainerItemProxy */;
 		};
 		62857CF61D39A262008DC254 /* PBXTargetDependency */ = {
@@ -1911,14 +1911,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1950,14 +1955,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1983,8 +1993,11 @@
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
 				PRODUCT_NAME = HTMLKit;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -2003,8 +2016,11 @@
 				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = "Sources/HTMLKit-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.iabudiab.HTMLKit;
 				PRODUCT_NAME = HTMLKit;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -2025,9 +2041,12 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -2044,9 +2063,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -2057,6 +2079,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -2091,6 +2114,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -2127,6 +2151,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -2161,6 +2186,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -2198,12 +2224,14 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.HTMLKit-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -2216,13 +2244,15 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.HTMLKit-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -2231,7 +2261,7 @@
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -2255,8 +2285,10 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -2265,7 +2297,7 @@
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -2289,9 +2321,11 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -2304,12 +2338,14 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.HTMLKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -2322,13 +2358,15 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/HTMLKitTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "de.iabudiab.HTMLKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -2344,7 +2382,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-OSX" */ = {
+		625A14D419C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKit-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				625A14D519C7829400AD0C32 /* Debug */,
@@ -2353,7 +2391,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-OSX" */ = {
+		625A14D719C7829400AD0C32 /* Build configuration list for PBXNativeTarget "HTMLKitTests-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				625A14D819C7829400AD0C32 /* Debug */,

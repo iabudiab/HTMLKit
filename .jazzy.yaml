@@ -1,0 +1,121 @@
+module: HTMLKit
+module_version: 1.0.0
+author: Iskandar Abudiab 
+author_url: https://twitter.com/iabudiab
+github_url: https://github.com/iabudiab/HTMLKit
+github_file_prefix: https://github.com/iabudiab/HTMLKit/tree/master
+output: docs
+umbrella_header: Sources/include/HTMLKit.h
+clean: true
+objc: true
+skip_undocumented: true
+
+custom_categories:
+  - name: Parsing
+    children:
+    - HTMLParser
+
+  - name: DOM
+    children:
+    - HTMLNamespace
+    - HTMLNode
+    - HTMLNodeType
+    - HTMLElement
+    - HTMLDocument
+    - HTMLDocumentReadyState
+    - HTMLQuirksMode
+    - HTMLDocumentType
+    - HTMLDocumentFragment
+    - HTMLDocumentPosition
+    - HTMLText
+    - HTMLComment
+    - HTMLTemplate
+    - HTMLDOMTokenList
+
+  - name: Iteration & Filtering
+    children:
+    - HTMLNodeIterator
+    - HTMLNodeFilter
+    - HTMLNodeFilterShowOptions
+    - HTMLNodeFilterValue
+    - HTMLNodeFilterBlock
+    - HTMLSelectorNodeFilter
+    - HTMLTreeWalker
+
+  - name: Structures
+    children:
+    - HTMLOrderedDictionary
+    - CSSNthExpression
+
+  - name: CSS Selectors Implementation
+    children:
+    - CSSSelector
+    - CSSSelectorParser
+    - CSSTypeSelector
+    - CSSAttributeSelector
+    - CSSNthExpressionParser
+    - CSSNthExpressionSelector
+    - CSSPseudoClassSelector
+    - CSSPseudoFunctionSelector
+    - CSSSelectorBlock
+    - CSSCombinatorSelector
+    - CSSCompoundSelector
+
+  - name: Typed Selectors and Extensions
+    children:
+    - adjacentSiblingSelector
+    - allOf
+    - anyOf
+    - attributeSelector
+    - buttonSelector
+    - checkboxSelector
+    - checkedSelector
+    - childOfElementSelector
+    - classSelector
+    - descendantOfElementSelector
+    - disabledSelector
+    - emptySelector
+    - enabledSelector
+    - eqSelector
+    - evenSlector
+    - fileSelector
+    - firstChildSelector
+    - firstOfTypeSelector
+    - generalSiblingSelector
+    - gtSelector
+    - has
+    - hasAttributeSelector
+    - headerSelector
+    - idSelector
+    - imageSelector
+    - inputSelector
+    - lastChildSelector
+    - lastOfTypeSelector
+    - linkSelector
+    - ltSelector
+    - namedBlockSelector
+    - namedPseudoSelector
+    - not
+    - nthChildSelector
+    - nthLastChildSelector
+    - nthLastOfTypeSelector
+    - nthOfTypeSelector
+    - oddSelector
+    - onlyChildSelector
+    - onlyOfTypeSelector
+    - optionalSelector
+    - parentSelector
+    - passwordSelector
+    - radioSelector
+    - requiredSelector
+    - resetSelector
+    - rootSelector
+    - submitSelector
+    - textSelector
+    - typeSelector
+    - universalSelector
+
+    - name: Categories
+      children:
+      - NSCharacterSet(HTMLKit)
+      - NSString(HTMLKit)

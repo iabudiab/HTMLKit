@@ -28,22 +28,22 @@ var nonParagraphChildOfDiv = document.querySelectorAll("div :not(p)")
 /*:
 HTMLKit also provides API to create selector instances in a type-safe manner without the need to parse them first. The previous examples would like this:
 */
-paragraphs = document.elementsMatchingSelector(typeSelector("p"))
-paragraphsOrHeaders = document.elementsMatchingSelector(
+paragraphs = document.elements(matching: typeSelector("p"))
+paragraphsOrHeaders = document.elements(matching: 
 	anyOf([
 		typeSelector("p"), typeSelector("h1")
 	])
 )
 
-hasClassAttribute = document.elementsMatchingSelector(hasAttributeSelector("class"))
-greetings = document.elementsMatchingSelector(classSelector("greeting"))
-classNameStartsWith_de = document.elementsMatchingSelector(attributeSelector(.Begins, "class", "de"))
+hasClassAttribute = document.elements(matching: hasAttributeSelector("class"))
+greetings = document.elements(matching: classSelector("greeting"))
+classNameStartsWith_de = document.elements(matching: attributeSelector(.begins, "class", "de"))
 
-hasAdjacentHeader = document.elementsMatchingSelector(adjacentSiblingSelector(typeSelector("h1")))
-hasAdjacentHeader = document.elementsMatchingSelector(generalSiblingSelector(typeSelector("h1")))
-hasAdjacentHeader = document.elementsMatchingSelector(generalSiblingSelector(typeSelector("p")))
+hasAdjacentHeader = document.elements(matching: adjacentSiblingSelector(typeSelector("h1")))
+hasAdjacentHeader = document.elements(matching: generalSiblingSelector(typeSelector("h1")))
+hasAdjacentHeader = document.elements(matching: generalSiblingSelector(typeSelector("p")))
 
-nonParagraphChildOfDiv = document.elementsMatchingSelector(
+nonParagraphChildOfDiv = document.elements(matching: 
 	allOf([
 		childOfElementSelector(typeSelector("div")),
 		not(typeSelector("p"))
@@ -54,17 +54,17 @@ nonParagraphChildOfDiv = document.elementsMatchingSelector(
 Here are more examples
 */
 
-let firstDivElement = document.firstElementMatchingSelector(typeSelector("div"))!
+let firstDivElement = document.firstElement(matching: typeSelector("div"))!
 
 var secondChildOfDiv = firstDivElement.querySelectorAll(":nth-child(2)")
 var secondOfType = firstDivElement.querySelectorAll(":nth-of-type(2n)")
 
-secondChildOfDiv = firstDivElement.elementsMatchingSelector(nthChildSelector(CSSNthExpression(an: 0, b: 2)))
-secondOfType = firstDivElement.elementsMatchingSelector(nthOfTypeSelector(CSSNthExpression(an: 2, b: 0)))
+secondChildOfDiv = firstDivElement.elements(matching: nthChildSelector(CSSNthExpression(an: 0, b: 2)))
+secondOfType = firstDivElement.elements(matching: nthOfTypeSelector(CSSNthExpression(an: 2, b: 0)))
 
 
 var notParagraphAndNotDiv = firstDivElement.querySelectorAll(":not(p):not(div)")
-notParagraphAndNotDiv = firstDivElement.elementsMatchingSelector(
+notParagraphAndNotDiv = firstDivElement.elements(matching: 
 	allOf([
 		not(typeSelector("p")),
 		not(typeSelector("div"))
@@ -77,4 +77,4 @@ One more thing! You can also create your own selectors. You either subclass the 
 let myAwesomeSelector = namedBlockSelector("myAwesomeSelector", { (element) -> Bool in
 	return element.tagName != "p" && element.tagName != "div"
 })
-firstDivElement.elementsMatchingSelector(myAwesomeSelector)
+firstDivElement.elements(matching: myAwesomeSelector)

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @see CSSelector
  */
-+ (CSSSelector *)parseSelector:(NSString *)string error:(NSError **)error;
++ (nullable CSSSelector *)parseSelector:(NSString *)string error:(NSError **)error;
 
 @end
 
