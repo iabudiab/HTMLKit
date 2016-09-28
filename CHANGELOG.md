@@ -1,5 +1,26 @@
 # Change Log
 
+## [1.0.0](https://github.com/iabudiab/HTMLKit/releases/tag/1.0.0) 
+
+Released on 2016.09.28
+
+### Added
+
+- Jazzy configuration file
+- Example HTMLKit project
+
+### Updated
+
+- Project for Xcode 8
+- Playground syntax for Swift 3
+- Travis config for iOS 10.0, macOS 10.12, tvOS 10.0 and watchOS 3.0
+- Deployment targets to macOS 10.9, iOS 9.0, tvOS 9.0 and watchOS 2.0
+
+### Fixed
+
+- Nullability annotation in `CSSSelectorParser` class
+- Missing lightweight generics in `HTMLParser`, `HTMLNode` & `HTMLElement`
+
 ## [0.9.4](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.4) 
 
 Released on 2016.09.03
@@ -49,7 +70,6 @@ This release passes all tokenizer and tree construction html5lib-tests as of 201
 
 - Parser now checks the qualified name instead of the local name when handling elements in the `MathML` and `SVG` namespaces
 
-
 ## [0.9.1](https://github.com/iabudiab/HTMLKit/releases/tag/0.9.1)
 
 Released on 2016.01.29
@@ -58,7 +78,6 @@ Released on 2016.01.29
 
 - Travis-CI integration.
 - CocoaPods spec.
-
 
 ### Changed
 
@@ -90,7 +109,6 @@ This is the first public release of `HTMLKit`.
 
 - Unused namespaces.
 - Historical node types.
-
 
 ### Fixed
 
