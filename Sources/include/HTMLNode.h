@@ -138,6 +138,11 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 @property (nonatomic, copy)	NSString *innerHTML;
 
 /**
+ The length of the node as described in https://dom.spec.whatwg.org/#concept-node-length
+ */
+@property (nonatomic, assign) NSUInteger length;
+
+/**
  @abstract Use concrete subclasses of the HTML Node.
  */
 - (instancetype)init NS_UNAVAILABLE;
@@ -163,6 +168,13 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  @return The child nodes count.
  */
 - (NSUInteger)childNodesCount;
+
+/**
+ Checks whether the node is empty as described in https://dom.spec.whatwg.org/#concept-node-length
+
+ @return `YES` if the node is empty, `NO` otherwise.
+ */
+- (BOOL)isEmpty;
 
 /**
  Returns the child node at a given index.

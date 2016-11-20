@@ -35,6 +35,11 @@
 	self.data = textContent ?: @"";
 }
 
+- (NSUInteger)length
+{
+	return self.data.length;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone

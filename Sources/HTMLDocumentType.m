@@ -129,6 +129,11 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return HTMLQuirksModeNoQuirks;
 }
 
+- (NSUInteger)length
+{
+	return 0;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone

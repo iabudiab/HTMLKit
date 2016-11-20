@@ -123,6 +123,11 @@
 	return nil;
 }
 
+- (NSUInteger)length
+{
+	return self.childNodesCount;
+}
+
 #pragma mark - Cast
 
 - (HTMLElement *)asElement
@@ -153,6 +158,11 @@
 - (NSUInteger)childNodesCount
 {
 	return self.childNodes.count;
+}
+
+- (BOOL)isEmpty
+{
+	return self.length == 0;
 }
 
 - (HTMLNode *)childNodeAtIndex:(NSUInteger)index
