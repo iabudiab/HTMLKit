@@ -277,6 +277,14 @@
 		62857D901D39A47F008DC254 /* CSSCompoundSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 620C87791BD44CBE00FB3EEE /* CSSCompoundSelector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		628AF6301BC99A6C00496128 /* CSSNthExpressionsParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */; };
 		62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */; };
+		62D91C231DE218A500BEFADE /* HTMLRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D91C211DE218A500BEFADE /* HTMLRange.h */; };
+		62D91C241DE218A500BEFADE /* HTMLRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D91C211DE218A500BEFADE /* HTMLRange.h */; };
+		62D91C251DE218A500BEFADE /* HTMLRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D91C211DE218A500BEFADE /* HTMLRange.h */; };
+		62D91C261DE218A500BEFADE /* HTMLRange.h in Headers */ = {isa = PBXBuildFile; fileRef = 62D91C211DE218A500BEFADE /* HTMLRange.h */; };
+		62D91C271DE218A500BEFADE /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D91C221DE218A500BEFADE /* HTMLRange.m */; };
+		62D91C281DE218A500BEFADE /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D91C221DE218A500BEFADE /* HTMLRange.m */; };
+		62D91C291DE218A500BEFADE /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D91C221DE218A500BEFADE /* HTMLRange.m */; };
+		62D91C2A1DE218A500BEFADE /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D91C221DE218A500BEFADE /* HTMLRange.m */; };
 		62EC7AE71AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */; };
 		62ECBEE11C0B69FD00AF847B /* HTMLKitErrorDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 626652F81C03D30F00C3F121 /* HTMLKitErrorDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBEE21C0B69FD00AF847B /* HTMLInputStreamReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -661,6 +669,8 @@
 		62AE594819F9948A0043F069 /* HTMLCharacterToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLCharacterToken.m; sourceTree = "<group>"; };
 		62D8345719FB1AC4009205A9 /* HTML5LibTokenizerTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTML5LibTokenizerTest.h; sourceTree = "<group>"; };
 		62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTML5LibTokenizerTest.m; sourceTree = "<group>"; };
+		62D91C211DE218A500BEFADE /* HTMLRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLRange.h; sourceTree = "<group>"; };
+		62D91C221DE218A500BEFADE /* HTMLRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLRange.m; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLTokenizerCharacters.h; path = include/HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
 		62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitMutationAlgorithmsTests.m; sourceTree = "<group>"; };
 		62ECBF4D1C0B6C7600AF847B /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -792,6 +802,8 @@
 				624717171B22333200C11912 /* HTMLNodeTraversal.m */,
 				6247A9461B152F8C00CCF25C /* HTMLNodeFilter.h */,
 				624717B71B21FE5400B38302 /* HTMLNodeFilter.m */,
+				62D91C211DE218A500BEFADE /* HTMLRange.h */,
+				62D91C221DE218A500BEFADE /* HTMLRange.m */,
 				6238C9831AB8D6330006512E /* HTMLKitDOMExceptions.h */,
 				6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */,
 				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
@@ -1081,6 +1093,7 @@
 				62ECBEE21C0B69FD00AF847B /* HTMLInputStreamReader.h in Headers */,
 				62ECBEE31C0B69FD00AF847B /* HTMLTokenizer.h in Headers */,
 				62ECBEE41C0B69FD00AF847B /* HTMLTokenizerStates.h in Headers */,
+				62D91C231DE218A500BEFADE /* HTMLRange.h in Headers */,
 				62ECBEE51C0B69FD00AF847B /* HTMLTokenizerCharacters.h in Headers */,
 				62ECBEE61C0B69FD00AF847B /* HTMLTokenizerEntities.h in Headers */,
 				625D0F031C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */,
@@ -1146,6 +1159,7 @@
 				62857CD61D3989C2008DC254 /* CSSSelectorParser.h in Headers */,
 				62857CAA1D398973008DC254 /* HTMLTreeWalker.h in Headers */,
 				62857CA31D398973008DC254 /* HTMLDocumentType.h in Headers */,
+				62D91C261DE218A500BEFADE /* HTMLRange.h in Headers */,
 				62857C6B1D3988EE008DC254 /* HTMLKit.h in Headers */,
 				62857C701D398907008DC254 /* HTMLTokenizerCharacters.h in Headers */,
 				62857C6F1D398907008DC254 /* HTMLTokenizerStates.h in Headers */,
@@ -1211,6 +1225,7 @@
 				62857D841D39A472008DC254 /* CSSSelectorParser.h in Headers */,
 				62857D7F1D39A461008DC254 /* NSString+HTMLKit.h in Headers */,
 				62857D7E1D39A45B008DC254 /* HTMLNode+Private.h in Headers */,
+				62D91C251DE218A500BEFADE /* HTMLRange.h in Headers */,
 				62857D701D39A44E008DC254 /* HTMLDocumentType.h in Headers */,
 				62857D861D39A476008DC254 /* CSSCodePoints.h in Headers */,
 				62857D8A1D39A47F008DC254 /* CSSTypeSelector.h in Headers */,
@@ -1276,6 +1291,7 @@
 				62ECBF9F1C0B6D3900AF847B /* HTMLParser.h in Headers */,
 				62ECBFA61C0B6D3A00AF847B /* HTMLDOM.h in Headers */,
 				62ECBFA71C0B6D3A00AF847B /* HTMLNode.h in Headers */,
+				62D91C241DE218A500BEFADE /* HTMLRange.h in Headers */,
 				62ECBFA81C0B6D3A00AF847B /* HTMLDocument.h in Headers */,
 				62ECBFA91C0B6D3A00AF847B /* HTMLDocumentType.h in Headers */,
 				62ECBFAA1C0B6D3A00AF847B /* HTMLDocumentFragment.h in Headers */,
@@ -1591,6 +1607,7 @@
 				62ECBF211C0B6B7900AF847B /* HTMLCommentToken.m in Sources */,
 				62ECBF221C0B6B7900AF847B /* HTMLDOCTYPEToken.m in Sources */,
 				62ECBF231C0B6B7900AF847B /* HTMLParseErrorToken.m in Sources */,
+				62D91C271DE218A500BEFADE /* HTMLRange.m in Sources */,
 				62ECBF241C0B6B7900AF847B /* HTMLTagToken.m in Sources */,
 				62ECBF251C0B6B7900AF847B /* HTMLEOFToken.m in Sources */,
 				62ECBF261C0B6B7900AF847B /* HTMLParser.m in Sources */,
@@ -1673,6 +1690,7 @@
 				62857CCB1D3989B8008DC254 /* CSSSelector.m in Sources */,
 				62857C8B1D39892D008DC254 /* HTMLParser.m in Sources */,
 				62857CC61D3989AF008DC254 /* CSSSelectors.m in Sources */,
+				62D91C2A1DE218A500BEFADE /* HTMLRange.m in Sources */,
 				62857CD31D3989B8008DC254 /* CSSCompoundSelector.m in Sources */,
 				62857C7B1D398912008DC254 /* HTMLTokenizer.m in Sources */,
 				62857CB21D398992008DC254 /* HTMLDocument.m in Sources */,
@@ -1725,6 +1743,7 @@
 				62857D251D39A334008DC254 /* CSSSelector.m in Sources */,
 				62857D021D39A324008DC254 /* HTMLTokenizer.m in Sources */,
 				62857D201D39A334008DC254 /* CSSSelectors.m in Sources */,
+				62D91C291DE218A500BEFADE /* HTMLRange.m in Sources */,
 				62857D2D1D39A334008DC254 /* CSSCompoundSelector.m in Sources */,
 				62857D061D39A324008DC254 /* HTMLCommentToken.m in Sources */,
 				62857D111D39A32A008DC254 /* HTMLDocumentType.m in Sources */,
@@ -1807,6 +1826,7 @@
 				62ECBF691C0B6D2A00AF847B /* HTMLCommentToken.m in Sources */,
 				62ECBF6A1C0B6D2A00AF847B /* HTMLDOCTYPEToken.m in Sources */,
 				62ECBF6B1C0B6D2A00AF847B /* HTMLParseErrorToken.m in Sources */,
+				62D91C281DE218A500BEFADE /* HTMLRange.m in Sources */,
 				62ECBF6C1C0B6D2A00AF847B /* HTMLTagToken.m in Sources */,
 				62ECBF6D1C0B6D2A00AF847B /* HTMLEOFToken.m in Sources */,
 				62ECBF6E1C0B6D2A00AF847B /* HTMLParser.m in Sources */,
