@@ -49,4 +49,60 @@
  */
 @property (nonatomic, readonly, weak) HTMLNode *commonAncestorContainer;
 
+/**
+ Intializes a new HTML Range isntance with the given boundaries.
+
+ @param startNode The node of the start boundary.
+ @param startOffset The offset of the start boundary.
+ @param endNode The node of the end boundary.
+ @param endOffset The offset of the end boundary.
+ @return A new instance of HTML Range.
+ */
+- (instancetype)initWithStartNode:(HTMLNode *)startNode startOffset:(NSUInteger)startOffset
+						  endNode:(HTMLNode *)endNode endOffset:(NSUInteger)endOffset;
+
+/**
+ Sets the start boundary.
+
+ @param startNode The new node of the start boundary.
+ @param startOffset The new offset of the start boundary.
+ */
+- (void)setStartNode:(HTMLNode *)startNode startOffset:(NSUInteger)startOffset;
+
+/**
+ Sets the end boundary.
+
+ @param startNode The new node of the end boundary.
+ @param startOffset The new offset of the end boundary.
+ */
+- (void)setEndNode:(HTMLNode *)endNode endOffset:(NSUInteger)endOffset;
+
+/**
+ Sets the start boundary before the given node.
+
+ @param node The node before which the boundary will be set.
+ */
+- (void)setStartBeforeNode:(HTMLNode *)node;
+
+/**
+ Sets the start boundary after the given node.
+
+ @param node The node after which the boundary will be set.
+ */
+- (void)setStartAfterNode:(HTMLNode *)node;
+
+/**
+ Sets the end boundary before the given node.
+
+ @param node The node before which the boundary will be set.
+ */
+- (void)setEndBeforeNode:(HTMLNode *)node;
+
+/**
+ Sets the end boundary after the given node.
+
+ @param node The node after which the boundary will be set.
+ */
+- (void)setEndAfterNode:(HTMLNode *)node;
+
 @end
