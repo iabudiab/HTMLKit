@@ -105,4 +105,28 @@
  */
 - (void)setEndAfterNode:(HTMLNode *)node;
 
+/**
+ Collapses this range to its start.
+ */
+- (void)collapseToStart;
+
+/**
+ Collapses this range to its end.
+ */
+- (void)collapseToEnd;
+
+/**
+ Selects the given node in the range.
+
+ @param node The node to select
+ */
+- (void)selectNode:(HTMLNode *)node;
+
+/**
+ Selects the node's contents in the range.
+
+ @param node The node to select the contents.
+ */
+- (void)selectNodeContents:(HTMLNode *)node;
+
 @end
