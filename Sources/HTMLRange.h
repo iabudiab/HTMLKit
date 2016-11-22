@@ -8,6 +8,15 @@
 
 #import "HTMLNode.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
+{
+	HTMLRangeComparisonMethodStartToStart = 0,
+	HTMLRangeComparisonMethodStartToEnd = 1,
+	HTMLRangeComparisonMethodEndToEnd = 2,
+	HTMLRangeComparisonMethodEndToStart = 3
+};
 
 #pragma mark - DOM Range
 
@@ -128,4 +137,17 @@
  */
 - (void)selectNodeContents:(HTMLNode *)node;
 
+
+/**
+ Compares the boundary points of this range with the given source range.
+
+ @param method The comparison method.
+ @param sourceRange The range to compare with.
+ @return `NSOrderedAscending` if ordered before, `NSOrderedSame` if ordered same, `NSOrderedDescending` otherwise.
+ 
+ @see HTMLRangeComparisonMethod
+ */
+- (NSComparisonResult)compareBoundaryPoints:(HTMLRangeComparisonMethod)method sourceRange:(HTMLRange *)sourceRange;
 @end
+
+NS_ASSUME_NONNULL_END
