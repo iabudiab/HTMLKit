@@ -65,6 +65,15 @@ NS_INLINE void CheckValidBoundaryOffset(HTMLNode *node, NSUInteger offset, NSStr
 	}
 }
 
+NS_INLINE void CheckValidDocument(HTMLRange *lhs, HTMLRange *rhs, NSString *cmd)
+{
+	if (lhs.rootNode != rhs.rootNode) {
+		[NSException raise:HTMLKitWrongDocumentError
+					format:@"%@: Wrong Document Error, ranges %@ and %@ have different roots.",
+		 cmd, lhs, rhs];
+	}
+}
+
 NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger startOffset, HTMLNode *endNode, NSUInteger endOffset)
 {
 	if (startNode == endNode) {
@@ -171,6 +180,23 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 - (void)collapseToEnd
 {
 	[self setStartNode:_endContainer startOffset:_endOffset];
+}
+
+- (void)selectNode:(HTMLNode *)node
+{
+	HTMLNode *parent = node.parentNode;
+	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
+
+	[self setStartNode:parent startOffset:node.index];
+	[self setEndNode:parent endOffset:node.index + 1];
+}
+
+- (void)selectNodeContents:(HTMLNode *)node
+{
+	CheckValidBoundaryNode(node, NSStringFromSelector(_cmd));
+
+	[self setStartNode:node startOffset:0];
+	[self setEndNode:node endOffset:node.length];
 }
 
 - (NSComparisonResult)compareBoundaryPoints:(HTMLRangeComparisonMethod)method sourceRange:(HTMLRange *)sourceRange

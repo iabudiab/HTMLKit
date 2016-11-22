@@ -16,3 +16,4 @@ NSString * const HTMLKitSyntaxError = @"SyntaxError";
 NSString * const HTMLKitInvalidCharacterError = @"InvalidCharacterError";
 NSString * const HTMLKitInvalidNodeTypeError = @"InvalidNodeTypeError";
 NSString * const HTMLKitIndexSizeError = @"IndexSizeError";
+NSString * const HTMLKitWrongDocumentError = @"WrongDocumentError";
