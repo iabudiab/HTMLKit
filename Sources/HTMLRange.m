@@ -24,6 +24,26 @@
 	return self;
 }
 
+#pragma mark - Properties
+
+- (BOOL)isCollapsed
+{
+	return _startContainer == _endContainer && _startOffset == _endOffset;
+}
+
+- (HTMLNode *)commonAncestorContainer
+{
+	HTMLNode *container = _startContainer;
+	while (![container containsNode:_endContainer]) {
+		container = container.parentNode;
+	}
+	return container;
+}
+
+- (HTMLNode *)rootNode
+{
+	return _startContainer.rootNode;
+}
 
 #pragma mark - Boundaries
 
