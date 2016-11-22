@@ -8,6 +8,9 @@
 
 #import "HTMLNode.h"
 
+
+#pragma mark - DOM Range
+
 /**
  A HTML Range, represents a sequence of content within a node tree. 
  Each range has a start and an end which are boundary points. 
@@ -50,16 +53,12 @@
 @property (nonatomic, readonly, weak) HTMLNode *commonAncestorContainer;
 
 /**
- Intializes a new HTML Range isntance with the given boundaries.
+ Initializes a new range instance for the given document.
 
- @param startNode The node of the start boundary.
- @param startOffset The offset of the start boundary.
- @param endNode The node of the end boundary.
- @param endOffset The offset of the end boundary.
- @return A new instance of HTML Range.
+ @param document The HTML doucment for which the range will be constructed.
+ @return A new HTML Range instance.
  */
-- (instancetype)initWithStartNode:(HTMLNode *)startNode startOffset:(NSUInteger)startOffset
-						  endNode:(HTMLNode *)endNode endOffset:(NSUInteger)endOffset;
+- (instancetype)initWithDowcument:(HTMLDocument *)document;
 
 /**
  Sets the start boundary.

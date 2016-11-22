@@ -7,9 +7,22 @@
 //
 
 #import "HTMLRange.h"
+#import "HTMLDocument.h"
 #import "HTMLKitDOMExceptions.h"
 
 @implementation HTMLRange
+
+#pragma mark - Lifecycle
+
+- (instancetype)initWithDowcument:(HTMLDocument *)document
+{
+	self = [super init];
+	if (self) {
+		[self setStartNode:document startOffset:0];
+		[self setEndNode:document endOffset:0];
+	}
+	return self;
+}
 
 
 #pragma mark - Boundaries
