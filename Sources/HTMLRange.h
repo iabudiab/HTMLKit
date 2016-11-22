@@ -67,7 +67,7 @@
  @param startNode The new node of the start boundary.
  @param startOffset The new offset of the start boundary.
  */
-- (void)setStartNode:(HTMLNode *)startNode startOffset:(NSUInteger)startOffset;
+- (void)setStartNode:(HTMLNode *)node startOffset:(NSUInteger)offset;
 
 /**
  Sets the end boundary.
@@ -75,7 +75,7 @@
  @param startNode The new node of the end boundary.
  @param startOffset The new offset of the end boundary.
  */
-- (void)setEndNode:(HTMLNode *)endNode endOffset:(NSUInteger)endOffset;
+- (void)setEndNode:(HTMLNode *)node endOffset:(NSUInteger)offset;
 
 /**
  Sets the start boundary before the given node.

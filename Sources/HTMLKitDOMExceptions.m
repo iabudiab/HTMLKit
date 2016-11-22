@@ -14,3 +14,5 @@ NSString * const HTMLKitNotFoundError = @"NotFoundError";
 NSString * const HTMLKitNotSupportedError = @"NotSupportedError";
 NSString * const HTMLKitSyntaxError = @"SyntaxError";
 NSString * const HTMLKitInvalidCharacterError = @"InvalidCharacterError";
+NSString * const HTMLKitInvalidNodeTypeError = @"InvalidNodeTypeError";
+NSString * const HTMLKitIndexSizeError = @"IndexSizeError";
