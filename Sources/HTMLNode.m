@@ -123,6 +123,11 @@
 	return node.asElement;
 }
 
+- (NSUInteger)index
+{
+	return [self.parentNode indexOfChildNode:self];
+}
+
 - (NSString *)textContent
 {
 	return nil;

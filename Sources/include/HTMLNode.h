@@ -128,6 +128,11 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 @property (nonatomic, strong, readonly, nullable) HTMLElement *nextSiblingElement;
 
 /**
+ The index of this node.
+ */
+@property (nonatomic, readonly, assign) NSUInteger index;
+
+/**
  The text content of this node.
  */
 @property (nonatomic, copy) NSString *textContent;
