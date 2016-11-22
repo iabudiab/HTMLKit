@@ -79,7 +79,11 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 
 	HTMLDocumentPosition position = [startNode compareDocumentPositionWithNode:endNode];
 	if ((position & HTMLDocumentPositionFollowing) == HTMLDocumentPositionFollowing) {
-			// Check Spec
+		if (CompareBoundaries(endNode, endOffset, startNode, startOffset) == NSOrderedAscending) {
+			return NSOrderedDescending;
+		} else {
+			return NSOrderedAscending;
+		}
 	}
 
 	if ([startNode containsNode:endNode]) {
@@ -126,4 +130,53 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	_endContainer = node;
 	_endOffset = offset;
 }
+
+- (void)setStartBeforeNode:(HTMLNode *)node
+{
+	HTMLNode *parent = node.parentNode;
+	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
+
+	[self setStartNode:parent startOffset:node.index];
+}
+
+- (void)setStartAfterNode:(HTMLNode *)node
+{
+	HTMLNode *parent = node.parentNode;
+	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
+
+	[self setStartNode:parent startOffset:node.index + 1];
+}
+
+- (void)setEndBeforeNode:(HTMLNode *)node
+{
+	HTMLNode *parent = node.parentNode;
+	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
+
+	[self setEndNode:parent endOffset:node.index];
+}
+
+- (void)setEndAfterNode:(HTMLNode *)node
+{
+	HTMLNode *parent = node.parentNode;
+	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
+
+	[self setEndNode:parent endOffset:node.index + 1];
+}
+
+- (NSComparisonResult)compareBoundaryPoints:(HTMLRangeComparisonMethod)method sourceRange:(HTMLRange *)sourceRange
+{
+	CheckValidDocument(self, sourceRange, NSStringFromSelector(_cmd));
+
+	switch (method) {
+		case HTMLRangeComparisonMethodStartToStart:
+			return CompareBoundaries(_startContainer, _startOffset, sourceRange.startContainer, sourceRange.startOffset);
+		case HTMLRangeComparisonMethodStartToEnd:
+			return CompareBoundaries(_endContainer, _endOffset, sourceRange.startContainer, sourceRange.startOffset);
+		case HTMLRangeComparisonMethodEndToEnd:
+			return CompareBoundaries(_endContainer, _endOffset, sourceRange.endContainer, sourceRange.endOffset);
+		case HTMLRangeComparisonMethodEndToStart:
+			return CompareBoundaries(_startContainer, _startOffset, sourceRange.endContainer, sourceRange.endOffset);
+	}
+}
+
 @end

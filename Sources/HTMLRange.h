@@ -137,7 +137,6 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  */
 - (void)selectNodeContents:(HTMLNode *)node;
 
-
 /**
  Compares the boundary points of this range with the given source range.
 
