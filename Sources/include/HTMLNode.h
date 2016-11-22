@@ -28,7 +28,7 @@ typedef NS_ENUM(short, HTMLNodeType)
 /**
  A node's position in the HTML document when compared with other nodes.
  */
-typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
+typedef NS_OPTIONS(unsigned short, HTMLDocumentPosition)
 {
 	HTMLDocumentPositionEquivalent = 0x0,
 	HTMLDocumentPositionDisconnected = 0x01,
