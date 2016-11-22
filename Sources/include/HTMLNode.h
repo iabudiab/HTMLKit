@@ -72,6 +72,11 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 @property (nonatomic, weak, readonly, nullable) HTMLDocument *ownerDocument;
 
 /**
+ The root node of this node, if any.
+ */
+@property (nonatomic, weak, readonly, nullable) HTMLNode *rootNode;
+
+/**
  The parent node of this node, if any.
  */
 @property (nonatomic, weak, readonly, nullable) HTMLNode *parentNode;

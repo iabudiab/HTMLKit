@@ -62,6 +62,11 @@
 	[self.childNodes.array makeObjectsPerformSelector:@selector(setOwnerDocument:) withObject:ownerDocument];
 }
 
+- (HTMLNode *)rootNode
+{
+	return _parentNode == nil ? self : _parentNode.rootNode;
+}
+
 - (void)setParentNode:(HTMLNode *)parentNode
 {
 	_parentNode = parentNode;
