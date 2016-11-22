@@ -163,6 +163,16 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	[self setEndNode:parent endOffset:node.index + 1];
 }
 
+- (void)collapseToStart
+{
+	[self setEndNode:_startContainer endOffset:_startOffset];
+}
+
+- (void)collapseToEnd
+{
+	[self setStartNode:_endContainer startOffset:_endOffset];
+}
+
 - (NSComparisonResult)compareBoundaryPoints:(HTMLRangeComparisonMethod)method sourceRange:(HTMLRange *)sourceRange
 {
 	CheckValidDocument(self, sourceRange, NSStringFromSelector(_cmd));
