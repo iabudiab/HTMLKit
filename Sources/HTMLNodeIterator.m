@@ -11,17 +11,13 @@
 #import "HTMLNode.h"
 #import "HTMLNodeFilter.h"
 #import "HTMLNodeTraversal.h"
+#import "HTMLDocument+Private.h"
 
 typedef NS_ENUM(short, TraverseDirection)
 {
 	TraverseDirectionNext,
 	TraverseDirectionPrevious
 };
-
-@interface HTMLDocument (Private)
-- (void)attachNodeIterator:(HTMLNodeIterator *)iterator;
-- (void)detachNodeIterator:(HTMLNodeIterator *)iterator;
-@end
 
 @interface HTMLNodeIterator ()
 {

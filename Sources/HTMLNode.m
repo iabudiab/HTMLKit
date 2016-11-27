@@ -16,12 +16,7 @@
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNodeFilter.h"
 #import "CSSSelector.h"
-
-@interface HTMLDocument (Private)
-- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
-				  withOldParent:(HTMLNode *)oldParent
-		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
-@end
+#import "HTMLDocument+Private.h"
 
 @interface HTMLNode ()
 {

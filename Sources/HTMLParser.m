@@ -18,13 +18,10 @@
 #import "HTMLMarker.h"
 #import "NSString+HTMLKit.h"
 #import "CSSSelectors.h"
+#import "HTMLDocument+Private.h"
 
 @interface HTMLTokenizer (Private)
 @property (nonatomic, weak) HTMLParser *parser;
-@end
-
-@interface HTMLDocument (Private)
-@property (nonatomic, assign) HTMLDocumentReadyState readyState;
 @end
 
 @interface HTMLParser ()
