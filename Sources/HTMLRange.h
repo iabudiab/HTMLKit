@@ -147,6 +147,15 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  @see HTMLRangeComparisonMethod
  */
 - (NSComparisonResult)compareBoundaryPoints:(HTMLRangeComparisonMethod)method sourceRange:(HTMLRange *)sourceRange;
+
+/**
+ Checks whether the given node is contained in this range.
+
+ @param node The node to check.
+ @return `YES` if the node is contained in the range, `NO` otherwise.
+ */
+- (BOOL)containsNode:(HTMLNode *)node;
+
 @end
 
 NS_ASSUME_NONNULL_END

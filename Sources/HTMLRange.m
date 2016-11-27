@@ -229,4 +229,23 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	}
 }
 
+#pragma mark - Containment
+
+- (BOOL)containsNode:(HTMLNode *)node
+{
+	if (node.rootNode != self.rootNode) {
+		return NO;
+	}
+
+	if (CompareBoundaries(node, 0, _startContainer, _startOffset) == NSOrderedDescending) {
+		return NO;
+	}
+
+	if (CompareBoundaries(node, node.length, _endContainer, _endOffset) == NSOrderedAscending) {
+		return NO;
+	}
+
+	return YES;
+}
+
 @end
