@@ -9,6 +9,7 @@
 #import "HTMLDocument.h"
 #import "HTMLParser.h"
 #import "HTMLNodeIterator.h"
+#import "HTMLRange.h"
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNode+Private.h"
 #import "HTMLNodeIterator+Private.h"
@@ -17,6 +18,7 @@
 {
 	HTMLDocument *_inertTemplateDocument;
 	NSMutableArray *_nodeIterators;
+	NSMutableArray *_ranges;
 }
 @property (nonatomic, assign) HTMLDocumentReadyState readyState;
 @end
@@ -37,6 +39,7 @@
 	if (self) {
 		_readyState = HTMLDocumentLoading;
 		_nodeIterators = [NSMutableArray new];
+		_ranges = [NSMutableArray new];
 	}
 	return self;
 }
@@ -147,6 +150,18 @@
 							 withOldParent:oldParent
 					 andOldPreviousSibling:oldPreviousSibling];
 	}
+}
+
+#pragma mark - Ranges
+
+- (void)attachRange:(HTMLRange *)range
+{
+	[_ranges addObject:range];
+}
+
+- (void)detachRange:(HTMLRange *)range
+{
+	[_ranges removeObject:range];
 }
 
 #pragma mark - Mutation Algorithms
