@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param string The string to append.
  */
-- (void)appendString:(NSString *)string;
+- (void)appendString:(NSString *)string __attribute__((deprecated("Use the mutable data property instead.")));
 
 @end
 
