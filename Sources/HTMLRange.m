@@ -9,6 +9,13 @@
 #import "HTMLRange.h"
 #import "HTMLDocument.h"
 #import "HTMLKitDOMExceptions.h"
+#import "HTMLDocument+Private.h"
+
+@interface HTMLRange ()
+{
+	HTMLDocument *_ownerDocument;
+}
+@end
 
 @implementation HTMLRange
 
@@ -18,10 +25,17 @@
 {
 	self = [super init];
 	if (self) {
+		_ownerDocument = document;
+		[_ownerDocument attachRange:self];
 		[self setStartNode:document startOffset:0];
 		[self setEndNode:document endOffset:0];
 	}
 	return self;
+}
+
+- (void)dealloc
+{
+	[_ownerDocument detachRange:self];
 }
 
 #pragma mark - Properties
