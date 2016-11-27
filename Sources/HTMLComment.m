@@ -7,7 +7,7 @@
 //
 
 #import "HTMLComment.h"
-#import "HTMLNode+Private.h"
+#import "HTMLCharacterData+Private.h"
 
 @implementation HTMLComment
 
@@ -18,35 +18,7 @@
 
 - (instancetype)initWithData:(NSString *)data
 {
-	self = [super initWithName:@"#comment" type:HTMLNodeComment];
-	if (self) {
-		self.data = data ?: @"";
-	}
-	return self;
-}
-
-- (NSString *)textContent
-{
-	return self.data;
-}
-
-- (void)setTextContent:(NSString *)textContent
-{
-	self.data = textContent ?: @"";
-}
-
-- (NSUInteger)length
-{
-	return self.data.length;
-}
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone
-{
-	HTMLComment *copy = [super copyWithZone:zone];
-	copy.data = self.data;
-	return copy;
+	return [super initWithName:@"#comment" type:HTMLNodeComment data:data];
 }
 
 #pragma mark - Serialization

@@ -9,7 +9,7 @@
 #import "HTMLText.h"
 #import "HTMLElement.h"
 #import "NSString+HTMLKit.h"
-#import "HTMLNode+Private.h"
+#import "HTMLCharacterData+Private.h"
 
 @implementation HTMLText
 
@@ -20,40 +20,12 @@
 
 - (instancetype)initWithData:(NSString *)data
 {
-	self = [super initWithName:@"#text" type:HTMLNodeText];
-	if (self) {
-		_data = [[NSMutableString alloc] initWithString:data ?: @""];
-	}
-	return self;
-}
-
-- (NSString *)textContent
-{
-	return [self.data copy];
-}
-
-- (void)setTextContent:(NSString *)textContent
-{
-	[self.data setString:textContent ?: @""];
+	return [super initWithName:@"#text" type:HTMLNodeText data:data];
 }
 
 - (void)appendString:(NSString *)string
 {
 	[self.data appendString:string];
-}
-
-- (NSUInteger)length
-{
-	return self.data.length;
-}
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone
-{
-	HTMLText *copy = [super copyWithZone:zone];
-	copy.data = self.data;
-	return copy;
 }
 
 #pragma mark - Serialization
