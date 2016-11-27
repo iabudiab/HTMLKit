@@ -25,7 +25,7 @@
 
 - (void)appendString:(NSString *)string
 {
-	[self.data appendString:string];
+	[self appendData:string];
 }
 
 #pragma mark - Serialization
