@@ -11,12 +11,7 @@
 #import "HTMLNodeIterator.h"
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNode+Private.h"
-
-@interface HTMLNodeIterator (Private)
-- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
-				  withOldParent:(HTMLNode *)oldParent
-		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
-@end
+#import "HTMLNodeIterator+Private.h"
 
 @interface HTMLDocument ()
 {

@@ -9,6 +9,9 @@
 #import "HTMLCharacterData.h"
 #import "HTMLNode.h"
 
+/**
+ Private HTML Character Data methods which are not intended for public API.
+ */
 @interface HTMLCharacterData ()
 
 /**

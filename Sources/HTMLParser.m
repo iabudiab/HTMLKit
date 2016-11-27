@@ -20,10 +20,6 @@
 #import "CSSSelectors.h"
 #import "HTMLDocument+Private.h"
 
-@interface HTMLTokenizer (Private)
-@property (nonatomic, weak) HTMLParser *parser;
-@end
-
 @interface HTMLParser ()
 {
 	HTMLTokenizer *_tokenizer;

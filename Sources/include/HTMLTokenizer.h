@@ -37,7 +37,7 @@
  
  @see HTMLParser
  */
-@property (nonatomic, weak, readonly) HTMLParser *parser;
+@property (nonatomic, weak) HTMLParser *parser;
 
 /**
  Initializes a new Tokenizer with the given string.
