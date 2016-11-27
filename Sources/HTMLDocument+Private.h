@@ -8,6 +8,7 @@
 
 #import "HTMLDocument.h"
 #import "HTMLNode.h"
+#import "HTMLCharacterData.h"
 #import "HTMLNodeIterator.h"
 #import "HTMLRange.h"
 
@@ -57,5 +58,8 @@
  @param range The range to detach.
  */
 - (void)detachRange:(HTMLRange *)range;
+
+- (void)didRemoveCharacterDataInNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length;
+- (void)didAddCharacterDataToNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length;
 
 @end

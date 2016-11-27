@@ -10,9 +10,11 @@
 #import "HTMLParser.h"
 #import "HTMLNodeIterator.h"
 #import "HTMLRange.h"
+#import "HTMLCharacterData.h"
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNode+Private.h"
 #import "HTMLNodeIterator+Private.h"
+#import "HTMLRange+Private.h"
 
 @interface HTMLDocument ()
 {
@@ -147,8 +149,8 @@
 {
 	for (HTMLNodeIterator *iterator in _nodeIterators) {
 		[iterator runRemovingStepsForNode:oldNode
-							 withOldParent:oldParent
-					 andOldPreviousSibling:oldPreviousSibling];
+							withOldParent:oldParent
+					andOldPreviousSibling:oldPreviousSibling];
 	}
 }
 
@@ -162,6 +164,20 @@
 - (void)detachRange:(HTMLRange *)range
 {
 	[_ranges removeObject:range];
+}
+
+- (void)didRemoveCharacterDataInNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length
+{
+	for (HTMLRange *range in _ranges) {
+		[range didRemoveCharacterDataInNode:node atOffset:offset withLength:length];
+	}
+}
+
+- (void)didAddCharacterDataToNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length
+{
+	for (HTMLRange *range in _ranges) {
+		[range didAddCharacterDataToNode:node atOffset:offset withLength:length];
+	}
 }
 
 #pragma mark - Mutation Algorithms

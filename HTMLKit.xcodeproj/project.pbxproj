@@ -534,6 +534,10 @@
 		62ECBFDE1C0B6E4400AF847B /* HTML Standard.html in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90D19FC702E00BD3C4A /* HTML Standard.html */; };
 		62ECBFDF1C0B6E4400AF847B /* html5lib-tests in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90419FBFE8A00BD3C4A /* html5lib-tests */; };
 		62F658711BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F6586F1BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m */; };
+		62F7E5A21DEB63F900DEF09B /* HTMLRange+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F7E5A01DEB63F900DEF09B /* HTMLRange+Private.h */; };
+		62F7E5A31DEB63F900DEF09B /* HTMLRange+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F7E5A01DEB63F900DEF09B /* HTMLRange+Private.h */; };
+		62F7E5A41DEB63F900DEF09B /* HTMLRange+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F7E5A01DEB63F900DEF09B /* HTMLRange+Private.h */; };
+		62F7E5A51DEB63F900DEF09B /* HTMLRange+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62F7E5A01DEB63F900DEF09B /* HTMLRange+Private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -710,6 +714,7 @@
 		62F501631BC9576B0069F47B /* CSSNthExpressionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSNthExpressionParser.h; path = include/CSSNthExpressionParser.h; sourceTree = "<group>"; };
 		62F501641BC9576B0069F47B /* CSSNthExpressionParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSNthExpressionParser.m; sourceTree = "<group>"; };
 		62F6586F1BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSNThExpressionSelectorTests.m; sourceTree = "<group>"; };
+		62F7E5A01DEB63F900DEF09B /* HTMLRange+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTMLRange+Private.h"; sourceTree = "<group>"; };
 		62F873E919E088C90062683C /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLParser.h; path = include/HTMLParser.h; sourceTree = "<group>"; };
 		62F873EA19E088C90062683C /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
 		62FA04E11BCC360D009ABF98 /* CSSCombinatorSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSCombinatorSelector.h; path = include/CSSCombinatorSelector.h; sourceTree = "<group>"; };
@@ -989,6 +994,7 @@
 				625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */,
 				626679CD1DEA3DAF004353E7 /* HTMLCharacterData+Private.h */,
 				621CC4991DEA71D800D1992A /* HTMLNodeIterator+Private.h */,
+				62F7E5A01DEB63F900DEF09B /* HTMLRange+Private.h */,
 				621CC4A31DEA721A00D1992A /* HTMLParser+Private.h */,
 			);
 			name = Private;
@@ -1124,6 +1130,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62F7E5A21DEB63F900DEF09B /* HTMLRange+Private.h in Headers */,
 				62ECBF181C0B6A1000AF847B /* HTMLKit.h in Headers */,
 				62ECBEE11C0B69FD00AF847B /* HTMLKitErrorDomain.h in Headers */,
 				62ECBEE21C0B69FD00AF847B /* HTMLInputStreamReader.h in Headers */,
@@ -1195,6 +1202,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62F7E5A51DEB63F900DEF09B /* HTMLRange+Private.h in Headers */,
 				62857CBE1D398999008DC254 /* NSString+HTMLKit.h in Headers */,
 				62857CAC1D398973008DC254 /* HTMLKitDOMExceptions.h in Headers */,
 				62857CD61D3989C2008DC254 /* CSSSelectorParser.h in Headers */,
@@ -1266,6 +1274,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62F7E5A41DEB63F900DEF09B /* HTMLRange+Private.h in Headers */,
 				62857D831D39A46D008DC254 /* CSSStructuralPseudoSelectors.h in Headers */,
 				62857D7D1D39A457008DC254 /* HTMLNodeTraversal.h in Headers */,
 				62857D841D39A472008DC254 /* CSSSelectorParser.h in Headers */,
@@ -1337,6 +1346,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62F7E5A31DEB63F900DEF09B /* HTMLRange+Private.h in Headers */,
 				62ECBF901C0B6D3700AF847B /* HTMLKit.h in Headers */,
 				62ECBF911C0B6D3700AF847B /* HTMLKitErrorDomain.h in Headers */,
 				62ECBF9F1C0B6D3900AF847B /* HTMLParser.h in Headers */,
