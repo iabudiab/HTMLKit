@@ -248,4 +248,32 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	return YES;
 }
 
+#pragma mark - Update Callbacks
+
+- (void)didRemoveCharacterDataInNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length
+{
+	if (_startContainer == node && _startOffset > offset) {
+		if (_startOffset <= offset + length) {
+			_startOffset = offset;
+		} else {
+			_startOffset = _startOffset - length;
+		}
+	} else if (_endContainer == node && _endOffset > offset) {
+		if (_endOffset <= offset + length) {
+			_endOffset = offset;
+		} else {
+			_endOffset = _endOffset - length;
+		}
+	}
+}
+
+- (void)didAddCharacterDataToNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length
+{
+	if (_startContainer == node && _startOffset > offset) {
+		_startOffset = _startOffset + length;
+	} else if (_endContainer == node && _endOffset > offset) {
+		_endOffset = _endOffset + length;
+	}
+}
+
 @end
