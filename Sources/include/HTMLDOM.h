@@ -14,6 +14,7 @@
 #import "HTMLComment.h"
 #import "HTMLText.h"
 #import "HTMLTemplate.h"
+#import "HTMLRange.h"
 #import "HTMLDOMTokenList.h"
 #import "HTMLNodeIterator.h"
 #import "HTMLTreeWalker.h"

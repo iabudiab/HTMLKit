@@ -10,6 +10,7 @@
 #import "HTMLDocument.h"
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLDocument+Private.h"
+#import "HTMLDOMUtils.h"
 
 @interface HTMLRange ()
 {
@@ -47,11 +48,7 @@
 
 - (HTMLNode *)commonAncestorContainer
 {
-	HTMLNode *container = _startContainer;
-	while (![container containsNode:_endContainer]) {
-		container = container.parentNode;
-	}
-	return container;
+	return GetCommonAncestorContainer(_startContainer, _endContainer);
 }
 
 - (HTMLNode *)rootNode
