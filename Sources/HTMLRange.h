@@ -62,6 +62,11 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
 @property (nonatomic, readonly, weak) HTMLNode *commonAncestorContainer;
 
 /**
+ @abstract A range is always associated with a HTML Document. Use `initWithDocument:` initializer instead.
+ */
+- (instancetype)init NS_UNAVAILABLE;
+
+/**
  Initializes a new range instance for the given document.
 
  @param document The HTML doucment for which the range will be constructed.
