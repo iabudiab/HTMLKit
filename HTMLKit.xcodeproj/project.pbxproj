@@ -719,6 +719,7 @@
 		62D91C211DE218A500BEFADE /* HTMLRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLRange.h; sourceTree = "<group>"; };
 		62D91C221DE218A500BEFADE /* HTMLRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLRange.m; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLTokenizerCharacters.h; path = include/HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
+		62EC0A841E158BD80007786B /* HTMLRangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLRangeTests.m; sourceTree = "<group>"; };
 		62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitMutationAlgorithmsTests.m; sourceTree = "<group>"; };
 		62ECBF4D1C0B6C7600AF847B /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62ECBF561C0B6C7600AF847B /* HTMLKitTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HTMLKitTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -879,6 +880,7 @@
 				6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */,
 				624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */,
 				62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */,
+				62EC0A841E158BD80007786B /* HTMLRangeTests.m */,
 			);
 			name = DOM;
 			sourceTree = "<group>";
@@ -1739,6 +1741,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62EC0A851E158BD80007786B /* HTMLRangeTests.m in Sources */,
 				6216ACFD1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m in Sources */,
 				62132E5A1C01F83200084175 /* CSSSelectorTest.m in Sources */,
 				6239755B1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */,
@@ -1879,6 +1882,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62EC0A871E158BD80007786B /* HTMLRangeTests.m in Sources */,
 				62857D3B1D39A345008DC254 /* CSSSelectorTest.m in Sources */,
 				62857D421D39A345008DC254 /* CSSCombinatorSelectorTests.m in Sources */,
 				62857D3C1D39A345008DC254 /* CSSSelectorParserTests.m in Sources */,
@@ -1964,6 +1968,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62EC0A861E158BD80007786B /* HTMLRangeTests.m in Sources */,
 				6216ACFE1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m in Sources */,
 				62ECBFCA1C0B6E2E00AF847B /* HTML5LibTokenizerTest.m in Sources */,
 				62ECBFCB1C0B6E2E00AF847B /* HTMLKitTokenizerTests.m in Sources */,
