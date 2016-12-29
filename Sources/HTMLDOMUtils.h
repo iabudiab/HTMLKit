@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HTMLDOM.h"
 
-@interface HTMLDOMUtils : NSObject
+@class HTMLNode;
 
-@end
+extern HTMLNode * GetCommonAncestorContainer(HTMLNode *nodeA, HTMLNode *nodeB);

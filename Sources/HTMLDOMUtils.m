@@ -7,7 +7,17 @@
 //
 
 #import "HTMLDOMUtils.h"
+#import "HTMLNode.h"
 
-@implementation HTMLDOMUtils
+extern HTMLNode * GetCommonAncestorContainer(HTMLNode *nodeA, HTMLNode *nodeB)
+{
+	for (HTMLNode *parentA = nodeA; parentA != nil; parentA = parentA.parentNode) {
+		for (HTMLNode *parentB = nodeB; parentB != nil; parentB = parentB.parentNode) {
+			if (parentA == parentB) {
+				return parentA;
+			}
+		}
+	}
 
-@end
+	return nil;
+}
