@@ -586,4 +586,115 @@
 	XCTAssertTrue(range.isCollapsed);
 }
 
+- (void)testSelectNode
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     ----------
+	[range selectNode:_firstText];
+	XCTAssertEqual(range.startContainer, _div2);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqual(range.endOffset, 1);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                               --------------------
+	[range selectNode:_firstComment];
+	XCTAssertEqual(range.startContainer, _div2);
+	XCTAssertEqual(range.startOffset, 1);
+	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqual(range.endOffset, 2);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                           -----------------------------------------------------------------------------------
+	[range selectNode:_div1];
+	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqual(range.startOffset, 2);
+	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqual(range.endOffset, 3);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                ----------------------------------------------------
+	[range selectNode:_div2];
+	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqual(range.endOffset, 1);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                                                    --------------------
+	[range selectNode:_secondComment];
+	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqual(range.startOffset, 1);
+	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqual(range.endOffset, 2);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	// --------------
+	[range selectNode:_h1];
+	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqual(range.endOffset, 1);
+}
+
+- (void)testSelectNodeContents
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     ----------
+	[range selectNodeContents:_firstText];
+	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqual(range.endOffset, _firstText.length);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                   -------------
+	[range selectNodeContents:_firstComment];
+	XCTAssertEqual(range.startContainer, _firstComment);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _firstComment);
+	XCTAssertEqual(range.endOffset, _firstComment.length);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                ------------------------------------------------------------------------
+	[range selectNodeContents:_div1];
+	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqual(range.endOffset, 2);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     -----------------------------------------
+	[range selectNodeContents:_div2];
+	XCTAssertEqual(range.startContainer, _div2);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqual(range.endOffset, 3);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                                                       --------------
+	[range selectNodeContents:_secondComment];
+	XCTAssertEqual(range.startContainer, _secondComment);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _secondComment);
+	XCTAssertEqual(range.endOffset, _secondComment.length);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//     -----
+	[range selectNodeContents:_h1];
+	XCTAssertEqual(range.startContainer, _h1);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqual(range.endContainer, _h1);
+	XCTAssertEqual(range.endOffset, 1);
+}
+
+- (void)testCompareBoundaries
+{
+
+}
+
 @end
