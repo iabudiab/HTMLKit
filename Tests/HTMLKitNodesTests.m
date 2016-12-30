@@ -483,4 +483,33 @@
 	XCTAssertEqualObjects([element childNodeAtIndex:1].asElement.tagName, @"p");
 }
 
+- (void)testCompareDocumentPosition
+{
+	HTMLDocument *document = [HTMLDocument documentWithString:@"<div><p>hello</p><div><a></a><img></div></div>"];
+
+	HTMLNode *outerDiv = document.body.firstChild;
+	HTMLNode *paragraph = document.body.firstChild.firstChild;
+	HTMLNode *anchor = [[document.body.firstChild childNodeAtIndex:1] childNodeAtIndex:0];
+	HTMLNode *image = [[document.body.firstChild childNodeAtIndex:1] childNodeAtIndex:1];
+
+	XCTAssertTrue([paragraph compareDocumentPositionWithNode:paragraph] == HTMLDocumentPositionEquivalent);
+
+	HTMLElement *element = [HTMLElement new];
+	XCTAssertTrue([paragraph compareDocumentPositionWithNode:element] ==
+				  (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
+				   paragraph.hash < element.hash ? HTMLDocumentPositionPreceding: HTMLDocumentPositionFollowing));
+
+	XCTAssertTrue([paragraph compareDocumentPositionWithNode:image] == HTMLDocumentPositionPreceding);
+	XCTAssertTrue([anchor compareDocumentPositionWithNode:image] == HTMLDocumentPositionPreceding);
+	XCTAssertTrue([image compareDocumentPositionWithNode:anchor] == HTMLDocumentPositionFollowing);
+
+	XCTAssertTrue([outerDiv compareDocumentPositionWithNode:paragraph] == (HTMLDocumentPositionContains | HTMLDocumentPositionPreceding));
+	XCTAssertTrue([outerDiv compareDocumentPositionWithNode:anchor] == (HTMLDocumentPositionContains | HTMLDocumentPositionPreceding));
+	XCTAssertTrue([outerDiv compareDocumentPositionWithNode:image] == (HTMLDocumentPositionContains | HTMLDocumentPositionPreceding));
+
+	XCTAssertTrue([paragraph compareDocumentPositionWithNode:outerDiv] == (HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing));
+	XCTAssertTrue([anchor compareDocumentPositionWithNode:outerDiv] == (HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing));
+	XCTAssertTrue([image compareDocumentPositionWithNode:outerDiv] == (HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing));
+}
+
 @end

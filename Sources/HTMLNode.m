@@ -344,34 +344,43 @@
 		return HTMLDocumentPositionEquivalent;
 	}
 
+	if (self.ownerDocument != otherNode.ownerDocument) {
+		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
+				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
+	}
 
 	NSArray *ancestors1 = GetAncestorNodes(self);
 	NSArray *ancestors2 = GetAncestorNodes(otherNode);
 
 	if (ancestors1.lastObject != ancestors2.lastObject) {
-		return HTMLDocumentPositionDisconnected |
-		HTMLDocumentPositionImplementationSpecific |
-		HTMLDocumentPositionFollowing;
+		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
+				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
 	}
 
-	for (NSUInteger i = MIN(ancestors1.count - 1, ancestors2.count - 1); i; --i) {
-		HTMLNode *child1 = ancestors1[i];
-		HTMLNode *child2 = ancestors2[i];
+	NSUInteger index1 = ancestors1.count;
+	NSUInteger index2 = ancestors2.count;
+
+	for (NSUInteger i = MIN(index1, index2); i; --i) {
+		index1 -= 1;
+		index2 -= 1;
+
+		HTMLNode *child1 = ancestors1[index1];
+		HTMLNode *child2 = ancestors2[index2];
 
 		if (child1 != child2) {
 			for (HTMLNode *sibling = child1.nextSibling; sibling; sibling = sibling.nextSibling) {
 				if (sibling == child2) {
-					return HTMLDocumentPositionFollowing;
+					return HTMLDocumentPositionPreceding;
 				}
 			}
-			return HTMLDocumentPositionPreceding;
+			return HTMLDocumentPositionFollowing;
 		}
 	}
 
 	if (ancestors1.count < ancestors2.count) {
-		return HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing;
-	} else {
 		return HTMLDocumentPositionContains | HTMLDocumentPositionPreceding;
+	} else {
+		return HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing;
 	}
 }
 
