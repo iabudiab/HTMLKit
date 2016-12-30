@@ -58,10 +58,19 @@
 
 #pragma mark - Boundaries
 
-NS_INLINE void CheckValidBoundaryNode(HTMLNode *node, NSString *cmd)
+NS_INLINE void CheckValidBoundaryNode(HTMLDocument *document, HTMLNode *node, NSString *cmd)
+{
+	if (node.ownerDocument != document) {
+		[NSException raise:HTMLKitWrongDocumentError
+					format:@"%@: Invalid Node Error, %@ is not in the same document.",
+		 cmd, node];
+	}
+}
+
+NS_INLINE void CheckValidBoundaryNodeType(HTMLNode *node, NSString *cmd)
 {
 	if (node == nil || node.nodeType == HTMLNodeDocumentType) {
-		[NSException raise:HTMLKitNotFoundError
+		[NSException raise:HTMLKitInvalidNodeTypeError
 					format:@"%@: Invalid Node Type Error, %@ is not a valid range boundary node.",
 		 cmd, node];
 	}
@@ -69,7 +78,7 @@ NS_INLINE void CheckValidBoundaryNode(HTMLNode *node, NSString *cmd)
 
 NS_INLINE void CheckValidBoundaryOffset(HTMLNode *node, NSUInteger offset, NSString *cmd)
 {
-	if (node == nil || node.nodeType == HTMLNodeDocumentType) {
+	if (node.length < offset) {
 		[NSException raise:HTMLKitIndexSizeError
 					format:@"%@: Index Size Error, invalid index %lu for range boundary node %@.",
 		 cmd, (unsigned long)offset, node];
@@ -80,7 +89,7 @@ NS_INLINE void CheckValidDocument(HTMLRange *lhs, HTMLRange *rhs, NSString *cmd)
 {
 	if (lhs.rootNode != rhs.rootNode) {
 		[NSException raise:HTMLKitWrongDocumentError
-					format:@"%@: Wrong Document Error, ranges %@ and %@ have different roots.",
+					format:@"%@: Wrong Document Error, ranges %@ and %@ are not in the same document.",
 		 cmd, lhs, rhs];
 	}
 }
@@ -106,7 +115,7 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 		}
 	}
 
-	if ([startNode containsNode:endNode]) {
+	if ((position & HTMLDocumentPositionContains) == HTMLDocumentPositionContains) {
 		HTMLNode *child = endNode;
 		while (child.parentNode != startNode) {
 			child = child.parentNode;
@@ -121,7 +130,9 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 
 - (void)setStartNode:(HTMLNode *)node startOffset:(NSUInteger)offset
 {
-	CheckValidBoundaryNode(node, NSStringFromSelector(_cmd));
+	CheckValidBoundaryNode(_ownerDocument, node, NSStringFromSelector(_cmd));
+
+	CheckValidBoundaryNodeType(node, NSStringFromSelector(_cmd));
 
 	CheckValidBoundaryOffset(node, offset, NSStringFromSelector(_cmd));
 
@@ -137,7 +148,9 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 
 - (void)setEndNode:(HTMLNode *)node endOffset:(NSUInteger)offset
 {
-	CheckValidBoundaryNode(node, NSStringFromSelector(_cmd));
+	CheckValidBoundaryNode(_ownerDocument, node, NSStringFromSelector(_cmd));
+
+	CheckValidBoundaryNodeType(node, NSStringFromSelector(_cmd));
 
 	CheckValidBoundaryOffset(node, offset, NSStringFromSelector(_cmd));
 
@@ -154,32 +167,24 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 - (void)setStartBeforeNode:(HTMLNode *)node
 {
 	HTMLNode *parent = node.parentNode;
-	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
-
 	[self setStartNode:parent startOffset:node.index];
 }
 
 - (void)setStartAfterNode:(HTMLNode *)node
 {
 	HTMLNode *parent = node.parentNode;
-	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
-
 	[self setStartNode:parent startOffset:node.index + 1];
 }
 
 - (void)setEndBeforeNode:(HTMLNode *)node
 {
 	HTMLNode *parent = node.parentNode;
-	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
-
 	[self setEndNode:parent endOffset:node.index];
 }
 
 - (void)setEndAfterNode:(HTMLNode *)node
 {
 	HTMLNode *parent = node.parentNode;
-	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
-
 	[self setEndNode:parent endOffset:node.index + 1];
 }
 
@@ -196,16 +201,12 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 - (void)selectNode:(HTMLNode *)node
 {
 	HTMLNode *parent = node.parentNode;
-	CheckValidBoundaryNode(parent, NSStringFromSelector(_cmd));
-
 	[self setStartNode:parent startOffset:node.index];
 	[self setEndNode:parent endOffset:node.index + 1];
 }
 
 - (void)selectNodeContents:(HTMLNode *)node
 {
-	CheckValidBoundaryNode(node, NSStringFromSelector(_cmd));
-
 	[self setStartNode:node startOffset:0];
 	[self setEndNode:node endOffset:node.length];
 }
