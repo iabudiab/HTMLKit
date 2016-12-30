@@ -120,7 +120,7 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 		while (child.parentNode != startNode) {
 			child = child.parentNode;
 		}
-		if ([child.parentNode indexOfChildNode:child] > startOffset) {
+		if (child.index < startOffset) {
 			return NSOrderedDescending;
 		}
 	}
