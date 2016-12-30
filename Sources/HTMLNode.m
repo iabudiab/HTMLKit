@@ -17,6 +17,7 @@
 #import "HTMLNodeFilter.h"
 #import "CSSSelector.h"
 #import "HTMLDocument+Private.h"
+#import "HTMLDOMUtils.h"
 
 @interface HTMLNode ()
 {
@@ -343,16 +344,9 @@
 		return HTMLDocumentPositionEquivalent;
 	}
 
-	NSArray * (^ ancestorNodes) (HTMLNode *) = ^ NSArray * (HTMLNode *node) {
-		NSMutableArray *ancestors = [NSMutableArray array];
-		for (HTMLNode *node = self; node; node = node.parentNode) {
-			[ancestors addObject:node];
-		}
-		return ancestors;
-	};
 
-	NSArray *ancestors1 = ancestorNodes(self);
-	NSArray *ancestors2 = ancestorNodes(otherNode);
+	NSArray *ancestors1 = GetAncestorNodes(self);
+	NSArray *ancestors2 = GetAncestorNodes(otherNode);
 
 	if (ancestors1.lastObject != ancestors2.lastObject) {
 		return HTMLDocumentPositionDisconnected |

@@ -21,3 +21,12 @@ extern HTMLNode * GetCommonAncestorContainer(HTMLNode *nodeA, HTMLNode *nodeB)
 
 	return nil;
 }
+
+extern NSArray<HTMLNode *> * GetAncestorNodes(HTMLNode *node)
+{
+	NSMutableArray *ancestors = [NSMutableArray array];
+	for (HTMLNode *it = node; it; it = it.parentNode) {
+		[ancestors addObject:it];
+	}
+	return ancestors;
+}

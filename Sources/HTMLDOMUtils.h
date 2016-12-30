@@ -12,3 +12,4 @@
 @class HTMLNode;
 
 extern HTMLNode * GetCommonAncestorContainer(HTMLNode *nodeA, HTMLNode *nodeB);
+extern NSArray<HTMLNode *> * GetAncestorNodes(HTMLNode *node);
