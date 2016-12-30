@@ -694,7 +694,74 @@
 
 - (void)testCompareBoundaries
 {
+	HTMLRange *range1 = [[HTMLRange alloc] initWithDowcument:_document];
 
+	HTMLRange *range2 = [[HTMLRange alloc] initWithDowcument:_document];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     ----------
+	[range1 selectNode:_firstText];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                                   -----------
+	[range2 selectNode:_secondText];
+
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToStart sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToEnd sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToEnd sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToStart sourceRange:range2] == NSOrderedAscending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     ----------
+	[range1 selectNode:_firstText];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                               --------------------
+	[range2 selectNode:_firstComment];
+
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToStart sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToEnd sourceRange:range2] == NSOrderedSame);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToEnd sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToStart sourceRange:range2] == NSOrderedAscending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     ----------
+	[range1 selectNode:_firstText];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                ----------------------------------------------------
+	[range2 selectNode:_div2];
+
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToStart sourceRange:range2] == NSOrderedDescending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToEnd sourceRange:range2] == NSOrderedDescending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToEnd sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToStart sourceRange:range2] == NSOrderedAscending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                                   -----------
+	[range1 selectNode:_secondText];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                ----------------------------------------------------
+	[range2 selectNode:_div2];
+
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToStart sourceRange:range2] == NSOrderedDescending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToEnd sourceRange:range2] == NSOrderedDescending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToEnd sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToStart sourceRange:range2] == NSOrderedAscending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                           -----------------------------------------------------------------------------------
+	[range1 selectNode:_div1];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                ----------------------------------------------------
+	[range2 selectNode:_div2];
+
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToStart sourceRange:range2] == NSOrderedAscending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodStartToEnd sourceRange:range2] == NSOrderedDescending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToEnd sourceRange:range2] == NSOrderedDescending);
+	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToStart sourceRange:range2] == NSOrderedAscending);
 }
 
 @end

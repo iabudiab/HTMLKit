@@ -10,6 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The comparison method of range boundaries
+
+ - HTMLRangeComparisonMethodStartToStart: Compares the start boundary-point of sourceRange to the start boundary-point of this range.
+ - HTMLRangeComparisonMethodStartToEnd: Compares the start boundary-point of sourceRange to the end boundary-point of this range.
+ - HTMLRangeComparisonMethodEndToEnd: Compares the end boundary-point of sourceRange to the end boundary-point of this range.
+ - HTMLRangeComparisonMethodEndToStart: Compares the end boundary-point of sourceRange to the start boundary-point of this range.
+ */
 typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
 {
 	HTMLRangeComparisonMethodStartToStart = 0,
@@ -143,10 +151,10 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
 - (void)selectNodeContents:(HTMLNode *)node;
 
 /**
- Compares the boundary points of this range with the given source range.
+ Compares the boundary points of the given range with this range.
 
  @param method The comparison method.
- @param sourceRange The range to compare with.
+ @param sourceRange The source range for comparison.
  @return `NSOrderedAscending` if ordered before, `NSOrderedSame` if ordered same, `NSOrderedDescending` otherwise.
  
  @see HTMLRangeComparisonMethod
