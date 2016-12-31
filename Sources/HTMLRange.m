@@ -229,21 +229,48 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 
 #pragma mark - Containment
 
-- (BOOL)containsNode:(HTMLNode *)node
+- (NSComparisonResult)comparePoint:(HTMLNode *)node offset:(NSUInteger)offset
 {
-	if (node.rootNode != self.rootNode) {
+	CheckValidBoundaryNode(_ownerDocument, node, NSStringFromSelector(_cmd));
+
+	CheckValidBoundaryNodeType(node, NSStringFromSelector(_cmd));
+
+	CheckValidBoundaryOffset(node, offset, NSStringFromSelector(_cmd));
+
+	if (CompareBoundaries(node, offset, _startContainer, _startOffset) == NSOrderedAscending) {
+		return NSOrderedAscending;
+	}
+
+	if (CompareBoundaries(node, offset, _endContainer, _endOffset) == NSOrderedDescending) {
+		return NSOrderedDescending;
+	}
+
+	return NSOrderedSame;
+}
+
+- (BOOL)containsPoint:(HTMLNode *)node offset:(NSUInteger)offset
+{
+	return [self comparePoint:node offset:offset] == NSOrderedSame;
+}
+
+- (BOOL)intersectsNode:(HTMLNode *)node
+{
+	if (self.rootNode != node.rootNode) {
 		return NO;
 	}
 
-	if (CompareBoundaries(node, 0, _startContainer, _startOffset) == NSOrderedDescending) {
-		return NO;
+	HTMLNode *parent = node.parentNode;
+	if (parent == nil) {
+		return YES;
 	}
 
-	if (CompareBoundaries(node, node.length, _endContainer, _endOffset) == NSOrderedAscending) {
-		return NO;
+	NSUInteger offset = node.index;
+	if (CompareBoundaries(parent, offset, _endContainer, _endOffset) == NSOrderedAscending &&
+		CompareBoundaries(parent, offset + 1, _startContainer, _startOffset) == NSOrderedDescending) {
+		return YES;
 	}
 
-	return YES;
+	return NO;
 }
 
 #pragma mark - Update Callbacks

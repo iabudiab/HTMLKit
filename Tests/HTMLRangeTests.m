@@ -764,4 +764,110 @@
 	XCTAssertTrue([range1 compareBoundaryPoints:HTMLRangeComparisonMethodEndToStart sourceRange:range2] == NSOrderedAscending);
 }
 
+- (void)testContainmentAndComparisons
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+
+	/*********** Compare ***********/
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                ----------------------------------------------------
+	[range selectNode:_div2];
+	XCTAssertTrue([range comparePoint:_div1 offset:0] == NSOrderedSame);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     -----------------------------------------
+	[range selectNodeContents:_div2];
+	XCTAssertTrue([range comparePoint:_div1 offset:0] == NSOrderedAscending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                  -----
+	[range selectNodeContents:_p];
+	XCTAssertTrue([range comparePoint:_div1 offset:0] == NSOrderedDescending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               ------------
+	[range selectNode:_p];
+	XCTAssertTrue([range comparePoint:_document.body offset:0] == NSOrderedAscending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               ------------
+	[range selectNode:_p];
+	XCTAssertTrue([range comparePoint:_document.body offset:1] == NSOrderedSame);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               ------------
+	[range selectNode:_p];
+	XCTAssertTrue([range comparePoint:_document.body offset:2] == NSOrderedSame);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               ------------
+	[range selectNode:_p];
+	XCTAssertTrue([range comparePoint:_document.body offset:3] == NSOrderedDescending);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                   -------------
+	[range selectNodeContents:_firstComment];
+	XCTAssertTrue([range comparePoint:_firstComment offset:0] == NSOrderedSame);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                   -------------
+	[range selectNodeContents:_firstComment];
+	XCTAssertTrue([range comparePoint:_firstComment offset:3] == NSOrderedSame);
+
+	/*********** Contains ***********/
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                ----------------------------------------------------
+	[range selectNode:_div2];
+	XCTAssertTrue([range containsPoint:_div1 offset:0]);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               ------------
+	[range selectNode:_p];
+	XCTAssertTrue([range containsPoint:_document.body offset:1]);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               ------------
+	[range selectNode:_p];
+	XCTAssertTrue([range containsPoint:_document.body offset:2]);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                   -------------
+	[range selectNodeContents:_firstComment];
+	XCTAssertTrue([range containsPoint:_firstComment offset:3]);
+}
+
+- (void)testIntersections
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+
+	XCTAssertFalse([range intersectsNode:[HTMLText new]]);
+	XCTAssertTrue([range intersectsNode:_document]);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               ------------
+	[range selectNode:_p];
+	XCTAssertFalse([range intersectsNode:_h1]);
+	XCTAssertTrue([range intersectsNode:_p]);
+	XCTAssertFalse([range intersectsNode:_div1]);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//               -----------------
+	[range selectNode:_p];
+	[range setEndAfterNode:_div1];
+	XCTAssertFalse([range intersectsNode:_h1]);
+	XCTAssertTrue([range intersectsNode:_p]);
+	XCTAssertTrue([range intersectsNode:_div1]);
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                                   ---------------------------
+	[range selectNode:_firstComment];
+	[range setEndAfterNode:_secondText];
+	XCTAssertTrue([range intersectsNode:_div2]);
+	XCTAssertFalse([range intersectsNode:_firstText]);
+	XCTAssertTrue([range intersectsNode:_firstComment]);
+	XCTAssertTrue([range intersectsNode:_secondText]);
+}
+
 @end

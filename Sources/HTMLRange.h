@@ -162,12 +162,30 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
 - (NSComparisonResult)compareBoundaryPoints:(HTMLRangeComparisonMethod)method sourceRange:(HTMLRange *)sourceRange;
 
 /**
- Checks whether the given node is contained in this range.
+ Compares the given point (reference node, offset) with this range.
 
- @param node The node to check.
- @return `YES` if the node is contained in the range, `NO` otherwise.
+ @param node The node to compare with this range.
+ @param offset The offset inside the reference node.
+ @return `NSOrderedAscending`, `NSOrderedSame`, or `NSOrderedDescending` depending on whether the node is before, the same as, or after this range.
  */
-- (BOOL)containsNode:(HTMLNode *)node;
+- (NSComparisonResult)comparePoint:(HTMLNode *)node offset:(NSUInteger)offset;
+
+/**
+ Checks if the given point (reference node, offset) is in this range.
+
+ @param node The node to compare with this range.
+ @param offset The offset inside the reference node.
+ @return `YES` if the given point is in this range, `NO` otherwise.
+ */
+- (BOOL)containsPoint:(HTMLNode *)node offset:(NSUInteger)offset;
+
+/**
+ Checks if the given node intersects this range.
+
+ @param node The node to compare with this range.
+ @return `YES` if the given node intersects the range, `NO` otherwise.
+ */
+- (BOOL)intersectsNode:(HTMLNode *)node;
 
 @end
 
