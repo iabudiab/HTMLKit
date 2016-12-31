@@ -91,7 +91,7 @@ NS_INLINE void CheckValidOffset(HTMLCharacterData *node, NSUInteger offset, NSSt
 - (id)copyWithZone:(NSZone *)zone
 {
 	HTMLCharacterData *copy = [super copyWithZone:zone];
-	copy->_data = _data;
+	copy->_data = [_data mutableCopy];
 	return copy;
 }
 
