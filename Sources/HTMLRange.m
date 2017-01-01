@@ -283,7 +283,8 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 		} else {
 			_startOffset = _startOffset - length;
 		}
-	} else if (_endContainer == node && _endOffset > offset) {
+	}
+	if (_endContainer == node && _endOffset > offset) {
 		if (_endOffset <= offset + length) {
 			_endOffset = offset;
 		} else {
@@ -296,7 +297,8 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 {
 	if (_startContainer == node && _startOffset > offset) {
 		_startOffset = _startOffset + length;
-	} else if (_endContainer == node && _endOffset > offset) {
+	}
+	if (_endContainer == node && _endOffset > offset) {
 		_endOffset = _endOffset + length;
 	}
 }
