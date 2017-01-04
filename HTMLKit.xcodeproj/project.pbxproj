@@ -26,7 +26,7 @@
 		621FBE5B1BDAD68700BC9555 /* CSSSelectorParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */; };
 		621FBE5E1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */; };
 		6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 6236738D1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m */; };
-		623916C81AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */; };
+		623916C81AC7209E0066B4FE /* HTMLNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLNodeIteratorTests.m */; };
 		6239755B1AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623975591AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m */; };
 		6239755F1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6239755D1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m */; };
 		623CAF9E1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 623CAF9C1AD88BEA00E34C32 /* HTMLKitParserPerformance.m */; };
@@ -36,8 +36,8 @@
 		624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624AC90019FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m */; };
 		624AC90519FBFE9A00BD3C4A /* html5lib-tests in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90419FBFE8A00BD3C4A /* html5lib-tests */; };
 		624AC90F19FC702E00BD3C4A /* HTML Standard.html in Resources */ = {isa = PBXBuildFile; fileRef = 624AC90D19FC702E00BD3C4A /* HTML Standard.html */; };
-		624B9FB31AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */; };
-		624B9FB61AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */; };
+		624B9FB31AE0313300646C4C /* HTMLStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLStringCategoryTests.m */; };
+		624B9FB61AE0391400646C4C /* HTMLOrderedDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB41AE0391400646C4C /* HTMLOrderedDictionaryTests.m */; };
 		624C777A1DE9D05E00DD6DFA /* HTMLCharacterData.h in Headers */ = {isa = PBXBuildFile; fileRef = 624C77781DE9D05E00DD6DFA /* HTMLCharacterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		624C777B1DE9D05E00DD6DFA /* HTMLCharacterData.h in Headers */ = {isa = PBXBuildFile; fileRef = 624C77781DE9D05E00DD6DFA /* HTMLCharacterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		624C777C1DE9D05E00DD6DFA /* HTMLCharacterData.h in Headers */ = {isa = PBXBuildFile; fileRef = 624C77781DE9D05E00DD6DFA /* HTMLCharacterData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -46,13 +46,13 @@
 		624C777F1DE9D05E00DD6DFA /* HTMLCharacterData.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C77791DE9D05E00DD6DFA /* HTMLCharacterData.m */; };
 		624C77801DE9D05E00DD6DFA /* HTMLCharacterData.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C77791DE9D05E00DD6DFA /* HTMLCharacterData.m */; };
 		624C77811DE9D05E00DD6DFA /* HTMLCharacterData.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C77791DE9D05E00DD6DFA /* HTMLCharacterData.m */; };
-		624FC37B1AE591D80015DDF9 /* HTMLKitNodesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */; };
+		624FC37B1AE591D80015DDF9 /* HTMLNodesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624FC3791AE591D80015DDF9 /* HTMLNodesTests.m */; };
 		62567F501C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */ = {isa = PBXBuildFile; fileRef = 62567F4E1C0CB5750025D458 /* HTMLDOMTokenList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62567F511C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */ = {isa = PBXBuildFile; fileRef = 62567F4E1C0CB5750025D458 /* HTMLDOMTokenList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62567F521C0CB5750025D458 /* HTMLDOMTokenList.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F4F1C0CB5750025D458 /* HTMLDOMTokenList.m */; };
 		62567F531C0CB5750025D458 /* HTMLDOMTokenList.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F4F1C0CB5750025D458 /* HTMLDOMTokenList.m */; };
-		62567F561C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */; };
-		62567F571C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */; };
+		62567F561C0CC3AE0025D458 /* HTMLDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLDOMTokenListTests.m */; };
+		62567F571C0CC3AE0025D458 /* HTMLDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLDOMTokenListTests.m */; };
 		625A14B019C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14C419C7829400AD0C32 /* XCTest.framework */; };
 		625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */; };
@@ -229,13 +229,13 @@
 		62857D311D39A33C008DC254 /* HTML5LibTreeConstructionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6239755D1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m */; };
 		62857D321D39A33C008DC254 /* HTMLKitTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623975591AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m */; };
 		62857D331D39A33C008DC254 /* HTMLKitParserPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 623CAF9C1AD88BEA00E34C32 /* HTMLKitParserPerformance.m */; };
-		62857D341D39A33F008DC254 /* HTMLKitNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */; };
+		62857D341D39A33F008DC254 /* HTMLNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLNodeIteratorTests.m */; };
 		62857D351D39A33F008DC254 /* HTMLTreeWalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */; };
-		62857D361D39A33F008DC254 /* HTMLKitNodesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */; };
-		62857D371D39A33F008DC254 /* HTMLKitMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */; };
-		62857D381D39A342008DC254 /* HTMLKitStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */; };
-		62857D391D39A342008DC254 /* HTMLKitOrderedDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */; };
-		62857D3A1D39A342008DC254 /* HTMLKitDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */; };
+		62857D361D39A33F008DC254 /* HTMLNodesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624FC3791AE591D80015DDF9 /* HTMLNodesTests.m */; };
+		62857D371D39A33F008DC254 /* HTMLMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m */; };
+		62857D381D39A342008DC254 /* HTMLStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLStringCategoryTests.m */; };
+		62857D391D39A342008DC254 /* HTMLOrderedDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB41AE0391400646C4C /* HTMLOrderedDictionaryTests.m */; };
+		62857D3A1D39A342008DC254 /* HTMLDOMTokenListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62567F551C0CC3AE0025D458 /* HTMLDOMTokenListTests.m */; };
 		62857D3B1D39A345008DC254 /* CSSSelectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62132E581C01F83200084175 /* CSSSelectorTest.m */; };
 		62857D3C1D39A345008DC254 /* CSSSelectorParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */; };
 		62857D3D1D39A345008DC254 /* CSSExtensionSelectorsParsingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6216ACFC1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m */; };
@@ -320,7 +320,7 @@
 		62EC0A851E158BD80007786B /* HTMLRangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC0A841E158BD80007786B /* HTMLRangeTests.m */; };
 		62EC0A861E158BD80007786B /* HTMLRangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC0A841E158BD80007786B /* HTMLRangeTests.m */; };
 		62EC0A871E158BD80007786B /* HTMLRangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC0A841E158BD80007786B /* HTMLRangeTests.m */; };
-		62EC7AE71AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */; };
+		62EC7AE71AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m */; };
 		62ECBEE11C0B69FD00AF847B /* HTMLKitErrorDomain.h in Headers */ = {isa = PBXBuildFile; fileRef = 626652F81C03D30F00C3F121 /* HTMLKitErrorDomain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		62ECBEE21C0B69FD00AF847B /* HTMLInputStreamReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		62ECBEE31C0B69FD00AF847B /* HTMLTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 624493A419CCC54100BCDDF4 /* HTMLTokenizer.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -528,12 +528,12 @@
 		62ECBFCD1C0B6E2E00AF847B /* HTML5LibTreeConstructionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6239755D1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m */; };
 		62ECBFCE1C0B6E2E00AF847B /* HTMLKitTreeConstructionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623975591AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m */; };
 		62ECBFCF1C0B6E2E00AF847B /* HTMLKitParserPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 623CAF9C1AD88BEA00E34C32 /* HTMLKitParserPerformance.m */; };
-		62ECBFD01C0B6E2E00AF847B /* HTMLKitNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */; };
+		62ECBFD01C0B6E2E00AF847B /* HTMLNodeIteratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 623916C61AC7209E0066B4FE /* HTMLNodeIteratorTests.m */; };
 		62ECBFD11C0B6E2E00AF847B /* HTMLTreeWalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */; };
-		62ECBFD21C0B6E2E00AF847B /* HTMLKitNodesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */; };
-		62ECBFD31C0B6E2E00AF847B /* HTMLKitMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */; };
-		62ECBFD41C0B6E2E00AF847B /* HTMLKitStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */; };
-		62ECBFD51C0B6E2E00AF847B /* HTMLKitOrderedDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */; };
+		62ECBFD21C0B6E2E00AF847B /* HTMLNodesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624FC3791AE591D80015DDF9 /* HTMLNodesTests.m */; };
+		62ECBFD31C0B6E2E00AF847B /* HTMLMutationAlgorithmsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62EC7AE51AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m */; };
+		62ECBFD41C0B6E2E00AF847B /* HTMLStringCategoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB11AE0313300646C4C /* HTMLStringCategoryTests.m */; };
+		62ECBFD51C0B6E2E00AF847B /* HTMLOrderedDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 624B9FB41AE0391400646C4C /* HTMLOrderedDictionaryTests.m */; };
 		62ECBFD61C0B6E2E00AF847B /* CSSSelectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62132E581C01F83200084175 /* CSSSelectorTest.m */; };
 		62ECBFD71C0B6E2E00AF847B /* CSSSelectorParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */; };
 		62ECBFD81C0B6E2E00AF847B /* CSSNthExpressionsParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 628AF62E1BC99A6C00496128 /* CSSNthExpressionsParserTests.m */; };
@@ -625,7 +625,7 @@
 		6238579A1A9E8934003A45D9 /* HTMLComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLComment.m; sourceTree = "<group>"; };
 		6238C9831AB8D6330006512E /* HTMLKitDOMExceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLKitDOMExceptions.h; path = include/HTMLKitDOMExceptions.h; sourceTree = "<group>"; };
 		6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitDOMExceptions.m; sourceTree = "<group>"; };
-		623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitNodeIteratorTests.m; sourceTree = "<group>"; };
+		623916C61AC7209E0066B4FE /* HTMLNodeIteratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeIteratorTests.m; sourceTree = "<group>"; };
 		623975591AC362CA007E26F1 /* HTMLKitTreeConstructionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitTreeConstructionTests.m; sourceTree = "<group>"; };
 		6239755C1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTML5LibTreeConstructionTest.h; sourceTree = "<group>"; };
 		6239755D1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTML5LibTreeConstructionTest.m; sourceTree = "<group>"; };
@@ -660,14 +660,14 @@
 		624B371C1B24E9BA0010BDDF /* CSSInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSInputStream.h; path = include/CSSInputStream.h; sourceTree = "<group>"; };
 		624B371D1B24E9BA0010BDDF /* CSSInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSInputStream.m; sourceTree = "<group>"; };
 		624B37211B250BB50010BDDF /* CSSCodePoints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CSSCodePoints.h; path = include/CSSCodePoints.h; sourceTree = "<group>"; };
-		624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitStringCategoryTests.m; sourceTree = "<group>"; };
-		624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitOrderedDictionaryTests.m; sourceTree = "<group>"; };
+		624B9FB11AE0313300646C4C /* HTMLStringCategoryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLStringCategoryTests.m; sourceTree = "<group>"; };
+		624B9FB41AE0391400646C4C /* HTMLOrderedDictionaryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLOrderedDictionaryTests.m; sourceTree = "<group>"; };
 		624C77781DE9D05E00DD6DFA /* HTMLCharacterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLCharacterData.h; sourceTree = "<group>"; };
 		624C77791DE9D05E00DD6DFA /* HTMLCharacterData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLCharacterData.m; sourceTree = "<group>"; };
-		624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitNodesTests.m; sourceTree = "<group>"; };
+		624FC3791AE591D80015DDF9 /* HTMLNodesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNodesTests.m; sourceTree = "<group>"; };
 		62567F4E1C0CB5750025D458 /* HTMLDOMTokenList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLDOMTokenList.h; path = include/HTMLDOMTokenList.h; sourceTree = "<group>"; };
 		62567F4F1C0CB5750025D458 /* HTMLDOMTokenList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDOMTokenList.m; sourceTree = "<group>"; };
-		62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitDOMTokenListTests.m; sourceTree = "<group>"; };
+		62567F551C0CC3AE0025D458 /* HTMLDOMTokenListTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDOMTokenListTests.m; sourceTree = "<group>"; };
 		625A14AC19C7829400AD0C32 /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		625A14AF19C7829400AD0C32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		625A14B219C7829400AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -720,7 +720,7 @@
 		62D91C221DE218A500BEFADE /* HTMLRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLRange.m; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLTokenizerCharacters.h; path = include/HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
 		62EC0A841E158BD80007786B /* HTMLRangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLRangeTests.m; sourceTree = "<group>"; };
-		62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLKitMutationAlgorithmsTests.m; sourceTree = "<group>"; };
+		62EC7AE51AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLMutationAlgorithmsTests.m; sourceTree = "<group>"; };
 		62ECBF4D1C0B6C7600AF847B /* HTMLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HTMLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62ECBF561C0B6C7600AF847B /* HTMLKitTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "HTMLKitTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62F31FDB19E9DCCF007F0657 /* HTMLTokenizerEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLTokenizerEntities.h; path = include/HTMLTokenizerEntities.h; sourceTree = "<group>"; };
@@ -876,10 +876,10 @@
 		624B9FB71AE072CB00646C4C /* DOM */ = {
 			isa = PBXGroup;
 			children = (
-				623916C61AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m */,
+				623916C61AC7209E0066B4FE /* HTMLNodeIteratorTests.m */,
 				6247171B1B2240B800C11912 /* HTMLTreeWalkerTests.m */,
-				624FC3791AE591D80015DDF9 /* HTMLKitNodesTests.m */,
-				62EC7AE51AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m */,
+				624FC3791AE591D80015DDF9 /* HTMLNodesTests.m */,
+				62EC7AE51AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m */,
 				62EC0A841E158BD80007786B /* HTMLRangeTests.m */,
 			);
 			name = DOM;
@@ -888,7 +888,7 @@
 		624B9FB81AE072D500646C4C /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				624B9FB11AE0313300646C4C /* HTMLKitStringCategoryTests.m */,
+				624B9FB11AE0313300646C4C /* HTMLStringCategoryTests.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -896,8 +896,8 @@
 		624E1A2D1B1D1C8A00E66AAC /* Structures */ = {
 			isa = PBXGroup;
 			children = (
-				624B9FB41AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m */,
-				62567F551C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m */,
+				624B9FB41AE0391400646C4C /* HTMLOrderedDictionaryTests.m */,
+				62567F551C0CC3AE0025D458 /* HTMLDOMTokenListTests.m */,
 			);
 			name = Structures;
 			sourceTree = "<group>";
@@ -1749,18 +1749,18 @@
 				623CAF9E1AD88BEA00E34C32 /* HTMLKitParserPerformance.m in Sources */,
 				625EE4571CBAA41D00F2CC8E /* HTMLKitTestObserver.m in Sources */,
 				6247171D1B2240B800C11912 /* HTMLTreeWalkerTests.m in Sources */,
-				62EC7AE71AEEAC6F0015D3BE /* HTMLKitMutationAlgorithmsTests.m in Sources */,
+				62EC7AE71AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m in Sources */,
 				624AB31B1B050A4D00F3830D /* CSSAttributeSelectorTests.m in Sources */,
-				624B9FB61AE0391400646C4C /* HTMLKitOrderedDictionaryTests.m in Sources */,
+				624B9FB61AE0391400646C4C /* HTMLOrderedDictionaryTests.m in Sources */,
 				624AB3181B0508AE00F3830D /* CSSTypeSelectorTests.m in Sources */,
 				6236738F1AC0CE2500FF89B3 /* HTMLKitTokenizerPerformance.m in Sources */,
-				62567F561C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */,
+				62567F561C0CC3AE0025D458 /* HTMLDOMTokenListTests.m in Sources */,
 				624AC90219FBF9ED00BD3C4A /* HTMLKitTokenizerTests.m in Sources */,
-				624B9FB31AE0313300646C4C /* HTMLKitStringCategoryTests.m in Sources */,
-				623916C81AC7209E0066B4FE /* HTMLKitNodeIteratorTests.m in Sources */,
+				624B9FB31AE0313300646C4C /* HTMLStringCategoryTests.m in Sources */,
+				623916C81AC7209E0066B4FE /* HTMLNodeIteratorTests.m in Sources */,
 				62D8345A19FB1AC4009205A9 /* HTML5LibTokenizerTest.m in Sources */,
 				6239755F1AC364BB007E26F1 /* HTML5LibTreeConstructionTest.m in Sources */,
-				624FC37B1AE591D80015DDF9 /* HTMLKitNodesTests.m in Sources */,
+				624FC37B1AE591D80015DDF9 /* HTMLNodesTests.m in Sources */,
 				621FBE5B1BDAD68700BC9555 /* CSSSelectorParserTests.m in Sources */,
 				621FBE5E1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m in Sources */,
 				625EE45B1CBB171300F2CC8E /* HTMLKitTestUtil.m in Sources */,
@@ -1889,19 +1889,19 @@
 				62857D301D39A339008DC254 /* HTMLKitTokenizerPerformance.m in Sources */,
 				62857D321D39A33C008DC254 /* HTMLKitTreeConstructionTests.m in Sources */,
 				62857D431D39A34B008DC254 /* HTMLKitTestObserver.m in Sources */,
-				62857D371D39A33F008DC254 /* HTMLKitMutationAlgorithmsTests.m in Sources */,
+				62857D371D39A33F008DC254 /* HTMLMutationAlgorithmsTests.m in Sources */,
 				62857D3E1D39A345008DC254 /* CSSNthExpressionsParserTests.m in Sources */,
 				62857D3F1D39A345008DC254 /* CSSTypeSelectorTests.m in Sources */,
-				62857D361D39A33F008DC254 /* HTMLKitNodesTests.m in Sources */,
-				62857D3A1D39A342008DC254 /* HTMLKitDOMTokenListTests.m in Sources */,
+				62857D361D39A33F008DC254 /* HTMLNodesTests.m in Sources */,
+				62857D3A1D39A342008DC254 /* HTMLDOMTokenListTests.m in Sources */,
 				62857D3D1D39A345008DC254 /* CSSExtensionSelectorsParsingTests.m in Sources */,
 				62857D401D39A345008DC254 /* CSSAttributeSelectorTests.m in Sources */,
 				62857D311D39A33C008DC254 /* HTML5LibTreeConstructionTest.m in Sources */,
-				62857D391D39A342008DC254 /* HTMLKitOrderedDictionaryTests.m in Sources */,
+				62857D391D39A342008DC254 /* HTMLOrderedDictionaryTests.m in Sources */,
 				62857D411D39A345008DC254 /* CSSNThExpressionSelectorTests.m in Sources */,
-				62857D381D39A342008DC254 /* HTMLKitStringCategoryTests.m in Sources */,
+				62857D381D39A342008DC254 /* HTMLStringCategoryTests.m in Sources */,
 				62857D331D39A33C008DC254 /* HTMLKitParserPerformance.m in Sources */,
-				62857D341D39A33F008DC254 /* HTMLKitNodeIteratorTests.m in Sources */,
+				62857D341D39A33F008DC254 /* HTMLNodeIteratorTests.m in Sources */,
 				62857D2E1D39A339008DC254 /* HTML5LibTokenizerTest.m in Sources */,
 				62857D351D39A33F008DC254 /* HTMLTreeWalkerTests.m in Sources */,
 				62857D441D39A34D008DC254 /* HTMLKitTestUtil.m in Sources */,
@@ -1977,13 +1977,13 @@
 				625EE4581CBAA41D00F2CC8E /* HTMLKitTestObserver.m in Sources */,
 				62ECBFCE1C0B6E2E00AF847B /* HTMLKitTreeConstructionTests.m in Sources */,
 				62ECBFCF1C0B6E2E00AF847B /* HTMLKitParserPerformance.m in Sources */,
-				62ECBFD01C0B6E2E00AF847B /* HTMLKitNodeIteratorTests.m in Sources */,
+				62ECBFD01C0B6E2E00AF847B /* HTMLNodeIteratorTests.m in Sources */,
 				62ECBFD11C0B6E2E00AF847B /* HTMLTreeWalkerTests.m in Sources */,
-				62ECBFD21C0B6E2E00AF847B /* HTMLKitNodesTests.m in Sources */,
-				62ECBFD31C0B6E2E00AF847B /* HTMLKitMutationAlgorithmsTests.m in Sources */,
-				62567F571C0CC3AE0025D458 /* HTMLKitDOMTokenListTests.m in Sources */,
-				62ECBFD41C0B6E2E00AF847B /* HTMLKitStringCategoryTests.m in Sources */,
-				62ECBFD51C0B6E2E00AF847B /* HTMLKitOrderedDictionaryTests.m in Sources */,
+				62ECBFD21C0B6E2E00AF847B /* HTMLNodesTests.m in Sources */,
+				62ECBFD31C0B6E2E00AF847B /* HTMLMutationAlgorithmsTests.m in Sources */,
+				62567F571C0CC3AE0025D458 /* HTMLDOMTokenListTests.m in Sources */,
+				62ECBFD41C0B6E2E00AF847B /* HTMLStringCategoryTests.m in Sources */,
+				62ECBFD51C0B6E2E00AF847B /* HTMLOrderedDictionaryTests.m in Sources */,
 				62ECBFD61C0B6E2E00AF847B /* CSSSelectorTest.m in Sources */,
 				62ECBFD71C0B6E2E00AF847B /* CSSSelectorParserTests.m in Sources */,
 				62ECBFD81C0B6E2E00AF847B /* CSSNthExpressionsParserTests.m in Sources */,
