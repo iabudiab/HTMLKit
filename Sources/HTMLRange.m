@@ -303,4 +303,25 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	}
 }
 
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode withOldParent:(HTMLNode *)oldParent andOldPreviousSibling:(HTMLNode *)oldPreviousSibling
+{
+	NSUInteger oldIndex = oldPreviousSibling.index + 1;
+
+	if ([_startContainer containsNode:oldNode]) {
+		[self setStartNode:oldNode startOffset:oldIndex];
+	}
+
+	if ([_endContainer containsNode:oldNode]) {
+		[self setEndNode:oldNode endOffset:oldIndex];
+	}
+
+	if (_startContainer == oldParent && _startOffset > oldIndex) {
+		_startOffset -= 1;
+	}
+
+	if (_endContainer == oldParent && _endOffset > oldIndex) {
+		_endOffset -= 1;
+	}
+}
+
 @end

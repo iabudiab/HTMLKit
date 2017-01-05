@@ -143,17 +143,6 @@
 	[_nodeIterators removeObject:iterator];
 }
 
-- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
-				  withOldParent:(HTMLNode *)oldParent
-		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling
-{
-	for (HTMLNodeIterator *iterator in _nodeIterators) {
-		[iterator runRemovingStepsForNode:oldNode
-							withOldParent:oldParent
-					andOldPreviousSibling:oldPreviousSibling];
-	}
-}
-
 #pragma mark - Ranges
 
 - (void)attachRange:(HTMLRange *)range
@@ -177,6 +166,25 @@
 {
 	for (HTMLRange *range in _ranges) {
 		[range didAddCharacterDataToNode:node atOffset:offset withLength:length];
+	}
+}
+
+#pragma mark - Mutation Callback
+
+- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
+				  withOldParent:(HTMLNode *)oldParent
+		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling
+{
+	for (HTMLRange *range in _ranges) {
+		[range runRemovingStepsForNode:oldNode
+						 withOldParent:oldParent
+				 andOldPreviousSibling:oldPreviousSibling];
+	}
+
+	for (HTMLNodeIterator *iterator in _nodeIterators) {
+		[iterator runRemovingStepsForNode:oldNode
+							withOldParent:oldParent
+					andOldPreviousSibling:oldPreviousSibling];
 	}
 }
 
