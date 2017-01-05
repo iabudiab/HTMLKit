@@ -340,7 +340,8 @@ typedef NS_OPTIONS(unsigned short, HTMLDocumentPosition)
 - (BOOL)isDescendantOfNode:(HTMLNode *)node;
 
 /**
- Checks whether this node contains the given node.
+ Checks whether this node contains the given node. This performs an `invlusive ancestor` check, i.e. it returns `YES`
+ if the given node is the same object as this node.
 
  @param node The node to check.
  @return `YES` if this node contains the given node, `NO` otherwsie.
