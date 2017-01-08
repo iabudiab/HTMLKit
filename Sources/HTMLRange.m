@@ -11,6 +11,7 @@
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLDocument+Private.h"
 #import "HTMLDOMUtils.h"
+#import "HTMLNodeTraversal.h"
 
 @interface HTMLRange ()
 {
@@ -350,6 +351,63 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	if (_endContainer == oldParent && _endOffset > oldIndex) {
 		_endOffset -= 1;
 	}
+}
+
+
+- (void)deleteContents
+{
+	if (self.isCollapsed) {
+		return;
+	}
+
+	if (_startContainer == _endContainer && [_startContainer isKindOfClass:[HTMLCharacterData class]]) {
+		[(HTMLCharacterData *)_startContainer deleteDataInRange:NSMakeRange(_startOffset, _endOffset - _startOffset)];
+		return;
+	}
+
+	HTMLNode *commonAncestor = self.commonAncestorContainer;
+
+	NSMutableArray *containedNodes = [NSMutableArray array];
+
+	HTMLNode *node = FollowingNode(_startContainer, commonAncestor);
+	while (node) {
+		if ([self containsNode:node]) {
+			[containedNodes addObject:node];
+			node = FollowingNodeSkippingChildren(node, commonAncestor);
+		} else {
+			node = FollowingNode(node, commonAncestor);
+		}
+	}
+
+	HTMLNode *newNode = _startContainer;
+	NSUInteger newOffset = _startOffset;
+
+	if (![_startContainer containsNode:_endContainer]) {
+		HTMLNode *referenceNode = _startContainer;
+		while (referenceNode.parentNode) {
+			if ([referenceNode.parentNode containsNode:_endContainer]) {
+				newNode = referenceNode.parentNode;
+				newOffset = referenceNode.index + 1;
+				break;
+			}
+			referenceNode = referenceNode.parentNode;
+		}
+	}
+
+	if ([_startContainer isKindOfClass:[HTMLCharacterData class]]) {
+		[(HTMLCharacterData *)_startContainer deleteDataInRange:NSMakeRange(_startOffset, _startContainer.length - _startOffset)];
+	}
+
+	for (HTMLNode *node in containedNodes) {
+		[node removeFromParentNode];
+	}
+
+	if ([_endContainer isKindOfClass:[HTMLCharacterData class]]) {
+		[(HTMLCharacterData *)_endContainer deleteDataInRange:NSMakeRange(0, _endOffset)];
+	}
+
+	[self setStartNode:newNode startOffset:newOffset];
+	[self setEndNode:newNode endOffset:newOffset];
 }
 
 @end

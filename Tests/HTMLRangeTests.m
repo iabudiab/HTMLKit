@@ -7,9 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
+
 #import "HTMLDOM.h"
 #import "HTMLNode+Private.h"
 #import "HTMLRange+Private.h"
+
+#define BodyOf(doc) doc.body.innerHTML
+#define InnerHTML(str) [HTMLDocument documentWithString:str].body.innerHTML
 
 @interface HTMLRangeTests : XCTestCase
 {
@@ -28,6 +32,8 @@
 @end
 
 @implementation HTMLRangeTests
+
+#pragma mark - Setup
 
 - (void)setUp
 {
@@ -77,6 +83,8 @@
 	_document = [HTMLDocument documentWithString:@"<html>"];
 	[_document.body appendNodes:@[_h1, _p, _div1]];
 }
+
+#pragma mark - Tests
 
 - (void)testInitRange
 {
@@ -1080,6 +1088,250 @@
 	XCTAssertEqual(range.startOffset, 3);
 	XCTAssertEqual(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 9);
+}
+
+#pragma mark - Editing
+
+- (HTMLDocument *)editingDocument
+{
+	//  <div id='Outer'>
+	//      <div id='D1'>
+	//        <p id='P1'>This <b>is</b> a text</p>
+	//        <p id='P2'>Hello</p>
+	//      </div>
+	//      <p id='P3'>World</p>
+	//      <div id='D2'>
+	//        <p id='P4'>Another <em><b>text</b></em></p>
+	//      </div>
+	//  </div>
+	//                                     <div>
+	//                                       |
+	//                       +---------------+---------------+
+	//                       |               |               |
+	//                     <div>            <p>            <div>
+	//                       |               |               |
+	//              +--------+-------+    "World"           <p>
+	//              |                |                       |
+	//             <p>              <p>                +-----+-----+
+	//              |                |                 |           |
+	//      +-------+-------+     "Hello"           "Another"    <em>
+	//      |       |       |                                     <b>
+	//   "This "   <b>   " text"                                   |
+	//              |                                           "Text"
+	//           "is a"
+	//
+	//
+	return [HTMLDocument documentWithString:
+			@"<div id='Outer'>"
+			@"<div id='D1'><p id='P1'>This <b>is a</b> text</p><p id='P2'>Hello</p></div>"
+			@"<p id='P3'>World</p>"
+			@"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+			@"</div>"];
+}
+
+- (void)testDeleteContents_SameTextNode
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:1];
+	HTMLNode *end = [document querySelector:@"#P1"].firstChild;
+	[range setEndNode:end endOffset:4];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'>T <b>is a</b> text</p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_SameTextNode_Selected
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
+	[range selectNode:node];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'><b>is a</b> text</p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+
+	XCTAssertEqual([document querySelector:@"#P1"].childNodesCount, 2);
+}
+
+- (void)testDeleteContents_SameTextNode_SelectedContents
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
+	[range selectNodeContents:node];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'><b>is a</b> text</p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+
+	XCTAssertEqual([document querySelector:@"#P1"].childNodesCount, 3);
+	XCTAssertEqual([document querySelector:@"#P1"].firstChild.nodeType, HTMLNodeText);
+}
+
+- (void)testDeleteContents_DifferentTextNodesOfSingleParent
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:3];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:2];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'>Thiext</p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_DifferentTextNodesOfDifferentParents
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:3];
+	HTMLNode *end = [document querySelector:@"#P2"].lastChild;
+	[range setEndNode:end endOffset:4];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'>Thi<p id='P2'>o</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_DifferentTextNodesOfDifferentParents_HavingContainedNodesInBetween
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:3];
+	HTMLNode *end = [document querySelector:@"#P4"].firstChild;
+	[range setEndNode:end endOffset:2];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'>Thi</div>"
+													  @"<div id='D2'><p id='P4'>other <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_SameContainerNode
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"];
+	[range setStartNode:start startOffset:0];
+	HTMLNode *end = [document querySelector:@"#P1"];
+	[range setEndNode:end endOffset:2];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'> text</p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_SameContainerNode_Selected
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"];
+	[range selectNode:node];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_SameContainerNode_SelectedContents
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"];
+	[range selectNodeContents:node];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'></p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_StartContainerIsCommonRoot
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:0];
+	HTMLNode *end = [document querySelector:@"#P2"].firstChild;
+	[range setEndNode:end endOffset:2];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P2'>llo</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testDeleteContents_EndContainerIsCommonRoot
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:1];
+	HTMLNode *end = [document querySelector:@"#D1"];
+	[range setEndNode:end endOffset:1];
+	[range deleteContents];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'>T<p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
 }
 
 @end

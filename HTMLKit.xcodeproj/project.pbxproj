@@ -974,6 +974,10 @@
 		625A14CA19C7829400AD0C32 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				625EE4551CBAA41D00F2CC8E /* HTMLKitTestObserver.h */,
+				625EE4561CBAA41D00F2CC8E /* HTMLKitTestObserver.m */,
+				625EE4591CBB171300F2CC8E /* HTMLKitTestUtil.h */,
+				625EE45A1CBB171300F2CC8E /* HTMLKitTestUtil.m */,
 				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				623975581AC362A5007E26F1 /* Tree Construction */,
 				624B9FB71AE072CB00646C4C /* DOM */,
@@ -981,10 +985,6 @@
 				624E1A2D1B1D1C8A00E66AAC /* Structures */,
 				62FF516C1C0A430A009BFDFE /* Selectors */,
 				625A14CB19C7829400AD0C32 /* Supporting Files */,
-				625EE4551CBAA41D00F2CC8E /* HTMLKitTestObserver.h */,
-				625EE4561CBAA41D00F2CC8E /* HTMLKitTestObserver.m */,
-				625EE4591CBB171300F2CC8E /* HTMLKitTestUtil.h */,
-				625EE45A1CBB171300F2CC8E /* HTMLKitTestUtil.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";

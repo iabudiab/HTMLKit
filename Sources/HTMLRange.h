@@ -187,6 +187,10 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  */
 - (BOOL)intersectsNode:(HTMLNode *)node;
 
+/**
+ Deletes the contents represented by this range from the associated document.
+ */
+- (void)deleteContents;
 @end
 
 NS_ASSUME_NONNULL_END
