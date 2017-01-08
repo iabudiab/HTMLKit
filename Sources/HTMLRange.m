@@ -273,6 +273,34 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	return NO;
 }
 
+- (BOOL)containsNode:(HTMLNode *)node
+{
+	return CompareBoundaries(_startContainer, _startOffset, node, 0) == NSOrderedAscending &&
+	CompareBoundaries(_endContainer, _endOffset, node, node.length) == NSOrderedDescending;
+}
+
+- (BOOL)partiallyContainsNode:(HTMLNode *)node
+{
+	return [GetAncestorNodes(_startContainer) containsObject:node] || [GetAncestorNodes(_endContainer) containsObject:node];
+}
+
+- (NSArray *)containedNodes
+{
+	HTMLNode *commonAncestor = self.commonAncestorContainer;
+
+	NSMutableArray *containedNodes = [NSMutableArray array];
+	[commonAncestor.childNodes enumerateObjectsUsingBlock:^(HTMLNode * _Nonnull node, NSUInteger idx, BOOL * _Nonnull stop) {
+		if (node.nodeType == HTMLNodeDocumentType) {
+			[NSException raise:HTMLKitHierarchyRequestError format:@"Hierarchy Request Error, encountered a DOCTYPE contained in range: %@", self];
+		}
+		if ([self containsNode:node]) {
+			[containedNodes addObject:node];
+		}
+	}];
+
+	return containedNodes;
+}
+
 #pragma mark - Update Callbacks
 
 - (void)didRemoveCharacterDataInNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length
