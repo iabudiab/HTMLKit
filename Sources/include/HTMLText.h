@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)appendString:(NSString *)string __attribute__((deprecated("Use `appendData:` instead.")));
 
+- (HTMLNode *)splitTextAtOffset:(NSUInteger)offset;
+
 @end
 
 NS_ASSUME_NONNULL_END
