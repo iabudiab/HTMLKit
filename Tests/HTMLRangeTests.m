@@ -14,6 +14,7 @@
 
 #define BodyOf(doc) doc.body.innerHTML
 #define InnerHTML(str) [HTMLDocument documentWithString:str].body.innerHTML
+#define DoubleQuote(str) [str stringByReplacingOccurrencesOfString:@"'" withString:@"\""]
 
 @interface HTMLRangeTests : XCTestCase
 {
@@ -1129,6 +1130,8 @@
 			@"</div>"];
 }
 
+#pragma mark - Delete Contents
+
 - (void)testDeleteContents_SameTextNode
 {
 	HTMLDocument *document = self.editingDocument;
@@ -1332,6 +1335,162 @@
 													  @"<p id='P3'>World</p>"
 													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
 													  @"</div>"));
+}
+
+#pragma mark - Clone Contents
+
+- (void)testCloneContents_SameTextNode
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:1];
+	HTMLNode *end = [document querySelector:@"#P1"].firstChild;
+	[range setEndNode:end endOffset:4];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, @"his");
+	XCTAssertEqual(fragment.childNodesCount, 1);
+	XCTAssertEqual(fragment.firstChild.nodeType, HTMLNodeText);
+}
+
+- (void)testCloneContents_SameTextNode_Selected
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
+	[range selectNode:node];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, @"This ");
+	XCTAssertEqual(fragment.childNodesCount, 1);
+	XCTAssertEqual(fragment.firstChild.nodeType, HTMLNodeText);
+}
+
+- (void)testCloneContents_SameTextNode_SelectedContents
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
+	[range selectNodeContents:node];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, @"This ");
+	XCTAssertEqual(fragment.childNodesCount, 1);
+	XCTAssertEqual(fragment.firstChild.nodeType, HTMLNodeText);
+}
+
+- (void)testCloneContents_DifferentTextNodesOfSingleParent
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:3];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:2];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, @"s <b>is a</b> t");
+}
+
+- (void)testCloneContents_DifferentTextNodesOfDifferentParents
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:3];
+	HTMLNode *end = [document querySelector:@"#P2"].lastChild;
+	[range setEndNode:end endOffset:4];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, DoubleQuote(@"<p id='P1'>s <b>is a</b> text</p><p id='P2'>Hell</p>"));
+}
+
+- (void)testCloneContents_DifferentTextNodesOfDifferentParents_HavingContainedNodesInBetween
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:3];
+	HTMLNode *end = [document querySelector:@"#P4"].firstChild;
+	[range setEndNode:end endOffset:2];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, DoubleQuote(@"<div id='D1'><p id='P1'>s <b>is a</b> text</p><p id='P2'>Hello</p></div>"
+														  @"<p id='P3'>World</p>"
+														  @"<div id='D2'><p id='P4'>An</p></div>"));
+}
+
+- (void)testCloneContents_SameContainerNode
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"];
+	[range setStartNode:start startOffset:0];
+	HTMLNode *end = [document querySelector:@"#P1"];
+	[range setEndNode:end endOffset:2];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, @"This <b>is a</b>");
+}
+
+- (void)testCloneContents_SameContainerNode_Selected
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"];
+	[range selectNode:node];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, DoubleQuote(@"<p id='P1'>This <b>is a</b> text</p>"));
+}
+
+- (void)testCloneContents_SameContainerNode_SelectedContents
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *node = [document querySelector:@"#P1"];
+	[range selectNodeContents:node];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, DoubleQuote(@"This <b>is a</b> text"));
+}
+
+- (void)testCloneContents_StartContainerIsCommonRoot
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:0];
+	HTMLNode *end = [document querySelector:@"#P2"].firstChild;
+	[range setEndNode:end endOffset:2];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, DoubleQuote(@"<p id='P1'>This <b>is a</b> text</p><p id='P2'>He</p>"));
+}
+
+- (void)testCloneContents_EndContainerIsCommonRoot
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:1];
+	HTMLNode *end = [document querySelector:@"#D1"];
+	[range setEndNode:end endOffset:1];
+	HTMLDocumentFragment *fragment = [range cloneContents];
+
+	XCTAssertEqualObjects(fragment.innerHTML, DoubleQuote(@"<p id='P1'>his <b>is a</b> text</p>"));
 }
 
 @end

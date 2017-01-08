@@ -7,6 +7,7 @@
 //
 
 #import "HTMLNode.h"
+#import "HTMLDocumentFragment.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -205,6 +206,14 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  Deletes the contents represented by this range from the associated document.
  */
 - (void)deleteContents;
+
+/**
+ Clones the contents represented by this range in the associated document.
+
+ @return A document fragment with the cloned contents.
+ */
+- (HTMLDocumentFragment *)cloneContents;
+
 @end
 
 NS_ASSUME_NONNULL_END
