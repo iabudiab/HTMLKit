@@ -208,6 +208,13 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
 - (void)deleteContents;
 
 /**
+ Extracts the contents represented by this range from the associated document.
+
+ @return A document fragment with the extracted contents.
+ */
+- (HTMLDocumentFragment *)extractContents;
+
+/**
  Clones the contents represented by this range in the associated document.
 
  @return A document fragment with the cloned contents.

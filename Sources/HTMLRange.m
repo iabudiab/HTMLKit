@@ -372,6 +372,19 @@ NS_INLINE HTMLNode * GetHighestPartiallyContainedChild(HTMLNode *node, HTMLNode 
 	return node;
 }
 
+NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger start, NSUInteger length, BOOL delete)
+{
+	HTMLCharacterData *clone = (HTMLCharacterData *)[node cloneNodeDeep:NO];
+	NSRange range = NSMakeRange(start, length);
+	[clone setData:[clone.data substringWithRange:range]];
+
+	if (delete) {
+		[(HTMLCharacterData *)node deleteDataInRange:range];
+	}
+
+	return clone;
+}
+
 - (void)deleteContents
 {
 	if (self.isCollapsed) {
@@ -430,14 +443,81 @@ NS_INLINE HTMLNode * GetHighestPartiallyContainedChild(HTMLNode *node, HTMLNode 
 
 - (HTMLDocumentFragment *)extractContents
 {
-	return nil;
-}
+	HTMLDocumentFragment *fragment = [[HTMLDocumentFragment alloc] initWithDocument:_ownerDocument];
 
-NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger start, NSUInteger length)
-{
-	HTMLCharacterData *clone = (HTMLCharacterData *)[node cloneNodeDeep:NO];
-	[clone setData:[clone.data substringWithRange:NSMakeRange(start, length)]];
-	return clone;
+		// Nothing todo
+	if (self.isCollapsed) {
+		return fragment;
+	}
+
+		// Same character data container, handle that and return
+	if (_startContainer == _endContainer && [_startContainer isKindOfClass:[HTMLCharacterData class]]) {
+		HTMLCharacterData *clone = CloneCharachterData(_startContainer, _startOffset, _endOffset - _startOffset, YES);
+		[fragment appendNode:clone];
+
+		return fragment;
+	}
+
+	HTMLNode *commonAncestor = self.commonAncestorContainer;
+	HTMLNode *firstPartiallyContainedChild = GetHighestPartiallyContainedChild(_startContainer, commonAncestor);
+	HTMLNode *lastPartiallyContainedChild = GetHighestPartiallyContainedChild(_endContainer, commonAncestor);
+	NSArray *containedNodes = [self containedNodes:commonAncestor];
+
+	HTMLNode *newNode = _startContainer;
+	NSUInteger newOffset = _startOffset;
+
+	if (![_startContainer containsNode:_endContainer]) {
+		HTMLNode *referenceNode = _startContainer;
+		while (referenceNode.parentNode) {
+			if ([referenceNode.parentNode containsNode:_endContainer]) {
+				newNode = referenceNode.parentNode;
+				newOffset = referenceNode.index + 1;
+				break;
+			}
+			referenceNode = referenceNode.parentNode;
+		}
+	}
+
+	if ([firstPartiallyContainedChild isKindOfClass:[HTMLCharacterData class]]) {
+		HTMLCharacterData *clone = CloneCharachterData(_startContainer, _startOffset, _startContainer.length - _startOffset, YES);
+		[fragment appendNode:clone];
+	} else if (firstPartiallyContainedChild != nil) {
+		HTMLNode *clone = [firstPartiallyContainedChild copy];
+		[fragment appendNode:clone];
+
+		HTMLRange *subRange = [[HTMLRange alloc] initWithDowcument:_ownerDocument
+													startContainer:_startContainer
+													   startOffset:_startOffset
+													  endContainer:firstPartiallyContainedChild
+														 endOffset:firstPartiallyContainedChild.length];
+		HTMLDocumentFragment *subFragment = [subRange extractContents];
+		[clone appendNode:subFragment];
+	}
+
+	for (HTMLNode *node in containedNodes) {
+		[fragment appendNode:node];
+	}
+
+	if ([lastPartiallyContainedChild isKindOfClass:[HTMLCharacterData class]]) {
+		HTMLCharacterData *clone = CloneCharachterData(_endContainer, 0, _endOffset, YES);
+		[fragment appendNode:clone];
+	} else if (lastPartiallyContainedChild != nil) {
+		HTMLNode *clone = [lastPartiallyContainedChild copy];
+		[fragment appendNode:clone];
+
+		HTMLRange *subRange = [[HTMLRange alloc] initWithDowcument:_ownerDocument
+													startContainer:lastPartiallyContainedChild
+													   startOffset:0
+													  endContainer:_endContainer
+														 endOffset:_endOffset];
+		HTMLDocumentFragment *subFragment = [subRange extractContents];
+		[clone appendNode:subFragment];
+	}
+
+	[self setStartNode:newNode startOffset:newOffset];
+	[self setEndNode:newNode endOffset:newOffset];
+
+	return fragment;
 }
 
 - (HTMLDocumentFragment *)cloneContents
@@ -451,7 +531,7 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 
 	// Same character data container, handle that and return
 	if (_startContainer == _endContainer && [_startContainer isKindOfClass:[HTMLCharacterData class]]) {
-		HTMLCharacterData *clone = CloneCharachterData(_startContainer, _startOffset, _endOffset - _startOffset);
+		HTMLCharacterData *clone = CloneCharachterData(_startContainer, _startOffset, _endOffset - _startOffset, NO);
 		[fragment appendNode:clone];
 		return fragment;
 	}
@@ -462,7 +542,7 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 	NSArray *containedNodes = [self containedNodes:commonAncestor];
 
 	if ([firstPartiallyContainedChild isKindOfClass:[HTMLCharacterData class]]) {
-		HTMLCharacterData *clone = CloneCharachterData(_startContainer, _startOffset, _startContainer.length - _startOffset);
+		HTMLCharacterData *clone = CloneCharachterData(_startContainer, _startOffset, _startContainer.length - _startOffset, NO);
 		[fragment appendNode:clone];
 	} else if (firstPartiallyContainedChild != nil) {
 		HTMLNode *clone = [firstPartiallyContainedChild copy];
@@ -483,7 +563,7 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 	}
 
 	if ([lastPartiallyContainedChild isKindOfClass:[HTMLCharacterData class]]) {
-		HTMLCharacterData *clone = CloneCharachterData(_endContainer, 0, _endOffset);
+		HTMLCharacterData *clone = CloneCharachterData(_endContainer, 0, _endOffset, NO);
 		[fragment appendNode:clone];
 	} else if (lastPartiallyContainedChild != nil) {
 		HTMLNode *clone = [lastPartiallyContainedChild copy];
