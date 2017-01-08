@@ -187,6 +187,14 @@ typedef NS_OPTIONS(unsigned short, HTMLDocumentPosition)
 - (BOOL)isEmpty;
 
 /**
+ Clones this node.
+
+ @param deep If `YES` then also clones child nodes. Otherwise a shallow clone is returned, which behaves the same as `copy`.
+ @return A clone of this node.
+ */
+- (instancetype)cloneNodeDeep:(BOOL)deep;
+
+/**
  Returns the child node at a given index.
 
  @param index The index at which to return the child node.

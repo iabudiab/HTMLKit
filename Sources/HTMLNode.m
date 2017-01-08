@@ -668,6 +668,21 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 #endif
 
+#pragma mark - Clone
+
+- (instancetype)cloneNodeDeep:(BOOL)deep
+{
+	HTMLNode *copy = [self copy];
+
+	if (deep) {
+		for (HTMLNode *child in self.childNodes) {
+			[copy appendNode:[child cloneNodeDeep:YES]];
+		}
+	}
+
+	return copy;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
