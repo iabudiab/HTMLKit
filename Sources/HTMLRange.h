@@ -83,6 +83,20 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
 - (instancetype)initWithDowcument:(HTMLDocument *)document;
 
 /**
+ Initializes a new range instance for the given document and boundaries.
+
+ @param document The HTML doucment for which the range will be constructed.
+ @param startContainer The node for the start boundary
+ @param startOffset The offset of the start boundary
+ @param endContainer The node for the end boundary
+ @param endOffset The offset of the end boundary
+ @return A new HTML Range instance.
+ */
+- (instancetype)initWithDowcument:(HTMLDocument *)document
+				   startContainer:(HTMLNode *)startContainer startOffset:(NSUInteger)startOffset
+					 endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset;
+
+/**
  Sets the start boundary.
 
  @param startNode The new node of the start boundary.

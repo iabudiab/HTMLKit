@@ -25,12 +25,19 @@
 
 - (instancetype)initWithDowcument:(HTMLDocument *)document
 {
+	return [self initWithDowcument:document startContainer:document startOffset:0 endContainer:document endOffset:0];
+}
+
+- (instancetype)initWithDowcument:(HTMLDocument *)document
+				   startContainer:(HTMLNode *)startContainer startOffset:(NSUInteger)startOffset
+					 endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset
+{
 	self = [super init];
 	if (self) {
 		_ownerDocument = document;
 		[_ownerDocument attachRange:self];
-		[self setStartNode:document startOffset:0];
-		[self setEndNode:document endOffset:0];
+		[self setStartNode:startContainer startOffset:startOffset];
+		[self setEndNode:endContainer endOffset:endOffset];
 	}
 	return self;
 }
