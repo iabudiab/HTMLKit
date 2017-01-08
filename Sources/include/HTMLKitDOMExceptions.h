@@ -18,3 +18,4 @@ extern NSString * const HTMLKitInvalidCharacterError;
 extern NSString * const HTMLKitInvalidNodeTypeError;
 extern NSString * const HTMLKitIndexSizeError;
 extern NSString * const HTMLKitWrongDocumentError;
+extern NSString * const HTMLKitInvalidStateError;

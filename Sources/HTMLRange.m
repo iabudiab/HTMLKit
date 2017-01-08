@@ -613,4 +613,101 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 	return fragment;
 }
 
+#pragma mark - Insertion & Surround
+
+NS_INLINE void CheckValidInsertionNode(HTMLNode *startContainer, HTMLNode *node, NSString *cmd)
+{
+	if (startContainer == node || startContainer.nodeType == HTMLNodeComment ||
+		(startContainer.nodeType == HTMLNodeText && startContainer.parentNode == nil)) {
+		[NSException raise:HTMLKitHierarchyRequestError
+					format:@"%@: Hierarchy Request Error, cannot insert node into range: %@", cmd, node];
+	}
+}
+
+- (void)insertNode:(HTMLNode *)node
+{
+	CheckValidInsertionNode(_startContainer, node, NSStringFromSelector(_cmd));
+
+	HTMLNode *referenceNode = nil;
+
+	if (_startContainer.nodeType == HTMLNodeText) {
+		referenceNode = _startContainer;
+	} else {
+		referenceNode = [_startContainer childNodeAtIndex:_startOffset];
+	}
+
+	HTMLNode *parent = _startContainer;
+	if (referenceNode != nil) {
+		parent = referenceNode.parentNode;
+	}
+
+	if (_startContainer.nodeType == HTMLNodeText) {
+		referenceNode = [(HTMLText *)_startContainer splitTextAtOffset:_startOffset];
+	}
+
+	if (node == referenceNode) {
+		referenceNode = referenceNode.nextSibling;
+	}
+
+	[node removeFromParentNode];
+
+	NSUInteger newOffset = referenceNode ? referenceNode.index : parent.length;
+	newOffset += (node.nodeType == HTMLNodeDocumentFragment) ? node.length : 1;
+
+	[parent insertNode:node beforeChildNode:referenceNode];
+
+	if (self.isCollapsed) {
+		[self setEndNode:parent endOffset:newOffset];
+	}
+}
+
+NS_INLINE void CheckValidSurroundState(HTMLRange *range, NSString *cmd)
+{
+	for (HTMLNode *node in GetAncestorNodes(range.startContainer)) {
+		if ([node containsNode:range.endContainer]) {
+			return;
+		}
+
+		if (node.nodeType != HTMLNodeText) {
+			[NSException raise:HTMLKitInvalidStateError
+						format:@"%@: Invalid State Error, cannot surround range with a partially-contaied non-text node.", cmd];
+		}
+	};
+
+	for (HTMLNode *node in GetAncestorNodes(range.endContainer)) {
+		if ([node containsNode:range.startContainer]) {
+			return;
+		}
+
+		if (node.nodeType != HTMLNodeText) {
+			[NSException raise:HTMLKitInvalidNodeTypeError
+						format:@"%@: Invalid State Error, cannot surround range with a partially-contaied non-text node.", cmd];
+		}
+	};
+}
+
+NS_INLINE void CheckValidSurroundNodeType(HTMLNode *node, NSString *cmd)
+{
+	if (node == nil || node.nodeType == HTMLNodeDocumentType || node.nodeType == HTMLNodeDocument ||
+		node.nodeType == HTMLNodeDocumentFragment) {
+		[NSException raise:HTMLKitInvalidNodeTypeError
+					format:@"%@: Invalid Node Type Error, %@ is not a valid new parent for a range.",
+		 cmd, node];
+	}
+}
+
+- (void)surroundContents:(HTMLNode *)newParent
+{
+	CheckValidSurroundState(self, NSStringFromSelector(_cmd));
+
+	CheckValidSurroundNodeType(newParent, NSStringFromSelector(_cmd));
+
+	HTMLDocumentFragment *fragment = [self extractContents];
+	[newParent removeAllChildNodes];
+
+	[self insertNode:newParent];
+	[newParent appendNode:fragment];
+	[self selectNode:newParent];
+}
+
 @end

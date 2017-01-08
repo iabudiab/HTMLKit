@@ -221,6 +221,25 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  */
 - (HTMLDocumentFragment *)cloneContents;
 
+/**
+ Inserts the given node at the start of this range.
+
+ If the node is being added to a text node, then the text node is split at the insertion point and the given node
+ is inserted between the resulting text nodes.
+
+ @param node The node to insert.
+ */
+- (void)insertNode:(HTMLNode *)node;
+
+/**
+ Surrounds the contents of this range with the given node.
+
+ The range's boundaries will placed around the given node, i.e. start is before and end is after newParent.
+
+ @param newParent The new parent node which will surround the range.
+ */
+- (void)surroundContents:(HTMLNode *)newParent;
+
 @end
 
 NS_ASSUME_NONNULL_END
