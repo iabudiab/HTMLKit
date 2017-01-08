@@ -11,6 +11,7 @@
 #import "HTMLNodeIterator.h"
 #import "HTMLRange.h"
 #import "HTMLCharacterData.h"
+#import "HTMLText.h"
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNode+Private.h"
 #import "HTMLNodeIterator+Private.h"
@@ -166,6 +167,20 @@
 {
 	for (HTMLRange *range in _ranges) {
 		[range didAddCharacterDataToNode:node atOffset:offset withLength:length];
+	}
+}
+
+- (void)didInsertNewTextNode:(HTMLText *)newNode intoParent:(HTMLNode *)parent afterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset
+{
+	for (HTMLRange *range in _ranges) {
+		[range didInsertNewTextNode:newNode intoParent:parent afterSplittingTextNode:node atOffset:offset];
+	}
+}
+
+- (void)clampRangesAfterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset
+{
+	for (HTMLRange *range in _ranges) {
+		[range clampRangesAfterSplittingTextNode:node atOffset:offset];
 	}
 }
 

@@ -337,6 +337,38 @@ NS_INLINE NSComparisonResult CompareBoundaries(HTMLNode *startNode, NSUInteger s
 	}
 }
 
+- (void)didInsertNewTextNode:(HTMLText *)newNode intoParent:(HTMLNode *)parent afterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset
+{
+	if (_startContainer == node && _startOffset > offset) {
+		_startContainer = newNode;
+		_startOffset -= offset;
+	}
+
+	if (_endContainer == node && _endOffset > offset) {
+		_endContainer = newNode;
+		_endOffset -= offset;
+	}
+
+	if (_startContainer == parent && _startOffset == node.index + 1) {
+		_startOffset += 1;
+	}
+
+	if (_endContainer == parent && _endOffset == node.index + 1) {
+		_endOffset += 1;
+	}
+}
+
+- (void)clampRangesAfterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset
+{
+	if (_startContainer == node && _startOffset > offset) {
+		_startOffset = offset;
+	}
+
+	if (_endContainer == node && _endOffset > offset) {
+		_endOffset = offset;
+	}
+}
+
 - (void)runRemovingStepsForNode:(HTMLNode *)oldNode withOldParent:(HTMLNode *)oldParent andOldPreviousSibling:(HTMLNode *)oldPreviousSibling
 {
 	NSUInteger oldIndex = oldPreviousSibling.index + 1;

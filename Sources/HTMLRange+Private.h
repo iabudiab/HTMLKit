@@ -30,6 +30,24 @@
 - (void)didAddCharacterDataToNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length;
 
 /**
+ Runs the necessary steps after inserting a new text node when an old text node is split.
+
+ @param newNode The new text node after splitting.
+ @param parent The parent where newNode was inserted.
+ @param node The old text node that was split.
+ @param offset The offset of splitting.
+ */
+- (void)didInsertNewTextNode:(HTMLText *)newNode intoParent:(HTMLNode *)parent afterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset;
+
+/**
+ Runs the necessary steps to clamp the range whose end boundary is after the text node upon splitting it.
+
+ @param node The text node that was split.
+ @param offset The offset of splitting
+ */
+- (void)clampRangesAfterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset;
+
+/**
  Runs the necessary steps after removing a node from the DOM.
 
  @param oldNode The old node that was removed.
