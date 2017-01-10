@@ -39,7 +39,7 @@ NS_INLINE void CheckValidOffset(HTMLNode *node, NSUInteger offset, NSString *cmd
 	}
 }
 
-- (HTMLNode *)splitTextAtOffset:(NSUInteger)offset
+- (HTMLText *)splitTextAtOffset:(NSUInteger)offset
 {
 	CheckValidOffset(self, offset, NSStringFromSelector(_cmd));
 
