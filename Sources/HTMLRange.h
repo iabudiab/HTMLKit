@@ -240,6 +240,13 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  */
 - (void)surroundContents:(HTMLNode *)newParent;
 
+/**
+ The stringifier of the range.
+
+ @return The text contents of the range.
+ */
+- (NSString *)textContent;
+
 @end
 
 NS_ASSUME_NONNULL_END

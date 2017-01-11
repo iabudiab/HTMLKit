@@ -1949,4 +1949,48 @@
 													  @"</div>"));
 }
 
+#pragma mark - Stringifier
+
+- (void)testRangeStringifier
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:2];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:3];
+	XCTAssertEqualObjects([range textContent], @"is is a te");
+
+	start = [document querySelector:@"#P1"];
+	[range setStartNode:start startOffset:0];
+	end = [document querySelector:@"#P1"];
+	[range setEndNode:end endOffset:2];
+	XCTAssertEqualObjects([range textContent], @"This is a");
+
+	start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:0];
+	end = [document querySelector:@"#D1"];
+	[range setEndNode:end endOffset:1];
+	XCTAssertEqualObjects([range textContent], @"This is a text");
+
+	start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:0];
+	end = [document querySelector:@"#D1"];
+	[range setEndNode:end endOffset:2];
+	XCTAssertEqualObjects([range textContent], @"This is a textHello");
+
+	start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:0];
+	end = [document querySelector:@"#D2"];
+	[range setEndNode:end endOffset:0];
+	XCTAssertEqualObjects([range textContent], @"This is a textHelloWorld");
+
+	start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:0];
+	end = [document querySelector:@"#D2"];
+	[range setEndNode:end endOffset:1];
+	XCTAssertEqualObjects([range textContent], @"This is a textHelloWorldAnother text");
+}
+
 @end

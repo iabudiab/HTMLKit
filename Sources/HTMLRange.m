@@ -710,4 +710,44 @@ NS_INLINE void CheckValidSurroundNodeType(HTMLNode *node, NSString *cmd)
 	[self selectNode:newParent];
 }
 
+#pragma mark - Description & Stringifier
+
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"<%@: %p (%@, %lu), (%@, %lu)>", self.class, self,
+			_startContainer, (unsigned long)_startOffset,
+			_endContainer, (unsigned long)_endOffset];
+}
+
+- (NSString *)textContent
+{
+	HTMLNode *lastNode = nil;
+	if ([_endContainer isKindOfClass:[HTMLCharacterData class]]) {
+		lastNode = FollowingNodeSkippingChildren(_endContainer, _ownerDocument);
+	} else if (_endContainer.childNodesCount > _endOffset) {
+		lastNode = [_endContainer childNodeAtIndex:_endOffset];
+	} else {
+		lastNode = FollowingNodeSkippingChildren(_endContainer, _ownerDocument);
+	}
+
+	NSMutableString *content = [NSMutableString string];
+	for (HTMLNode *node = _startContainer; node != lastNode; node = FollowingNode(node, _ownerDocument)) {
+		if (node.nodeType == HTMLNodeText) {
+			HTMLText *text = (HTMLText *)node;
+
+			if (node == _startContainer) {
+				NSString *string = [text substringDataWithRange:NSMakeRange(_startOffset, _startContainer.length - _startOffset)];
+				[content appendString:string];
+			} else if (node == _endContainer) {
+				NSString *string = [text substringDataWithRange:NSMakeRange(0, _endOffset)];
+				[content appendString:string];
+			} else {
+				[content appendString:text.data];
+			}
+		}
+	}
+
+	return content;
+}
+
 @end
