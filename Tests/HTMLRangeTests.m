@@ -1730,4 +1730,223 @@
 	XCTAssertEqualObjects(fragment.innerHTML, DoubleQuote(@"<p id='P1'>his <b>is a</b> text</p>"));
 }
 
+#pragma mark - Insertion & Surround
+
+- (void)testInsertNode_InvalidNode
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:2];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:5];
+
+	XCTAssertThrows([range insertNode:start]);
+
+	HTMLComment *comment = [[HTMLComment alloc] initWithData:@"data"];
+	[[document querySelector:@"#D1"] appendNode: comment];
+	[range setStartNode:comment startOffset:2];
+
+	XCTAssertThrows([range insertNode:end]);
+}
+
+- (void)testInsertNode_TextNodeStart_Begin
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:0];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:5];
+
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	[div appendNodes:@[
+					   [[HTMLText alloc] initWithData:@"TEXT"],
+					   [[HTMLElement alloc] initWithTagName:@"a"]]];
+
+	[range insertNode:div];
+
+	XCTAssertEqualObjects(BodyOf(document), DoubleQuote(@"<div id='Outer'>"
+														@"<div id='D1'><p id='P1'><div>TEXT<a></a></div>This <b>is a</b> text</p><p id='P2'>Hello</p></div>"
+														@"<p id='P3'>World</p>"
+														@"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+														@"</div>"));
+}
+
+- (void)testInsertNode_TextNodeStart_Middle
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:2];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:5];
+
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	[div appendNodes:@[
+					   [[HTMLText alloc] initWithData:@"TEXT"],
+					   [[HTMLElement alloc] initWithTagName:@"a"]]];
+
+	[range insertNode:div];
+
+	XCTAssertEqualObjects(BodyOf(document), DoubleQuote(@"<div id='Outer'>"
+														@"<div id='D1'><p id='P1'>Th<div>TEXT<a></a></div>is <b>is a</b> text</p><p id='P2'>Hello</p></div>"
+														@"<p id='P3'>World</p>"
+														@"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+														@"</div>"));
+}
+
+- (void)testInsertNode_NonTextNodeStart_Begin
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"];
+	[range setStartNode:start startOffset:0];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:5];
+
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	[div appendNodes:@[
+					   [[HTMLText alloc] initWithData:@"TEXT"],
+					   [[HTMLElement alloc] initWithTagName:@"a"]]];
+
+	[range insertNode:div];
+
+	XCTAssertEqualObjects(BodyOf(document), DoubleQuote(@"<div id='Outer'>"
+														@"<div id='D1'><p id='P1'><div>TEXT<a></a></div>This <b>is a</b> text</p><p id='P2'>Hello</p></div>"
+														@"<p id='P3'>World</p>"
+														@"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+														@"</div>"));
+}
+
+- (void)testInsertNode_NonTextNodeStart_Middle
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"];
+	[range setStartNode:start startOffset:2];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:5];
+
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	[div appendNodes:@[
+					   [[HTMLText alloc] initWithData:@"TEXT"],
+					   [[HTMLElement alloc] initWithTagName:@"a"]]];
+
+	[range insertNode:div];
+
+	XCTAssertEqualObjects(BodyOf(document), DoubleQuote(@"<div id='Outer'>"
+														@"<div id='D1'><p id='P1'>This <b>is a</b><div>TEXT<a></a></div> text</p><p id='P2'>Hello</p></div>"
+														@"<p id='P3'>World</p>"
+														@"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+														@"</div>"));
+}
+
+- (void)testInsertNode_NonTextNodeStart_DifferentParents
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:1];
+	HTMLNode *end = [document querySelector:@"#P3"].firstChild;
+	[range setEndNode:end endOffset:4];
+
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"];
+	[div appendNodes:@[
+					   [[HTMLText alloc] initWithData:@"TEXT"],
+					   [[HTMLElement alloc] initWithTagName:@"a"]]];
+
+	[range insertNode:div];
+
+	XCTAssertEqualObjects(BodyOf(document), DoubleQuote(@"<div id='Outer'>"
+														@"<div id='D1'><p id='P1'>This <b>is a</b> text</p><div>TEXT<a></a></div><p id='P2'>Hello</p></div>"
+														@"<p id='P3'>World</p>"
+														@"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+														@"</div>"));
+}
+
+- (void)testSurroundContents_InvalidNode
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:2];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:5];
+
+	XCTAssertThrows([range surroundContents:[HTMLDocumentType new]]);
+	XCTAssertThrows([range surroundContents:[HTMLDocument new]]);
+	XCTAssertThrows([range surroundContents:[[HTMLDocumentFragment alloc] initWithDocument:document]]);
+}
+
+- (void)testSurroundContents_PartiallySelectedAncestors
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:2];
+	HTMLNode *end = [document querySelector:@"#P3"].lastChild;
+	[range setEndNode:end endOffset:3];
+
+	HTMLElement *span = [[HTMLElement alloc] initWithTagName:@"span"];
+	XCTAssertThrows([range surroundContents:span]);
+
+	start = [document querySelector:@"#D1"];
+	[range setStartNode:start startOffset:0];
+	end = [document querySelector:@"#D2"];
+	[range setEndNode:end endOffset:1];
+
+	XCTAssertThrows([range surroundContents:span]);
+}
+
+- (void)testSurroundContents_TextNodes
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
+	[range setStartNode:start startOffset:2];
+	HTMLNode *end = [document querySelector:@"#P1"].lastChild;
+	[range setEndNode:end endOffset:3];
+
+	HTMLElement *span = [[HTMLElement alloc] initWithTagName:@"span"];
+	[range surroundContents:span];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'>Th<span>is <b>is a</b> te</span>xt</p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
+- (void)testSurroundContents_NonTextNodes
+{
+	HTMLDocument *document = self.editingDocument;
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+
+	HTMLNode *start = [document querySelector:@"#P1"];
+	[range setStartNode:start startOffset:0];
+	HTMLNode *end = [document querySelector:@"#P1"];
+	[range setEndNode:end endOffset:2];
+
+	HTMLElement *span = [[HTMLElement alloc] initWithTagName:@"span"];
+	[range surroundContents:span];
+
+	XCTAssertEqualObjects(BodyOf(document), InnerHTML(
+													  @"<div id='Outer'>"
+													  @"<div id='D1'><p id='P1'><span>This <b>is a</b></span> text</p><p id='P2'>Hello</p></div>"
+													  @"<p id='P3'>World</p>"
+													  @"<div id='D2'><p id='P4'>Another <em><b>text</b></em></p></div>"
+													  @"</div>"));
+}
+
 @end
