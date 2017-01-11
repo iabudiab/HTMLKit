@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)insertData:(NSString *)data atOffset:(NSUInteger)offset;
 - (void)deleteDataInRange:(NSRange)range;
 - (void)replaceDataInRange:(NSRange)range withData:(NSString *)data;
+- (NSString *)substringDataWithRange:(NSRange)range;
 
 @end
 

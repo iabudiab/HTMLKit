@@ -86,6 +86,11 @@ NS_INLINE void CheckValidOffset(HTMLCharacterData *node, NSUInteger offset, NSSt
 	[self.ownerDocument didAddCharacterDataToNode:self atOffset:range.location withLength:data.length];
 }
 
+- (NSString *)substringDataWithRange:(NSRange)range
+{
+	return [_data substringWithRange:range];
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
