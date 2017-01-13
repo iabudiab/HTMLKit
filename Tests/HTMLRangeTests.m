@@ -91,10 +91,10 @@
 {
 	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
 
-	XCTAssertEqual(range.startContainer, _document);
+	XCTAssertEqualObjects(range.startContainer, _document);
 	XCTAssertEqual(range.startOffset, 0);
 
-	XCTAssertEqual(range.endContainer, _document);
+	XCTAssertEqualObjects(range.endContainer, _document);
 	XCTAssertEqual(range.endOffset, 0);
 }
 
@@ -111,9 +111,9 @@
 	//              collapsed range
 
 	[range setStartNode:_paragraphText startOffset:4];
-	XCTAssertEqual(range.startContainer, _paragraphText);
+	XCTAssertEqualObjects(range.startContainer, _paragraphText);
 	XCTAssertEqual(range.startOffset, 4);
-	XCTAssertEqual(range.endContainer, _paragraphText);
+	XCTAssertEqualObjects(range.endContainer, _paragraphText);
 	XCTAssertEqual(range.endOffset, 4);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -121,9 +121,9 @@
 	//       s              e
 
 	[range setStartNode:_title startOffset:2];
-	XCTAssertEqual(range.startContainer, _title);
+	XCTAssertEqualObjects(range.startContainer, _title);
 	XCTAssertEqual(range.startOffset, 2);
-	XCTAssertEqual(range.endContainer, _paragraphText);
+	XCTAssertEqualObjects(range.endContainer, _paragraphText);
 	XCTAssertEqual(range.endOffset, 4);
 }
 
@@ -139,9 +139,9 @@
 	// s                    e
 
 	[range setEndNode:_title endOffset:4];
-	XCTAssertEqual(range.startContainer, _document);
+	XCTAssertEqualObjects(range.startContainer, _document);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _title);
+	XCTAssertEqualObjects(range.endContainer, _title);
 	XCTAssertEqual(range.endOffset, 4);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -149,9 +149,9 @@
 	//      s e
 
 	[range setStartNode:_title startOffset:3];
-	XCTAssertEqual(range.startContainer, _title);
+	XCTAssertEqualObjects(range.startContainer, _title);
 	XCTAssertEqual(range.startOffset, 3);
-	XCTAssertEqual(range.endContainer, _title);
+	XCTAssertEqualObjects(range.endContainer, _title);
 	XCTAssertEqual(range.endOffset, 4);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -159,9 +159,9 @@
 	// collapsed range
 
 	[range setEndNode:_title endOffset:0];
-	XCTAssertEqual(range.startContainer, _title);
+	XCTAssertEqualObjects(range.startContainer, _title);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _title);
+	XCTAssertEqualObjects(range.endContainer, _title);
 	XCTAssertEqual(range.endOffset, 0);
 }
 
@@ -182,9 +182,9 @@
 
 	[range setStartBeforeNode:_paragraphText];
 
-	XCTAssertEqual(range.startContainer, _p);
+	XCTAssertEqualObjects(range.startContainer, _p);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _paragraphText);
+	XCTAssertEqualObjects(range.endContainer, _paragraphText);
 	XCTAssertEqual(range.endOffset, 4);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -200,9 +200,9 @@
 
 	[range setStartBeforeNode:_p];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _paragraphText);
+	XCTAssertEqualObjects(range.endContainer, _paragraphText);
 	XCTAssertEqual(range.endOffset, 4);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -218,9 +218,9 @@
 
 	[range setStartBeforeNode:_h1];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _paragraphText);
+	XCTAssertEqualObjects(range.endContainer, _paragraphText);
 	XCTAssertEqual(range.endOffset, 4);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -236,9 +236,9 @@
 
 	[range setStartBeforeNode:_div2];
 
-	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqualObjects(range.startContainer, _div1);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 0);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -254,9 +254,9 @@
 
 	[range setStartBeforeNode:_div1];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 2);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 0);
 }
 
@@ -277,9 +277,9 @@
 
 	[range setStartAfterNode:_paragraphText];
 
-	XCTAssertEqual(range.startContainer, _p);
+	XCTAssertEqualObjects(range.startContainer, _p);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _p);
+	XCTAssertEqualObjects(range.endContainer, _p);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -295,9 +295,9 @@
 
 	[range setStartAfterNode:_p];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 2);
-	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqualObjects(range.endContainer, _document.body);
 	XCTAssertEqual(range.endOffset, 2);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -313,9 +313,9 @@
 
 	[range setStartAfterNode:_h1];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _paragraphText);
+	XCTAssertEqualObjects(range.endContainer, _paragraphText);
 	XCTAssertEqual(range.endOffset, 4);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -331,9 +331,9 @@
 
 	[range setStartAfterNode:_div2];
 
-	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqualObjects(range.startContainer, _div1);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqualObjects(range.endContainer, _div1);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -349,9 +349,9 @@
 
 	[range setStartAfterNode:_firstText];
 
-	XCTAssertEqual(range.startContainer, _div2);
+	XCTAssertEqualObjects(range.startContainer, _div2);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 0);
 }
 
@@ -372,9 +372,9 @@
 
 	[range setEndBeforeNode:_paragraphText];
 
-	XCTAssertEqual(range.startContainer, _p);
+	XCTAssertEqualObjects(range.startContainer, _p);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _p);
+	XCTAssertEqualObjects(range.endContainer, _p);
 	XCTAssertEqual(range.endOffset, 0);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -390,9 +390,9 @@
 
 	[range setEndBeforeNode:_p];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqualObjects(range.endContainer, _document.body);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -408,9 +408,9 @@
 
 	[range setEndBeforeNode:_h1];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqualObjects(range.endContainer, _document.body);
 	XCTAssertEqual(range.endOffset, 0);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -426,9 +426,9 @@
 
 	[range setEndBeforeNode:_firstComment];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqualObjects(range.endContainer, _div2);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -444,9 +444,9 @@
 
 	[range setEndBeforeNode:_secondText];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, _firstText.length);
-	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqualObjects(range.endContainer, _div2);
 	XCTAssertEqual(range.endOffset, 2);
 }
 
@@ -467,9 +467,9 @@
 
 	[range setEndAfterNode:_paragraphText];
 
-	XCTAssertEqual(range.startContainer, _paragraphText);
+	XCTAssertEqualObjects(range.startContainer, _paragraphText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _p);
+	XCTAssertEqualObjects(range.endContainer, _p);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -485,9 +485,9 @@
 
 	[range setEndAfterNode:_p];
 
-	XCTAssertEqual(range.startContainer, _paragraphText);
+	XCTAssertEqualObjects(range.startContainer, _paragraphText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqualObjects(range.endContainer, _document.body);
 	XCTAssertEqual(range.endOffset, 2);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -503,9 +503,9 @@
 
 	[range setEndAfterNode:_h1];
 
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqualObjects(range.endContainer, _document.body);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -521,9 +521,9 @@
 
 	[range setEndAfterNode:_div2];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, _firstText.length);
-	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqualObjects(range.endContainer, _div1);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
@@ -539,9 +539,9 @@
 
 	[range setEndAfterNode:_firstComment];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, _firstText.length);
-	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqualObjects(range.endContainer, _div2);
 	XCTAssertEqual(range.endOffset, 2);
 }
 
@@ -569,9 +569,9 @@
 	[range setEndNode:_paragraphText endOffset:4];
 	[range collapseToStart];
 
-	XCTAssertEqual(range.startContainer, _title);
+	XCTAssertEqualObjects(range.startContainer, _title);
 	XCTAssertEqual(range.startOffset, 2);
-	XCTAssertEqual(range.endContainer, _title);
+	XCTAssertEqualObjects(range.endContainer, _title);
 	XCTAssertEqual(range.endOffset, 2);
 	XCTAssertTrue(range.isCollapsed);
 }
@@ -588,9 +588,9 @@
 	[range setEndNode:_paragraphText endOffset:4];
 	[range collapseToEnd];
 
-	XCTAssertEqual(range.startContainer, _paragraphText);
+	XCTAssertEqualObjects(range.startContainer, _paragraphText);
 	XCTAssertEqual(range.startOffset, 4);
-	XCTAssertEqual(range.endContainer, _paragraphText);
+	XCTAssertEqualObjects(range.endContainer, _paragraphText);
 	XCTAssertEqual(range.endOffset, 4);
 	XCTAssertTrue(range.isCollapsed);
 }
@@ -602,49 +602,49 @@
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     ----------
 	[range selectNode:_firstText];
-	XCTAssertEqual(range.startContainer, _div2);
+	XCTAssertEqualObjects(range.startContainer, _div2);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqualObjects(range.endContainer, _div2);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                               --------------------
 	[range selectNode:_firstComment];
-	XCTAssertEqual(range.startContainer, _div2);
+	XCTAssertEqualObjects(range.startContainer, _div2);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqualObjects(range.endContainer, _div2);
 	XCTAssertEqual(range.endOffset, 2);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                           -----------------------------------------------------------------------------------
 	[range selectNode:_div1];
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 2);
-	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqualObjects(range.endContainer, _document.body);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                ----------------------------------------------------
 	[range selectNode:_div2];
-	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqualObjects(range.startContainer, _div1);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqualObjects(range.endContainer, _div1);
 	XCTAssertEqual(range.endOffset, 1);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                                                                    --------------------
 	[range selectNode:_secondComment];
-	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqualObjects(range.startContainer, _div1);
 	XCTAssertEqual(range.startOffset, 1);
-	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqualObjects(range.endContainer, _div1);
 	XCTAssertEqual(range.endOffset, 2);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	// --------------
 	[range selectNode:_h1];
-	XCTAssertEqual(range.startContainer, _document.body);
+	XCTAssertEqualObjects(range.startContainer, _document.body);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _document.body);
+	XCTAssertEqualObjects(range.endContainer, _document.body);
 	XCTAssertEqual(range.endOffset, 1);
 }
 
@@ -655,49 +655,49 @@
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     ----------
 	[range selectNodeContents:_firstText];
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, _firstText.length);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                                   -------------
 	[range selectNodeContents:_firstComment];
-	XCTAssertEqual(range.startContainer, _firstComment);
+	XCTAssertEqualObjects(range.startContainer, _firstComment);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _firstComment);
+	XCTAssertEqualObjects(range.endContainer, _firstComment);
 	XCTAssertEqual(range.endOffset, _firstComment.length);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                ------------------------------------------------------------------------
 	[range selectNodeContents:_div1];
-	XCTAssertEqual(range.startContainer, _div1);
+	XCTAssertEqualObjects(range.startContainer, _div1);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _div1);
+	XCTAssertEqualObjects(range.endContainer, _div1);
 	XCTAssertEqual(range.endOffset, 2);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     -----------------------------------------
 	[range selectNodeContents:_div2];
-	XCTAssertEqual(range.startContainer, _div2);
+	XCTAssertEqualObjects(range.startContainer, _div2);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _div2);
+	XCTAssertEqualObjects(range.endContainer, _div2);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                                                                       --------------
 	[range selectNodeContents:_secondComment];
-	XCTAssertEqual(range.startContainer, _secondComment);
+	XCTAssertEqualObjects(range.startContainer, _secondComment);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _secondComment);
+	XCTAssertEqualObjects(range.endContainer, _secondComment);
 	XCTAssertEqual(range.endOffset, _secondComment.length);
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//     -----
 	[range selectNodeContents:_h1];
-	XCTAssertEqual(range.startContainer, _h1);
+	XCTAssertEqualObjects(range.startContainer, _h1);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _h1);
+	XCTAssertEqualObjects(range.endContainer, _h1);
 	XCTAssertEqual(range.endOffset, 1);
 }
 
@@ -891,27 +891,27 @@
 	//                                     |________|
 	[_firstText appendData:@" New Text"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 10);
 
 	// <h1>Title</h1><p>Hello</p><div><div>New text New Text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |______|
 	[_firstText replaceDataInRange:NSMakeRange(0, 5) withData:@"New"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 8);
 
 	// <h1>Title</h1><p>Hello</p><div><div>New Text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |
 	[_firstText setData:@"New Text"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 0);
 
 	// <h1>Title</h1><p>Hello</p><div><div>New Text<!--First comment-->Second text</div><--Second comment--></div>
@@ -922,18 +922,18 @@
 	//                                     |_____|
 	[_firstText deleteDataInRange:NSMakeRange(3, 1)];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 7);
 
 	// <h1>Title</h1><p>Hello</p><div><div>NewNewText<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |________|
 	[_firstText insertData:@"New" atOffset:3];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 10);
 
 	// <h1>Title</h1><p>Hello</p><div><div>NewNewText<!--First comment-->Second text</div><--Second comment--></div>
@@ -944,36 +944,36 @@
 	//                                              |_____|
 	[_firstText insertData:@"Prefix" atOffset:0];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 9);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 16);
 
 	// <h1>Title</h1><p>Hello</p><div><div>PrefixNewText<!--First comment-->Second text</div><--Second comment--></div>
 	//                                           |_____|
 	[_firstText deleteDataInRange:NSMakeRange(6, 3)];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 6);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 13);
 
 	// <h1>Title</h1><p>Hello</p><div><div>PreABCDText<!--First comment-->Second text</div><--Second comment--></div>
 	//                                        |______|
 	[_firstText replaceDataInRange:NSMakeRange(3, 6) withData:@"ABCD"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 3);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 11);
 
 	// <h1>Title</h1><p>Hello</p><div><div>Pre Text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                        |___|
 	[_firstText replaceDataInRange:NSMakeRange(3, 4) withData:@" "];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 3);
-	XCTAssertEqual(range.endContainer, _firstText);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
 	XCTAssertEqual(range.endOffset, 8);
 }
 
@@ -990,27 +990,27 @@
 	//                                         |____________________________________|
 	[_firstText appendData:@" New Text"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 5);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>New text New Text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |______________________________________|
 	[_firstText replaceDataInRange:NSMakeRange(0, 5) withData:@"New"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>New Text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |_____________________________|
 	[_firstText setData:@"New Text"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 
@@ -1018,18 +1018,18 @@
 	//                                     |____________________________|
 	[_firstText deleteDataInRange:NSMakeRange(3, 1)];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>NewNewText<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |_______________________________|
 	[_firstText insertData:@"New" atOffset:3];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 0);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>NewNewText<!--First comment-->Second text</div><--Second comment--></div>
@@ -1040,54 +1040,54 @@
 	//                                              |____________________________|
 	[_firstText insertData:@"Prefix" atOffset:0];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 9);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>PrefixNewText<!--First comment-->Second text</div><--Second comment--></div>
 	//                                           |____________________________|
 	[_firstText deleteDataInRange:NSMakeRange(6, 3)];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 6);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>PreABCDText<!--First comment-->Second text</div><--Second comment--></div>
 	//                                        |_____________________________|
 	[_firstText replaceDataInRange:NSMakeRange(3, 6) withData:@"ABCD"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 3);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>Pre Text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                        |__________________________|
 	[_firstText replaceDataInRange:NSMakeRange(3, 4) withData:@" "];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 3);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 3);
 
 	// <h1>Title</h1><p>Hello</p><div><div>Pre Text<!--First comment-->PrefixSecond text</div><--Second comment--></div>
 	//                                        |________________________________|
 	[_secondText insertData:@"Prefix" atOffset:0];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 3);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 9);
 
 	// <h1>Title</h1><p>Hello</p><div><div>Pre Text<!--X-->PrefixSecond text</div><--Second comment--></div>
 	//                                        |___________________|
 	[_firstComment setData:@"X"];
 
-	XCTAssertEqual(range.startContainer, _firstText);
+	XCTAssertEqualObjects(range.startContainer, _firstText);
 	XCTAssertEqual(range.startOffset, 3);
-	XCTAssertEqual(range.endContainer, _secondText);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
 	XCTAssertEqual(range.endOffset, 9);
 }
 
