@@ -1091,6 +1091,111 @@
 	XCTAssertEqual(range.endOffset, 9);
 }
 
+- (void)testThatTextSplitUpdateRangeCorrectly_BeforeStartTextNode
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     |________|
+	[range selectNodeContents:_firstText];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     ^________|
+	HTMLText *split = [_firstText splitTextAtOffset:0];
+
+	XCTAssertEqualObjects(range.startContainer, _firstText);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqualObjects(range.endContainer, split);
+	XCTAssertEqual(range.endOffset, 10);
+}
+
+- (void)testThatTextSplitUpdateRangeCorrectly_AfterEndTextNode
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     |________|
+	[range selectNodeContents:_firstText];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     |________^
+	[_firstText splitTextAtOffset:_firstText.length];
+
+	XCTAssertEqualObjects(range.startContainer, _firstText);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqualObjects(range.endContainer, _firstText);
+	XCTAssertEqual(range.endOffset, 10);
+}
+
+- (void)testThatTextSplitUpdateRangeCorrectly_MidleSameTextNode
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     |________|
+	[range selectNodeContents:_firstText];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     |____^___|
+	HTMLText *split = [_firstText splitTextAtOffset:6];
+
+	XCTAssertEqualObjects(range.startContainer, _firstText);
+	XCTAssertEqual(range.startOffset, 0);
+	XCTAssertEqualObjects(range.endContainer, split);
+	XCTAssertEqual(range.endOffset, 4);
+}
+
+- (void)testThatTextSplitUpdateRangeCorrectly_MidleDifferentTextNodes
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                      |______________________________|
+	[range setStartNode:_firstText startOffset:2];
+	[range setEndNode:_secondText endOffset:3];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                     |____^__________________________|
+	[_firstText splitTextAtOffset:6];
+
+	XCTAssertEqualObjects(range.startContainer, _firstText);
+	XCTAssertEqual(range.startOffset, 2);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
+	XCTAssertEqual(range.endOffset, 3);
+}
+
+- (void)testThatTextSplitUpdateRangeCorrectly_BeforeStartDifferentTextNodes
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                      |______________________________|
+	[range setStartNode:_firstText startOffset:6];
+	[range setEndNode:_secondText endOffset:3];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                       ^  |__________________________|
+	HTMLText *split = [_firstText splitTextAtOffset:2];
+
+	XCTAssertEqualObjects(range.startContainer, split);
+	XCTAssertEqual(range.startOffset, 4);
+	XCTAssertEqualObjects(range.endContainer, _secondText);
+	XCTAssertEqual(range.endOffset, 3);
+}
+
+- (void)testThatTextSplitUpdateRangeCorrectly_BeforeEndDifferentTextNodes
+{
+	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                      |_______________________________|
+	[range setStartNode:_firstText startOffset:6];
+	[range setEndNode:_secondText endOffset:4];
+
+	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
+	//                                      |_____________________________^_|
+	HTMLText *split = [_secondText splitTextAtOffset:2];
+
+	XCTAssertEqualObjects(range.startContainer, _firstText);
+	XCTAssertEqual(range.startOffset, 6);
+	XCTAssertEqualObjects(range.endContainer, split);
+	XCTAssertEqual(range.endOffset, 2);
+}
+
 #pragma mark - Editing
 
 - (HTMLDocument *)editingDocument

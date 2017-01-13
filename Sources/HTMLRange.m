@@ -406,7 +406,7 @@ NS_INLINE HTMLNode * GetHighestPartiallyContainedChild(HTMLNode *node, HTMLNode 
 
 NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger start, NSUInteger length, BOOL delete)
 {
-	HTMLCharacterData *clone = (HTMLCharacterData *)[node cloneNodeDeep:NO];
+	HTMLCharacterData *clone = (HTMLCharacterData *)[node copy];
 	NSRange range = NSMakeRange(start, length);
 	[clone setData:[clone.data substringWithRange:range]];
 
