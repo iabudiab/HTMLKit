@@ -16,8 +16,6 @@ module HTMLKit {
 		header "HTMLInputStreamReader.h"
 		header "HTMLListOfActiveFormattingElements.h"
 		header "HTMLMarker.h"
-		header "HTMLNodeTraversal.h"
-		header "HTMLDOMUtils.h"
 		header "HTMLParseErrorToken.h"
 		header "HTMLParserInsertionModes.h"
 		header "HTMLStackOfOpenElements.h"
@@ -29,9 +27,12 @@ module HTMLKit {
 		header "HTMLTokenizerStates.h"
 		header "HTMLTokens.h"
 		header "HTMLNode+Private.h"
+		header "HTMLDocument+Private.h"
 		header "HTMLCharacterData+Private.h"
 		header "HTMLRange+Private.h"
 		header "HTMLNodeIterator+Private.h"
 		header "HTMLParser+Private.h"
+		header "HTMLNodeTraversal.h"
+		header "HTMLDOMUtils.h"
 	}
 }
