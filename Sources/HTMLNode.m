@@ -16,12 +16,8 @@
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNodeFilter.h"
 #import "CSSSelector.h"
-
-@interface HTMLDocument (Private)
-- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
-				  withOldParent:(HTMLNode *)oldParent
-		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
-@end
+#import "HTMLDocument+Private.h"
+#import "HTMLDOMUtils.h"
 
 @interface HTMLNode ()
 {
@@ -60,6 +56,11 @@
 {
 	_ownerDocument = ownerDocument;
 	[self.childNodes.array makeObjectsPerformSelector:@selector(setOwnerDocument:) withObject:ownerDocument];
+}
+
+- (HTMLNode *)rootNode
+{
+	return _parentNode == nil ? self : _parentNode.rootNode;
 }
 
 - (void)setParentNode:(HTMLNode *)parentNode
@@ -118,9 +119,19 @@
 	return node.asElement;
 }
 
+- (NSUInteger)index
+{
+	return [self.parentNode indexOfChildNode:self];
+}
+
 - (NSString *)textContent
 {
 	return nil;
+}
+
+- (NSUInteger)length
+{
+	return self.childNodesCount;
 }
 
 #pragma mark - Cast
@@ -153,6 +164,11 @@
 - (NSUInteger)childNodesCount
 {
 	return self.childNodes.count;
+}
+
+- (BOOL)isEmpty
+{
+	return self.length == 0;
 }
 
 - (HTMLNode *)childNodeAtIndex:(NSUInteger)index
@@ -328,41 +344,43 @@
 		return HTMLDocumentPositionEquivalent;
 	}
 
-	NSArray * (^ ancestorNodes) (HTMLNode *) = ^ NSArray * (HTMLNode *node) {
-		NSMutableArray *ancestors = [NSMutableArray array];
-		for (HTMLNode *node = self; node; node = node.parentNode) {
-			[ancestors addObject:node];
-		}
-		return ancestors;
-	};
-
-	NSArray *ancestors1 = ancestorNodes(self);
-	NSArray *ancestors2 = ancestorNodes(otherNode);
-
-	if (ancestors1.lastObject != ancestors2.lastObject) {
-		return HTMLDocumentPositionDisconnected |
-		HTMLDocumentPositionImplementationSpecific |
-		HTMLDocumentPositionFollowing;
+	if (self.ownerDocument != otherNode.ownerDocument) {
+		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
+				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
 	}
 
-	for (NSUInteger i = MIN(ancestors1.count - 1, ancestors2.count - 1); i; --i) {
-		HTMLNode *child1 = ancestors1[i];
-		HTMLNode *child2 = ancestors2[i];
+	NSArray *ancestors1 = GetAncestorNodes(self);
+	NSArray *ancestors2 = GetAncestorNodes(otherNode);
+
+	if (ancestors1.lastObject != ancestors2.lastObject) {
+		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
+				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
+	}
+
+	NSUInteger index1 = ancestors1.count;
+	NSUInteger index2 = ancestors2.count;
+
+	for (NSUInteger i = MIN(index1, index2); i; --i) {
+		index1 -= 1;
+		index2 -= 1;
+
+		HTMLNode *child1 = ancestors1[index1];
+		HTMLNode *child2 = ancestors2[index2];
 
 		if (child1 != child2) {
 			for (HTMLNode *sibling = child1.nextSibling; sibling; sibling = sibling.nextSibling) {
 				if (sibling == child2) {
-					return HTMLDocumentPositionFollowing;
+					return HTMLDocumentPositionPreceding;
 				}
 			}
-			return HTMLDocumentPositionPreceding;
+			return HTMLDocumentPositionFollowing;
 		}
 	}
 
 	if (ancestors1.count < ancestors2.count) {
-		return HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing;
-	} else {
 		return HTMLDocumentPositionContains | HTMLDocumentPositionPreceding;
+	} else {
+		return HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing;
 	}
 }
 
@@ -649,6 +667,21 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 }
 
 #endif
+
+#pragma mark - Clone
+
+- (instancetype)cloneNodeDeep:(BOOL)deep
+{
+	HTMLNode *copy = [self copy];
+
+	if (deep) {
+		for (HTMLNode *child in self.childNodes) {
+			[copy appendNode:[child cloneNodeDeep:YES]];
+		}
+	}
+
+	return copy;
+}
 
 #pragma mark - NSCopying
 

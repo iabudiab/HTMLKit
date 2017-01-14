@@ -9,19 +9,19 @@
 #import "HTMLDocument.h"
 #import "HTMLParser.h"
 #import "HTMLNodeIterator.h"
+#import "HTMLRange.h"
+#import "HTMLCharacterData.h"
+#import "HTMLText.h"
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNode+Private.h"
-
-@interface HTMLNodeIterator (Private)
-- (void)runRemovingStepsForNode:(HTMLNode *)oldNode
-				  withOldParent:(HTMLNode *)oldParent
-		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling;
-@end
+#import "HTMLNodeIterator+Private.h"
+#import "HTMLRange+Private.h"
 
 @interface HTMLDocument ()
 {
 	HTMLDocument *_inertTemplateDocument;
 	NSMutableArray *_nodeIterators;
+	NSMutableArray *_ranges;
 }
 @property (nonatomic, assign) HTMLDocumentReadyState readyState;
 @end
@@ -42,6 +42,7 @@
 	if (self) {
 		_readyState = HTMLDocumentLoading;
 		_nodeIterators = [NSMutableArray new];
+		_ranges = [NSMutableArray new];
 	}
 	return self;
 }
@@ -143,14 +144,62 @@
 	[_nodeIterators removeObject:iterator];
 }
 
+#pragma mark - Ranges
+
+- (void)attachRange:(HTMLRange *)range
+{
+	[_ranges addObject:range];
+}
+
+- (void)detachRange:(HTMLRange *)range
+{
+	[_ranges removeObject:range];
+}
+
+- (void)didRemoveCharacterDataInNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length
+{
+	for (HTMLRange *range in _ranges) {
+		[range didRemoveCharacterDataInNode:node atOffset:offset withLength:length];
+	}
+}
+
+- (void)didAddCharacterDataToNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length
+{
+	for (HTMLRange *range in _ranges) {
+		[range didAddCharacterDataToNode:node atOffset:offset withLength:length];
+	}
+}
+
+- (void)didInsertNewTextNode:(HTMLText *)newNode intoParent:(HTMLNode *)parent afterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset
+{
+	for (HTMLRange *range in _ranges) {
+		[range didInsertNewTextNode:newNode intoParent:parent afterSplittingTextNode:node atOffset:offset];
+	}
+}
+
+- (void)clampRangesAfterSplittingTextNode:(HTMLText *)node atOffset:(NSUInteger)offset
+{
+	for (HTMLRange *range in _ranges) {
+		[range clampRangesAfterSplittingTextNode:node atOffset:offset];
+	}
+}
+
+#pragma mark - Mutation Callback
+
 - (void)runRemovingStepsForNode:(HTMLNode *)oldNode
 				  withOldParent:(HTMLNode *)oldParent
 		  andOldPreviousSibling:(HTMLNode *)oldPreviousSibling
 {
+	for (HTMLRange *range in _ranges) {
+		[range runRemovingStepsForNode:oldNode
+						 withOldParent:oldParent
+				 andOldPreviousSibling:oldPreviousSibling];
+	}
+
 	for (HTMLNodeIterator *iterator in _nodeIterators) {
 		[iterator runRemovingStepsForNode:oldNode
-							 withOldParent:oldParent
-					 andOldPreviousSibling:oldPreviousSibling];
+							withOldParent:oldParent
+					andOldPreviousSibling:oldPreviousSibling];
 	}
 }
 

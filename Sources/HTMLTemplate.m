@@ -8,10 +8,7 @@
 
 #import "HTMLTemplate.h"
 #import "HTMLDocument.h"
-
-@interface HTMLNode (Private)
-@property (nonatomic, weak) HTMLDocument *ownerDocument;
-@end
+#import "HTMLNode+Private.h"
 
 @implementation HTMLTemplate
 

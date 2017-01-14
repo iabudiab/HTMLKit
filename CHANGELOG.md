@@ -1,5 +1,23 @@
 # Change Log
 
+## [1.1.0](https://github.com/iabudiab/HTMLKit/releases/tag/1.1.0) 
+
+Released on 2017.01.14
+
+### Added
+
+- `DOM Ranges` implementation ([spec](https://dom.spec.whatwg.org/#ranges))
+- `HTMLChatacterData` as base class for `HTMLText` & `HTMLComment`
+	- `HTMLText` and `HTMLComment` no longer extend `HTMLNode` directly
+- `splitText` implementation for `HTMLText` nodes
+- `index` property for `HTMLNode`
+- `cloneNodeDeep` method for `HTMLNode`
+
+### Deprecated
+
+- `appendString` method in `HTMLText` in favor of `appendData` from the supperclass `HTMLCharacterData`
+
+
 ## [1.0.0](https://github.com/iabudiab/HTMLKit/releases/tag/1.0.0) 
 
 Released on 2016.09.28
@@ -61,7 +79,6 @@ This release passes all tokenizer and tree construction html5lib-tests as of 201
 - `<isindex>` is completely removed from the spec now, therefore it is dropped from the implementation
 - `Tokenizer` and `Tree-Construction` tests are now generated dynamically
 - Test failures are collected by a `XCTestObservation` for better reporting
-	
 - `<isindex>` is completely removed from the spec now, therefore it is dropped from the implementation
 - `Tokenizer` and `Tree-Construction` tests are now generated dynamically
 - Test failures are collected by a `XCTestObservation` for better reporting

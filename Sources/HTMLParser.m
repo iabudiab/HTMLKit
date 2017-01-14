@@ -18,14 +18,7 @@
 #import "HTMLMarker.h"
 #import "NSString+HTMLKit.h"
 #import "CSSSelectors.h"
-
-@interface HTMLTokenizer (Private)
-@property (nonatomic, weak) HTMLParser *parser;
-@end
-
-@interface HTMLDocument (Private)
-@property (nonatomic, assign) HTMLDocumentReadyState readyState;
-@end
+#import "HTMLDocument+Private.h"
 
 @interface HTMLParser ()
 {
@@ -457,9 +450,11 @@
 																					beforeChildNode:&child];
 	if (adjustedInsertionLocation.nodeType != HTMLNodeDocument) {
 		if (child != nil && child.previousSibling.nodeType == HTMLNodeText) {
-			[(HTMLText *)child.previousSibling appendString:data];
+			HTMLText *textNode = (HTMLText *)child.previousSibling;
+			[textNode appendData:data];
 		} else if (adjustedInsertionLocation.lastChild.nodeType == HTMLNodeText) {
-			[(HTMLText *)adjustedInsertionLocation.lastChild appendString:data];
+			HTMLText *textNode = (HTMLText *)adjustedInsertionLocation.lastChild;
+			[textNode appendData:data];
 		} else {
 			HTMLText *text = [[HTMLText alloc] initWithData:data];
 			[adjustedInsertionLocation insertNode:text beforeChildNode:child];

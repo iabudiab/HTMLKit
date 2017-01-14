@@ -13,10 +13,7 @@
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokenizerCharacters.h"
 #import "HTMLTokenizerEntities.h"
-
-@interface HTMLParser (Private)
-@property (nonatomic, strong, readonly) HTMLElement *adjustedCurrentNode;
-@end
+#import "HTMLParser+Private.h"
 
 @interface HTMLTokenizer ()
 {
@@ -45,7 +42,6 @@
 
 	BOOL _eof;
 }
-@property (nonatomic, weak) HTMLParser *parser;
 @end
 
 @implementation HTMLTokenizer

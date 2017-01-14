@@ -129,13 +129,18 @@ NS_INLINE BOOL nilOrEqual(id first, id second) {
 	return HTMLQuirksModeNoQuirks;
 }
 
+- (NSUInteger)length
+{
+	return 0;
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone
 {
 	HTMLDocumentType *copy = [super copyWithZone:zone];
-	copy->_publicIdentifier = self.publicIdentifier;
-	copy->_systemIdentifier = self.systemIdentifier;
+	copy->_publicIdentifier = [_publicIdentifier copy];
+	copy->_systemIdentifier = [_systemIdentifier copy];
 	return copy;
 }
 

@@ -6,17 +6,14 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-#import "HTMLNode.h"
+#import "HTMLCharacterData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  A HTML Text node
  */
-@interface HTMLText : HTMLNode
-
-/** @brief The text string. */
-@property (nonatomic, copy) NSMutableString *data;
+@interface HTMLText : HTMLCharacterData
 
 /**
  Initializes a new HTML text node.
@@ -31,7 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param string The string to append.
  */
-- (void)appendString:(NSString *)string;
+- (void)appendString:(NSString *)string __attribute__((deprecated("Use `appendData:` instead.")));
+
+- (HTMLText *)splitTextAtOffset:(NSUInteger)offset;
 
 @end
 

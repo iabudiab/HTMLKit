@@ -28,7 +28,7 @@ typedef NS_ENUM(short, HTMLNodeType)
 /**
  A node's position in the HTML document when compared with other nodes.
  */
-typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
+typedef NS_OPTIONS(unsigned short, HTMLDocumentPosition)
 {
 	HTMLDocumentPositionEquivalent = 0x0,
 	HTMLDocumentPositionDisconnected = 0x01,
@@ -70,6 +70,11 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  @see HTMLDocument
  */
 @property (nonatomic, weak, readonly, nullable) HTMLDocument *ownerDocument;
+
+/**
+ The root node of this node, if any.
+ */
+@property (nonatomic, weak, readonly, nullable) HTMLNode *rootNode;
 
 /**
  The parent node of this node, if any.
@@ -123,6 +128,11 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 @property (nonatomic, strong, readonly, nullable) HTMLElement *nextSiblingElement;
 
 /**
+ The index of this node.
+ */
+@property (nonatomic, readonly, assign) NSUInteger index;
+
+/**
  The text content of this node.
  */
 @property (nonatomic, copy) NSString *textContent;
@@ -136,6 +146,11 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  The inner HTML string.
  */
 @property (nonatomic, copy)	NSString *innerHTML;
+
+/**
+ The length of the node as described in https://dom.spec.whatwg.org/#concept-node-length
+ */
+@property (nonatomic, assign) NSUInteger length;
 
 /**
  @abstract Use concrete subclasses of the HTML Node.
@@ -163,6 +178,21 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
  @return The child nodes count.
  */
 - (NSUInteger)childNodesCount;
+
+/**
+ Checks whether the node is empty as described in https://dom.spec.whatwg.org/#concept-node-length
+
+ @return `YES` if the node is empty, `NO` otherwise.
+ */
+- (BOOL)isEmpty;
+
+/**
+ Clones this node.
+
+ @param deep If `YES` then also clones child nodes. Otherwise a shallow clone is returned, which behaves the same as `copy`.
+ @return A clone of this node.
+ */
+- (instancetype)cloneNodeDeep:(BOOL)deep;
 
 /**
  Returns the child node at a given index.
@@ -318,7 +348,8 @@ typedef NS_ENUM(unsigned short, HTMLDocumentPosition)
 - (BOOL)isDescendantOfNode:(HTMLNode *)node;
 
 /**
- Checks whether this node contains the given node.
+ Checks whether this node contains the given node. This performs an `invlusive ancestor` check, i.e. it returns `YES`
+ if the given node is the same object as this node.
 
  @param node The node to check.
  @return `YES` if this node contains the given node, `NO` otherwsie.
