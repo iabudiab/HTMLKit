@@ -19,8 +19,6 @@
 		621CC4921DEA704000D1992A /* HTMLDocument+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC48F1DEA704000D1992A /* HTMLDocument+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		621CC4931DEA704000D1992A /* HTMLDocument+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC48F1DEA704000D1992A /* HTMLDocument+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		621CC4941DEA704000D1992A /* HTMLDocument+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC48F1DEA704000D1992A /* HTMLDocument+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		621CC49C1DEA71D800D1992A /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC4991DEA71D800D1992A /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		621CC49E1DEA71D800D1992A /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC4991DEA71D800D1992A /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		621CC4A51DEA721A00D1992A /* HTMLParser+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC4A31DEA721A00D1992A /* HTMLParser+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		621CC4A61DEA721A00D1992A /* HTMLParser+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC4A31DEA721A00D1992A /* HTMLParser+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		621CC4A71DEA721A00D1992A /* HTMLParser+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 621CC4A31DEA721A00D1992A /* HTMLParser+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -592,7 +590,6 @@
 		62132E5B1C021FF200084175 /* css-tests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "css-tests"; sourceTree = "<group>"; };
 		6216ACFC1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSExtensionSelectorsParsingTests.m; sourceTree = "<group>"; };
 		621CC48F1DEA704000D1992A /* HTMLDocument+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HTMLDocument+Private.h"; path = "include/HTMLDocument+Private.h"; sourceTree = "<group>"; };
-		621CC4991DEA71D800D1992A /* HTMLNode+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HTMLNode+Private.h"; path = "include/HTMLNode+Private.h"; sourceTree = "<group>"; };
 		621CC4A31DEA721A00D1992A /* HTMLParser+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HTMLParser+Private.h"; path = "include/HTMLParser+Private.h"; sourceTree = "<group>"; };
 		621FBE591BDAD68700BC9555 /* CSSSelectorParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSSelectorParserTests.m; sourceTree = "<group>"; };
 		621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSCombinatorSelectorTests.m; sourceTree = "<group>"; };
@@ -1014,7 +1011,6 @@
 				621CC48F1DEA704000D1992A /* HTMLDocument+Private.h */,
 				625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */,
 				626679CD1DEA3DAF004353E7 /* HTMLCharacterData+Private.h */,
-				621CC4991DEA71D800D1992A /* HTMLNode+Private.h */,
 				62F7E5A01DEB63F900DEF09B /* HTMLRange+Private.h */,
 				621CC4A31DEA721A00D1992A /* HTMLParser+Private.h */,
 				62056C4E1E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h */,
@@ -1288,7 +1284,6 @@
 				62857CA11D398973008DC254 /* HTMLNode.h in Headers */,
 				62857CD41D3989BF008DC254 /* CSSCodePoints.h in Headers */,
 				62857C871D398927008DC254 /* HTMLElementTypes.h in Headers */,
-				621CC49E1DEA71D800D1992A /* HTMLNode+Private.h in Headers */,
 				62857C711D398907008DC254 /* HTMLTokenizerEntities.h in Headers */,
 				62056C521E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h in Headers */,
 				62857C6C1D3988EE008DC254 /* HTMLKitErrorDomain.h in Headers */,
@@ -1417,7 +1412,6 @@
 				62ECBFC61C0B6D4300AF847B /* CSSCombinatorSelector.h in Headers */,
 				62F7E5A31DEB63F900DEF09B /* HTMLRange+Private.h in Headers */,
 				626BE1E31DF3819500C49514 /* HTMLDOMUtils.h in Headers */,
-				621CC49C1DEA71D800D1992A /* HTMLNode+Private.h in Headers */,
 				625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */,
 				62ECBFC71C0B6D4300AF847B /* CSSCompoundSelector.h in Headers */,
 				62ECBFB11C0B6D3C00AF847B /* HTMLNodeTraversal.h in Headers */,
