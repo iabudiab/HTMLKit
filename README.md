@@ -11,6 +11,12 @@ An Objective-C framework for your everyday HTML needs.
 [![Platform](https://img.shields.io/cocoapods/p/HTMLKit.svg?style=flat)](http://cocoadocs.org/docsets/HTMLKit)
 [![License MIT](https://img.shields.io/badge/license-MIT-4481C7.svg?style=flat)](https://opensource.org/licenses/MIT)
 
+- [Quick Overview](#overview)
+- [Installation](#installation)
+- [Parsing](#parsing)
+- [The DOM](#the-dom)
+- [CSS3 Selectors](#css3-selectors)
+
 # Quick Overview
 
 HTMLKit is a [WHATWG specification](https://html.spec.whatwg.org/multipage/)-compliant framework for parsing and serializing HTML documents and document fragments for iOS and OSX. HTMLKit parses real-world HTML the same way modern web browsers would.
@@ -33,7 +39,7 @@ Check out the playground!
 
 # Installation
 
-### Carthage
+## Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
 
@@ -56,7 +62,7 @@ Then run the following command to build the framework and drag the built `HTMLKi
 $ carthage update
 ```
 
-### CocoaPods
+## CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects.
 
@@ -72,7 +78,7 @@ To add `HTMLKit` as a dependency into your project using CocoaPods just add the 
 use_frameworks!
 
 target 'MyTarget' do
-  pod 'HTMLKit', '~> 0.9'
+  pod 'HTMLKit', '~> 1.1'
 end
 ```
 
@@ -82,14 +88,14 @@ Then, run the following command:
 $ pod install
 ```
 
-### Swift Package Manager
+## Swift Package Manager
 
 [Swift Package Manager](https://github.com/apple/swift-package-manager) is the package manager for the Swift programming language.
 
 Add `HTMLKit` to your `Package.swift` dependecies:
 
 ```swift
-.Package(url: "https://github.com/iabudiab/HTMLKit", majorVersion: 0, minor: 9)
+.Package(url: "https://github.com/iabudiab/HTMLKit", majorVersion: 1)
 ```
 
 Then run:
@@ -98,7 +104,7 @@ Then run:
 $ swift build
 ```
 
-### Manually
+## Manually
 
 1- Add `HTMLKit` as git submodule
 
@@ -110,9 +116,9 @@ $ git submodule add https://github.com/iabudiab/HTMLKit.git
 
 3- In the General panel of your target add `HTMLKit.framework` under the `Embedded Binaries` 
 
-# Features
+# Parsing
 
-# Parsing Documents
+## Parsing Documents
 
 Given some HTML content, you can parse it either via the `HTMLParser` or instatiate a `HTMLDocument` directly:
 
@@ -127,7 +133,7 @@ HTMLDocument *document = [parser parseDocument];
 HTMLDocument *document = [HTMLDocument documentWithString:htmlString];
 ```
 
-# Parsing Fragments
+## Parsing Fragments
 
 You can also prase HTML content as a document fragment with a specified context element:
 
@@ -150,7 +156,7 @@ nodes = [parser parseFragmentWithContextElement:bodyContext];
 
 # The DOM
 
-Here are some of the things you can do:
+The DOM tree can be manipulated in several ways, here are just a few:
 
 * Create new elements and assign attributes
 
@@ -174,7 +180,7 @@ NSArray *nodes = @[
 [body appendNodes:nodes];
 ```
 
-* Enumerate child elements and perform DOM manipulation
+* Enumerate child elements and perform DOM editing
 
 ```objective-c
 [body enumerateChildElementsUsingBlock:^(HTMLElement *element, NSUInteger idx, BOOL *stop) {
@@ -194,17 +200,17 @@ NSArray *nodes = @[
 [body.lastChild removeFromParentNode];
 ```
 
+* Manipulate the HTML directly
+
+```objective-c
+greenDiv.innerHTML = @"<ul><li>item 1<li>item 2";
+```
+
 * Navigate to child and sibling nodes
 
 ```objective-c
 HTMLNode *firstChild = body.firstChild;
 HTMLNode *greenDiv = firstChild.nextSibling;
-```
-
-* Manipulate the HTML directly
-
-```objective-c
-greenDiv.innerHTML = @"<ul><li>item 1<li>item 2";
 ```
 
 * Iterate the DOM tree with custom filters
@@ -220,6 +226,17 @@ HTMLNodeFilterBlock *filter =[HTMLNodeFilterBlock filterWithBlock:^ HTMLNodeFilt
 for (HTMLElement *element in [body nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:filter]) {
 	NSLog(@"%@", element.outerHTML);
 }
+```
+
+* Create and manipulate DOM Ranges
+
+```objective-c
+HTMLDocument *document = [HTMLDocument documentWithString:@"<div><h1>HTMLKit</h1><p id='foo'>Hello there!</p></div>"];
+HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
+
+HTMLNode *paragraph = [document querySelector:@"#foo"];
+[range selectNode:paragraph];
+[range extractContents];
 ```
 
 # CSS3 Selectors

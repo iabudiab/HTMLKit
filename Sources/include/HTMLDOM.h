@@ -11,6 +11,7 @@
 #import "HTMLDocumentType.h"
 #import "HTMLDocumentFragment.h"
 #import "HTMLElement.h"
+#import "HTMLCharacterData.h"
 #import "HTMLComment.h"
 #import "HTMLText.h"
 #import "HTMLTemplate.h"

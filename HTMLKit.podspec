@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name               = "HTMLKit"
-  s.version            = "1.0.0"
+  s.version            = "1.1.0"
   s.summary            = "HTMLKit, an Objective-C framework for your everyday HTML needs."
   s.license            = "MIT"
   s.homepage           = "https://github.com/iabudiab/HTMLKit"
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.source_files         = "Sources", "Sources/**/*.{h,m}"
   s.private_header_files = [
-    'Sources/**/*{HTMLToken,HTMLTokens,HTMLTagToken,HTMLCharacterToken,HTMLCommentToken,HTMLDOCTYPEToken,HTMLEOFToken,HTMLTokenizer,HTMLTokenizerCharacters,HTMLTokenizerEntities,HTMLTokenizerStates,HTMLElementAdjustment,HTMLElementTypes,HTMLInputStreamReader,HTMLListOfActiveFormattingElements,HTMLNodeTraversal,HTMLParseErrorToken,HTMLParserInsertionModes,HTMLStackOfOpenElements,HTMLNode+Private,HTMLMarker,CSSCodePoints,CSSInputStream}.h'
+    'Sources/**/*{HTMLToken,HTMLTokens,HTMLTagToken,HTMLCharacterToken,HTMLCommentToken,HTMLDOCTYPEToken,HTMLEOFToken,HTMLTokenizer,HTMLTokenizerCharacters,HTMLTokenizerEntities,HTMLTokenizerStates,HTMLElementAdjustment,HTMLElementTypes,HTMLInputStreamReader,HTMLListOfActiveFormattingElements,HTMLParseErrorToken,HTMLParserInsertionModes,HTMLStackOfOpenElements,HTMLMarker,HTMLNode+Private,HTMLDocument+Private,HTMLCharacterData+Private,HTMLRange+Private,HTMLParser+Private,HTMLNodeIterator+Private,HTMLNodeTraversal,HTMLDOMUtils,CSSCodePoints,CSSInputStream}.h'
   ]
 
   s.requires_arc = true
