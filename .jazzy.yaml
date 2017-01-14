@@ -1,5 +1,5 @@
 module: HTMLKit
-module_version: 1.0.0
+module_version: 1.1.0
 author: Iskandar Abudiab 
 author_url: https://twitter.com/iabudiab
 github_url: https://github.com/iabudiab/HTMLKit
@@ -27,10 +27,12 @@ custom_categories:
     - HTMLDocumentType
     - HTMLDocumentFragment
     - HTMLDocumentPosition
+    - HTMLCharacterData
     - HTMLText
     - HTMLComment
     - HTMLTemplate
     - HTMLDOMTokenList
+    - HTMLRange
 
   - name: Iteration & Filtering
     children:
