@@ -514,7 +514,7 @@
 
 - (void)generateImpliedEndTagsExceptForElement:(NSString *)tagName
 {
-	while ([self.currentNode.tagName isEqualToAny:@"dd", @"dt", @"li", @"menuitem", @"option", @"optgroup", @"p", @"rb", @"rp", @"rt", @"rtc", nil] &&
+	while ([self.currentNode.tagName isEqualToAny:@"dd", @"dt", @"li", @"option", @"optgroup", @"p", @"rb", @"rp", @"rt", @"rtc", nil] &&
 		   ![self.currentNode.tagName isEqualToString:tagName]) {
 		[_stackOfOpenElements popCurrentNode];
 	}
@@ -1162,8 +1162,8 @@
 				[self HTMLInsertionModeInTemplate:token];
 			} else {
 				for (HTMLElement *node in _stackOfOpenElements) {
-					if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"menuitem", @"optgroup", @"option", @"p", @"rb",
-						 @"rp", @"rt", @"rtc", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
+					if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rb", @"rp",
+						 @"rt", @"rtc", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
 						[self emitParseError:@"EOF reached with unclosed element <%@> in <body>", node.tagName];
 						break;
 					}
@@ -1226,18 +1226,10 @@
 		[self switchInsertionMode:HTMLInsertionModeInFrameset];
 	} else if ([tagName isEqualToAny:@"address", @"article", @"aside", @"blockquote", @"center",
 				@"details", @"dialog", @"dir", @"div", @"dl", @"fieldset", @"figcaption", @"figure",
-				@"footer", @"header", @"hgroup", @"main", @"nav", @"ol", @"p", @"section",
+				@"footer", @"header", @"hgroup", @"main", @"menu", @"nav", @"ol", @"p", @"section",
 				@"summary", @"ul", nil]) {
 		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
 			[self closePElement];
-		}
-		[self insertElementForToken:token];
-	} else if ([tagName isEqualToString:@"menu"]) {
-		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
-			[self closePElement];
-		}
-		if ([self.currentNode.tagName isEqualToString:@"menuitem"]) {
-			[_stackOfOpenElements popCurrentNode];
 		}
 		[self insertElementForToken:token];
 	} else if ([tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
@@ -1383,9 +1375,6 @@
 		if ([_stackOfOpenElements hasElementInButtonScopeWithTagName:@"p"]) {
 			[self closePElement];
 		}
-		if ([self.currentNode.tagName isEqualToString:@"menuitem"]) {
-			[_stackOfOpenElements popCurrentNode];
-		}
 		[self insertElementForToken:token];
 		[_stackOfOpenElements popCurrentNode];
 		_framesetOkFlag = NO;
@@ -1427,12 +1416,6 @@
 		}
 	} else if ([tagName isEqualToAny:@"optgroup", @"option", nil]) {
 		if ([self.currentNode.tagName isEqualToString:@"option"]) {
-			[_stackOfOpenElements popCurrentNode];
-		}
-		[self reconstructActiveFormattingElements];
-		[self insertElementForToken:token];
-	} else if ([tagName isEqualToString:@"menuitem"]) {
-		if ([self.currentNode.tagName isEqualToString:@"menuitem"]) {
 			[_stackOfOpenElements popCurrentNode];
 		}
 		[self reconstructActiveFormattingElements];
@@ -1491,8 +1474,8 @@
 			[self emitParseError:@"Unexpected end tag </body> without body element in scope in <body>"];
 		}
 		for (HTMLElement *node in _stackOfOpenElements) {
-			if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"menuitem", @"optgroup", @"option", @"p", @"rb", @"rp",
-				 @"rt", @"rtc", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
+			if ([node.tagName isEqualToAny:@"dd", @"dt", @"li", @"optgroup", @"option", @"p", @"rb", @"rp", @"rt",
+				 @"rtc", @"tbody", @"td", @"tfoot", @"th", @"thead", @"tr", @"body", @"html", nil]) {
 				[self emitParseError:@"Misnested end tag </%@> with open element <%@> in <body>", tagName, node.tagName];
 				break;
 			}
