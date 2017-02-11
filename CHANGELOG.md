@@ -1,5 +1,20 @@
 # Change Log
 
+## [2.0.0](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.0) 
+
+Released on 2017.02.11
+
+### Spec Change
+
+- Make `<menuitem>` parse like an unkonwn element. See:
+	- [whatwg/html#2319](https://github.com/whatwg/html/pull/2319)
+	- [html5lib/html5lib-tests#88](https://github.com/html5lib/html5lib-tests/pull/88)
+
+### Updated
+
+- Updated HTML5Lib-Tests submodule (13f1805)
+
+
 ## [1.1.0](https://github.com/iabudiab/HTMLKit/releases/tag/1.1.0) 
 
 Released on 2017.01.14
@@ -79,9 +94,7 @@ This release passes all tokenizer and tree construction html5lib-tests as of 201
 - `<isindex>` is completely removed from the spec now, therefore it is dropped from the implementation
 - `Tokenizer` and `Tree-Construction` tests are now generated dynamically
 - Test failures are collected by a `XCTestObservation` for better reporting
-- `<isindex>` is completely removed from the spec now, therefore it is dropped from the implementation
-- `Tokenizer` and `Tree-Construction` tests are now generated dynamically
-- Test failures are collected by a `XCTestObservation` for better reporting
+
 
 ### Fixed
 
