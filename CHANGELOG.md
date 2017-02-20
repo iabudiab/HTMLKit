@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.0.1](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.0) 
+
+Released on 2017.02.20
+
+### Hotifx
+
+- Set `INSTALL_PATH` and `DYLIB_INSTALL_NAME_BASE` to `@rpath` for macOS target
+	- This fixes embedding `HTMLKit` in a Cocoa application
+
+
 ## [2.0.0](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.0) 
 
 Released on 2017.02.11
