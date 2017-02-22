@@ -11,6 +11,7 @@
 #import "HTMLDOM.h"
 #import "HTMLNode+Private.h"
 #import "HTMLRange+Private.h"
+#import "HTMLKitTestUtil.h"
 
 #define BodyOf(doc) doc.body.innerHTML
 #define InnerHTML(str) [HTMLDocument documentWithString:str].body.innerHTML
@@ -2096,6 +2097,25 @@
 	end = [document querySelector:@"#D2"];
 	[range setEndNode:end endOffset:1];
 	XCTAssertEqualObjects([range textContent], @"This is a textHelloWorldAnother text");
+}
+
+#pragma mark - Bug Fixes
+
+- (void)testBugFix_Issue_5
+{
+	HTMLDocument *document = [HTMLDocument documentWithString:@"<ul><li>1<li>2"];
+
+	NSHashTable *ranges = [HTMLKitTestUtil ivarForInstacne:document name:@"_ranges"];
+	XCTAssertTrue([ranges isKindOfClass:[NSHashTable class]]);
+
+	// range should be autoreleased, deallocated and detached after autoreleasepool
+	@autoreleasepool {
+		HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+		[range cloneContents];
+		XCTAssertEqual(1, ranges.count);
+	}
+
+	XCTAssertEqual(0, ranges.count);
 }
 
 @end

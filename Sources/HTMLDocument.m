@@ -20,8 +20,8 @@
 @interface HTMLDocument ()
 {
 	HTMLDocument *_inertTemplateDocument;
-	NSMutableArray *_ranges;
 	NSHashTable *_nodeIterators;
+	NSHashTable *_ranges;
 }
 @property (nonatomic, assign) HTMLDocumentReadyState readyState;
 @end
@@ -41,8 +41,8 @@
 	self = [super initWithName:@"#document" type:HTMLNodeDocument];
 	if (self) {
 		_readyState = HTMLDocumentLoading;
-		_ranges = [NSMutableArray new];
 		_nodeIterators = [[NSHashTable alloc] initWithOptions:NSHashTableWeakMemory capacity:10];
+		_ranges = [[NSHashTable alloc] initWithOptions:NSHashTableWeakMemory capacity:10];
 	}
 	return self;
 }
