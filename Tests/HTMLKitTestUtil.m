@@ -26,4 +26,10 @@
 	return invocation;
 }
 
++ (id)ivarForInstacne:(id)instance name:(NSString *)name
+{
+	Ivar ivar = class_getInstanceVariable([instance class], [name UTF8String]);
+	return object_getIvar(instance, ivar);
+}
+
 @end

@@ -11,5 +11,6 @@
 @interface HTMLKitTestUtil : NSObject
 
 + (NSInvocation *)addTestToClass:(Class)cls withName:(NSString *)name block:(id)block;
++ (id)ivarForInstacne:(id)instance name:(NSString *)name;
 
 @end
