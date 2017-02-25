@@ -20,6 +20,7 @@
 - (void)testParserPerformance
 {
 	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
+	path = [path stringByAppendingPathComponent:@"Fixtures"];
 	path = [path stringByAppendingPathComponent:@"HTML Standard.html"];
 
 	NSString *string = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
