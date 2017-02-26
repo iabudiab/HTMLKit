@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "HTMLDOM.h"
+#import "HTMLKitTestUtil.h"
 
 @interface HTMLKitNodeIteratorTests : XCTestCase
 
@@ -563,6 +564,32 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 
 	XCTAssertEqualObjects(iterator.referenceNode, iterator.root.firstChild);
 	XCTAssertEqual(iterator.pointerBeforeReferenceNode, NO);
+}
+
+#pragma mark - Bug Fixes
+
+- (void)testBugFix_Issue_4
+{
+	HTMLDocument *document = [HTMLDocument documentWithString:@"<ul><li>1<li>2"];
+
+	NSHashTable *nodeIterators = [HTMLKitTestUtil ivarForInstacne:document name:@"_nodeIterators"];
+	XCTAssertTrue([nodeIterators isKindOfClass:[NSHashTable class]]);
+
+	// document.body uses an iterator internally
+	HTMLElement *body =	document.body;
+	XCTAssertNotNil(body);
+
+	// iterator should be deallocated and detached at this point
+	XCTAssertEqual(0, nodeIterators.count);
+
+	// iterator should be autoreleased, deallocated and detached after autoreleasepool
+	@autoreleasepool {
+		HTMLNodeIterator *iterator = [[HTMLNodeIterator alloc] initWithNode:body];
+		[iterator nextNode];
+		XCTAssertEqual(1, nodeIterators.count);
+	}
+
+	XCTAssertEqual(0, nodeIterators.count);
 }
 
 @end
