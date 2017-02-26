@@ -1,6 +1,16 @@
 # Change Log
 
-## [2.0.1](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.0) 
+## [2.0.2](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.2) 
+
+Released on 2017.02.26
+
+### Fixed
+- Retain cycles in `HTMLNodeIterator` (issue #4)
+- Retain cycles in `HTMLRange` (issue #5)
+- The layout of `HTMLKit` tests module for Swift Package Manager
+
+
+## [2.0.1](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.1) 
 
 Released on 2017.02.20
 
