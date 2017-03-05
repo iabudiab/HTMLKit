@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.0.3](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.3) 
+
+Released on 2017.03.6
+
+### Fixed
+- Compilation for Swift 3.1
+	- Fixed by @tali in PR #6
+
+
 ## [2.0.2](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.2) 
 
 Released on 2017.02.26
