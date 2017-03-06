@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <HTMLKit/HTMLKit.h>
+#import "HTMLKit.h"
 #import "CSSSelectorTest.h"
 #import "CSSSelectorParser.h"
 
