@@ -18,7 +18,7 @@
 
 @implementation HTMLKitTokenizerPerformance
 
-- (void)testTokenizerPerformance
+- (void)_testTokenizerPerformance
 {
 	NSString *path = [HTMLKitTestUtil pathForFixture:@"HTML Standard" ofType:@"html" inDirectory:@"Fixtures"];
 

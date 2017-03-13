@@ -18,7 +18,7 @@
 
 #define HTMLKIT_NO_DOM_CHECKS
 
-- (void)testParserPerformance
+- (void)_testParserPerformance
 {
 	NSString *path = [HTMLKitTestUtil pathForFixture:@"HTML Standard" ofType:@"html" inDirectory:@"Fixtures"];
 
