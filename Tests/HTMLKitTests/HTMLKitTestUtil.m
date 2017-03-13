@@ -32,4 +32,23 @@
 	return object_getIvar(instance, ivar);
 }
 
++ (NSString *)pathForFixture:(NSString *)fixture ofType:(NSString *)type inDirectory:(NSString *)directory
+{
+	// Try testing bundle first
+	NSString *path = [[NSBundle bundleForClass:self.class] pathForResource:fixture ofType:type inDirectory:directory];
+	if (path) {
+		return path;
+	}
+
+	path = [[@(__FILE__) stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+	if (directory) {
+		path = [path stringByAppendingPathComponent:directory];
+	}
+
+	NSString *resource = type ? [NSString stringWithFormat:@"%@.%@", fixture, type] : fixture;
+	path = [path stringByAppendingPathComponent:resource];
+
+	return path;
+}
+
 @end

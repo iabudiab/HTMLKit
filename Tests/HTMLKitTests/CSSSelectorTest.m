@@ -11,6 +11,7 @@
 #import "HTMLDocument.h"
 #import "HTMLElement.h"
 #import "CSSSelectors.h"
+#import "HTMLKitTestUtil.h"
 
 static NSString * const CSSTests = @"css-tests";
 
@@ -18,8 +19,7 @@ static NSString * const CSSTests = @"css-tests";
 
 + (NSArray *)loadCSSSelectorTests
 {
-	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
-	path = [path stringByAppendingPathComponent:CSSTests];
+	NSString *path = [HTMLKitTestUtil pathForFixture:CSSTests ofType:nil inDirectory:nil];
 
 	NSMutableArray *tests = [NSMutableArray array];
 	NSArray *testFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];

@@ -9,21 +9,19 @@
 #import "HTML5LibTokenizerTest.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
+#import "HTMLKitTestUtil.h"
 
 static NSString * const HTML5LibTests = @"html5lib-tests";
-static NSString * const TOKENIZER = @"tokenizer";
+static NSString * const Tokenizer = @"tokenizer";
 
 @implementation HTML5LibTokenizerTest
 
 + (NSDictionary *)loadHTML5LibTokenizerTests
 {
-	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
-	path = [path stringByAppendingPathComponent:HTML5LibTests];
-	path = [path stringByAppendingPathComponent:TOKENIZER];
-
-	NSMutableDictionary *testsMap = [NSMutableDictionary dictionary];
+	NSString *path = [HTMLKitTestUtil pathForFixture:Tokenizer ofType:nil inDirectory:HTML5LibTests];
 	NSArray *testFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
 
+	NSMutableDictionary *testsMap = [NSMutableDictionary dictionary];
 	for (NSString *testFile in testFiles) {
 		if (![testFile.pathExtension isEqualToString:@"test"]) {
 			continue;
