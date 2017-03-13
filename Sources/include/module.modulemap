@@ -5,7 +5,7 @@ module HTMLKit {
 	export *
 
 	explicit module Private {
-		header "CSSCodePoints.h"
+		textual header "CSSCodePoints.h"
 		header "CSSInputStream.h"
 		header "HTMLCharacterToken.h"
 		header "HTMLCommentToken.h"
@@ -22,7 +22,7 @@ module HTMLKit {
 		header "HTMLTagToken.h"
 		header "HTMLToken.h"
 		header "HTMLTokenizer.h"
-		header "HTMLTokenizerCharacters.h"
+		textual header "HTMLTokenizerCharacters.h"
 		header "HTMLTokenizerEntities.h"
 		header "HTMLTokenizerStates.h"
 		header "HTMLTokens.h"

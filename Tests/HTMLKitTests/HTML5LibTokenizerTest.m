@@ -7,6 +7,7 @@
 //
 
 #import "HTML5LibTokenizerTest.h"
+#import "HTMLOrderedDictionary.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
 #import "HTMLKitTestUtil.h"
