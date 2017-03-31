@@ -90,7 +90,7 @@
 
 - (void)testInitRange
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	XCTAssertEqualObjects(range.startContainer, _document);
 	XCTAssertEqual(range.startOffset, 0);
@@ -101,7 +101,7 @@
 
 - (void)testSetStartBoundary
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	XCTAssertThrows([range setStartNode:[HTMLElement new] startOffset:0], @"Cannot set boundary to a node outside of the range's document");
 	XCTAssertThrows([range setStartNode:[HTMLDocumentType new] startOffset:0], @"DOCTYPE as range boundary is invalid");
@@ -130,7 +130,7 @@
 
 - (void)testSetEndBoundary
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	XCTAssertThrows([range setEndNode:[HTMLDocumentType new] endOffset:	0], @"DOCTYPE as range boundary is invalid");
 	XCTAssertThrows([range setEndNode:_firstText endOffset:_firstText.length + 1], @"Offset is outside the boundary node");
@@ -168,7 +168,7 @@
 
 - (void)testSetStartBeforeNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
 	//                  |___|
@@ -263,7 +263,7 @@
 
 - (void)testSetStartAfterNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
 	//                  |___|
@@ -358,7 +358,7 @@
 
 - (void)testSetEndBeforeNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
 	//                  |___|
@@ -453,7 +453,7 @@
 
 - (void)testSetEndAfterNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><!--Second comment--></div>
 	//                  |___|
@@ -548,7 +548,7 @@
 
 - (void)testIsCollapsed
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 	XCTAssertTrue(range.isCollapsed);
 
 	[range setEndNode:_title endOffset:1];
@@ -560,7 +560,7 @@
 
 - (void)testCollapseToStart
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//       |______________|
@@ -579,7 +579,7 @@
 
 - (void)testCollapseToEnd
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//       |______________|
@@ -598,7 +598,7 @@
 
 - (void)testSelectNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     ----------
@@ -651,7 +651,7 @@
 
 - (void)testSelectNodeContents
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     ----------
@@ -704,9 +704,9 @@
 
 - (void)testCompareBoundaries
 {
-	HTMLRange *range1 = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range1 = [[HTMLRange alloc] initWithDocument:_document];
 
-	HTMLRange *range2 = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range2 = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     ----------
@@ -776,7 +776,7 @@
 
 - (void)testContainmentAndComparisons
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	/*********** Compare ***********/
 
@@ -850,7 +850,7 @@
 
 - (void)testIntersections
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	XCTAssertFalse([range intersectsNode:[HTMLText new]]);
 	XCTAssertTrue([range intersectsNode:_document]);
@@ -882,7 +882,7 @@
 
 - (void)testThatCharacterDataMutationsUpdateRangeCorrectly
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |________|
@@ -980,7 +980,7 @@
 
 - (void)testThatCharacterDataMutationsUpdateRangeCorrectly_DifferentBoundaries
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                         |___________________________|
@@ -1094,7 +1094,7 @@
 
 - (void)testThatTextSplitUpdateRangeCorrectly_BeforeStartTextNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |________|
 	[range selectNodeContents:_firstText];
@@ -1111,7 +1111,7 @@
 
 - (void)testThatTextSplitUpdateRangeCorrectly_AfterEndTextNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |________|
 	[range selectNodeContents:_firstText];
@@ -1128,7 +1128,7 @@
 
 - (void)testThatTextSplitUpdateRangeCorrectly_MidleSameTextNode
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                     |________|
 	[range selectNodeContents:_firstText];
@@ -1145,7 +1145,7 @@
 
 - (void)testThatTextSplitUpdateRangeCorrectly_MidleDifferentTextNodes
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                      |______________________________|
 	[range setStartNode:_firstText startOffset:2];
@@ -1163,7 +1163,7 @@
 
 - (void)testThatTextSplitUpdateRangeCorrectly_BeforeStartDifferentTextNodes
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                      |______________________________|
 	[range setStartNode:_firstText startOffset:6];
@@ -1181,7 +1181,7 @@
 
 - (void)testThatTextSplitUpdateRangeCorrectly_BeforeEndDifferentTextNodes
 {
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:_document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 	// <h1>Title</h1><p>Hello</p><div><div>First text<!--First comment-->Second text</div><--Second comment--></div>
 	//                                      |_______________________________|
 	[range setStartNode:_firstText startOffset:6];
@@ -1241,7 +1241,7 @@
 - (void)testDeleteContents_SameTextNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:1];
@@ -1260,7 +1260,7 @@
 - (void)testDeleteContents_SameTextNode_Selected
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
 	[range selectNode:node];
@@ -1279,7 +1279,7 @@
 - (void)testDeleteContents_SameTextNode_SelectedContents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
 	[range selectNodeContents:node];
@@ -1299,7 +1299,7 @@
 - (void)testDeleteContents_DifferentTextNodesOfSingleParent
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1318,7 +1318,7 @@
 - (void)testDeleteContents_DifferentTextNodesOfDifferentParents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1337,7 +1337,7 @@
 - (void)testDeleteContents_DifferentTextNodesOfDifferentParents_HavingContainedNodesInBetween
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1355,7 +1355,7 @@
 - (void)testDeleteContents_SameContainerNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"];
 	[range setStartNode:start startOffset:0];
@@ -1374,7 +1374,7 @@
 - (void)testDeleteContents_SameContainerNode_Selected
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"];
 	[range selectNode:node];
@@ -1391,7 +1391,7 @@
 - (void)testDeleteContents_SameContainerNode_SelectedContents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"];
 	[range selectNodeContents:node];
@@ -1408,7 +1408,7 @@
 - (void)testDeleteContents_StartContainerIsCommonRoot
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#D1"];
 	[range setStartNode:start startOffset:0];
@@ -1427,7 +1427,7 @@
 - (void)testDeleteContents_EndContainerIsCommonRoot
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:1];
@@ -1448,7 +1448,7 @@
 - (void)testCloneContents_SameTextNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:1];
@@ -1464,7 +1464,7 @@
 - (void)testCloneContents_SameTextNode_Selected
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
 	[range selectNode:node];
@@ -1478,7 +1478,7 @@
 - (void)testCloneContents_SameTextNode_SelectedContents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
 	[range selectNodeContents:node];
@@ -1492,7 +1492,7 @@
 - (void)testCloneContents_DifferentTextNodesOfSingleParent
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1506,7 +1506,7 @@
 - (void)testCloneContents_DifferentTextNodesOfDifferentParents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1520,7 +1520,7 @@
 - (void)testCloneContents_DifferentTextNodesOfDifferentParents_HavingContainedNodesInBetween
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1536,7 +1536,7 @@
 - (void)testCloneContents_SameContainerNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"];
 	[range setStartNode:start startOffset:0];
@@ -1550,7 +1550,7 @@
 - (void)testCloneContents_SameContainerNode_Selected
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"];
 	[range selectNode:node];
@@ -1562,7 +1562,7 @@
 - (void)testCloneContents_SameContainerNode_SelectedContents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"];
 	[range selectNodeContents:node];
@@ -1574,7 +1574,7 @@
 - (void)testCloneContents_StartContainerIsCommonRoot
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#D1"];
 	[range setStartNode:start startOffset:0];
@@ -1588,7 +1588,7 @@
 - (void)testCloneContents_EndContainerIsCommonRoot
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:1];
@@ -1604,7 +1604,7 @@
 - (void)testExtractContents_SameTextNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:1];
@@ -1627,7 +1627,7 @@
 - (void)testExtractContents_SameTextNode_Selected
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
 	[range selectNode:node];
@@ -1650,7 +1650,7 @@
 - (void)testExtractContents_SameTextNode_SelectedContents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"].firstChild;
 	[range selectNodeContents:node];
@@ -1674,7 +1674,7 @@
 - (void)testExtractContents_DifferentTextNodesOfSingleParent
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1695,7 +1695,7 @@
 - (void)testExtractContents_DifferentTextNodesOfDifferentParents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1716,7 +1716,7 @@
 - (void)testExtractContents_DifferentTextNodesOfDifferentParents_HavingContainedNodesInBetween
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:3];
@@ -1738,7 +1738,7 @@
 - (void)testExtractContents_SameContainerNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"];
 	[range setStartNode:start startOffset:0];
@@ -1759,7 +1759,7 @@
 - (void)testExtractContents_SameContainerNode_Selected
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"];
 	[range selectNode:node];
@@ -1778,7 +1778,7 @@
 - (void)testExtractContents_SameContainerNode_SelectedContents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *node = [document querySelector:@"#P1"];
 	[range selectNodeContents:node];
@@ -1797,7 +1797,7 @@
 - (void)testExtractContents_StartContainerIsCommonRoot
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#D1"];
 	[range setStartNode:start startOffset:0];
@@ -1818,7 +1818,7 @@
 - (void)testExtractContents_EndContainerIsCommonRoot
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:1];
@@ -1841,7 +1841,7 @@
 - (void)testInsertNode_InvalidNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:2];
@@ -1860,7 +1860,7 @@
 - (void)testInsertNode_TextNodeStart_Begin
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:0];
@@ -1884,7 +1884,7 @@
 - (void)testInsertNode_TextNodeStart_Middle
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:2];
@@ -1908,7 +1908,7 @@
 - (void)testInsertNode_NonTextNodeStart_Begin
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"];
 	[range setStartNode:start startOffset:0];
@@ -1932,7 +1932,7 @@
 - (void)testInsertNode_NonTextNodeStart_Middle
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"];
 	[range setStartNode:start startOffset:2];
@@ -1956,7 +1956,7 @@
 - (void)testInsertNode_NonTextNodeStart_DifferentParents
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#D1"];
 	[range setStartNode:start startOffset:1];
@@ -1980,7 +1980,7 @@
 - (void)testSurroundContents_InvalidNode
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:2];
@@ -1995,7 +1995,7 @@
 - (void)testSurroundContents_PartiallySelectedAncestors
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:2];
@@ -2016,7 +2016,7 @@
 - (void)testSurroundContents_TextNodes
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:2];
@@ -2037,7 +2037,7 @@
 - (void)testSurroundContents_NonTextNodes
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"];
 	[range setStartNode:start startOffset:0];
@@ -2060,7 +2060,7 @@
 - (void)testRangeStringifier
 {
 	HTMLDocument *document = self.editingDocument;
-	HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+	HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 
 	HTMLNode *start = [document querySelector:@"#P1"].firstChild;
 	[range setStartNode:start startOffset:2];
@@ -2110,7 +2110,7 @@
 
 	// range should be autoreleased, deallocated and detached after autoreleasepool
 	@autoreleasepool {
-		HTMLRange *range = [[HTMLRange alloc] initWithDowcument:document];
+		HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 		[range cloneContents];
 		XCTAssertEqual(1, ranges.count);
 	}

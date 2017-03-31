@@ -23,12 +23,12 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithDowcument:(HTMLDocument *)document
+- (instancetype)initWithDocument:(HTMLDocument *)document
 {
-	return [self initWithDowcument:document startContainer:document startOffset:0 endContainer:document endOffset:0];
+	return [self initWithDocument:document startContainer:document startOffset:0 endContainer:document endOffset:0];
 }
 
-- (instancetype)initWithDowcument:(HTMLDocument *)document
+- (instancetype)initWithDocument:(HTMLDocument *)document
 				   startContainer:(HTMLNode *)startContainer startOffset:(NSUInteger)startOffset
 					 endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset
 {
@@ -517,7 +517,7 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 		HTMLNode *clone = [firstPartiallyContainedChild copy];
 		[fragment appendNode:clone];
 
-		HTMLRange *subRange = [[HTMLRange alloc] initWithDowcument:_ownerDocument
+		HTMLRange *subRange = [[HTMLRange alloc] initWithDocument:_ownerDocument
 													startContainer:_startContainer
 													   startOffset:_startOffset
 													  endContainer:firstPartiallyContainedChild
@@ -537,7 +537,7 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 		HTMLNode *clone = [lastPartiallyContainedChild copy];
 		[fragment appendNode:clone];
 
-		HTMLRange *subRange = [[HTMLRange alloc] initWithDowcument:_ownerDocument
+		HTMLRange *subRange = [[HTMLRange alloc] initWithDocument:_ownerDocument
 													startContainer:lastPartiallyContainedChild
 													   startOffset:0
 													  endContainer:_endContainer
@@ -580,7 +580,7 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 		HTMLNode *clone = [firstPartiallyContainedChild copy];
 		[fragment appendNode:clone];
 
-		HTMLRange *subRange = [[HTMLRange alloc] initWithDowcument:_ownerDocument
+		HTMLRange *subRange = [[HTMLRange alloc] initWithDocument:_ownerDocument
 													startContainer:_startContainer
 													   startOffset:_startOffset
 													  endContainer:firstPartiallyContainedChild
@@ -601,7 +601,7 @@ NS_INLINE HTMLCharacterData * CloneCharachterData(HTMLNode *node, NSUInteger sta
 		HTMLNode *clone = [lastPartiallyContainedChild copy];
 		[fragment appendNode:clone];
 
-		HTMLRange *subRange = [[HTMLRange alloc] initWithDowcument:_ownerDocument
+		HTMLRange *subRange = [[HTMLRange alloc] initWithDocument:_ownerDocument
 													startContainer:lastPartiallyContainedChild
 													   startOffset:0
 													  endContainer:_endContainer
