@@ -28,9 +28,23 @@
 	return [self initWithDocument:document startContainer:document startOffset:0 endContainer:document endOffset:0];
 }
 
-- (instancetype)initWithDocument:(HTMLDocument *)document
+- (instancetype)initWithDowcument:(HTMLDocument *)document
+{
+	return [self initWithDocument:document startContainer:document startOffset:0 endContainer:document endOffset:0];
+}
+
+- (instancetype)initWithDowcument:(HTMLDocument *)document
 				   startContainer:(HTMLNode *)startContainer startOffset:(NSUInteger)startOffset
 					 endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset
+{
+	return [self initWithDocument:document
+				   startContainer:startContainer startOffset:startOffset
+					 endContainer:endContainer endOffset:endOffset];
+}
+
+- (instancetype)initWithDocument:(HTMLDocument *)document
+				  startContainer:(HTMLNode *)startContainer startOffset:(NSUInteger)startOffset
+					endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset
 {
 	self = [super init];
 	if (self) {
