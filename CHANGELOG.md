@@ -1,5 +1,18 @@
 # Change Log
 
+## [2.0.4](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.4) 
+
+Released on 2017.04.2
+
+### Fixed
+- Testing with Swift 3.1
+	- Fixed by @tali in PR #8
+
+### Deprecated
+- `HTMLRange` initializers with typo
+	- `initWithDowcument:startContainer:startOffset:endContainer:endOffset:`
+
+
 ## [2.0.3](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.3) 
 
 Released on 2017.03.6
