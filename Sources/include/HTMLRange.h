@@ -81,7 +81,12 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  @param document The HTML doucment for which the range will be constructed.
  @return A new HTML Range instance.
  */
-- (instancetype)initWithDowcument:(HTMLDocument *)document;
+- (instancetype)initWithDocument:(HTMLDocument *)document;
+
+/**
+ Deprecated due to typo.
+ */
+- (instancetype)initWithDowcument:(HTMLDocument *)document __attribute__((deprecated("Replaced by -initWithDocument:")));
 
 /**
  Initializes a new range instance for the given document and boundaries.
@@ -93,9 +98,17 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
  @param endOffset The offset of the end boundary
  @return A new HTML Range instance.
  */
+- (instancetype)initWithDocument:(HTMLDocument *)document
+				  startContainer:(HTMLNode *)startContainer startOffset:(NSUInteger)startOffset
+					endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset;
+
+/**
+ Deprecated due to typo.
+ */
 - (instancetype)initWithDowcument:(HTMLDocument *)document
 				   startContainer:(HTMLNode *)startContainer startOffset:(NSUInteger)startOffset
-					 endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset;
+					 endContainer:(HTMLNode *)endContainer endOffset:(NSUInteger)endOffset
+	__attribute__((deprecated("Replaced by -initWithDocument:startContainer:startOffset:endContainer:endOffset:")));
 
 /**
  Sets the start boundary.

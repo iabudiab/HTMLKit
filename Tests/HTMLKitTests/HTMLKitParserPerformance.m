@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "HTMLParser.h"
+#import "HTMLKitTestUtil.h"
 
 @interface HTMLKitParserPerformance : XCTestCase
 
@@ -17,11 +18,9 @@
 
 #define HTMLKIT_NO_DOM_CHECKS
 
-- (void)testParserPerformance
+- (void)_testParserPerformance
 {
-	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
-	path = [path stringByAppendingPathComponent:@"Fixtures"];
-	path = [path stringByAppendingPathComponent:@"HTML Standard.html"];
+	NSString *path = [HTMLKitTestUtil pathForFixture:@"HTML Standard" ofType:@"html" inDirectory:@"Fixtures"];
 
 	NSString *string = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 

@@ -13,6 +13,7 @@
 #import "HTMLElement.h"
 #import "HTMLText.h"
 #import "HTMLComment.h"
+#import "HTMLKitTestUtil.h"
 
 static NSString * const HTML5LibTests = @"html5lib-tests";
 static NSString * const TreeConstruction = @"tree-construction";
@@ -21,13 +22,10 @@ static NSString * const TreeConstruction = @"tree-construction";
 
 + (NSDictionary *)loadHTML5LibTreeConstructionTests
 {
-	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
-	path = [path stringByAppendingPathComponent:HTML5LibTests];
-	path = [path stringByAppendingPathComponent:TreeConstruction];
-
-	NSMutableDictionary *testsMap = [NSMutableDictionary dictionary];
+	NSString *path = [HTMLKitTestUtil pathForFixture:TreeConstruction ofType:nil inDirectory:HTML5LibTests];
 	NSArray *testFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
 
+	NSMutableDictionary *testsMap = [NSMutableDictionary dictionary];
 	for (NSString *testFile in testFiles) {
 		if (![testFile.pathExtension isEqualToString:@"dat"]) {
 			continue;

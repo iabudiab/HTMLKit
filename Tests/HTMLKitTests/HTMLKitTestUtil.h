@@ -12,5 +12,6 @@
 
 + (NSInvocation *)addTestToClass:(Class)cls withName:(NSString *)name block:(id)block;
 + (id)ivarForInstacne:(id)instance name:(NSString *)name;
++ (NSString *)pathForFixture:(NSString *)fixture ofType:(NSString *)type inDirectory:(NSString *)directory;
 
 @end

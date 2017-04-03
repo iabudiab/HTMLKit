@@ -10,6 +10,7 @@
 #import "HTMLTokenizer.h"
 #import "HTMLTokenizerStates.h"
 #import "HTMLTokens.h"
+#import "HTMLKitTestUtil.h"
 
 @interface HTMLKitTokenizerPerformance : XCTestCase
 
@@ -17,11 +18,9 @@
 
 @implementation HTMLKitTokenizerPerformance
 
-- (void)testTokenizerPerformance
+- (void)_testTokenizerPerformance
 {
-	NSString *path = [[NSBundle bundleForClass:self.class] resourcePath];
-	path = [path stringByAppendingPathComponent:@"Fixtures"];
-	path = [path stringByAppendingPathComponent:@"HTML Standard.html"];
+	NSString *path = [HTMLKitTestUtil pathForFixture:@"HTML Standard" ofType:@"html" inDirectory:@"Fixtures"];
 
 	NSString *string = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 
