@@ -36,12 +36,21 @@
 	if (self) {
 		_name = name;
 		_nodeType = type;
-		_childNodes = [NSMutableOrderedSet new];
+		_childNodes = nil;
 	}
 	return self;
 }
 
 #pragma mark - Properties
+
+- (NSOrderedSet<HTMLNode *> *)childNodes
+{
+	if (_childNodes == nil) {
+		_childNodes = [NSMutableOrderedSet new];
+	}
+
+	return _childNodes;
+}
 
 - (HTMLDocument *)ownerDocument
 {

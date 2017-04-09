@@ -24,14 +24,25 @@
 {
 	self = [super initWithName:name type:type];
 	if (self) {
-		_data = [[NSMutableString alloc] initWithString:data ?: @""];
+		if (data) {
+			_data = [[NSMutableString alloc] initWithString:data];
+		}
 	}
 	return self;
 }
 
+- (NSString *)data
+{
+	if (_data == nil) {
+		_data = [[NSMutableString alloc] initWithString:@""];
+	}
+
+	return _data;
+}
+
 - (NSString *)textContent
 {
-	return [_data copy];
+	return [self.data copy];
 }
 
 - (void)setTextContent:(NSString *)textContent
@@ -41,7 +52,7 @@
 
 - (NSUInteger)length
 {
-	return _data.length;
+	return self.data.length;
 }
 
 #pragma mark - Data
@@ -81,7 +92,7 @@ NS_INLINE void CheckValidOffset(HTMLCharacterData *node, NSUInteger offset, NSSt
 
 	range.length = MIN(range.length, self.length - range.location);
 
-	[_data replaceCharactersInRange:range withString:data];
+	[(NSMutableString *)self.data replaceCharactersInRange:range withString:data];
 	[self.ownerDocument didRemoveCharacterDataInNode:self atOffset:range.location withLength:range.length];
 	[self.ownerDocument didAddCharacterDataToNode:self atOffset:range.location withLength:data.length];
 }
