@@ -1,5 +1,21 @@
 # Change Log
 
+## [2.0.5](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.5) 
+
+Released on 2017.04.19
+
+### Fixed
+- Xcode 8.3 issue with modulemaps
+	- Temporary workaround (renamed modulemap file)
+- Memory Leaks in `CSSInputStream`
+
+### Added
+- Minor memory consumption improvements
+	- Collections for child nodes or attributes of HTML Nodes or Elements are allocated lazily
+	- Underyling data string of `CharacterData` is allocated on first access
+	- Autorelease pool for the main `HTMLTokenizer` loop
+
+
 ## [2.0.4](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.4) 
 
 Released on 2017.04.2
