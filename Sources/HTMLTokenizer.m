@@ -77,14 +77,16 @@
 
 - (id)nextObject
 {
-	while (_eof == NO && _tokens.count == 0) {
-		[self read];
+	@autoreleasepool {
+		while (_eof == NO && _tokens.count == 0) {
+			[self read];
+		}
+		HTMLToken *nextToken = [_tokens firstObject];
+		if (_tokens.count > 0) {
+			[_tokens removeObjectAtIndex:0];
+		}
+		return nextToken;
 	}
-	HTMLToken *nextToken = [_tokens firstObject];
-	if (_tokens.count > 0) {
-		[_tokens removeObjectAtIndex:0];
-	}
-	return nextToken;
 }
 
 - (void)read

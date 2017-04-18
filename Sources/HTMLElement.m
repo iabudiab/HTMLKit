@@ -32,7 +32,7 @@
 
 - (instancetype)initWithTagName:(NSString *)tagName
 {
-	return [self initWithTagName:tagName attributes:@{}];
+	return [self initWithTagName:tagName attributes:nil];
 }
 
 - (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary *)attributes
@@ -45,8 +45,9 @@
 	self = [super initWithName:tagName type:HTMLNodeElement];
 	if (self) {
 		_tagName = [tagName copy];
-		_attributes = [HTMLOrderedDictionary new];
+		_attributes = nil;
 		if (attributes != nil) {
+			_attributes = [HTMLOrderedDictionary new];
 			[_attributes addEntriesFromDictionary:attributes];
 		}
 		_htmlNamespace = htmlNamespace;
@@ -56,24 +57,33 @@
 
 #pragma mark - Special Attributes
 
+- (NSMutableDictionary<NSString *,NSString *> *)attributes
+{
+	if (_attributes == nil) {
+		_attributes = [HTMLOrderedDictionary new];
+	}
+
+	return _attributes;
+}
+
 - (NSString *)elementId
 {
-	return _attributes[@"id"] ?: @"";
+	return self.attributes[@"id"] ?: @"";
 }
 
 - (void)setElementId:(NSString *)elementId
 {
-	_attributes[@"id"] = elementId;
+	self.attributes[@"id"] = elementId;
 }
 
 - (NSString *)className
 {
-	return _attributes[@"class"] ?: @"";
+	return self.attributes[@"class"] ?: @"";
 }
 
 - (void)setClassName:(NSString *)className
 {
-	_attributes[@"class"] = className;
+	self.attributes[@"class"] = className;
 }
 
 - (HTMLDOMTokenList *)classList
@@ -85,22 +95,22 @@
 
 - (BOOL)hasAttribute:(NSString *)name
 {
-	return _attributes[name] != nil;
+	return self.attributes[name] != nil;
 }
 
 - (NSString *)objectForKeyedSubscript:(NSString *)name;
 {
-	return _attributes[name];
+	return self.attributes[name];
 }
 
 - (void)setObject:(NSString *)value forKeyedSubscript:(NSString *)attribute
 {
-	_attributes[attribute] = value;
+	self.attributes[attribute] = value;
 }
 
 - (void)removeAttribute:(NSString *)name
 {
-	[_attributes removeObjectForKey:name];
+	[self.attributes removeObjectForKey:name];
 }
 
 - (NSString *)textContent

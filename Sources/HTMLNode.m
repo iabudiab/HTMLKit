@@ -36,12 +36,21 @@
 	if (self) {
 		_name = name;
 		_nodeType = type;
-		_childNodes = [NSMutableOrderedSet new];
+		_childNodes = nil;
 	}
 	return self;
 }
 
 #pragma mark - Properties
+
+- (NSOrderedSet<HTMLNode *> *)childNodes
+{
+	if (_childNodes == nil) {
+		_childNodes = [NSMutableOrderedSet new];
+	}
+
+	return _childNodes;
+}
 
 - (HTMLDocument *)ownerDocument
 {
@@ -55,7 +64,9 @@
 - (void)setOwnerDocument:(HTMLDocument *)ownerDocument
 {
 	_ownerDocument = ownerDocument;
-	[self.childNodes.array makeObjectsPerformSelector:@selector(setOwnerDocument:) withObject:ownerDocument];
+	for (HTMLNode *child in self.childNodes) {
+		[child setOwnerDocument:ownerDocument];
+	}
 }
 
 - (HTMLNode *)rootNode
@@ -262,7 +273,9 @@
 		[node removeAllChildNodes];
 	}
 
-	[nodes makeObjectsPerformSelector:@selector(setParentNode:) withObject:self];
+	for (HTMLNode *node in nodes) {
+		[node setParentNode:self];
+	}
 
 	return node;
 }
@@ -322,7 +335,7 @@
 
 - (void)reparentChildNodesIntoNode:(HTMLNode *)node
 {
-	for (HTMLNode *child in self.childNodes.array) {
+	for (HTMLNode *child in self.childNodes) {
 		[node appendNode:child];
 	}
 	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
@@ -330,7 +343,9 @@
 
 - (void)removeAllChildNodes
 {
-	[self.childNodes.array makeObjectsPerformSelector:@selector(setParentNode:) withObject:nil];
+	for (HTMLNode *child in self.childNodes) {
+		[child setParentNode:nil];
+	}
 	[(NSMutableOrderedSet *)self.childNodes removeAllObjects];
 }
 

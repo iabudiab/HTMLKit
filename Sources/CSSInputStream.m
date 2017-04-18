@@ -24,13 +24,13 @@
 
 - (NSString *)consumeIdentifier
 {
-	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
-
 	if (!isValidIdentifierStart([self inputCharacterPointAtOffset:0],
 								[self inputCharacterPointAtOffset:1],
 								[self inputCharacterPointAtOffset:2])) {
 		return nil;
 	}
+
+	CFMutableStringRef value = CFStringCreateMutable(kCFAllocatorDefault, 0);
 
 	while (YES) {
 		UTF32Char codePoint = [self consumeNextInputCharacter];
@@ -47,7 +47,12 @@
 		}
 	}
 
-	return (__bridge NSString *)(CFStringGetLength(value) > 0 ? value : nil);
+	if (CFStringGetLength(value) > 0) {
+		return (__bridge_transfer NSString *)value;
+	}
+
+	CFRelease(value);
+	return nil;
 }
 
 - (NSString *)consumeStringWithEndingCodePoint:(UTF32Char)endingCodePoint
@@ -85,7 +90,12 @@
 		}
 	}
 
-	return (__bridge NSString *)(CFStringGetLength(value) > 0 ? value : nil);
+	if (CFStringGetLength(value) > 0) {
+		return (__bridge_transfer NSString *)value;
+	}
+
+	CFRelease(value);
+	return nil;
 }
 
 - (UTF32Char)consumeEscapedCodePoint
@@ -105,7 +115,7 @@
 			[self consumeNextInputCharacter];
 		}
 
-		NSScanner *scanner = [NSScanner scannerWithString:(__bridge NSString *)(hexString)];
+		NSScanner *scanner = [NSScanner scannerWithString:(__bridge_transfer NSString *)(hexString)];
 		unsigned int number;
 		[scanner scanHexInt:&number];
 

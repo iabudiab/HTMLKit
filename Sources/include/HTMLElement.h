@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param attributes The attributes.
  @return A new HTML element.
  */
-- (instancetype)initWithTagName:(NSString *)tagName attributes:(NSDictionary<NSString *, NSString *> *)attributes;
+- (instancetype)initWithTagName:(NSString *)tagName attributes:(nullable NSDictionary<NSString *, NSString *> *)attributes;
 
 /**
  Initializes a new HTML element with the given tag name, namespace, and attributes.
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param attributes The attributes.
  @return A new HTML element.
  */
-- (instancetype)initWithTagName:(NSString *)tagName namespace:(HTMLNamespace)htmlNamespace attributes:(NSDictionary<NSString *, NSString *> *)attributes;
+- (instancetype)initWithTagName:(NSString *)tagName namespace:(HTMLNamespace)htmlNamespace attributes:(nullable NSDictionary<NSString *, NSString *> *)attributes;
 
 /**
  Checks whether this element has an attribute with the given name.
