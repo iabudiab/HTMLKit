@@ -19,6 +19,10 @@
 #import "HTMLDocument+Private.h"
 #import "HTMLDOMUtils.h"
 
+NSString * const ValidationNodePreInsertion = @"-ensurePreInsertionValidityOfNode:beforeChildNode:";
+NSString * const ValidationNodeReplacement = @"-ensureReplacementValidityOfChildNode:withNode:";
+NSString * const RemoveChildNode = @"-removeChildNode:";
+
 @interface HTMLNode ()
 {
 	NSMutableOrderedSet *_childNodes;
@@ -315,7 +319,7 @@
 	if (child.parentNode != self) {
 		[NSException raise:HTMLKitNotFoundError
 					format:@"%@: Not Fount Error, removing non-child node %@. The object can not be found here.",
-		 NSStringFromSelector(_cmd), child];
+		 RemoveChildNode, child];
 	}
 
 	HTMLNode *oldNode = child;
@@ -577,18 +581,18 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 - (void)ensurePreInsertionValidityOfNode:(HTMLNode *)node beforeChildNode:(HTMLNode *)child
 {
-	CheckParentValid(self, NSStringFromSelector(_cmd));
+	CheckParentValid(self, ValidationNodePreInsertion);
 
-	CheckChildsParent(self, child, NSStringFromSelector(_cmd));
+	CheckChildsParent(self, child, ValidationNodePreInsertion);
 
-	CheckInsertedNodeValid(node, NSStringFromSelector(_cmd));
+	CheckInsertedNodeValid(node, ValidationNodePreInsertion);
 
-	CheckInvalidCombination(self, node, NSStringFromSelector(_cmd));
+	CheckInvalidCombination(self, node, ValidationNodePreInsertion);
 
 	void (^ hierarchyError)() = ^{
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting (%@) into (%@). The operation would yield an incorrect node tree.",
-		 NSStringFromSelector(_cmd), self, node];
+		 ValidationNodePreInsertion, self, node];
 	};
 
 	if (self.nodeType == HTMLNodeDocument) {
@@ -627,18 +631,18 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 - (void)ensureReplacementValidityOfChildNode:(HTMLNode *)child withNode:(HTMLNode *)node
 {
-	CheckParentValid(self, NSStringFromSelector(_cmd));
+	CheckParentValid(self, ValidationNodeReplacement);
 
-	CheckChildsParent(self, child, NSStringFromSelector(_cmd));
+	CheckChildsParent(self, child, ValidationNodeReplacement);
 
-	CheckInsertedNodeValid(node, NSStringFromSelector(_cmd));
+	CheckInsertedNodeValid(node, ValidationNodeReplacement);
 
-	CheckInvalidCombination(self, node, NSStringFromSelector(_cmd));
+	CheckInvalidCombination(self, node, ValidationNodeReplacement);
 
 	void (^ hierarchyError)() = ^{
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error. The operation would yield an incorrect node tree.",
-		 NSStringFromSelector(_cmd)];
+		 ValidationNodeReplacement];
 	};
 
 	void (^ checkParentHasAnotherChildOfType)(HTMLNodeType) = ^ void (HTMLNodeType type) {
