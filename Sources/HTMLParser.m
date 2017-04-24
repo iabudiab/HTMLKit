@@ -1272,7 +1272,7 @@
 								  @"dd": @[@"dd", @"dt"],
 								  @"dt": @[@"dd", @"dt"]};
 
-		for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator.allObjects) {
+		for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator) {
 			if ([map[tagName] containsObject:node.tagName]) {
 				[self generateImpliedEndTagsExceptForElement:node.tagName];
 				if (![self.currentNode.tagName isEqualToString:node.tagName]) {
@@ -1590,7 +1590,7 @@
 
 - (void)processAnyOtherEndTagTokenInBody:(HTMLTagToken *)token
 {
-	for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator.allObjects) {
+	for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator) {
 		if ([node.tagName isEqualToString:token.tagName]) {
 			[self generateImpliedEndTagsExceptForElement:token.tagName];
 			if (![node.tagName isEqualToString:self.currentNode.tagName]) {
