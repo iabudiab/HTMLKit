@@ -1529,7 +1529,7 @@
 		}
 		[self closePElement];
 	} else if ([tagName isEqualToString:@"li"]) {
-		if (![_stackOfOpenElements hasElementInListItemScopeWithTagName:@"li"]) {
+		if (![_stackOfOpenElements hasElementInListItemScopeWithTagName:tagName]) {
 			[self emitParseError:@"Unexpected <li> element in <body>"];
 			return;
 		}
@@ -1549,7 +1549,7 @@
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
 	} else if ([tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
-		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"h1", @"h2", @"h3", @"h4", @"h5", @"h6"]]) {
+		if (![_stackOfOpenElements hasHeaderElementInScope]) {
 			[self emitParseError:@"Unexpected <%@> element in <body>", tagName];
 			return;
 		}
@@ -1569,7 +1569,7 @@
 			return;
 		}
 	} else if ([tagName isEqualToAny:@"applet", @"marquee", @"object", nil]) {
-		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]]) {
+		if (![_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
 			[self emitParseError:@"Unexpected <%@> element in <body>", tagName];
 			return;
 		}

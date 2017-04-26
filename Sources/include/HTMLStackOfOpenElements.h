@@ -163,11 +163,11 @@
  https://html.spec.whatwg.org/multipage/syntax.html#has-an-element-in-the-specific-scope
  */
 - (HTMLElement *)hasElementInScopeWithTagName:(NSString *)tagName;
-- (HTMLElement *)hasAnyElementInScopeWithAnyOfTagNames:(NSArray *)tagNames;
-- (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName;
-- (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName;
+- (HTMLElement *)hasHeaderElementInScope;
 - (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInTableScopeWithAnyOfTagNames:(NSArray *)tagNames;
+- (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName;
+- (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName;
 - (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName;
 
 /**

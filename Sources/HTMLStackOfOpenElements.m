@@ -14,7 +14,6 @@
 @interface HTMLStackOfOpenElements ()
 {
 	NSMutableArray *_stack;
-	NSDictionary *_specificScopeElementTypes;
 }
 @end
 
@@ -27,26 +26,6 @@
 	self = [super init];
 	if (self) {
 		_stack = [NSMutableArray new];
-		_specificScopeElementTypes = @{
-									   @"applet": @(HTMLNamespaceHTML),
-									   @"caption": @(HTMLNamespaceHTML),
-									   @"html": @(HTMLNamespaceHTML),
-									   @"table": @(HTMLNamespaceHTML),
-									   @"td": @(HTMLNamespaceHTML),
-									   @"th": @(HTMLNamespaceHTML),
-									   @"marquee": @(HTMLNamespaceHTML),
-									   @"object": @(HTMLNamespaceHTML),
-									   @"template": @(HTMLNamespaceHTML),
-									   @"mi": @(HTMLNamespaceMathML),
-									   @"mo": @(HTMLNamespaceMathML),
-									   @"mn": @(HTMLNamespaceMathML),
-									   @"ms": @(HTMLNamespaceMathML),
-									   @"mtext": @(HTMLNamespaceMathML),
-									   @"annotation-xml": @(HTMLNamespaceMathML),
-									   @"foreignObject": @(HTMLNamespaceSVG),
-									   @"desc": @(HTMLNamespaceSVG),
-									   @"title": @(HTMLNamespaceSVG)
-									   };
 	}
 	return self;
 }
@@ -195,82 +174,148 @@
 
 #pragma mark - Element Scope
 
+NS_INLINE BOOL IsSpecificScopeElement(HTMLElement *element)
+{
+	switch (element.htmlNamespace) {
+		case HTMLNamespaceHTML:
+			return [element.tagName isEqualToAny:@"applet", @"caption", @"html", @"table", @"td", @"th", @"marquee", @"object", @"template", nil];
+		case HTMLNamespaceMathML:
+			return [element.tagName isEqualToAny:@"mi", @"mo", @"mn", @"ms", @"mtext", @"annotation-xml", nil];
+		case HTMLNamespaceSVG:
+			return [element.tagName isEqualToAny:@"foreignObject", @"desc", @"title", nil];
+	}
+}
+
+NS_INLINE BOOL IsHeaderElement(HTMLElement *element)
+{
+	if (element.htmlNamespace != HTMLNamespaceHTML) {
+		return NO;
+	}
+
+	return [element.tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil];
+}
+
+NS_INLINE BOOL IsTableScopeElement(HTMLElement *element)
+{
+	if (element.htmlNamespace != HTMLNamespaceHTML) {
+		return NO;
+	}
+
+	return [element.tagName isEqualToAny:@"html", @"table", @"template", nil];
+}
+
+NS_INLINE BOOL IsListItemScopeElement(HTMLElement *element)
+{
+	if (element.htmlNamespace != HTMLNamespaceHTML) {
+		return NO;
+	}
+
+	return [element.tagName isEqualToAny:@"ol", @"ul", nil];
+}
+
+NS_INLINE BOOL IsSelectScopeElement(HTMLElement *element)
+{
+	if (element.htmlNamespace != HTMLNamespaceHTML) {
+		return NO;
+	}
+
+	return ![element.tagName isEqualToString:@"optgroup"] && ![element.tagName isEqualToString:@"option"];
+}
+
+NS_INLINE BOOL IsButtonScopeElement(HTMLElement *element)
+{
+	if (element.htmlNamespace != HTMLNamespaceHTML) {
+		return NO;
+	}
+
+	return [element.tagName isEqualToString:@"button"];
+}
+
 - (HTMLElement *)hasElementInScopeWithTagName:(NSString *)tagName;
 {
-	return [self hasAnyElementInSpecificScopeWithTagNames:@[tagName] andElementTypes:_specificScopeElementTypes];
-}
-
-- (HTMLElement *)hasAnyElementInScopeWithAnyOfTagNames:(NSArray *)tagNames
-{
-	return [self hasAnyElementInSpecificScopeWithTagNames:tagNames andElementTypes:_specificScopeElementTypes];
-}
-
-- (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName
-{
-	NSMutableDictionary *elementTypes = [NSMutableDictionary dictionaryWithDictionary:_specificScopeElementTypes];
-	[elementTypes addEntriesFromDictionary:@{@"ol": @(HTMLNamespaceHTML),
-											 @"ul": @(HTMLNamespaceHTML)}];
-
-	return [self hasElementInSpecificScopeWithTagName:tagName
-									  andElementTypes:elementTypes];
-}
-
-- (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName
-{
-	NSMutableDictionary *elementTypes = [NSMutableDictionary dictionaryWithDictionary:_specificScopeElementTypes];
-	[elementTypes addEntriesFromDictionary:@{@"button": @(HTMLNamespaceHTML)}];
-
-	return [self hasElementInSpecificScopeWithTagName:tagName
-									  andElementTypes:elementTypes];
-}
-
-- (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName
-{
-	return [self hasElementInSpecificScopeWithTagName:tagName
-									  andElementTypes:@{@"html": @(HTMLNamespaceHTML),
-														@"table": @(HTMLNamespaceHTML),
-														@"template": @(HTMLNamespaceHTML)}];
-}
-
-- (HTMLElement *)hasElementInTableScopeWithAnyOfTagNames:(NSArray *)tagNames
-{
-	return [self hasAnyElementInSpecificScopeWithTagNames:tagNames
-										  andElementTypes:@{@"html": @(HTMLNamespaceHTML),
-															@"table": @(HTMLNamespaceHTML),
-															@"template": @(HTMLNamespaceHTML)}];
-}
-
-- (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName
-{
 	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
-		if ([node.tagName isEqualToString:tagName]) {
+		if (node.htmlNamespace == HTMLNamespaceHTML && [tagName isEqualToString:node.tagName]) {
 			return node;
 		}
-		if (!(node.htmlNamespace == HTMLNamespaceHTML &&
-			  [node.tagName isEqualToAny:@"optgroup", @"option", nil])) {
+		if (IsSpecificScopeElement(node)) {
 			return nil;
 		}
 	}
 	return nil;
 }
 
-- (HTMLElement *)hasElementInSpecificScopeWithTagName:(NSString *)tagName
-									  andElementTypes:(NSDictionary *)elementTypes
-{
-	return [self hasAnyElementInSpecificScopeWithTagNames:@[tagName] andElementTypes:elementTypes];
-}
-
-- (HTMLElement *)hasAnyElementInSpecificScopeWithTagNames:(NSArray *)tagNames
-										  andElementTypes:(NSDictionary *)elementTypes
+- (HTMLElement *)hasHeaderElementInScope
 {
 	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
-		if ([tagNames containsObject:node.tagName]) {
-			NSNumber *namespace = elementTypes[node.tagName] ?: @(HTMLNamespaceHTML);
-			if ([namespace isEqual:@(node.htmlNamespace)]) {
-				return node;
-			}
+		if (IsHeaderElement(node)) {
+			return node;
 		}
-		if ([elementTypes[node.tagName] isEqual:@(node.htmlNamespace)]) {
+		if (IsSpecificScopeElement(node)) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)hasElementInTableScopeWithTagName:(NSString *)tagName
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if (node.htmlNamespace == HTMLNamespaceHTML && [tagName isEqualToString:node.tagName]) {
+			return node;
+		}
+		if (IsTableScopeElement(node)) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)hasElementInTableScopeWithAnyOfTagNames:(NSArray *)tagNames
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if (node.htmlNamespace == HTMLNamespaceHTML && [tagNames containsObject:node.tagName]) {
+			return node;
+		}
+		if (IsTableScopeElement(node)) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)hasElementInListItemScopeWithTagName:(NSString *)tagName
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if (node.htmlNamespace == HTMLNamespaceHTML && [tagName isEqualToString:node.tagName]) {
+			return node;
+		}
+		if (IsSpecificScopeElement(node) || IsListItemScopeElement(node)) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)hasElementInButtonScopeWithTagName:(NSString *)tagName
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if (node.htmlNamespace == HTMLNamespaceHTML && [tagName isEqualToString:node.tagName]) {
+			return node;
+		}
+		if (IsSpecificScopeElement(node) || IsButtonScopeElement(node)) {
+			return nil;
+		}
+	}
+	return nil;
+}
+
+- (HTMLElement *)hasElementInSelectScopeWithTagName:(NSString *)tagName
+{
+	for (HTMLElement *node in _stack.reverseObjectEnumerator) {
+		if (node.htmlNamespace == HTMLNamespaceHTML && [tagName isEqualToString:node.tagName]) {
+			return node;
+		}
+		if (IsSelectScopeElement(node)) {
 			return nil;
 		}
 	}
