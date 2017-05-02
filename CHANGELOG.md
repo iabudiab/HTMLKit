@@ -1,15 +1,30 @@
 # Change Log
 
+## [2.0.6](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.6) 
+
+Released on 2017.05.02
+
+### Added
+
+- Memory consumption improvements (issue #10)
+	- Allocate `childNodes` collection in `HTMLNode` only when inserting child nodes
+	- Replace `NSStringFromSelector` calls with constants in `HTMLNode` validations
+	- Improve `reverseObjectEnumerator` usage while parsing HTML
+	- Rewrite internal logic of the `HTMLStackOfOpenElements` to prevent excessive allocations
+
+
 ## [2.0.5](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.5) 
 
 Released on 2017.04.19
 
 ### Fixed
+
 - Xcode 8.3 issue with modulemaps
 	- Temporary workaround (renamed modulemap file)
 - Memory Leaks in `CSSInputStream`
 
 ### Added
+
 - Minor memory consumption improvements
 	- Collections for child nodes or attributes of HTML Nodes or Elements are allocated lazily
 	- Underyling data string of `CharacterData` is allocated on first access
@@ -21,10 +36,12 @@ Released on 2017.04.19
 Released on 2017.04.2
 
 ### Fixed
+
 - Testing with Swift 3.1
 	- Fixed by @tali in PR #8
 
 ### Deprecated
+
 - `HTMLRange` initializers with typo
 	- `initWithDowcument:startContainer:startOffset:endContainer:endOffset:`
 
@@ -34,6 +51,7 @@ Released on 2017.04.2
 Released on 2017.03.6
 
 ### Fixed
+
 - Compilation for Swift 3.1
 	- Fixed by @tali in PR #6
 
@@ -43,6 +61,7 @@ Released on 2017.03.6
 Released on 2017.02.26
 
 ### Fixed
+
 - Retain cycles in `HTMLNodeIterator` (issue #4)
 - Retain cycles in `HTMLRange` (issue #5)
 - The layout of `HTMLKit` tests module for Swift Package Manager
