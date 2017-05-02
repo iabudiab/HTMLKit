@@ -1272,7 +1272,7 @@
 								  @"dd": @[@"dd", @"dt"],
 								  @"dt": @[@"dd", @"dt"]};
 
-		for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator.allObjects) {
+		for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator) {
 			if ([map[tagName] containsObject:node.tagName]) {
 				[self generateImpliedEndTagsExceptForElement:node.tagName];
 				if (![self.currentNode.tagName isEqualToString:node.tagName]) {
@@ -1529,7 +1529,7 @@
 		}
 		[self closePElement];
 	} else if ([tagName isEqualToString:@"li"]) {
-		if (![_stackOfOpenElements hasElementInListItemScopeWithTagName:@"li"]) {
+		if (![_stackOfOpenElements hasElementInListItemScopeWithTagName:tagName]) {
 			[self emitParseError:@"Unexpected <li> element in <body>"];
 			return;
 		}
@@ -1549,7 +1549,7 @@
 		}
 		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:tagName];
 	} else if ([tagName isEqualToAny:@"h1", @"h2", @"h3", @"h4", @"h5", @"h6", nil]) {
-		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"h1", @"h2", @"h3", @"h4", @"h5", @"h6"]]) {
+		if (![_stackOfOpenElements hasHeaderElementInScope]) {
 			[self emitParseError:@"Unexpected <%@> element in <body>", tagName];
 			return;
 		}
@@ -1569,7 +1569,7 @@
 			return;
 		}
 	} else if ([tagName isEqualToAny:@"applet", @"marquee", @"object", nil]) {
-		if (![_stackOfOpenElements hasAnyElementInScopeWithAnyOfTagNames:@[@"applet", @"marquee", @"object"]]) {
+		if (![_stackOfOpenElements hasElementInScopeWithTagName:tagName]) {
 			[self emitParseError:@"Unexpected <%@> element in <body>", tagName];
 			return;
 		}
@@ -1590,7 +1590,7 @@
 
 - (void)processAnyOtherEndTagTokenInBody:(HTMLTagToken *)token
 {
-	for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator.allObjects) {
+	for (HTMLElement *node in _stackOfOpenElements.reverseObjectEnumerator) {
 		if ([node.tagName isEqualToString:token.tagName]) {
 			[self generateImpliedEndTagsExceptForElement:token.tagName];
 			if (![node.tagName isEqualToString:self.currentNode.tagName]) {

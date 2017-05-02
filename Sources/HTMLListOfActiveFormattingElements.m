@@ -46,7 +46,7 @@
 - (void)addElement:(HTMLElement *)element
 {
 	NSUInteger existing = 0;
-	for (HTMLElement *node in _list.reverseObjectEnumerator.allObjects) {
+	for (HTMLElement *node in _list.reverseObjectEnumerator) {
 		if ([node isEqual:[HTMLMarker marker]]) {
 			break;
 		}
