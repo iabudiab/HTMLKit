@@ -17,7 +17,7 @@
 
  @param reason The string describing the reason of the reported error.
  */
-typedef void (^ HTMLStreamReaderErrorCallback)(NSString *reason);
+typedef void (^ HTMLStreamReaderErrorCallback)(NSString *code, NSString *details);
 
 /**
  * HTML Input Stream Reader processor conforming to the HTML standard
