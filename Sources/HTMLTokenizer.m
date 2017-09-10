@@ -24,8 +24,9 @@
 	NSMutableArray *_tokens;
 
 	/* Character Reference */
-	HTMLTokenizerState _previousTokenizerState;
-	UTF32Char _additionalAllowedCharacter;
+	HTMLTokenizerState _characterReferenceReturnState;
+	unsigned long long _characterReferenceCode;
+	BOOL _characterReferenceOverflow;
 
 	/* Pending Tokens & Attributes*/
 	HTMLTagToken *_currentTagToken;
@@ -46,6 +47,7 @@
 
 @implementation HTMLTokenizer
 @synthesize state = _currentState;
+@synthesize parseErrorCallback = _parseErrorCallback;
 
 #pragma mark - Lifecycle
 
@@ -54,13 +56,13 @@
 	self = [super init];
 	if (self) {
 		_currentState = HTMLTokenizerStateData;
+		_characterReferenceReturnState = _currentState;
 
 		_tokens = [NSMutableArray new];
-
 		_inputStreamReader = [[HTMLInputStreamReader alloc] initWithString:string];
 		__weak HTMLTokenizer *weakSelf = self;
-		_inputStreamReader.errorCallback = ^ (NSString *reason) {
-			[weakSelf emitParseError:@"%@", reason];
+		_inputStreamReader.errorCallback = ^ (NSString *code, NSString *details) {
+			[weakSelf emitParseError:code details:@"%@", details];
 		};
 	}
 	return self;
@@ -94,12 +96,8 @@
 	switch (_currentState) {
 		case HTMLTokenizerStateData:
 			return [self HTMLTokenizerStateData];
-		case HTMLTokenizerStateCharacterReferenceInData:
-			return [self HTMLTokenizerStateCharacterReferenceInData];
 		case HTMLTokenizerStateRCDATA:
 			return [self HTMLTokenizerStateRCDATA];
-		case HTMLTokenizerStateCharacterReferenceInRCDATA:
-			return [self HTMLTokenizerStateCharacterReferenceInRCDATA];
 		case HTMLTokenizerStateRAWTEXT:
 			return [self HTMLTokenizerStateRAWTEXT];
 		case HTMLTokenizerStateScriptData:
@@ -172,8 +170,6 @@
 			return [self HTMLTokenizerStateAttributeValueSingleQuoted];
 		case HTMLTokenizerStateAttributeValueUnquoted:
 			return [self HTMLTokenizerStateAttributeValueUnquoted];
-		case HTMLTokenizerStateCharacterReferenceInAttributeValue:
-			return [self HTMLTokenizerStateCharacterReferenceInAttributeValue];
 		case HTMLTokenizerStateAfterAttributeValueQuoted:
 			return [self HTMLTokenizerStateAfterAttributeValueQuoted];
 		case HTMLTokenizerStateSelfClosingStartTag:
@@ -188,6 +184,14 @@
 			return [self HTMLTokenizerStateCommentStartDash];
 		case HTMLTokenizerStateComment:
 			return [self HTMLTokenizerStateComment];
+		case HTMLTokenizerStateCommentLessThanSign:
+			return [self HTMLTokenizerStateCommentLessThanSign];
+		case HTMLTokenizerStateCommentLessThanSignBang:
+			return [self HTMLTokenizerStateCommentLessThanSignBang];
+		case HTMLTokenizerStateCommentLessThanSignBangDash:
+			return [self HTMLTokenizerStateCommentLessThanSignBangDash];
+		case HTMLTokenizerStateCommentLessThanSignBangDashDash:
+			return [self HTMLTokenizerStateCommentLessThanSignBangDashDash];
 		case HTMLTokenizerStateCommentEndDash:
 			return [self HTMLTokenizerStateCommentEndDash];
 		case HTMLTokenizerStateCommentEnd:
@@ -228,6 +232,28 @@
 			return [self HTMLTokenizerStateBogusDOCTYPE];
 		case HTMLTokenizerStateCDATASection:
 			return [self HTMLTokenizerStateCDATASection];
+		case HTMLTokenizerStateCDATASectionBracket:
+			return [self HTMLTokenizerStateCDATASectionBracket];
+		case HTMLTokenizerStateCDATASectionEnd:
+			return [self HTMLTokenizerStateCDATASectionEnd];
+		case HTMLTokenizerStateCharacterReference:
+			return [self HTMLTokenizerStateCharacterReference];
+		case HTMLTokenizerStateNamedCharacterReference:
+			return [self HTMLTokenizerStateNamedCharacterReference];
+		case HTMLTokenizerStateAmbiguousAmpersand:
+			return [self HTMLTokenizerStateAmbiguousAmpersand];
+		case HTMLTokenizerStateNumericCharacterReference:
+			return [self HTMLTokenizerStateNumericCharacterReference];
+		case HTMLTokenizerStateHexadecimalCharacterReferenceStart:
+			return [self HTMLTokenizerStateHexadecimalCharacterReferenceStart];
+		case HTMLTokenizerStateDecimalCharacterReferenceStart:
+			return [self HTMLTokenizerStateDecimalCharacterReferenceStart];
+		case HTMLTokenizerStateHexadecimalCharacterReference:
+			return [self HTMLTokenizerStateHexadecimalCharacterReference];
+		case HTMLTokenizerStateDecimalCharacterReference:
+			return [self HTMLTokenizerStateDecimalCharacterReference];
+		case HTMLTokenizerStateNumericCharacterReferenceEnd:
+			return [self HTMLTokenizerStateNumericCharacterReferenceEnd];
 		default:
 			break;
 	}
@@ -236,13 +262,6 @@
 - (void)switchToState:(HTMLTokenizerState)state
 {
 	_currentState = state;
-}
-
-- (void)switchToState:(HTMLTokenizerState)state withAdditionalAllowedCharacter:(UTF32Char)character
-{
-	_previousTokenizerState = _currentState;
-	_additionalAllowedCharacter = character;
-	[self switchToState:state];
 }
 
 #pragma mark - Emits
@@ -275,10 +294,10 @@
 			break;
 		case HTMLTokenTypeEndTag:
 			if (_currentTagToken.attributes != nil) {
-				[self emitParseError:@"End Tag Token [%@] has attributes", _currentTagToken.tagName];
+				[self emitParseError:@"end-tag-with-attributes" details:@"End tag [%@]", _currentTagToken.tagName];
 			}
 			if (_currentTagToken.isSelfClosing) {
-				[self emitParseError:@"End Tag Token [%@] has self-closing flag", _currentTagToken.tagName];
+				[self emitParseError:@"end-tag-with-trailing-solidus" details:@"End tag [%@]", _currentTagToken.tagName];
 			}
 			break;
 		default:
@@ -307,15 +326,25 @@
 	[_currentCharacterToken appendString:string];
 }
 
-- (void)emitParseError:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2)
+- (void)emitParseError:(NSString *)code details:(NSString *)format, ... NS_FORMAT_FUNCTION(2, 3)
 {
-	va_list args;
-	va_start(args, format);
-	NSString *message = [[NSString alloc] initWithFormat:format arguments:args];
-	va_end(args);
-	HTMLParseErrorToken *token = [[HTMLParseErrorToken alloc] initWithReasonMessage:message
-																  andStreamLocation:_inputStreamReader.currentLocation];
-	[self emitToken:token];
+	if (!self.parseErrorCallback) {
+		return;
+	}
+
+	NSString *details = nil;
+
+	if (format) {
+		va_list args;
+		va_start(args, format);
+		details = [[NSString alloc] initWithFormat:format arguments:args];
+		va_end(args);
+	}
+
+	HTMLParseErrorToken *token = [[HTMLParseErrorToken alloc] initWithCode:code
+																   details:details
+																  location:_inputStreamReader.currentLocation];
+	self.parseErrorCallback(token);
 }
 
 #pragma mark - Token Checks
@@ -352,7 +381,8 @@
 		}
 
 		if (_currentTagToken.attributes[_currentAttributeName] != nil) {
-			[self emitParseError:@"Tag token [%@] already contains an attrbitue with name [%@]", _currentTagToken, _currentAttributeName];
+			[self emitParseError:@"duplicate-attribute"
+						 details:@"Tag [%@] already contains an attrbitue with name [%@]", _currentTagToken, _currentAttributeName];
 		} else {
 			_currentTagToken.attributes[_currentAttributeName] = _currentAttributeValue ?: @"";
 		}
@@ -361,156 +391,17 @@
 	_currentAttributeValue = nil;
 }
 
-#pragma mark - Consume Character Reference
+#pragma mark - Character Reference
 
-- (NSString *)attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:(UTF32Char)additional
-																   inAttribute:(BOOL)inAttribute
+- (void)flushCodePointsConsumedAsCharacterReference
 {
-	UTF32Char character = [_inputStreamReader nextInputCharacter];
-	if (additional != (UTF32Char)EOF && character == additional) {
-		return nil;
+	if (_characterReferenceReturnState == HTMLTokenizerStateAttributeValueUnquoted ||
+		_characterReferenceReturnState == HTMLTokenizerStateAttributeValueSingleQuoted ||
+		_characterReferenceReturnState == HTMLTokenizerStateAttributeValueDoubleQuoted) {
+		[self appendToCurrentAttributeValue:_temporaryBuffer];
+	} else {
+		[self emitCharacterTokenWithString:_temporaryBuffer];
 	}
-
-	[_inputStreamReader markCurrentLocation];
-
-	switch (character) {
-		case CHARACTER_TABULATION:
-		case LINE_FEED:
-		case FORM_FEED:
-		case SPACE:
-		case LESS_THAN_SIGN:
-		case AMPERSAND:
-		case EOF:
-			return nil;
-		case NUMBER_SIGN:
-		{
-			NSString *numberReference = [self attemptToConsumeNumberCharacterReference];
-			return numberReference;
-		}
-		default:
-		{
-			NSString *namedEntity = [self attemptToConsumeNamedCharacterReferenceInAttribute:inAttribute];
-			return namedEntity;
-		}
-	}
-}
-
-- (NSString *)attemptToConsumeNumberCharacterReference
-{
-	[_inputStreamReader consumeNextInputCharacter];
-
-	UTF32Char character = [_inputStreamReader nextInputCharacter];
-	unsigned long long number;
-	BOOL success;
-
-	switch (character) {
-		case LATIN_CAPITAL_LETTER_X:
-		case LATIN_SMALL_LETTER_X:
-			[_inputStreamReader consumeNextInputCharacter];
-			success = [_inputStreamReader consumeHexNumber:&number];
-			break;
-		default:
-			success = [_inputStreamReader consumeNumber:&number];
-			break;
-	}
-
-	if (success == NO) {
-		[_inputStreamReader rewindToMarkedLocation];
-		[self emitParseError:@"Invalid characters in numeric entity"];
-		return nil;
-	}
-	success = [_inputStreamReader consumeCharacter:SEMICOLON];
-	if (success == NO) {
-		[self emitParseError:@"Missing semicolon in numeric entity"];
-	}
-
-	if (isInvalidNumericRange(number)) {
-		[self emitParseError:@"Invalid numeric entity (invalid Unicode range)"];
-		return StringFromUniChar(REPLACEMENT_CHAR);
-	}
-
-	UTF32Char numericChar = (UTF32Char)number;
-	unichar numericReplacement = NumericReplacementCharacter(numericChar);
-	if (numericReplacement != NULL_CHAR) {
-		[self emitParseError:@"Invalid numeric entity (a defenied replacement exists)"];
-		return StringFromUniChar(numericReplacement);
-	}
-
-	if (isControlOrUndefinedCharacter(numericChar)) {
-		[self emitParseError:@"Invalid numeric entity (control or undefined character)"];
-	}
-
-	return StringFromUTF32Char(numericChar);
-}
-
-- (NSString *)attemptToConsumeNamedCharacterReferenceInAttribute:(BOOL)inAttribute
-{
-	[_inputStreamReader markCurrentLocation];
-
-	NSString *entityName = nil;
-	NSString *entityReplacement = nil;
-
-	UTF32Char inputCharacter = [_inputStreamReader consumeNextInputCharacter];
-	NSArray *names = [HTMLTokenizerEntities entities];
-	NSMutableString *name = [NSMutableString stringWithString:StringFromUTF32Char(inputCharacter)];
-
-	NSUInteger searchIndex = 0;
-
-	while (YES) {
-		searchIndex= [names indexOfObject:name
-							inSortedRange:NSMakeRange(searchIndex, names.count - searchIndex)
-								  options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual
-						  usingComparator:^NSComparisonResult(id obj1, id obj2) {
-									return [obj1 compare:obj2];
-								}];
-
-		if (searchIndex >= names.count) break;
-
-		if ([[names objectAtIndex:searchIndex] isEqualToString:name]) {
-			entityName = [name copy];
-			entityReplacement = [HTMLTokenizerEntities replacementAtIndex:searchIndex];
-		}
-
-		if ([name hasSuffix:@";"]) break;
-
-		inputCharacter = [_inputStreamReader consumeNextInputCharacter];
-		if (inputCharacter == EOF) break;
-
-		[name appendString:StringFromUTF32Char(inputCharacter)];
-	}
-
-	if (entityName == nil) {
-		[_inputStreamReader rewindToMarkedLocation];
-
-		if ([_inputStreamReader consumeAlphanumericCharacters] != nil) {
-			if ([_inputStreamReader consumeString:@";" caseSensitive:NO]) {
-				[self emitParseError:@"Undefined named entity with semicolon found"];
-			}
-		}
-
-		[_inputStreamReader rewindToMarkedLocation];
-		return nil;
-	}
-
-	if (inAttribute && [entityName hasSuffix:@";"] == NO) {
-		unichar nextCharacter = [name characterAtIndex:entityName.length];
-		if (nextCharacter == EQUALS_SIGN || isAlphanumeric(nextCharacter)) {
-			[_inputStreamReader rewindToMarkedLocation];
-			if (nextCharacter == EQUALS_SIGN) {
-				[self emitParseError:@"Named entity in attribute ending with equal-sign"];
-			}
-			return nil;
-		}
-	}
-
-	if ([entityName hasSuffix:@";"] == NO) {
-		[self emitParseError:@"Named entity without semicolon"];
-	}
-
-	[_inputStreamReader rewindToMarkedLocation];
-	[_inputStreamReader consumeString:entityName caseSensitive:YES];
-
-	return entityReplacement;
 }
 
 #pragma mark - States
@@ -520,13 +411,14 @@
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case AMPERSAND:
-			[self switchToState:HTMLTokenizerStateCharacterReferenceInData withAdditionalAllowedCharacter:EOF];
+			_characterReferenceReturnState = HTMLTokenizerStateData;
+			[self switchToState:HTMLTokenizerStateCharacterReference];
 			break;
 		case LESS_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateTagOpen];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Data State"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:character];
 			break;
 		case EOF:
@@ -538,31 +430,19 @@
 	}
 }
 
-- (void)HTMLTokenizerStateCharacterReferenceInData
-{
-	[self switchToState:HTMLTokenizerStateData];
-
-	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:_additionalAllowedCharacter
-																							  inAttribute:NO];
-	if (characterReference == nil) {
-		[self emitCharacterToken:AMPERSAND];
-	} else {
-		[self emitCharacterTokenWithString:characterReference];
-	}
-}
-
 - (void)HTMLTokenizerStateRCDATA
 {
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case AMPERSAND:
-			[self switchToState:HTMLTokenizerStateCharacterReferenceInRCDATA];
+			_characterReferenceReturnState = HTMLTokenizerStateRCDATA;
+			[self switchToState:HTMLTokenizerStateCharacterReference];
 			break;
 		case LESS_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateRCDATALessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000)in RCDATA state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -574,19 +454,6 @@
 	}
 }
 
-- (void)HTMLTokenizerStateCharacterReferenceInRCDATA
-{
-	[self switchToState:HTMLTokenizerStateRCDATA];
-
-	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:(UTF32Char)EOF
-																							  inAttribute:NO];
-	if (characterReference == nil) {
-		[self emitCharacterToken:AMPERSAND];
-	} else {
-		[self emitCharacterTokenWithString:characterReference];
-	}
-}
-
 - (void)HTMLTokenizerStateRAWTEXT
 {
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
@@ -595,7 +462,7 @@
 			[self switchToState:HTMLTokenizerStateRAWTEXTLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in RAWTEXT state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -615,7 +482,7 @@
 			[self switchToState:HTMLTokenizerStateScriptDataLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Script Data state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -632,7 +499,7 @@
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in PLAINTEXT state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
@@ -663,12 +530,20 @@
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case QUESTION_MARK:
-			[self emitParseError:@"Bogus (0x003F, ?) in Tag Open state"];
+			[self emitParseError:@"unexpected-question-mark-instead-of-tag-name"
+						 details:@"Unexpected (0x003F, ?) instead of tag name"];
+			_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@""];
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
+		case EOF:
+			[self emitParseError:@"eof-before-tag-name" details:nil];
+			[self emitCharacterToken:LESS_THAN_SIGN];
+			[self emitEOFToken];
+			break;
 		default:
-			[self emitParseError:@"Unexpected character (0x%X) in Tag Open state", (unsigned int)character];
+			[self emitParseError:@"invalid-first-character-of-tag-name"
+						 details:@"Unexpected first character (0x%X) of tag name", (unsigned int)character];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCharacterToken:LESS_THAN_SIGN];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
@@ -689,17 +564,18 @@
 			[self switchToState:HTMLTokenizerStateTagName];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected (0x003E, >) in End Tag Open state"];
+			[self emitParseError:@"missing-end-tag-name" details:@"Unexpected (0x003E, >) missing end tag name"];
 			[self switchToState:HTMLTokenizerStateData];
 			break;
 		case EOF:
-			[self emitParseError:@"EOF reached in End Tag Open state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-before-tag-name" details:nil];
 			[self emitCharacterTokenWithString:@"</"];
-			[_inputStreamReader	reconsumeCurrentInputCharacter];
+			[self emitEOFToken];
 			break;
 		default:
-			[self emitParseError:@"Unexpected character (0x%X) in End Tag Open state", (unsigned int)character];
+			[self emitParseError:@"invalid-first-character-of-tag-name"
+						 details:@"Unexpected first character (0x%X) of end tag name", (unsigned int)character];
+			_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@""];
 			[self switchToState:HTMLTokenizerStateBogusComment];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			break;
@@ -727,13 +603,12 @@
 			[_currentTagToken appendStringToTagName:StringFromUTF32Char(character + 0x0020)];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Tag Name state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[_currentTagToken appendStringToTagName:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case EOF:
-			[self emitParseError:@"EOF reached in Tag Name state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader	reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-tag" details:nil];
+			[self emitEOFToken];
 			break;
 		default:
 			[_currentTagToken appendStringToTagName:StringFromUTF32Char(character)];
@@ -991,7 +866,7 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateScriptDataEscapeStartDash];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:HYPHEN_MINUS];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptData];
@@ -1006,7 +881,7 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedDashDash];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:HYPHEN_MINUS];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptData];
@@ -1021,19 +896,18 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedDash];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:HYPHEN_MINUS];
 			break;
 		case LESS_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Script Data Escaped state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitParseError:@"EOF reached in Script Data Escaped state"];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-script-html-comment-like-text" details:nil];
+			[self emitEOFToken];
 			break;
 		default:
 			[self emitCharacterToken:character];
@@ -1047,19 +921,18 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedDashDash];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:HYPHEN_MINUS];
 			break;
 		case LESS_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedLessThanSign];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Script Data Escaped Dash state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitParseError:@"EOF reached in Script Data Escaped Dash state"];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-script-html-comment-like-text" details:nil];
+			[self emitEOFToken];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
@@ -1073,24 +946,23 @@
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case HYPHEN_MINUS:
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:HYPHEN_MINUS];
 			break;
 		case LESS_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateScriptDataEscapedLessThanSign];
 			break;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateScriptData];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:GREATER_THAN_SIGN];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Script Data Escaped Dash Dash state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitParseError:@"EOF reached in Script Data Escaped Dash Dash state"];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-script-html-comment-like-text" details:nil];
+			[self emitEOFToken];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataEscaped];
@@ -1238,13 +1110,12 @@
 			[self emitCharacterToken:character];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Script Data Double Escaped state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitParseError:@"EOF reached in Script Data Double Escaped state"];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-script-html-comment-like-text" details:nil];
+			[self emitEOFToken];
 			break;
 		default:
 			[self emitCharacterToken:character];
@@ -1258,21 +1129,20 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscapedDashDash];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:HYPHEN_MINUS];
 			break;
 		case LESS_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscapedLessThanSign];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:LESS_THAN_SIGN];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Script Data Double Escaped Dash state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitParseError:@"EOF reached in Script Data Double Escaped Dash state"];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-script-html-comment-like-text" details:nil];
+			[self emitEOFToken];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
@@ -1286,25 +1156,24 @@
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
 		case HYPHEN_MINUS:
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:HYPHEN_MINUS];
 			break;
 		case LESS_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscapedLessThanSign];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:LESS_THAN_SIGN];
 			break;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateScriptData];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:GREATER_THAN_SIGN];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Script Data Double Escaped Dash Dash state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
 			[self emitCharacterToken:REPLACEMENT_CHAR];
 			break;
 		case EOF:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitParseError:@"EOF reached in Script Data Double Escaped Dash Dash state"];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-script-html-comment-like-text" details:nil];
+			[self emitEOFToken];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
@@ -1320,7 +1189,7 @@
 		case SOLIDUS:
 			_temporaryBuffer = [NSMutableString new];
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscapeEnd];
-			[self emitCharacterToken:character];
+			[self emitCharacterToken:SOLIDUS];
 			break;
 		default:
 			[self switchToState:HTMLTokenizerStateScriptDataDoubleEscaped];
@@ -1371,39 +1240,23 @@
 		case SPACE:
 			return;
 		case SOLIDUS:
-			[self switchToState:HTMLTokenizerStateSelfClosingStartTag];
-			return;
 		case GREATER_THAN_SIGN:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitCurrentTagToken];
-			return;
-		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[self finalizeCurrentAttribute];
-			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
-			[self switchToState:HTMLTokenizerStateAttributeName];
-			return;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Before Attribute Name state"];
-			[self finalizeCurrentAttribute];
-			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
-			[self switchToState:HTMLTokenizerStateAttributeName];
-			return;
-		case QUOTATION_MARK:
-		case APOSTROPHE:
-		case LESS_THAN_SIGN:
-		case EQUALS_SIGN:
-			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
-			break;
 		case EOF:
-			[self emitParseError:@"EOF reached in Before Attribute Name state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self switchToState:HTMLTokenizerStateAfterAttributeName];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+		case EQUALS_SIGN:
+			[self emitParseError:@"unexpected-equals-sign-before-attribute-name" details:nil];
+			[self finalizeCurrentAttribute];
+			[self appendToCurrentAttributeName:StringFromUniChar(character)];
+			[self switchToState:HTMLTokenizerStateAttributeName];
+			return;
+		default:
+			[self finalizeCurrentAttribute];
+			[self switchToState:HTMLTokenizerStateAttributeName];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
-
-	[self finalizeCurrentAttribute];
-	[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
-	[self switchToState:HTMLTokenizerStateAttributeName];
 }
 
 - (void)HTMLTokenizerStateAttributeName
@@ -1414,38 +1267,33 @@
 		case LINE_FEED:
 		case FORM_FEED:
 		case SPACE:
-			[self switchToState:HTMLTokenizerStateAfterAttributeName];
-			return;
 		case SOLIDUS:
-			[self switchToState:HTMLTokenizerStateSelfClosingStartTag];
+		case GREATER_THAN_SIGN:
+		case EOF:
+			[self switchToState:HTMLTokenizerStateAfterAttributeName];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 		case EQUALS_SIGN:
 			[self switchToState:HTMLTokenizerStateBeforeAttributeValue];
-			return;
-		case GREATER_THAN_SIGN:
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitCurrentTagToken];
 			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Attribute Name state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUOTATION_MARK:
 		case APOSTROPHE:
 		case LESS_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (%C) in Attribute Name state", (unichar)character];
-			break;
-		case EOF:
-			[self emitParseError:@"EOF reached in Attribute Name state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"unexpected-character-in-attribute-name"
+						 details:@"Unexpected character (%C) in attribute name", (unichar)character];
+			[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
+			return;
+		default:
+			[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
 			return;
 	}
-
-	[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
 }
 
 - (void)HTMLTokenizerStateAfterAttributeName
@@ -1467,31 +1315,16 @@
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCurrentTagToken];
 			return;
-		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
-			[self finalizeCurrentAttribute];
-			[self appendToCurrentAttributeName:StringFromUniChar(character + 0x0020)];
-			[self switchToState:HTMLTokenizerStateAttributeName];
-			return;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in After Attribute Name state"];
-			[self finalizeCurrentAttribute];
-			[self appendToCurrentAttributeName:StringFromUniChar(REPLACEMENT_CHAR)];
-			return;
-		case QUOTATION_MARK:
-		case APOSTROPHE:
-		case LESS_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (%C) in Before Attribute Name state", (unichar)character];
-			break;
 		case EOF:
-			[self emitParseError:@"EOF reached in After Attribute Name state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-in-tag" details:nil];
+			[self emitEOFToken];
+			return;
+		default:
+			[self finalizeCurrentAttribute];
+			[self switchToState:HTMLTokenizerStateAttributeName];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
-
-	[self finalizeCurrentAttribute];
-	[self appendToCurrentAttributeName:StringFromUTF32Char(character)];
-	[self switchToState:HTMLTokenizerStateAttributeName];
 }
 
 - (void)HTMLTokenizerStateBeforeAttributeValue
@@ -1506,37 +1339,19 @@
 		case QUOTATION_MARK:
 			[self switchToState:HTMLTokenizerStateAttributeValueDoubleQuoted];
 			return;
-		case AMPERSAND:
-			[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			return;
 		case APOSTROPHE:
 			[self switchToState:HTMLTokenizerStateAttributeValueSingleQuoted];
 			return;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in After Attribute Value state"];
-			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
-			[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
-			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in Before Attribute Value state"];
+			[self emitParseError:@"missing-attribute-value" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCurrentTagToken];
 			return;
-		case LESS_THAN_SIGN:
-		case EQUALS_SIGN:
-		case GRAVE_ACCENT:
-			[self emitParseError:@"Unexpected character (%C) in Before Attribute Value state", (unichar)character];
-			break;
-		case EOF:
-			[self emitParseError:@"EOF reached in Before Attribute Value state"];
-			[self switchToState:HTMLTokenizerStateData];
+		default:
+			[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
 			return;
 	}
-
-	[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
-	[self switchToState:HTMLTokenizerStateAttributeValueUnquoted];
 }
 
 - (void)HTMLTokenizerStateAttributeValueDoubleQuoted
@@ -1545,22 +1360,22 @@
 	switch (character) {
 		case QUOTATION_MARK:
 			[self switchToState:HTMLTokenizerStateAfterAttributeValueQuoted];
-			break;
+			return;
 		case AMPERSAND:
-			[self switchToState:HTMLTokenizerStateCharacterReferenceInAttributeValue withAdditionalAllowedCharacter:QUOTATION_MARK];
-			break;
+			_characterReferenceReturnState = HTMLTokenizerStateAttributeValueDoubleQuoted;
+			[self switchToState:HTMLTokenizerStateCharacterReference];
+			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Attribute Value Double-Quoted state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Attribute Value Double-Quoted state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitParseError:@"eof-in-tag" details:nil];
+			[self emitEOFToken];
+			return;
 		default:
 			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
-			break;
+			return;
 	}
 }
 
@@ -1570,22 +1385,22 @@
 	switch (character) {
 		case APOSTROPHE:
 			[self switchToState:HTMLTokenizerStateAfterAttributeValueQuoted];
-			break;
+			return;
 		case AMPERSAND:
-			[self switchToState:HTMLTokenizerStateCharacterReferenceInAttributeValue withAdditionalAllowedCharacter:APOSTROPHE];
-			break;
+			_characterReferenceReturnState = HTMLTokenizerStateAttributeValueSingleQuoted;
+			[self switchToState:HTMLTokenizerStateCharacterReference];
+			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Attribute Value Single-Quoted state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Attribute Value Single-Quoted state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitParseError:@"eof-in-tag" details:nil];
+			[self emitEOFToken];
+			return;
 		default:
 			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
-			break;
+			return;
 	}
 }
 
@@ -1600,14 +1415,15 @@
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
 			return;
 		case AMPERSAND:
-			[self switchToState:HTMLTokenizerStateCharacterReferenceInAttributeValue withAdditionalAllowedCharacter:GREATER_THAN_SIGN];
+			_characterReferenceReturnState = HTMLTokenizerStateAttributeValueUnquoted;
+			[self switchToState:HTMLTokenizerStateCharacterReference];
 			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCurrentTagToken];
 			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Attribute Value Unquoted state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[self appendToCurrentAttributeValue:StringFromUniChar(REPLACEMENT_CHAR)];
 			return;
 		case QUOTATION_MARK:
@@ -1615,30 +1431,18 @@
 		case LESS_THAN_SIGN:
 		case EQUALS_SIGN:
 		case GRAVE_ACCENT:
-			[self emitParseError:@"Unexpected character (%C) in Attribute Value Unquoted state", (unichar)character];
-			break;
+			[self emitParseError:@"unexpected-character-in-unquoted-attribute-value"
+						 details:@"Unexpected character (%C) in attribute value", (unichar)character];
+			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Attribute Value Unquoted state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
+			[self emitParseError:@"eof-in-tag" details:nil];
+			[self emitEOFToken];
+			return;
+		default:
+			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
 			return;
 	}
-
-	[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
-}
-
-- (void)HTMLTokenizerStateCharacterReferenceInAttributeValue
-{
-	NSString *characterReference = [self attemptToConsumeCharachterReferenceWithAddtionalAllowedCharacter:_additionalAllowedCharacter
-																							  inAttribute:YES];
-
-	if (characterReference == nil) {
-		[self appendToCurrentAttributeValue:StringFromUniChar(AMPERSAND)];
-	} else {
-		[self appendToCurrentAttributeValue:characterReference];
-	}
-
-	[self switchToState:_previousTokenizerState];
 }
 
 - (void)HTMLTokenizerStateAfterAttributeValueQuoted
@@ -1650,24 +1454,24 @@
 		case FORM_FEED:
 		case SPACE:
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
-			break;
+			return;
 		case SOLIDUS:
 			[self switchToState:HTMLTokenizerStateSelfClosingStartTag];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCurrentTagToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in After Attribute Value Quoted state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitParseError:@"eof-in-tag" details:nil];
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in After Attribute Value Quoted state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-whitespace-between-attributes"
+						 details:@"Unexpected character (%@) instead of whitespace after attribute value", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			return;
 	}
 }
 
@@ -1679,34 +1483,40 @@
 			_currentTagToken.selfClosing = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitCurrentTagToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Self Closing Start Tag state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitParseError:@"eof-in-tag" details:nil];
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in Self Closing Start Tag state", StringFromUTF32Char(character)];
+			[self emitParseError:@"unexpected-solidus-in-tag"
+						 details:@"Unexpected character (%@) in self-closing start tag", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeAttributeName];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			return;
 	}
 }
 
 - (void)HTMLTokenizerStateBogusComment
 {
-	NSMutableString *comment = [NSMutableString string];
-	NSString *characters = [_inputStreamReader consumeCharactersUpToCharactersInString:@">"];
-	characters = [characters stringByReplacingOccurrencesOfString:@"\0" withString:StringFromUniChar(REPLACEMENT_CHAR)];
-	if (characters != nil) {
-		[comment appendString:characters];
-	}
-	_currentCommentToken = [[HTMLCommentToken alloc] initWithData:comment];
-	[self emitToken:_currentCommentToken];
-	[self switchToState:HTMLTokenizerStateData];
-
-	if ([_inputStreamReader consumeNextInputCharacter] == (UTF32Char)EOF) {
-		[_inputStreamReader reconsumeCurrentInputCharacter];
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case GREATER_THAN_SIGN:
+			_currentTagToken.selfClosing = YES;
+			[self switchToState:HTMLTokenizerStateData];
+			[self emitToken:_currentCommentToken];
+			return;
+		case EOF:
+			[self emitToken:_currentCommentToken];
+			[self emitEOFToken];
+			return;
+		case NULL_CHAR:
+			[self emitParseError:@"unexpected-null-character" details:nil];
+			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
+			return;
+		default:
+			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
+			return;
 	}
 }
 
@@ -1717,11 +1527,17 @@
 		[self switchToState:HTMLTokenizerStateCommentStart];
 	} else if ([_inputStreamReader consumeString:@"DOCTYPE" caseSensitive:NO]) {
 		[self switchToState:HTMLTokenizerStateDOCTYPE];
-	} else if (_parser.adjustedCurrentNode.htmlNamespace != HTMLNamespaceHTML &&
-			   [_inputStreamReader consumeString:@"[CDATA[" caseSensitive:YES]) {
-		[self switchToState:HTMLTokenizerStateCDATASection];
+	} else if ([_inputStreamReader consumeString:@"[CDATA[" caseSensitive:YES]) {
+		if (_parser.adjustedCurrentNode.htmlNamespace != HTMLNamespaceHTML) {
+			[self switchToState:HTMLTokenizerStateCDATASection];
+		} else {
+			[self emitParseError:@"cdata-in-html-content" details:nil];
+			_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@"[CDATA["];
+			[self switchToState:HTMLTokenizerStateBogusComment];
+		}
 	} else {
-		[self emitParseError:@"Unexpected character in Markup Declaration Open state"];
+		[self emitParseError:@"incorrectly-opened-comment" details:nil];
+		_currentCommentToken = [[HTMLCommentToken alloc] initWithData:@""];
 		[self switchToState:HTMLTokenizerStateBogusComment];
 	}
 }
@@ -1732,27 +1548,16 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateCommentStartDash];
-			break;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Comment Start state"];
-			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
-			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in Comment Start state"];
+			[self emitParseError:@"abrupt-closing-of-empty-comment" details:@"Unexpected character (0x003E, >) in comment start"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			break;
-		case EOF:
-			[self emitParseError:@"EOF reached in Comment Start state"];
-			[self switchToState:HTMLTokenizerStateData];
-			[self emitToken:_currentCommentToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			return;
 		default:
-			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -1762,29 +1567,22 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateCommentEnd];
-			break;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Comment Start Dash state"];
-			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
-			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
-			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpeted character (0x003E, >) in Comment Start Dash state"];
+			[self emitParseError:@"abrupt-closing-of-empty-comment" details:@"Unexpeted character (0x003E, >) in comment start"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Comment Start Dash state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-in-comment" details:nil];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
-			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -1792,22 +1590,88 @@
 {
 	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
 	switch (character) {
+		case LESS_THAN_SIGN:
+			[_currentCommentToken appendStringToData:StringFromUniChar(LESS_THAN_SIGN)];
+			[self switchToState:HTMLTokenizerStateCommentLessThanSign];
+			return;
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateCommentEndDash];
-			break;
+			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Comment state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[_currentCommentToken appendStringToData:StringFromUniChar(REPLACEMENT_CHAR)];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Comment state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-in-commnet" details:nil];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
-			break;
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateCommentLessThanSign
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case EXCLAMATION_MARK:
+			[_currentCommentToken appendStringToData:StringFromUniChar(EXCLAMATION_MARK)];
+			[self switchToState:HTMLTokenizerStateCommentLessThanSignBang];
+			return;
+		case LESS_THAN_SIGN:
+			[_currentCommentToken appendStringToData:StringFromUniChar(LESS_THAN_SIGN)];
+			return;
+		default:
+			[self switchToState:HTMLTokenizerStateComment];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateCommentLessThanSignBang
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case HYPHEN_MINUS:
+			[self switchToState:HTMLTokenizerStateCommentLessThanSignBangDash];
+			return;
+		default:
+			[self switchToState:HTMLTokenizerStateComment];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateCommentLessThanSignBangDash
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case HYPHEN_MINUS:
+			[self switchToState:HTMLTokenizerStateCommentLessThanSignBangDashDash];
+			return;
+		default:
+			[self switchToState:HTMLTokenizerStateCommentEndDash];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateCommentLessThanSignBangDashDash
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case GREATER_THAN_SIGN:
+		case EOF:
+			[self switchToState:HTMLTokenizerStateCommentEnd];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+		default:
+			[self emitParseError:@"nested-comment" details:nil];
+			[self switchToState:HTMLTokenizerStateCommentEnd];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -1817,23 +1681,17 @@
 	switch (character) {
 		case HYPHEN_MINUS:
 			[self switchToState:HTMLTokenizerStateCommentEnd];
-			break;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Comment End Dash state"];
-			[_currentCommentToken appendStringToData:@"-\uFFFD"];
-			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Comment End Dash state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-in-comment" details:nil];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
-			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -1844,32 +1702,23 @@
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			break;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Comment End state"];
-			[_currentCommentToken appendStringToData:@"--\uFFFD"];
-			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			return;
 		case EXCLAMATION_MARK:
-			[self emitParseError:@"Unexpected character (0x0021, !) in Comment End state"];
 			[self switchToState:HTMLTokenizerStateCommentEndBang];
-			break;
+			return;
 		case HYPHEN_MINUS:
-			[self emitParseError:@"Unexpected character (0x002D, -) in Comment End state"];
 			[_currentCommentToken appendStringToData:StringFromUniChar(HYPHEN_MINUS)];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Comment End state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-in-comment" details:nil];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in Comment End state", StringFromUTF32Char(character)];
 			[_currentCommentToken appendStringToData:@"--"];
-			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -1880,27 +1729,22 @@
 		case HYPHEN_MINUS:
 			[_currentCommentToken appendStringToData:@"--!"];
 			[self switchToState:HTMLTokenizerStateCommentEndDash];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
+			[self emitParseError:@"incorrectly-closed-comment" details:@"Unexpeted character (0x003E, >) in comment end"];
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentCommentToken];
-			break;
-		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Comment End Bang state"];
-			[_currentCommentToken appendStringToData:@"--!\uFFFD"];
-			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Comment End Bang state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-in-comment" details:nil];
 			[self emitToken:_currentCommentToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentCommentToken appendStringToData:@"--!"];
-			[_currentCommentToken appendStringToData:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateComment];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -1913,20 +1757,24 @@
 		case FORM_FEED:
 		case SPACE:
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPEName];
-			break;
+			return;
+		case GREATER_THAN_SIGN:
+			[self switchToState:HTMLTokenizerStateBeforeDOCTYPEName];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in DOCTYPE state"];
-			[self switchToState:HTMLTokenizerStateData];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in DOCTYPE state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-whitespace-before-doctype-name"
+						 details:@"Unexpected character (%@) instead of whitespace before DOCTYPE name", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPEName];
 			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			return;
 	}
 }
 
@@ -1938,35 +1786,35 @@
 		case LINE_FEED:
 		case FORM_FEED:
 		case SPACE:
-			break;
+			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUniChar(character + 0x0020)];
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
-			break;
+			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in Before DOCTYPE Name state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUniChar(REPLACEMENT_CHAR)];
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE Name state"];
+			[self emitParseError:@"missing-doctype-name" details:@"Unexpected character (0x003E, >) before DOCTYPE name"];
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Before DOCTYPE Name state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken = [HTMLDOCTYPEToken new];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			_currentDoctypeToken = [[HTMLDOCTYPEToken alloc] initWithName:StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateDOCTYPEName];
-			break;
+			return;
 	}
 }
 
@@ -1979,28 +1827,28 @@
 		case FORM_FEED:
 		case SPACE:
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPEName];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case LATIN_CAPITAL_LETTER_A ... LATIN_CAPITAL_LETTER_Z:
 			[_currentDoctypeToken appendStringToName:StringFromUTF32Char(character + 0x0020)];
-			break;
+			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Name state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[_currentDoctypeToken appendStringToName:StringFromUniChar(REPLACEMENT_CHAR)];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in DOCTYPE Name state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentDoctypeToken appendStringToName:StringFromUTF32Char(character)];
-			break;
+			return;
 	}
 }
 
@@ -2012,33 +1860,34 @@
 		case LINE_FEED:
 		case FORM_FEED:
 		case SPACE:
-			break;
+			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in After DOCTYPE Name state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 		{
-			[_inputStreamReader markCurrentLocation];
-			[_inputStreamReader unconsumeCurrentInputCharacter];
-			if ([_inputStreamReader consumeString:@"PUBLIC" caseSensitive:NO]) {
+			if ((character == LATIN_SMALL_LETTER_P || character == LATIN_CAPITAL_LETTER_P) &&
+				[_inputStreamReader consumeString:@"UBLIC" caseSensitive:NO]) {
 				[self switchToState:HTMLTokenizerStateAfterDOCTYPEPublicKeyword];
-			} else if ([_inputStreamReader consumeString:@"SYSTEM" caseSensitive:NO]) {
+			} else if ((character == LATIN_SMALL_LETTER_S || character == LATIN_CAPITAL_LETTER_S) &&
+					   [_inputStreamReader consumeString:@"YSTEM" caseSensitive:NO]) {
 				[self switchToState:HTMLTokenizerStateAfterDOCTYPESystemKeyword];
 			} else {
-				[_inputStreamReader rewindToMarkedLocation];
-				[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Name state", StringFromUTF32Char(character)];
+				[self emitParseError:@"invalid-character-sequence-after-doctype-name"
+							 details:@"Expected PUBLIC or SYSTEM after DOCTYPE name"];
 				_currentDoctypeToken.forceQuirks = YES;
 				[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
+				[_inputStreamReader reconsumeCurrentInputCharacter];
 			}
-			break;
+			return;
 		}
 	}
 }
@@ -2052,35 +1901,39 @@
 		case FORM_FEED:
 		case SPACE:
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPEPublicIdentifier];
-			break;
+			return;
 		case QUOTATION_MARK:
-			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE Public Keyword state"];
+			[self emitParseError:@"missing-whitespace-after-doctype-public-keyword"
+						 details:@"Unexpected character (0x0022, \") instead of whitespace after DOCTYPE PUBLIC keyword"];
 			_currentDoctypeToken.publicIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierDoubleQuoted];
-			break;
+			return;
 		case APOSTROPHE:
-			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE Public Keyword state"];
+			[self emitParseError:@"missing-whitespace-after-doctype-public-keyword"
+						 details:@"Unexpected character  (0x0027, ') instead of whitespace after DOCTYPE PUBLIC keyword"];
 			_currentDoctypeToken.publicIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in After DOCTYPE Public Keyword state"];
+			[self emitParseError:@"missing-doctype-public-identifier" details:nil];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in After DOCTYPE Public Keyword state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Keyword state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-quote-before-doctype-public-identifier"
+						 details:@"Unexpected character (%@) instead of quote before DOCTYPE Public identifier", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -2092,7 +1945,7 @@
 		case LINE_FEED:
 		case FORM_FEED:
 		case SPACE:
-			break;
+			return;
 		case QUOTATION_MARK:
 			_currentDoctypeToken.publicIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierDoubleQuoted];
@@ -2102,23 +1955,25 @@
 			[self switchToState:HTMLTokenizerStateDOCTYPEPublicIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE Public Identifier state"];
+			[self emitParseError:@"missing-doctype-public-identifier" details:nil];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
 			break;
 		case EOF:
-			[self emitParseError:@"EOF reached in After DOCTYPE Public Identifier state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-quote-before-doctype-public-identifier"
+						 details:@"Unexpected character (%@) instead of quote before DOCTYPE Public identifier", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -2128,27 +1983,27 @@
 	switch (character) {
 		case QUOTATION_MARK:
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPEPublicIdentifier];
-			break;
+			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Public Identifier Double-Quoted state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in DOCTYPE Public Identifier Double-Quoted state"];
+			[self emitParseError:@"abrupt-doctype-public-identifier" details:@"Unexpected character (0x003E, >) in DOCTYPE Public identifier"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in DOCTYPE Public Identifier Double-Quoted state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUTF32Char(character)];
-			break;
+			return;
 	}
 }
 
@@ -2160,25 +2015,25 @@
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPEPublicIdentifier];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in DOCTYPE Public Identifier Single-Quoted state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected > character (0x003E, >) in DOCTYPE Public Identifier Single-Quoted state"];
+			[self emitParseError:@"abrupt-doctype-public-identifier" details:@"Unexpected character (0x003E, >) in DOCTYPE Public identifier"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in DOCTYPE Public Identifier Single-Quoted state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentDoctypeToken appendStringToPublicIdentifier:StringFromUTF32Char(character)];
-			break;
+			return;
 	}
 }
 
@@ -2191,33 +2046,37 @@
 		case FORM_FEED:
 		case SPACE:
 			[self switchToState:HTMLTokenizerStateBetweenDOCTYPEPublicAndSystemIdentifiers];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case QUOTATION_MARK:
-			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE Public Identifier state"];
+			[self emitParseError:@"missing-whitespace-between-doctype-public-and-system-identifiers"
+						 details:@"Unexpected character (0x0022, \") instead of whitespace between DOCTYPE Public and System identifiers"];
 			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
-			break;
+			return;
 		case APOSTROPHE:
-			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE Public Identifier state"];
+			[self emitParseError:@"missing-whitespace-between-doctype-public-and-system-identifiers"
+						 details:@"Unexpected character (0x0027, ') instead of whitespace between DOCTYPE Public and System identifiers"];
 			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in After DOCTYPE Public Identifier state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE Public Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-quote-before-doctype-system-identifier"
+						 details:@"Unexpected character (%@) instead of quote before DOCTYPE System identifier", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -2229,31 +2088,33 @@
 		case LINE_FEED:
 		case FORM_FEED:
 		case SPACE:
-			break;
+			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case QUOTATION_MARK:
 			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
-			break;
+			return;
 		case APOSTROPHE:
 			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Between DOCTYPE Public And System Identifiers state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in Between DOCTYPE Public And System Identifiers state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-quote-before-doctype-system-identifier"
+						 details:@"Unexpected character (%@) instead of quote before DOCTYPE System identifier", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -2266,35 +2127,39 @@
 		case FORM_FEED:
 		case SPACE:
 			[self switchToState:HTMLTokenizerStateBeforeDOCTYPESystemIdentifier];
-			break;
+			return;
 		case QUOTATION_MARK:
-			[self emitParseError:@"Unexpected character (0x0022, \") in After DOCTYPE System Keyword state"];
+			[self emitParseError:@"missing-whitespace-after-doctype-system-keyword"
+						 details:@"Unexpected character (0x0022, \") after DOCTYPE System identifier"];
 			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierDoubleQuoted];
-			break;
+			return;
 		case APOSTROPHE:
-			[self emitParseError:@"Unexpected character (0x0027, ') in After DOCTYPE System Keyword state"];
+			[self emitParseError:@"missing-whitespace-after-doctype-system-keyword"
+						 details:@"Unexpected character (0x0027, ') after DOCTYPE System identifier"];
 			_currentDoctypeToken.systemIdentifier = [NSMutableString string];
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) character in After DOCTYPE System Keyword state"];
+			[self emitParseError:@"missing-doctype-system-identifier" details:nil];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in After DOCTYPE System Keyword state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE System Keyword state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-quote-before-doctype-system-identifier"
+						 details:@"Unexpected character (%@) instead of quote before DOCTYPE System identifier", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -2316,23 +2181,25 @@
 			[self switchToState:HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier state"];
+			[self emitParseError:@"missing-doctype-system-identifier" details:nil];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Before DOCTYPE System Identifier state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in Before DOCTYPE System Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"missing-quote-before-doctype-system-identifier"
+						 details:@"Unexpected character (%@) instead of quote before DOCTYPE System identifier", StringFromUTF32Char(character)];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -2344,25 +2211,25 @@
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPESystemIdentifier];
 			break;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in DOCTYPE System Identifier Double-Quoted state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
 			break;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier Double-Quoted state"];
+			[self emitParseError:@"abrupt-doctype-system-identifier" details:@"Unexpected character (0x003E, >) in DOCTYPE System identifier"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Before DOCTYPE System Identifier Double-Quoted state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUTF32Char(character)];
-			break;
+			return;
 	}
 }
 
@@ -2372,27 +2239,27 @@
 	switch (character) {
 		case APOSTROPHE:
 			[self switchToState:HTMLTokenizerStateAfterDOCTYPESystemIdentifier];
-			break;
+			return;
 		case NULL_CHAR:
-			[self emitParseError:@"NULL character (0x0000) in DOCTYPE System Identifier Single-Quoted state"];
+			[self emitParseError:@"unexpected-null-character" details:nil];
 			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUniChar(REPLACEMENT_CHAR)];
-			break;
+			return;
 		case GREATER_THAN_SIGN:
-			[self emitParseError:@"Unexpected character (0x003E, >) in Before DOCTYPE System Identifier Single-Quoted state"];
+			[self emitParseError:@"abrupt-doctype-system-identifier" details:@"Unexpected character (0x003E, >) in DOCTYPE System identifier"];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in Before DOCTYPE System Identifier Single-Quoted state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
 			[_currentDoctypeToken appendStringToSystemIdentifier:StringFromUTF32Char(character)];
-			break;
+			return;
 	}
 }
 
@@ -2404,22 +2271,24 @@
 		case LINE_FEED:
 		case FORM_FEED:
 		case SPACE:
-			break;
+			return;
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
 		case EOF:
-			[self emitParseError:@"EOF reached in After DOCTYPE System Identifier state"];
+			[self emitParseError:@"eof-in-doctype" details:nil];
 			[self switchToState:HTMLTokenizerStateData];
 			_currentDoctypeToken.forceQuirks = YES;
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			[self emitParseError:@"Unexpected character (%@) in After DOCTYPE System Identifier state", StringFromUTF32Char(character)];
+			[self emitParseError:@"unexpected-character-after-doctype-system-identifier"
+						 details:@"Unexpected character (%@) after DOCTYPE System identifier", StringFromUTF32Char(character)];
 			[self switchToState:HTMLTokenizerStateBogusDOCTYPE];
-			break;
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
 	}
 }
 
@@ -2430,24 +2299,324 @@
 		case GREATER_THAN_SIGN:
 			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			break;
+			return;
+		case NULL_CHAR:
+			[self emitParseError:@"unexpected-null-character" details:nil];
+			return;
 		case EOF:
-			[self switchToState:HTMLTokenizerStateData];
 			[self emitToken:_currentDoctypeToken];
-			[_inputStreamReader reconsumeCurrentInputCharacter];
-			break;
+			[self emitEOFToken];
+			return;
 		default:
-			break;
+			return;
 	}
 }
 
 - (void)HTMLTokenizerStateCDATASection
 {
-	[self switchToState:HTMLTokenizerStateData];
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case RIGHT_SQUARE_BRACKET:
+			[self switchToState:HTMLTokenizerStateCDATASectionBracket];
+			return;
+		case EOF:
+			[self emitParseError:@"eof-in-cdata" details:nil];
+			[self emitEOFToken];
+			return;
+		default:
+			[self emitCharacterToken:character];
+			return;
+	}
+}
 
-	NSString *characters = [_inputStreamReader consumeCharactersUpToString:@"]]>"];
-	[self emitCharacterTokenWithString:characters];
-	[_inputStreamReader consumeString:@"]]>" caseSensitive:NO];
+- (void)HTMLTokenizerStateCDATASectionBracket
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case RIGHT_SQUARE_BRACKET:
+			[self switchToState:HTMLTokenizerStateCDATASectionEnd];
+			return;
+		default:
+			[self emitCharacterToken:RIGHT_SQUARE_BRACKET];
+			[self switchToState:HTMLTokenizerStateCDATASection];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+
+- (void)HTMLTokenizerStateCDATASectionEnd
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case RIGHT_SQUARE_BRACKET:
+			[self emitCharacterToken:RIGHT_SQUARE_BRACKET];
+			return;
+		case GREATER_THAN_SIGN:
+			[self switchToState:HTMLTokenizerStateData];
+			return;
+		default:
+			[self emitCharacterTokenWithString:@"]]"];
+			[self switchToState:HTMLTokenizerStateCDATASection];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateCharacterReference
+{
+	_temporaryBuffer = [NSMutableString new];
+	[_temporaryBuffer appendString:@"&"];
+
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	if (isAlphanumeric(character)) {
+		[self switchToState:HTMLTokenizerStateNamedCharacterReference];
+		[_inputStreamReader unconsumeCurrentInputCharacter];
+		return;
+	}
+
+	switch (character) {
+		case NUMBER_SIGN:
+			[_temporaryBuffer appendString:@"#"];
+			[self switchToState:HTMLTokenizerStateNumericCharacterReference];
+			return;
+		default:
+			[self flushCodePointsConsumedAsCharacterReference];
+			[self switchToState:_characterReferenceReturnState];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateNamedCharacterReference
+{
+	NSArray *entities = [HTMLTokenizerEntities entities];
+
+	NSMutableString *name = [NSMutableString stringWithString:@""];
+	NSString *foundEntityName = nil;
+	NSString *foundEntityReplacement = nil;
+	UTF32Char lastConsumedCharacter = EOF;
+	NSUInteger searchIndex = 0;
+
+	[_inputStreamReader markCurrentLocation];
+
+	while (YES) {
+		lastConsumedCharacter = [_inputStreamReader consumeNextInputCharacter];
+		if (lastConsumedCharacter == EOF) break;
+
+		NSString *lastCharacterString = StringFromUTF32Char(lastConsumedCharacter);
+		[name appendString:lastCharacterString];
+
+		searchIndex= [entities indexOfObject:name
+							inSortedRange:NSMakeRange(searchIndex, entities.count - searchIndex)
+								  options:NSBinarySearchingInsertionIndex | NSBinarySearchingFirstEqual
+						  usingComparator:^ NSComparisonResult (id obj1, id obj2) { return [obj1 compare:obj2]; }];
+
+		if (searchIndex >= entities.count || ![[entities objectAtIndex:searchIndex] hasPrefix:name]) {
+			break;
+		}
+
+		if ([[entities objectAtIndex:searchIndex] isEqualToString:name]) {
+			foundEntityName = [name copy];
+			foundEntityReplacement = [HTMLTokenizerEntities replacementAtIndex:searchIndex];
+		}
+	}
+
+	[_inputStreamReader rewindToMarkedLocation];
+
+	if (foundEntityName) {
+		[_inputStreamReader consumeString:foundEntityName caseSensitive:YES];
+		[_temporaryBuffer appendString:foundEntityName];
+
+		BOOL inAttribute = (_characterReferenceReturnState == HTMLTokenizerStateAttributeValueUnquoted ||
+							_characterReferenceReturnState == HTMLTokenizerStateAttributeValueSingleQuoted ||
+							_characterReferenceReturnState == HTMLTokenizerStateAttributeValueDoubleQuoted);
+
+		unichar lastMatchedCharacter = [foundEntityName characterAtIndex:foundEntityName.length - 1];
+		UTF32Char nextCharacter = [_inputStreamReader nextInputCharacter];
+		if (inAttribute && lastMatchedCharacter != SEMICOLON && (nextCharacter == EQUALS_SIGN || isAlphanumeric(nextCharacter))) {
+			[self flushCodePointsConsumedAsCharacterReference];
+			[self switchToState:_characterReferenceReturnState];
+			return;
+		}
+
+		if (lastMatchedCharacter != SEMICOLON) {
+			[self emitParseError:@"missing-semicolon-after-character-reference" details:nil];
+		}
+
+		_temporaryBuffer = [NSMutableString new];
+		[_temporaryBuffer appendString:foundEntityReplacement];
+		[self flushCodePointsConsumedAsCharacterReference];
+		[self switchToState:_characterReferenceReturnState];
+	} else {
+		NSString *unknownEntity = name;
+		if (lastConsumedCharacter == SEMICOLON) {
+			unknownEntity = [name substringToIndex:name.length -1];
+		}
+		[_inputStreamReader consumeString:unknownEntity caseSensitive:YES];
+		[_temporaryBuffer appendString:unknownEntity];
+		[self flushCodePointsConsumedAsCharacterReference];
+		[self switchToState:HTMLTokenizerStateAmbiguousAmpersand];
+		return;
+	}
+}
+
+- (void)HTMLTokenizerStateAmbiguousAmpersand
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	if (isAlphanumeric(character)) {
+		if (_characterReferenceReturnState == HTMLTokenizerStateAttributeValueUnquoted ||
+			_characterReferenceReturnState == HTMLTokenizerStateAttributeValueSingleQuoted ||
+			_characterReferenceReturnState == HTMLTokenizerStateAttributeValueDoubleQuoted) {
+			[self appendToCurrentAttributeValue:StringFromUTF32Char(character)];
+		} else {
+			[self emitCharacterToken:character];
+		}
+		return;
+	}
+
+	switch (character) {
+		case SEMICOLON:
+			[self emitParseError:@"unknown-named-character-reference" details:@"Ambiguous ampersand followed by a semicolon encountered"];
+			[self switchToState:_characterReferenceReturnState];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+		default:
+			[self switchToState:_characterReferenceReturnState];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateNumericCharacterReference
+{
+	_characterReferenceCode = 0;
+	_characterReferenceOverflow = NO;
+
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	switch (character) {
+		case LATIN_CAPITAL_LETTER_X:
+		case LATIN_SMALL_LETTER_X:
+			[_temporaryBuffer appendString:StringFromUniChar(character)];
+			[self switchToState:HTMLTokenizerStateHexadecimalCharacterReferenceStart];
+			return;
+		default:
+			[self switchToState:HTMLTokenizerStateDecimalCharacterReferenceStart];
+			[_inputStreamReader reconsumeCurrentInputCharacter];
+			return;
+	}
+}
+
+- (void)HTMLTokenizerStateHexadecimalCharacterReferenceStart
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	if (isHexDigit(character)) {
+		[self switchToState:HTMLTokenizerStateHexadecimalCharacterReference];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
+	} else {
+		[self emitParseError:@"absence-of-digits-in-numeric-character-reference"
+					 details:@"Expected a hexadecimal digit but got character (%@) ", StringFromUTF32Char(character)];
+		[self flushCodePointsConsumedAsCharacterReference];
+		[self switchToState:_characterReferenceReturnState];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
+	}
+}
+
+- (void)HTMLTokenizerStateDecimalCharacterReferenceStart
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	if (isDigit(character)) {
+		[self switchToState:HTMLTokenizerStateDecimalCharacterReference];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
+	} else {
+		[self emitParseError:@"absence-of-digits-in-numeric-character-reference"
+					 details:@"Expected a decimal digit but got character (%@) ", StringFromUTF32Char(character)];
+		[self flushCodePointsConsumedAsCharacterReference];
+		[self switchToState:_characterReferenceReturnState];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
+	}
+}
+
+- (void)HTMLTokenizerStateHexadecimalCharacterReference
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	if (isDigit(character)) {
+		if (_characterReferenceCode > (ULLONG_MAX >> 4)) {
+			_characterReferenceOverflow = YES;
+		}
+		_characterReferenceCode <<= 4;
+
+		if (_characterReferenceCode > (ULLONG_MAX - (character - 0x0030))) {
+			_characterReferenceOverflow = YES;
+		}
+		_characterReferenceCode += (character - 0x0030);
+	} else if (isUpperHexDigit(character)) {
+		_characterReferenceCode <<= 4;
+		_characterReferenceCode += (character - 0x0037);
+	} else if (isLowerHexDigit(character)) {
+		_characterReferenceCode <<= 4;
+		_characterReferenceCode += (character - 0x0057);
+	} else if (character == SEMICOLON) {
+		[self switchToState:HTMLTokenizerStateNumericCharacterReferenceEnd];
+	} else {
+		[self emitParseError:@"missing-semicolon-after-character-reference"
+					 details:@"Expected semicolon but got (%@)", StringFromUTF32Char(character)];
+		[self switchToState:HTMLTokenizerStateNumericCharacterReferenceEnd];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
+	}
+}
+
+- (void)HTMLTokenizerStateDecimalCharacterReference
+{
+	UTF32Char character = [_inputStreamReader consumeNextInputCharacter];
+	if (isDigit(character)) {
+		if (_characterReferenceCode > (ULLONG_MAX / 10)) {
+			_characterReferenceOverflow = YES;
+		}
+		_characterReferenceCode = (_characterReferenceCode << 3) + (_characterReferenceCode << 1);
+
+		if (_characterReferenceCode > (ULLONG_MAX - (character - 0x0030))) {
+			_characterReferenceOverflow = YES;
+		}
+		_characterReferenceCode += (character - 0x0030);
+	} else if (character == SEMICOLON) {
+		[self switchToState:HTMLTokenizerStateNumericCharacterReferenceEnd];
+	} else {
+		[self emitParseError:@"missing-semicolon-after-character-reference"
+					 details:@"Expected semicolon but got (%@)", StringFromUTF32Char(character)];
+		[self switchToState:HTMLTokenizerStateNumericCharacterReferenceEnd];
+		[_inputStreamReader reconsumeCurrentInputCharacter];
+	}
+}
+
+- (void)HTMLTokenizerStateNumericCharacterReferenceEnd
+{
+	if (_characterReferenceOverflow) {
+		[self emitParseError:@"character-reference-outside-unicode-range" details:nil];
+		_characterReferenceCode = REPLACEMENT_CHAR;
+	} else if (_characterReferenceCode == NULL_CHAR) {
+		[self emitParseError:@"null-character-reference" details:nil];
+		_characterReferenceCode = REPLACEMENT_CHAR;
+	} else if (_characterReferenceCode > 0x10FFFF) {
+		[self emitParseError:@"character-reference-outside-unicode-range" details:nil];
+		_characterReferenceCode = REPLACEMENT_CHAR;
+	} else if (isSurrogate(_characterReferenceCode)) {
+		[self emitParseError:@"surrogate-character-reference" details:nil];
+		_characterReferenceCode = REPLACEMENT_CHAR;
+	} else if (isNoncharacter(_characterReferenceCode)) {
+		[self emitParseError:@"noncharacter-character-reference" details:nil];
+	} else if (_characterReferenceCode == CARRIAGE_RETURN || isControlCharacter(_characterReferenceCode)) {
+		[self emitParseError:@"control-character-reference" details:nil];
+		UTF32Char reference = NumericReplacementCharacter((UTF32Char)_characterReferenceCode);
+		if (reference != NULL_CHAR) {
+			_characterReferenceCode = reference;
+		}
+	}
+
+	_temporaryBuffer = [NSMutableString new];
+	[_temporaryBuffer appendString:StringFromUTF32Char((UTF32Char)_characterReferenceCode)];
+	[self flushCodePointsConsumedAsCharacterReference];
+	[self switchToState:_characterReferenceReturnState];
 }
 
 @end

@@ -33,6 +33,20 @@
 	return self;
 }
 
+- (BOOL)isEqual:(id)other
+{
+	if ([other isKindOfClass:[self class]]) {
+		HTMLParseErrorToken *token = (HTMLParseErrorToken *)other;
+		return bothNilOrEqual(self.code, token.code);
+	}
+	return NO;
+}
+
+- (NSUInteger)hash
+{
+	return self.code.hash + self.code.hash;
+}
+
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"<%@: %p Code='%@' Details='%@' Location='%lu'>", self.class, self, _code, _details, (unsigned long)_location];

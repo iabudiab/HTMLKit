@@ -14,9 +14,9 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *input;
 @property (nonatomic, strong) NSArray *output;
+@property (nonatomic, strong) NSArray *errors;
 @property (nonatomic, strong) NSArray *initialStates;
 @property (nonatomic, copy) NSString *lastStartTag;
-@property (nonatomic, assign) BOOL ignoreErrorOrder;
 
 + (NSDictionary *)loadHTML5LibTokenizerTests;
 
