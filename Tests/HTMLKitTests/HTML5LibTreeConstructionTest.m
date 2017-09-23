@@ -46,7 +46,7 @@ static NSString * const TreeConstruction = @"tree-construction";
 	NSMutableArray *tests = [NSMutableArray array];
 
 	NSScanner *scanner = [NSScanner scannerWithString:contents];
-	NSString * (^ nextTest)() = ^ NSString * () {
+	NSString * (^ nextTest)(void) = ^ NSString * () {
 		NSString *str;
 		[scanner scanUpToString:@"\n\n#data" intoString:&str];
 		return str;

@@ -589,7 +589,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 	CheckInvalidCombination(self, node, ValidationNodePreInsertion);
 
-	void (^ hierarchyError)() = ^{
+	void (^ hierarchyError)(void) = ^{
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error, inserting (%@) into (%@). The operation would yield an incorrect node tree.",
 		 ValidationNodePreInsertion, self, node];
@@ -639,7 +639,7 @@ NS_INLINE void CheckInvalidCombination(HTMLNode *parent, HTMLNode *node, NSStrin
 
 	CheckInvalidCombination(self, node, ValidationNodeReplacement);
 
-	void (^ hierarchyError)() = ^{
+	void (^ hierarchyError)(void) = ^{
 		[NSException raise:HTMLKitHierarchyRequestError
 					format:@"%@: Hierarchy Request Error. The operation would yield an incorrect node tree.",
 		 ValidationNodeReplacement];

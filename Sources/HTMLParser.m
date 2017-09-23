@@ -2530,7 +2530,7 @@
 			return;
 		case HTMLTokenTypeStartTag:
 		{
-			void (^ anythingElse)() = ^ {
+			void (^ anythingElse)(void) = ^ {
 				if (self.adjustedCurrentNode.htmlNamespace == HTMLNamespaceMathML) {
 					AdjustMathMLAttributes(token.asTagToken);
 				}
@@ -2545,7 +2545,7 @@
 				}
 			};
 
-			void (^ matchedCase)() = ^ {
+			void (^ matchedCase)(void) = ^ {
 				[self emitParseError:@"Unexpected start tag <%@> in foreign content", token.asTagToken.tagName];
 				if (_fragmentParsingAlgorithm) {
 					anythingElse();
