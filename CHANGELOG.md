@@ -1,5 +1,21 @@
 # Change Log
 
+## [2.1.0](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.0) 
+
+Released on 2017.10.12
+
+### Added
+
+- Standarized tokenizer error codes:
+	- [whatwg/html#2701](https://github.com/whatwg/html/pull/2701)
+	- [html5lib/html5lib-tests#92](https://github.com/html5lib/html5lib-tests/pull/92)
+
+### Updated
+
+- Project for Xcode 9
+- Travis config for iOS 11.0, macOS 10.13, tvOS 11.0 and watchOS 4.0
+- Updated HTML5Lib-Tests submodule (cbafeba)
+
 ## [2.0.6](https://github.com/iabudiab/HTMLKit/releases/tag/2.0.6) 
 
 Released on 2017.05.02
