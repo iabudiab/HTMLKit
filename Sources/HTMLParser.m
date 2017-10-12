@@ -73,6 +73,10 @@
 
 		_tokenizer = [[HTMLTokenizer alloc] initWithString:string ?: @""];
 		_tokenizer.parser = self;
+		__weak HTMLParser *weakSelf = self;
+		_tokenizer.parseErrorCallback = ^(HTMLParseErrorToken *token) {
+			[weakSelf emitParseError:@"Tokenization error: %@", token.asParseError];
+		};
 
 		_pendingTableCharacterTokens = [[HTMLCharacterToken alloc] initWithString:@""];
 
@@ -130,6 +134,10 @@
 	[self initializeDocument];
 	_tokenizer = [[HTMLTokenizer alloc] initWithString:_tokenizer.string];
 	_tokenizer.parser = self;
+	__weak HTMLParser *weakSelf = self;
+	_tokenizer.parseErrorCallback = ^(HTMLParseErrorToken *token) {
+		[weakSelf emitParseError:@"Tokenization error: %@", token.asParseError];
+	};
 
 	_contextElement = contextElement;
 	_fragmentParsingAlgorithm = YES;
@@ -225,11 +233,6 @@
 
 		return NO;
 	};
-
-	if (token.isParseError) {
-		[self emitParseError:@"Tokenizer Parser Error: %@", token.asParseError];
-		return;
-	}
 
 	if (_ignoreNextLineFeedCharacterToken) {
 		_ignoreNextLineFeedCharacterToken = NO;
