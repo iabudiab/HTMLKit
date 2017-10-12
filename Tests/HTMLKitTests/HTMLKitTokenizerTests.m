@@ -81,20 +81,31 @@
 
 		for (NSNumber *state in test.initialStates) {
 			HTMLTokenizer *tokenizer = [[HTMLTokenizer alloc] initWithString:test.input];
-			[tokenizer setValue:test.lastStartTag forKey:@"_lastStartTagName"];
 
+			[tokenizer setValue:test.lastStartTag forKey:@"_lastStartTagName"];
 			tokenizer.state = [state integerValue];
 
-			NSArray *expectedTokens = test.output;
-			NSArray *tokens = tokenizer.allObjects;
+			NSArray *expectedErrors = test.errors;
+			NSMutableArray *actualErrors = [NSMutableArray new];
+			tokenizer.parseErrorCallback = ^(HTMLParseErrorToken *token) {
+				[actualErrors addObject:token];
+			};
 
-			NSString *message = [NSString stringWithFormat:@"HTML5Lib test in file: \'%@\' Title: '%@'\nInput: '%@'\nExpected:\n%@\nActual:\n%@\n",
+			NSArray *expectedTokens = test.output;
+			NSArray *actualTokens = tokenizer.allObjects;
+
+			NSString *message = [NSString stringWithFormat:@"\nTest file: \'%@\'\nTitle: '%@'\nInput: '%@'\n",
 								 test.testFile,
 								 test.title,
-								 test.input,
-								 expectedTokens,
-								 tokens];
-			XCTAssertEqualObjects(tokens, expectedTokens, @"%@", message);
+								 test.input];
+			XCTAssertEqualObjects(actualTokens, expectedTokens, @"%@", message);
+
+
+			message = [NSString stringWithFormat:@"\nTest file: \'%@\'\nTitle: '%@'\nInput: '%@'\n",
+								 test.testFile,
+								 test.title,
+								 test.input];
+			XCTAssertEqualObjects(actualErrors, expectedErrors, @"%@", message);
 		}
 	}
 }

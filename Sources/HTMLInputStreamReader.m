@@ -48,10 +48,10 @@
 
 #pragma mark - Errors
 
-- (void)emitParseError:(NSString *)reason
+- (void)emitParseError:(NSString *)code details:(NSString *)details
 {
 	if (self.errorCallback) {
-		self.errorCallback(reason);
+		self.errorCallback(code, details);
 	}
 }
 
@@ -82,16 +82,16 @@
 		return LINE_FEED;
 	}
 	if (CFStringIsSurrogateLowCharacter(nextInputCharacter)) {
-		NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated low surrogate: 0x%X)", (unsigned int)nextInputCharacter];
-		[self emitParseError:reason];
+		NSString *details = [NSString stringWithFormat:@"Non-Unicode character found (an isolated low surrogate: 0x%X)", (unsigned int)nextInputCharacter];
+		[self emitParseError:@"surrogate-in-input-stream" details:details];
 		return nextInputCharacter;
 	}
 
 	if (CFStringIsSurrogateHighCharacter(nextInputCharacter)) {
 		UniChar surrogateLow = CFStringGetCharacterFromInlineBuffer(&_buffer, _location + 1);
 		if (CFStringIsSurrogateLowCharacter(surrogateLow) == NO) {
-			NSString *reason = [NSString stringWithFormat:@"Non-Unicode character found (an isolated high surrogate: 0x%X)", (unsigned int)nextInputCharacter];
-			[self emitParseError:reason];
+			NSString *details = [NSString stringWithFormat:@"Non-Unicode character found (an isolated high surrogate: 0x%X)", (unsigned int)nextInputCharacter];
+			[self emitParseError:@"surrogate-in-input-stream" details:details];
 			return nextInputCharacter;
 		}
 
@@ -99,9 +99,14 @@
 		nextInputCharacter = CFStringGetLongCharacterForSurrogatePair(nextInputCharacter, surrogateLow);
 	}
 
-	if (isControlOrUndefinedCharacter(nextInputCharacter)) {
-		NSString *reason = [NSString stringWithFormat:@"A control/undefined character found: (0x%X)", (unsigned int)nextInputCharacter];
-		[self emitParseError:reason];
+	if (isControlCharacter(nextInputCharacter)) {
+		NSString *details = [NSString stringWithFormat:@"A control character found: (0x%X)", (unsigned int)nextInputCharacter];
+		[self emitParseError:@"control-character-in-input-stream" details:details];
+	}
+
+	if (isNoncharacter(nextInputCharacter)) {
+		NSString *details = [NSString stringWithFormat:@"A noncharacter found: (0x%X)", (unsigned int)nextInputCharacter];
+		[self emitParseError:@"noncharacter-in-input-stream" details:details];
 	}
 
 	return nextInputCharacter;

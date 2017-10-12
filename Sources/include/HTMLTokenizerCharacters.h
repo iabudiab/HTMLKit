@@ -23,11 +23,16 @@
 	CHAR( DIGIT_NINE, 0x0039 ) \
 	CHAR( LATIN_CAPITAL_LETTER_A, 0x0041 ) \
 	CHAR( LATIN_CAPITAL_LETTER_F, 0x0046 ) \
+	CHAR( LATIN_CAPITAL_LETTER_P, 0x0050 ) \
+	CHAR( LATIN_CAPITAL_LETTER_S, 0x0053 ) \
 	CHAR( LATIN_CAPITAL_LETTER_X, 0x0058 ) \
 	CHAR( LATIN_CAPITAL_LETTER_Z, 0x005A ) \
+	CHAR( RIGHT_SQUARE_BRACKET, 0x005D ) \
 	CHAR( GRAVE_ACCENT, 0x0060 ) \
 	CHAR( LATIN_SMALL_LETTER_A, 0x0061 ) \
 	CHAR( LATIN_SMALL_LETTER_F, 0x0066 ) \
+	CHAR( LATIN_SMALL_LETTER_P, 0x0070 ) \
+	CHAR( LATIN_SMALL_LETTER_S, 0x0073 ) \
 	CHAR( LATIN_SMALL_LETTER_X, 0x0078 ) \
 	CHAR( LATIN_SMALL_LETTER_Z, 0x007A ) \
 	CHAR( HYPHEN_MINUS, 0x002D ) \
@@ -82,13 +87,17 @@ NUMERIC_REPLACEMENT_CHARACTERS
 #undef CHAR
 };
 
-NS_INLINE BOOL isControlOrUndefinedCharacter(UTF32Char character)
+NS_INLINE BOOL isControlCharacter(unsigned long long character)
 {
 	return ((character >= 0x0001 && character <= 0x0008) ||
-			(character >= 0x000D && character <= 0x001F) ||
-			(character >= 0x007F && character <= 0x009F) ||
-			(character >= 0xFDD0 && character <= 0xFDEF) ||
 			character == 0x000B ||
+			(character >= 0x000E && character <= 0x001F) ||
+			(character >= 0x007F && character <= 0x009F));
+}
+
+NS_INLINE BOOL isNoncharacter(unsigned long long character)
+{
+	return ((character >= 0xFDD0 && character <= 0xFDEF) ||
 			character == 0xFFFE ||
 			character == 0xFFFF ||
 			character == 0x1FFFE ||
@@ -137,6 +146,18 @@ NS_INLINE BOOL isHexDigit(UTF32Char character)
 			(character >= LATIN_SMALL_LETTER_A && character <= LATIN_SMALL_LETTER_F));
 }
 
+NS_INLINE BOOL isUpperHexDigit(UTF32Char character)
+{
+	return ((character >= LATIN_CAPITAL_LETTER_A && character <= LATIN_CAPITAL_LETTER_F) ||
+			(character >= DIGIT_ZERO && character <= DIGIT_NINE));
+}
+
+NS_INLINE BOOL isLowerHexDigit(UTF32Char character)
+{
+	return ((character >= LATIN_SMALL_LETTER_A && character <= LATIN_SMALL_LETTER_F) ||
+			(character >= DIGIT_ZERO && character <= DIGIT_NINE));
+}
+
 NS_INLINE BOOL isAlphanumeric(UTF32Char character)
 {
 	return ((character >= DIGIT_ZERO && character <= DIGIT_NINE) ||
@@ -151,17 +172,14 @@ NS_INLINE BOOL isStringAlphanumeric(NSString *string)
 	return ([string rangeOfCharacterFromSet:set].location == NSNotFound);
 }
 
-NS_INLINE BOOL isInvalidNumericRange(unsigned long long numeric)
+NS_INLINE BOOL isSurrogate(unsigned long long character)
 {
-	return ((numeric >= 0xD800 && numeric <= 0xDFFF) ||
-			numeric > 0x10FFFF);
+	return (character >= 0xD800 && character <= 0xDFFF);
 }
 
 NS_INLINE unichar NumericReplacementCharacter(UTF32Char character)
 {
-	if (character == NULL_CHAR) {
-		return REPLACEMENT_CHAR;
-	} else if (character >= 0x0080 && character <= 0x009F) {
+	if (character >= 0x0080 && character <= 0x009F) {
 		return NumericReplacementTable[character - 0x0080];
 	} else {
 		return NULL_CHAR;

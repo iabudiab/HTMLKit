@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8.3
+osx_image: xcode9
 
 branches:
   except:
@@ -17,27 +17,29 @@ env:
     - MACOS_FRAMEWORK_SCHEME=HTMLKit-macOS
     - WATCHOS_FRAMEWORK_SCHEME="HTMLKit-watchOS"
     - TVOS_FRAMEWORK_SCHEME="HTMLKit-tvOS"
-    - IOS_SDK=iphonesimulator10.3
-    - MACOS_SDK=macosx10.12
-    - WATCHOS_SDK=watchsimulator3.2
-    - TVOS_SDK=appletvsimulator10.2
+    - IOS_SDK=iphonesimulator11.0
+    - MACOS_SDK=macosx10.13
+    - WATCHOS_SDK=watchsimulator4.0
+    - TVOS_SDK=appletvsimulator11.0
   matrix:
-    - DESTINATION="arch=x86_64"                              SIMULATOR=""                                   SCHEME="$MACOS_FRAMEWORK_SCHEME"    SDK="$MACOS_SDK"
-    - DESTINATION="OS=8.4,name=iPhone 6 Plus"                SIMULATOR="iPhone 6 Plus (8.4)"                SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
-    - DESTINATION="OS=9.3,name=iPhone 6S Plus"               SIMULATOR="iPhone 6S Plus (9.3)"               SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
-    - DESTINATION="OS=10.3,name=iPhone 7 Plus"               SIMULATOR="iPhone 7 Plus (10.3)"               SCHEME="$IOS_FRAMEWORK_SCHEME"      SDK="$IOS_SDK"
-    - DESTINATION="OS=2.2,name=Apple Watch - 42mm"           SIMULATOR="Apple Watch - 42mm (2.2)"           SCHEME="$WATCHOS_FRAMEWORK_SCHEME"  SDK="$WATCHOS_SDK"
-    - DESTINATION="OS=3.2,name=Apple Watch Series 2 - 42mm"  SIMULATOR="Apple Watch Series 2 - 42mm (3.2)"  SCHEME="$WATCHOS_FRAMEWORK_SCHEME"  SDK="$WATCHOS_SDK"
-    - DESTINATION="OS=9.2,name=Apple TV 1080p"               SIMULATOR="Apple TV 1080p (9.2)"               SCHEME="$TVOS_FRAMEWORK_SCHEME"     SDK="$TVOS_SDK"
-    - DESTINATION="OS=10.2,name=Apple TV 1080p"              SIMULATOR="Apple TV 1080p (10.2)"              SCHEME="$TVOS_FRAMEWORK_SCHEME"     SDK="$TVOS_SDK"
+    - DESTINATION="arch=x86_64"                                SCHEME="$MACOS_FRAMEWORK_SCHEME"      SDK="$MACOS_SDK"
+    - DESTINATION="OS=9.3,name=iPhone 6s Plus"                 SCHEME="$IOS_FRAMEWORK_SCHEME"        SDK="$IOS_SDK"
+    - DESTINATION="OS=10.3.1,name=iPhone 7 Plus"               SCHEME="$IOS_FRAMEWORK_SCHEME"        SDK="$IOS_SDK"
+    - DESTINATION="OS=11.0,name=iPhone X"                      SCHEME="$IOS_FRAMEWORK_SCHEME"        SDK="$IOS_SDK"
+    - DESTINATION="OS=3.2,name=Apple Watch Series 2 - 42mm"    SCHEME="$WATCHOS_FRAMEWORK_SCHEME"    SDK="$WATCHOS_SDK"
+    - DESTINATION="OS=4.0,name=Apple Watch Series 3 - 42mm"    SCHEME="$WATCHOS_FRAMEWORK_SCHEME"    SDK="$WATCHOS_SDK"
+    - DESTINATION="OS=10.2,name=Apple TV 1080p"                SCHEME="$TVOS_FRAMEWORK_SCHEME"       SDK="$TVOS_SDK"
+    - DESTINATION="OS=11.0,name=Apple TV 4K"                   SCHEME="$TVOS_FRAMEWORK_SCHEME"       SDK="$TVOS_SDK"
 
 script:
   - set -o pipefail
   - xcodebuild -version
   - xcodebuild -showsdks
-  - SIMULATOR_ID=$(xcrun instruments -s devices | grep -io "$SIMULATOR \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
-  - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
   - travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO clean build | xcpretty -c
   - if [ "$SDK" != "$WATCHOS_SDK" ]; then
-      travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+      travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES test | xcpretty -c;
     fi
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+

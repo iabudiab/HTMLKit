@@ -70,16 +70,16 @@ static NSString * const Tokenizer = @"tokenizer";
 {
 	BOOL doubleEscaped = [test[@"doubleEscaped"] boolValue];
 
-		// Test Title
+	// Test Title
 	self.title = test[@"description"];
 
-		// Test Input
+	// Test Input
 	self.input = test[@"input"];
 	if (doubleEscaped) {
 		self.input = [self processDoubleEscaped:self.input];
 	}
 
-		// Test Output
+	// Test Output
 	NSMutableArray *tokens = [NSMutableArray array];
 	NSArray *outputs = test[@"output"];
 	for (NSArray *output in outputs) {
@@ -89,7 +89,7 @@ static NSString * const Tokenizer = @"tokenizer";
 	[tokens addObject:[HTMLEOFToken token]];
 	self.output = tokens;
 
-		// Test Initial States
+	// Test Initial States
 	NSMutableArray *initialStates = [NSMutableArray array];
 
 	NSArray *states = test[@"initialStates"];
@@ -101,6 +101,10 @@ static NSString * const Tokenizer = @"tokenizer";
 			state = HTMLTokenizerStateRCDATA;
 		} else if ([name isEqualToString:@"RAWTEXT state"]) {
 			state = HTMLTokenizerStateRAWTEXT;
+		} else if ([name isEqualToString:@"Script data state"]) {
+			state = HTMLTokenizerStateScriptData;
+		} else if ([name isEqualToString:@"CDATA section state"]) {
+			state = HTMLTokenizerStateCDATASection;
 		}
 		[initialStates addObject:@(state)];
 	}
@@ -110,19 +114,21 @@ static NSString * const Tokenizer = @"tokenizer";
 
 	self.initialStates = initialStates;
 
-		// Test Last Start Tag
+	// Test Last Start Tag
 	self.lastStartTag = test[@"lastStartTag"];
 
-		// Ignore Error Order
-	self.ignoreErrorOrder = [test[@"ignoreErrorOrder"] boolValue];
+	// Test errors
+	NSArray *errors = test[@"errors"];
+	NSMutableArray *errorTokens = [NSMutableArray new];
+	for (NSDictionary *error in errors) {
+		HTMLParseErrorToken *token = [[HTMLParseErrorToken alloc] initWithCode:error[@"code"] details:nil location:0];
+		[errorTokens addObject:token];
+	}
+	self.errors = errorTokens;
 }
 
 - (HTMLToken *)processOutputToken:(id)output doubleEscaped:(BOOL)doubleEscaped
 {
-	if ([output isKindOfClass:[NSString class]] && [output isEqualToString:@"ParseError"]) {
-		return [HTMLParseErrorToken new];
-	}
-
 	NSString *type = [output firstObject];
 
 	NSString *data = nil;
@@ -146,8 +152,6 @@ static NSString * const Tokenizer = @"tokenizer";
 		return token;
 	} else if ([type isEqualToString:@"EndTag"]) {
 		return [[HTMLEndTagToken alloc] initWithTagName:data];
-	} else if ([type isEqualToString:@"ParseError"]) {
-		return [HTMLParseErrorToken new];
 	} else if ([type isEqualToString:@"StartTag"]) {
 		HTMLStartTagToken *token = [[HTMLStartTagToken alloc] initWithTagName:data];
 		NSDictionary *attributes = output[2];

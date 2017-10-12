@@ -12,9 +12,7 @@
 
 #define TOKENIZER_STATES \
 	STATE_ENTRY( HTMLTokenizerStateData, = 0) \
-	STATE_ENTRY( HTMLTokenizerStateCharacterReferenceInData, ) \
 	STATE_ENTRY( HTMLTokenizerStateRCDATA, ) \
-	STATE_ENTRY( HTMLTokenizerStateCharacterReferenceInRCDATA, ) \
 	STATE_ENTRY( HTMLTokenizerStateRAWTEXT, ) \
 	STATE_ENTRY( HTMLTokenizerStateScriptData, ) \
 	STATE_ENTRY( HTMLTokenizerStatePLAINTEXT, ) \
@@ -59,6 +57,10 @@
 	STATE_ENTRY( HTMLTokenizerStateCommentStart, ) \
 	STATE_ENTRY( HTMLTokenizerStateCommentStartDash, ) \
 	STATE_ENTRY( HTMLTokenizerStateComment, ) \
+	STATE_ENTRY( HTMLTokenizerStateCommentLessThanSign, ) \
+	STATE_ENTRY( HTMLTokenizerStateCommentLessThanSignBang, ) \
+	STATE_ENTRY( HTMLTokenizerStateCommentLessThanSignBangDash, ) \
+	STATE_ENTRY( HTMLTokenizerStateCommentLessThanSignBangDashDash, ) \
 	STATE_ENTRY( HTMLTokenizerStateCommentEndDash, ) \
 	STATE_ENTRY( HTMLTokenizerStateCommentEnd, ) \
 	STATE_ENTRY( HTMLTokenizerStateCommentEndBang, ) \
@@ -78,7 +80,18 @@
 	STATE_ENTRY( HTMLTokenizerStateDOCTYPESystemIdentifierSingleQuoted, ) \
 	STATE_ENTRY( HTMLTokenizerStateAfterDOCTYPESystemIdentifier, ) \
 	STATE_ENTRY( HTMLTokenizerStateBogusDOCTYPE, ) \
-	STATE_ENTRY( HTMLTokenizerStateCDATASection, )
+	STATE_ENTRY( HTMLTokenizerStateCDATASection, ) \
+	STATE_ENTRY( HTMLTokenizerStateCDATASectionBracket, ) \
+	STATE_ENTRY( HTMLTokenizerStateCDATASectionEnd, ) \
+	STATE_ENTRY( HTMLTokenizerStateCharacterReference, ) \
+	STATE_ENTRY( HTMLTokenizerStateNamedCharacterReference, ) \
+	STATE_ENTRY( HTMLTokenizerStateAmbiguousAmpersand, ) \
+	STATE_ENTRY( HTMLTokenizerStateNumericCharacterReference, ) \
+	STATE_ENTRY( HTMLTokenizerStateHexadecimalCharacterReferenceStart, ) \
+	STATE_ENTRY( HTMLTokenizerStateDecimalCharacterReferenceStart, ) \
+	STATE_ENTRY( HTMLTokenizerStateHexadecimalCharacterReference, ) \
+	STATE_ENTRY( HTMLTokenizerStateDecimalCharacterReference, ) \
+	STATE_ENTRY( HTMLTokenizerStateNumericCharacterReferenceEnd, )
 
 typedef NS_ENUM(NSUInteger, HTMLTokenizerState)
 {

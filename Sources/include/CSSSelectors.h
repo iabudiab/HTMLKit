@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @return The universal CSS selector.
  */
-extern CSSSelector * universalSelector();
+extern CSSSelector * universalSelector(void);
 
 /**
  CSS type selector, e.g. 'div', 'p', ...etc.
@@ -125,7 +125,7 @@ extern CSSSelector * nthLastOfTypeSelector(CSSNthExpression expression);
 
  @return Odd-Child selector.
  */
-extern CSSSelector * oddSelector();
+extern CSSSelector * oddSelector(void);
 
 /**
  CSS even-child selector: ':nth-child(even)'
@@ -134,49 +134,49 @@ extern CSSSelector * oddSelector();
 
  @return Even-Child selector.
  */
-extern CSSSelector * evenSlector();
+extern CSSSelector * evenSlector(void);
 
 /**
  CSS first-child selector: ':nth-child(1)'
 
  @return First-Child selector.
  */
-extern CSSSelector * firstChildSelector();
+extern CSSSelector * firstChildSelector(void);
 
 /**
  CSS first-child selector: ':nth-last-child(1)'
 
  @return First-Child selector.
  */
-extern CSSSelector * lastChildSelector();
+extern CSSSelector * lastChildSelector(void);
 
 /**
  CSS first-of-type selector: ':nth-first-of-type(1)'
 
  @return First-Of-Type selector.
  */
-extern CSSSelector * firstOfTypeSelector();
+extern CSSSelector * firstOfTypeSelector(void);
 
 /**
  CSS last-of-type selector: ':nth-last-of-type(1)'
 
  @return Last-Of-Type selector.
  */
-extern CSSSelector * lastOfTypeSelector();
+extern CSSSelector * lastOfTypeSelector(void);
 
 /**
  CSS only-child selector: ':first-child:last-child'
 
  @return Only-Child selector.
  */
-extern CSSSelector * onlyChildSelector();
+extern CSSSelector * onlyChildSelector(void);
 
 /**
  CSS only-of-type selector: ':first-of-type:last-of-type'
 
  @return Only-Of-Type selector.
  */
-extern CSSSelector * onlyOfTypeSelector();
+extern CSSSelector * onlyOfTypeSelector(void);
 
 #pragma mark - Combinators
 

@@ -18,19 +18,22 @@
  */
 @interface HTMLParseErrorToken : HTMLToken
 
-/** @brief The error's reason message. */
-@property (nonatomic, copy) NSString *reason;
+/** @brief The parse error's code as specified at https://html.spec.whatwg.org/multipage/parsing.html#parse-errors. */
+@property (nonatomic, strong, readonly) NSString *code;
+
+/** @brief Additional detailed error information. */
+@property (nonatomic, strong, readonly) NSString *details;
 
 /** @brief The error's location in the stream. */
-@property (nonatomic, assign) NSUInteger location;
+@property (nonatomic, assign, readonly) NSUInteger location;
 
 /**
  Initializes a new Parse Error token.
 
- @param reason The error's reason message.
+ @param code The parse error's as specified at https://html.spec.whatwg.org/multipage/parsing.html#parse-errors.
  @param location The error's location in the stream.
  @return A new instance of a parse error token.
  */
-- (instancetype)initWithReasonMessage:(NSString *)reason andStreamLocation:(NSUInteger)location;
+- (instancetype)initWithCode:(NSString *)code details:(NSString *)details location:(NSUInteger)location;
 
 @end

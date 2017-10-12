@@ -17,6 +17,13 @@
 @class HTMLParser;
 
 /**
+ Typedef for the parse error callback block.
+
+ @param token The parse error token.
+ */
+typedef void (^ HTMLTokenizerParseErrorCallback)(HTMLParseErrorToken *token);
+
+/**
  * HTML Tokenizer
  * https://html.spec.whatwg.org/multipage/syntax.html#tokenization
  */
@@ -38,6 +45,13 @@
  @see HTMLParser
  */
 @property (nonatomic, weak) HTMLParser *parser;
+
+/**
+ An error callback block, which gets called when encountering parse errors while tokenizing the stream
+ 
+ Parse error tokens are dropped if the callback is `nil`.
+ */
+@property (nonatomic, copy) HTMLTokenizerParseErrorCallback parseErrorCallback;
 
 /**
  Initializes a new Tokenizer with the given string.

@@ -15,102 +15,102 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  @return Root element selector: ':root'
  */
-extern CSSSelector * rootSelector();
+extern CSSSelector * rootSelector(void);
 
 /**
  @return Empy element selector: ':empty'
  */
-extern CSSSelector * emptySelector();
+extern CSSSelector * emptySelector(void);
 
 /**
  @return A parent element selector: ':parent'
  */
-extern CSSSelector * parentSelector();
+extern CSSSelector * parentSelector(void);
 
 /**
  @return A button element selector: ':button'
  */
-extern CSSSelector * buttonSelector();
+extern CSSSelector * buttonSelector(void);
 
 /**
  @return A checkbox element selector: ':checkbox'
  */
-extern CSSSelector * checkboxSelector();
+extern CSSSelector * checkboxSelector(void);
 
 /**
  @return A file element selector: ':file'
  */
-extern CSSSelector * fileSelector();
+extern CSSSelector * fileSelector(void);
 
 /**
  @return A header element selector: ':header'
  */
-extern CSSSelector * headerSelector();
+extern CSSSelector * headerSelector(void);
 
 /**
  @return An image element selector: ':image'
  */
-extern CSSSelector * imageSelector();
+extern CSSSelector * imageSelector(void);
 
 /**
  @return A parent element selector: ':parent'
  */
-extern CSSSelector * inputSelector();
+extern CSSSelector * inputSelector(void);
 
 /**
  @return A link element selector: ':link'
  */
-extern CSSSelector * linkSelector();
+extern CSSSelector * linkSelector(void);
 
 /**
  @return A password element selector: ':password'
  */
-extern CSSSelector * passwordSelector();
+extern CSSSelector * passwordSelector(void);
 
 /**
  @return A radio element selector: ':radio'
  */
-extern CSSSelector * radioSelector();
+extern CSSSelector * radioSelector(void);
 
 /**
  @return A reset element selector: ':reset'
  */
-extern CSSSelector * resetSelector();
+extern CSSSelector * resetSelector(void);
 
 /**
  @return A submit element selector: ':submit'
  */
-extern CSSSelector * submitSelector();
+extern CSSSelector * submitSelector(void);
 
 /**
  @return A text element selector: ':text'
  */
-extern CSSSelector * textSelector();
+extern CSSSelector * textSelector(void);
 
 /**
  @return An enabled element selector: ':enabled'
  */
-extern CSSSelector * enabledSelector();
+extern CSSSelector * enabledSelector(void);
 
 /**
  @return A disabled element selector: ':disabled'
  */
-extern CSSSelector * disabledSelector();
+extern CSSSelector * disabledSelector(void);
 
 /**
  @return A checked element selector: ':checked'
  */
-extern CSSSelector * checkedSelector();
+extern CSSSelector * checkedSelector(void);
 
 /**
  @return An optional element selector: ':optional'
  */
-extern CSSSelector * optionalSelector();
+extern CSSSelector * optionalSelector(void);
 
 /**
  @return A required element selector: ':required'
  */
-extern CSSSelector * requiredSelector();
+extern CSSSelector * requiredSelector(void);
 
 /**
  Less-than selector, e.g. 'lt(2)'

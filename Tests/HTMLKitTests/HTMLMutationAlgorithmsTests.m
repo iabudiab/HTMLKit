@@ -157,7 +157,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	HTMLDocument *document = [HTMLDocument new];
 	HTMLDocumentFragment *fragment = [[HTMLDocumentFragment alloc] initWithDocument:document];
 
-	void (^ reset)() = ^ {
+	void (^ reset)(void) = ^ {
 		[fragment removeAllChildNodes];
 		[document removeAllChildNodes];
 	};
@@ -213,7 +213,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	HTMLDocument *document = [HTMLDocument new];
 	HTMLElement *element = [HTMLElement new];
 
-	void (^ reset)() = ^ {
+	void (^ reset)(void) = ^ {
 		[element removeAllChildNodes];
 		[document removeAllChildNodes];
 	};
@@ -247,7 +247,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	HTMLDocument *document = [HTMLDocument new];
 	HTMLDocumentType *doctype = [HTMLDocumentType new];
 
-	void (^ reset)() = ^ {
+	void (^ reset)(void) = ^ {
 		[document removeAllChildNodes];
 	};
 
@@ -280,7 +280,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	HTMLComment *child = [HTMLComment new];
 	HTMLDocumentFragment *replacement = [[HTMLDocumentFragment alloc] initWithDocument:document];
 
-	void (^ reset)() = ^ {
+	void (^ reset)(void) = ^ {
 		[replacement removeAllChildNodes];
 		[document removeAllChildNodes];
 		[document appendNode:child];
@@ -326,7 +326,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	HTMLComment *child = [HTMLComment new];
 	HTMLElement *replacement = [HTMLElement new];
 
-	void (^ reset)() = ^ {
+	void (^ reset)(void) = ^ {
 		[replacement removeAllChildNodes];
 		[document removeAllChildNodes];
 		[document appendNode:child];
@@ -353,7 +353,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	HTMLComment *child = [HTMLComment new];
 	HTMLDocumentType *replacement = [HTMLDocumentType new];
 
-	void (^ reset)() = ^ {
+	void (^ reset)(void) = ^ {
 		[replacement removeAllChildNodes];
 		[document removeAllChildNodes];
 		[document appendNode:child];
