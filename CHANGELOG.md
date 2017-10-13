@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.1.1](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.1) 
+
+Released on 2017.10.13
+
+### Hotfix
+
+- Fixed documentation comments
+	- Should fix CocoaDocs generation and percentage
+
+
 ## [2.1.0](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.0) 
 
 Released on 2017.10.12
