@@ -113,16 +113,16 @@ typedef NS_ENUM(unsigned short, HTMLRangeComparisonMethod)
 /**
  Sets the start boundary.
 
- @param startNode The new node of the start boundary.
- @param startOffset The new offset of the start boundary.
+ @param node The new node of the start boundary.
+ @param offset The new offset of the start boundary.
  */
 - (void)setStartNode:(HTMLNode *)node startOffset:(NSUInteger)offset;
 
 /**
  Sets the end boundary.
 
- @param startNode The new node of the end boundary.
- @param startOffset The new offset of the end boundary.
+ @param node The new node of the end boundary.
+ @param offset The new offset of the end boundary.
  */
 - (void)setEndNode:(HTMLNode *)node endOffset:(NSUInteger)offset;
 

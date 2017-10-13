@@ -24,7 +24,7 @@
 /**
  Initializes a new comment token.
 
- @param string The string with which to initialize the token.
+ @param data The string with which to initialize the token.
  @return A new instance of a comment token.
  */
 - (instancetype)initWithData:(NSString *)data;
