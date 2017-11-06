@@ -74,12 +74,11 @@ NS_INLINE void CheckValidOffset(HTMLNode *node, NSUInteger offset, NSString *cmd
 		 @"plaintext", @"noscript", nil]) {
 		return self.data;
 	} else {
-		NSRange range = NSMakeRange(0, self.data.length);
 		NSMutableString *escaped = [self.data mutableCopy];
-		[escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:range];
-		[escaped replaceOccurrencesOfString:@"\00A0" withString:@"&nbsp;" options:0 range:range];
-		[escaped replaceOccurrencesOfString:@"<" withString:@"&lt;" options:0 range:range];
-		[escaped replaceOccurrencesOfString:@">" withString:@"&gt;" options:0 range:range];
+		[escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, escaped.length)];
+		[escaped replaceOccurrencesOfString:@"\00A0" withString:@"&nbsp;" options:0 range:NSMakeRange(0, escaped.length)];
+		[escaped replaceOccurrencesOfString:@"<" withString:@"&lt;" options:0 range:NSMakeRange(0, escaped.length)];
+		[escaped replaceOccurrencesOfString:@">" withString:@"&gt;" options:0 range:NSMakeRange(0, escaped.length)];
 		return escaped;
 	}
 }
