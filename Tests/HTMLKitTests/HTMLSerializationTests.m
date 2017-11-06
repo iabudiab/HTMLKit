@@ -33,6 +33,12 @@
 	XCTAssertEqualObjects(document.body.outerHTML, html);
 }
 
+- (void)testBugFix_Issue_17
+{
+	NSString *html = @"<body key='& testing 0x00A0'></body>";
+	HTMLDocument *document = [HTMLDocument documentWithString:html];
+
+	XCTAssertEqualObjects(document.body.outerHTML, @"<body key=\"&amp; testing &nbsp;\"></body>");
 }
 
 @end
