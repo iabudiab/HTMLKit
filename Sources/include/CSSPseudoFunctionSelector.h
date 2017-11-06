@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Initializes and returns a CSS has-descendant selector, e.g. 'div:has(p)'
 
- @discussion 'div:has(p)' matches all <div> elements which have a descendant <p> element.
+ @discussion 'div:has(p)' matches all &lt;div&gt; elements which have a descendant &lt;p&gt; element.
 
  @param selector The selector matching a descendant element.
  @return A new instance of the has-descendant selector.

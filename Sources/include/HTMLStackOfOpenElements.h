@@ -79,7 +79,7 @@
 /**
  Checks whether an element with the given tag name is in the stack.
 
- @param tagname The element's tag name.
+ @param tagName The element's tag name.
  @return `YES` if such an element is in the stack, `NO` otherwise.
  */
 - (BOOL)containsElementWithTagName:(NSString *)tagName;

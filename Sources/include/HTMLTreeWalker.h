@@ -49,7 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
  Initializes a new tree walker with no filter and HTMLNodeFilterShowAll show options.
 
  @param node The root node.
- @param filter The node filter to use.
  @return A new instance of a tree walker.
  */
 - (instancetype)initWithNode:(HTMLNode *)node;

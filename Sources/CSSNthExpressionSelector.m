@@ -38,7 +38,7 @@ NSString * _Nonnull NSStringFromNthExpression(CSSNthExpression expression)
 
 #pragma mark - Implementation
 
-NSInteger computeIndex(NSEnumerator *enumerator, HTMLElement *element)
+NS_INLINE NSInteger computeIndex(NSEnumerator *enumerator, HTMLElement *element)
 {
 	NSInteger index = 0;
 	for (HTMLNode *node in enumerator) {

@@ -1,5 +1,15 @@
 # Change Log
 
+## [2.1.2](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.2) 
+
+Released on 2017.11.6
+
+### Fixes
+
+- `HTMLText` serialization (issue #16)
+- `HTMLElement` attribute value serialization (issue #17)
+
+
 ## [2.1.1](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.1) 
 
 Released on 2017.10.13

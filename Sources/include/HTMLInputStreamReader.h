@@ -15,7 +15,8 @@
 /** 
  Typedef for the error callback block.
 
- @param reason The string describing the reason of the reported error.
+ @param code The standarized error-code
+ @param details The string describing the reason of the reported error.
  */
 typedef void (^ HTMLStreamReaderErrorCallback)(NSString *code, NSString *details);
 
