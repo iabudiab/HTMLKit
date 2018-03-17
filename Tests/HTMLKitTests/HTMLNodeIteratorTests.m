@@ -592,4 +592,20 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	XCTAssertEqual(0, nodeIterators.count);
 }
 
+- (void)testBugFix_Issue_21 {
+    // The issue is applicable only for devices. On simulator the test is passed.
+    HTMLDocument *document = [HTMLDocument documentWithString:@"<div id=\"id\"></div>"];
+    
+    NSString *divId = @"id";
+    HTMLNodeFilterBlock *filter = [HTMLNodeFilterBlock filterWithBlock:^HTMLNodeFilterValue(HTMLNode * _Nonnull node) {
+        HTMLElement *element = (HTMLElement *)node;
+        return [element.elementId isEqualToString:divId] ? HTMLNodeFilterAccept : HTMLNodeFilterSkip;
+    }];
+    
+    HTMLNodeIterator *iterator = [document nodeIteratorWithShowOptions:HTMLNodeFilterShowElement filter:filter];
+    
+    HTMLElement *element = (HTMLElement*)iterator.nextObject;
+    XCTAssertTrue([element.elementId isEqualToString:divId]);
+}
+
 @end
