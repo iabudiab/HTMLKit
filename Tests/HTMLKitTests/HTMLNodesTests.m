@@ -512,4 +512,15 @@
 	XCTAssertTrue([image compareDocumentPositionWithNode:outerDiv] == (HTMLDocumentPositionContainedBy | HTMLDocumentPositionFollowing));
 }
 
+- (void)testDeepCloneElement {
+    HTMLElement *element = [HTMLElement new];
+    element.elementId = @"originalId";
+    
+    HTMLElement *clone = [element cloneNodeDeep:YES];
+    NSString *cloneId = @"cloneId";
+    clone.elementId = cloneId;
+    
+    XCTAssertTrue([clone.elementId isEqualToString:cloneId]);
+}
+
 @end
