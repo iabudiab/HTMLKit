@@ -592,7 +592,7 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	XCTAssertEqual(0, nodeIterators.count);
 }
 
-- (void)testBugFix_Issue_21 {
+- (void)testBugFix_Issue_22 {
     // The issue is applicable only for devices. On simulator the test is passed.
     HTMLDocument *document = [HTMLDocument documentWithString:@"<div id=\"id\"></div>"];
     
