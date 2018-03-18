@@ -15,7 +15,7 @@
 
 @interface HTMLNodeFilterBlock ()
 {
-	BOOL (^ _block)(HTMLNode *);
+	HTMLNodeFilterValue (^ _block)(HTMLNode *);
 }
 @end
 
