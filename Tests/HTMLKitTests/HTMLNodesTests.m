@@ -513,14 +513,47 @@
 }
 
 - (void)testDeepCloneElement {
-    HTMLElement *element = [HTMLElement new];
-    element.elementId = @"originalId";
-    
-    HTMLElement *clone = [element cloneNodeDeep:YES];
-    NSString *cloneId = @"cloneId";
-    clone.elementId = cloneId;
-    
-    XCTAssertTrue([clone.elementId isEqualToString:cloneId]);
+	HTMLElement *outer = [[HTMLElement alloc] initWithTagName:@"div"
+													 attributes:@{@"id": @"outer",
+																  @"class": @"green"}];
+
+	HTMLElement *innerLevel1 = [[HTMLElement alloc] initWithTagName:@"div"
+												 attributes:@{@"id": @"inner1",
+															  @"class": @"red"}];
+
+	HTMLElement *innerLevel2 = [[HTMLElement alloc] initWithTagName:@"div"
+														 attributes:@{@"id": @"inner2",
+																	  @"class": @"red"}];
+
+	[outer appendNode:innerLevel1];
+	[innerLevel1 appendNode:innerLevel2];
+
+    HTMLElement *clone = [outer cloneNodeDeep:YES];
+
+	XCTAssertNotEqual(clone, outer);
+	XCTAssertEqualObjects(clone.elementId, outer.elementId);
+	XCTAssertEqualObjects(clone.attributes, outer.attributes);
+
+	XCTAssertNotEqual(clone.firstChild, innerLevel1);
+	XCTAssertEqualObjects(clone.firstChild.asElement.elementId, innerLevel1.elementId);
+	XCTAssertEqualObjects(clone.firstChild.asElement.attributes, innerLevel1.attributes);
+
+	XCTAssertNotEqual(clone.firstChild, innerLevel2);
+	XCTAssertEqualObjects(clone.firstChild.firstChild.asElement.elementId, innerLevel2.elementId);
+	XCTAssertEqualObjects(clone.firstChild.firstChild.asElement.attributes, innerLevel2.attributes);
+}
+
+#pragma mark - Bug Fixes
+
+- (void)testBugFix_Issue_20 {
+	HTMLElement *element = [HTMLElement new];
+	element.elementId = @"originalId";
+
+	HTMLElement *clone = [element cloneNodeDeep:YES];
+	NSString *cloneId = @"cloneId";
+	clone.elementId = cloneId;
+
+	XCTAssertTrue([clone.elementId isEqualToString:cloneId]);
 }
 
 @end
