@@ -543,6 +543,18 @@
 	XCTAssertEqualObjects(clone.firstChild.firstChild.asElement.attributes, innerLevel2.attributes);
 }
 
+- (void)testDeepCloneElementAttributes {
+	HTMLElement *div = [[HTMLElement alloc] initWithTagName:@"div"
+												   attributes:@{@"id": @"outer",
+																@"class": @"green",
+																@"data": @"test"}];
+
+	HTMLElement *clone = [div cloneNodeDeep:YES];
+
+	XCTAssertEqualObjects(clone.attributes, div.attributes);
+	XCTAssertTrue([clone.attributes isKindOfClass:[HTMLOrderedDictionary class]]);
+}
+
 #pragma mark - Bug Fixes
 
 - (void)testBugFix_Issue_20 {

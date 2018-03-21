@@ -24,3 +24,5 @@
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLNamespaces.h"
 #import "HTMLQuirksMode.h"
+
+#import "HTMLOrderedDictionary.h"

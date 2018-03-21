@@ -154,4 +154,11 @@
 	return [_keys countByEnumeratingWithState:state objects:buffer count:len];
 }
 
+#pragma mark - Copying
+
+- (id)mutableCopy
+{
+	return [[HTMLOrderedDictionary alloc] initWithDictionary:self];
+}
+
 @end
