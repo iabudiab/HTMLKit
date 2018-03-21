@@ -1,5 +1,17 @@
 # Change Log
 
+## [2.1.3](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.3) 
+
+Released on 2018.03.21
+
+### Fixes
+
+- `HTMLElement` clone would return an immutable dictionary for attributes (issue #20)
+	- Fixed by @CRivlaldo in PR #24
+- `HTMLNodeFilterBlock` would behave differently on simulator and device (issue #22)
+	- Fixed by @CRivlaldo in PR #23
+
+
 ## [2.1.2](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.2) 
 
 Released on 2017.11.6
