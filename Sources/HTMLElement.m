@@ -144,7 +144,7 @@
 {
 	HTMLElement *copy = [super copyWithZone:zone];
 	copy->_tagName = [_tagName copy];
-	copy->_attributes = [_attributes copy];
+	copy->_attributes = [_attributes mutableCopy];
 	copy->_htmlNamespace = _htmlNamespace;
 	return copy;
 }
