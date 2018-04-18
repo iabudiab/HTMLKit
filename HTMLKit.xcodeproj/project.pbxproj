@@ -11,6 +11,9 @@
 		62056C501E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62056C4E1E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		62056C511E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62056C4E1E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		62056C521E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 62056C4E1E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		620AB7B12087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = 620AB7B02087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m */; };
+		620AB7B22087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = 620AB7B02087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m */; };
+		620AB7B32087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m in Sources */ = {isa = PBXBuildFile; fileRef = 620AB7B02087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m */; };
 		62132E5A1C01F83200084175 /* CSSSelectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 62132E581C01F83200084175 /* CSSSelectorTest.m */; };
 		62132E5D1C021FF200084175 /* css-tests in Resources */ = {isa = PBXBuildFile; fileRef = 62132E5B1C021FF200084175 /* css-tests */; };
 		6216ACFD1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6216ACFC1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m */; };
@@ -584,6 +587,7 @@
 /* Begin PBXFileReference section */
 		62056C4E1E2AD9FB009A4EE0 /* HTMLNodeIterator+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HTMLNodeIterator+Private.h"; path = "include/HTMLNodeIterator+Private.h"; sourceTree = "<group>"; };
 		62079BE71AF56F1E00D3B402 /* CSSSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSSelector.h; path = include/CSSSelector.h; sourceTree = "<group>"; };
+		620AB7B02087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CSSStructuralPseudoSelectors.m; path = HTMLKitTests/CSSStructuralPseudoSelectors.m; sourceTree = "<group>"; };
 		620C87791BD44CBE00FB3EEE /* CSSCompoundSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSCompoundSelector.h; path = include/CSSCompoundSelector.h; sourceTree = "<group>"; };
 		620C877A1BD44CBE00FB3EEE /* CSSCompoundSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSCompoundSelector.m; sourceTree = "<group>"; };
 		620EE9471BC46F2A0028ED34 /* CSSPseudoClassSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSPseudoClassSelector.h; path = include/CSSPseudoClassSelector.h; sourceTree = "<group>"; };
@@ -1144,6 +1148,7 @@
 				624AB3191B050A4D00F3830D /* CSSAttributeSelectorTests.m */,
 				62F6586F1BD83C8E0045F137 /* CSSNThExpressionSelectorTests.m */,
 				621FBE5C1BDAD90200BC9555 /* CSSCombinatorSelectorTests.m */,
+				620AB7B02087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m */,
 			);
 			name = Selectors;
 			sourceTree = "<group>";
@@ -1750,6 +1755,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				62EC0A851E158BD80007786B /* HTMLRangeTests.m in Sources */,
+				620AB7B12087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m in Sources */,
 				62E0BA971E25456700E4D193 /* HTMLCharacterDataTests.m in Sources */,
 				6216ACFD1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m in Sources */,
 				62132E5A1C01F83200084175 /* CSSSelectorTest.m in Sources */,
@@ -1893,6 +1899,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				62EC0A871E158BD80007786B /* HTMLRangeTests.m in Sources */,
+				620AB7B32087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m in Sources */,
 				62E0BA991E25456700E4D193 /* HTMLCharacterDataTests.m in Sources */,
 				62857D3B1D39A345008DC254 /* CSSSelectorTest.m in Sources */,
 				62857D421D39A345008DC254 /* CSSCombinatorSelectorTests.m in Sources */,
@@ -1981,6 +1988,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				62EC0A861E158BD80007786B /* HTMLRangeTests.m in Sources */,
+				620AB7B22087F18D00AFCCC7 /* CSSStructuralPseudoSelectors.m in Sources */,
 				62E0BA981E25456700E4D193 /* HTMLCharacterDataTests.m in Sources */,
 				6216ACFE1C28DCC80074CAB4 /* CSSExtensionSelectorsParsingTests.m in Sources */,
 				62ECBFCA1C0B6E2E00AF847B /* HTML5LibTokenizerTest.m in Sources */,
