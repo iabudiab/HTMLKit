@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.1.4](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.4) 
+
+Released on 2018.05.01
+
+### Fixes
+
+- `gt(n)`, `lt(n)` and `eq(n)` selectors would select wrong elements for the zero-index (issue #25)
+
+
 ## [2.1.3](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.3) 
 
 Released on 2018.03.21
