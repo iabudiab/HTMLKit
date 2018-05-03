@@ -127,7 +127,7 @@ NSString * const RemoveChildNode = @"-removeChildNode:";
 
 - (HTMLElement *)nextSiblingElement
 {
-	HTMLNode *node = self.previousSibling;
+	HTMLNode *node = self.nextSibling;
 	while (node && node.nodeType != HTMLNodeElement) {
 		node = node.nextSibling;
 	}
