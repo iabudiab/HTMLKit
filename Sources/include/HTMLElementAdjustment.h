@@ -140,31 +140,3 @@ NS_INLINE void AdjustSVGNameCase(HTMLTagToken *token)
 	NSString *replacement = replacements[token.tagName] ?: token.tagName;
 	token.tagName = replacement;
 }
-
-NS_INLINE void AdjustForeignAttributes(HTMLTagToken *token)
-{
-	if (token.attributes == nil) {
-		return;
-	}
-
-	NSDictionary *replacements = @{ @"xlink:actuate": @"xlink actuate",
-									@"xlink:arcrole": @"xlink arcrole",
-									@"xlink:href": @"xlink href",
-									@"xlink:role": @"xlink role",
-									@"xlink:show": @"xlink show",
-									@"xlink:title": @"xlink title",
-									@"xlink:type": @"xlink type",
-									@"xml:base": @"xml base",
-									@"xml:lang": @"xml lang",
-									@"xml:space": @"xml space",
-									@"xmlns": @"xmlns",
-									@"xmlns:xlink": @"xmlns xlink"};
-
-	HTMLOrderedDictionary *adjusted = [HTMLOrderedDictionary new];
-	for (id key in token.attributes) {
-		NSString *replacement = replacements[key] ?: key;
-		adjusted[replacement] = token.attributes[key];
-	}
-	token.attributes = adjusted;
-}
-

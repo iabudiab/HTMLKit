@@ -9,6 +9,7 @@
 #import "HTML5LibTreeConstructionTest.h"
 #import <XCTest/XCTest.h>
 
+#import "HTMLDOM.h"
 #import "HTMLDocumentType.h"
 #import "HTMLElement.h"
 #import "HTMLText.h"
@@ -289,6 +290,8 @@ NS_INLINE NSArray * parseAttribute(NSString *str)
 	NSRange range = [str rangeOfString:@"=" options:0];
 
 	NSString *key = [str substringToIndex:range.location];
+	key = [key stringByReplacingOccurrencesOfString:@" " withString:@":"];
+
 	NSString *value = [str substringFromIndex:range.location + 2];
 	value = [value substringToIndex:value.length - 1];
 
