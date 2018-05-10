@@ -48,6 +48,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSUInteger)leadingHTMLWhitespaceLength;
 
+/**
+Escapes this string as specified in `https://html.spec.whatwg.org/multipage/parsing.html#escapingString`
+
+ @return A copy of this string by HTML-escaping this stirng.
+ */
+- (NSString *)stringByEscapingForHTML;
+
 @end
 
 NS_ASSUME_NONNULL_END

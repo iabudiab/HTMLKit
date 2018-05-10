@@ -58,4 +58,15 @@ NS_INLINE BOOL isHtmlWhitespaceChar(unichar c)
 	return idx;
 }
 
+- (NSString *)stringByEscapingForHTML
+{
+	NSMutableString *escaped = [self mutableCopy];
+	[escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, escaped.length)];
+	[escaped replaceOccurrencesOfString:@"0x00A0" withString:@"&nbsp;" options:0 range:NSMakeRange(0, escaped.length)];
+	[escaped replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:0 range:NSMakeRange(0, escaped.length)];
+	[escaped replaceOccurrencesOfString:@"<" withString:@"&lt;" options:0 range:NSMakeRange(0, escaped.length)];
+	[escaped replaceOccurrencesOfString:@">" withString:@"&gt;" options:0 range:NSMakeRange(0, escaped.length)];
+	return escaped;
+}
+
 @end

@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "NSString+HTMLKit.h"
+#import "HTMLDOM.h"
 
 @interface HTMLKitStringCategoryTests : XCTestCase
 
@@ -77,6 +78,22 @@
 
 	XCTAssertEqual([@"\t\r\n\f " leadingHTMLWhitespaceLength], 5);
 	XCTAssertEqual([@"\t\r\n\f\0 " leadingHTMLWhitespaceLength], 4);
+}
+
+- (void)testStringByEscapingForHTML
+{
+	XCTAssertEqualObjects(@"".stringByEscapingForHTML, @"");
+	XCTAssertEqualObjects(@"&".stringByEscapingForHTML, @"&amp;");
+	XCTAssertEqualObjects(@"0x00A0".stringByEscapingForHTML, @"&nbsp;");
+	XCTAssertEqualObjects(@"\"".stringByEscapingForHTML, @"&quot;");
+	XCTAssertEqualObjects(@"<".stringByEscapingForHTML, @"&lt;");
+	XCTAssertEqualObjects(@">".stringByEscapingForHTML, @"&gt;");
+	XCTAssertEqualObjects(@"&0x00A0\"<>".stringByEscapingForHTML, @"&amp;&nbsp;&quot;&lt;&gt;");
+
+	NSString *input = @"This is an <b>email</b>: John Do <john@do.com>";
+	NSString *escaped = input.stringByEscapingForHTML;
+	XCTAssertNotEqual(input, escaped);
+	XCTAssertEqualObjects(escaped, @"This is an &lt;b&gt;email&lt;/b&gt;: John Do &lt;john@do.com&gt;");
 }
 
 @end
