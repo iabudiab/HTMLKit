@@ -8,6 +8,31 @@
 
 #import "HTMLTokenPolicy.h"
 
+@interface HTMLTokenPolicy()
+{
+	HTMLToken * (^ _policyBlock)(HTMLToken *);
+}
+@end
+
 @implementation HTMLTokenPolicy
+
++ (instancetype)policy:(HTMLToken * _Nullable (^)(HTMLToken * _Nonnull))block
+{
+	return [[HTMLTokenPolicy alloc] initWithBlock:block];
+}
+
+- (instancetype)initWithBlock:(HTMLToken * _Nullable (^)(HTMLToken * _Nonnull))block
+{
+	self = [super init];
+	if (self) {
+		_policyBlock = block;
+	}
+	return self;
+}
+
+- (HTMLToken *)apply:(HTMLToken *)token
+{
+	return _policyBlock(token);
+}
 
 @end
