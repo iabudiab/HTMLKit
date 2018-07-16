@@ -608,4 +608,19 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
     XCTAssertTrue([element.elementId isEqualToString:divId]);
 }
 
+- (void)testBugFix_Issue_28 {
+    HTMLDocument *document = self.document;
+    HTMLNodeIterator *iterator = document.body.nodeIterator;
+    
+    [iterator nextNode]; // Reference node: <body>
+    
+    HTMLElement *span = (HTMLElement*)iterator.nextNode; // <span>
+    NSString *spanTag = @"span";
+    XCTAssertTrue([span.tagName isEqualToString:spanTag]);
+    
+    HTMLElement *paragraph = span.nextSiblingElement; // <p>
+    NSString *paragraphTag = @"p";
+    XCTAssertTrue([paragraph.tagName isEqualToString:paragraphTag]);
+}
+
 @end
