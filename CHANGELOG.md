@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.1.5](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.5) 
+
+Released on 2018.07.16
+
+### Fixes
+
+- Parser would handle foreign attributes incorrectly (issue #30)
+
+
 ## [2.1.4](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.4) 
 
 Released on 2018.05.01
