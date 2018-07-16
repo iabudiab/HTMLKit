@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HTMLTokenPolicy : NSObject
 
-+ (instancetype)policy:(nullable HTMLToken * (^)(HTMLToken *))block;
++ (instancetype)policy:(HTMLToken * _Nullable (^)(HTMLToken *))block;
 
 - (nullable HTMLToken *)apply:(HTMLToken *)token;
 

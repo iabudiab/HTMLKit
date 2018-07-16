@@ -16,6 +16,8 @@ extern const unsigned char HTMLKitVersionString[];
 
 #import "HTMLDOM.h"
 #import "HTMLParser.h"
+#import "HTMLSanitizer.h"
+
 #import "HTMLKitErrorDomain.h"
 #import "HTMLOrderedDictionary.h"
 

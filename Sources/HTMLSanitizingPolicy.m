@@ -8,6 +8,29 @@
 
 #import "HTMLSanitizingPolicy.h"
 
+@interface HTMLSanitizingPolicy()
+{
+	NSMutableArray *_policies;
+}
+@end
+
 @implementation HTMLSanitizingPolicy
+
+- (instancetype)init
+{
+	self = [super init];
+	if (self) {
+		_policies = [NSMutableArray new];
+	}
+	return self;
+}
+
+- (HTMLSanitizingPolicy *)combineWith:(HTMLSanitizingPolicy *)other
+{
+	if (other) {
+		[_policies addObject:other];
+	}
+	return self;
+}
 
 @end

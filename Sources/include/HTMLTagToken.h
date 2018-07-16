@@ -6,10 +6,6 @@
 //  Copyright (c) 2014 BrainCookie. All rights reserved.
 //
 
-///------------------------------------------------------
-/// HTMLKit private header
-///------------------------------------------------------
-
 #import <Foundation/Foundation.h>
 #import "HTMLToken.h"
 #import "HTMLOrderedDictionary.h"
