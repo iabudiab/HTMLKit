@@ -34,5 +34,6 @@ module HTMLKit {
 		header "HTMLParser+Private.h"
 		header "HTMLNodeTraversal.h"
 		header "HTMLDOMUtils.h"
+		header "NSString+Private.h"
 	}
 }

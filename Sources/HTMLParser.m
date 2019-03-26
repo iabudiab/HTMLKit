@@ -1142,7 +1142,7 @@
 			if (charactes.length > 0) {
 				[self reconstructActiveFormattingElements];
 				[self insertCharacters:charactes];
-				if (!charactes.isHTMLWhitespaceString) {
+				if (!charactes.htmlkit_isHTMLWhitespaceString) {
 					_framesetOkFlag = NO;
 				}
 			}
@@ -2313,7 +2313,7 @@
 			[characters enumerateSubstringsInRange:NSMakeRange(0, characters.length)
 										   options:NSStringEnumerationByComposedCharacterSequences
 										usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-											if (substring.isHTMLWhitespaceString) {
+											if (substring.htmlkit_isHTMLWhitespaceString) {
 												[self insertCharacters:substring];
 											} else {
 												[self emitParseError:@"Unexpected Character (%@) in <frameset>", substring];
@@ -2381,7 +2381,7 @@
 			[characters enumerateSubstringsInRange:NSMakeRange(0, characters.length)
 										   options:NSStringEnumerationByComposedCharacterSequences
 										usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-											if (substring.isHTMLWhitespaceString) {
+											if (substring.htmlkit_isHTMLWhitespaceString) {
 												[self insertCharacters:substring];
 											} else {
 												[self emitParseError:@"Unexpected Character (%@) after <frameset>", substring];
@@ -2515,7 +2515,7 @@
 										usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
 											if ([substring isEqualToString:@"\uFFFD"]) {
 												[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
-											} else if (!substring.isHTMLWhitespaceString) {
+											} else if (!substring.htmlkit_isHTMLWhitespaceString) {
 												_framesetOkFlag = NO;
 											}
 											[self insertCharacters:substring];

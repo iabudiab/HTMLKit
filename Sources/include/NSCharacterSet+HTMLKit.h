@@ -19,17 +19,18 @@ NS_ASSUME_NONNULL_BEGIN
  A character set for HTML whitespace characters: CHARACTER TABULATION U+0009, LINE FEED U+000A, FORM FEED U+000C,
  CARRIAGE RETURN U+000D, and SPACE U+0020.
  */
-+ (instancetype)HTMLWhitespaceCharacterSet;
+
++ (instancetype)htmlkit_HTMLWhitespaceCharacterSet;
 
 /**
  A character set for HTML HEX-Number characters: The digits 0-9, latin small letters a-f, and latin capital letters A-F.
  */
-+ (instancetype)HTMLHexNumberCharacterSet;
++ (instancetype)htmlkit_HTMLHexNumberCharacterSet;
 
 /**
  A character set for CSS Nth-Expression: The digits 0-9, space, latin small n, latin capital N, plus sing and minus sign.
  */
-+ (instancetype)CSSNthExpressionCharacterSet;
++ (instancetype)htmlkit_CSSNthExpressionCharacterSet;
 
 @end
 

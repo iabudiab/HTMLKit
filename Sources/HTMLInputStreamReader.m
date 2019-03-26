@@ -170,7 +170,7 @@
 
 - (BOOL)consumeHexNumber:(unsigned long long *)result
 {
-	NSCharacterSet *set = [NSCharacterSet HTMLHexNumberCharacterSet];
+	NSCharacterSet *set = [NSCharacterSet htmlkit_HTMLHexNumberCharacterSet];
 
 	NSString *string = nil;
 	BOOL success = [_scanner scanCharactersFromSet:set intoString:&string];

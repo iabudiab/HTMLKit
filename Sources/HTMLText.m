@@ -8,7 +8,7 @@
 
 #import "HTMLText.h"
 #import "HTMLElement.h"
-#import "NSString+HTMLKit.h"
+#import "NSString+Private.h"
 #import "HTMLCharacterData+Private.h"
 #import "HTMLKitDOMExceptions.h"
 #import "HTMLDocument+Private.h"

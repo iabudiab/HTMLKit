@@ -58,6 +58,18 @@
 		625A14B019C7829400AD0C32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AF19C7829400AD0C32 /* Cocoa.framework */; };
 		625A14C519C7829400AD0C32 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14C419C7829400AD0C32 /* XCTest.framework */; };
 		625A14C919C7829400AD0C32 /* HTMLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625A14AC19C7829400AD0C32 /* HTMLKit.framework */; };
+		625A67C9224AC62C00C6D57D /* NSString+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A67C7224AC62C00C6D57D /* NSString+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		625A67CA224AC62C00C6D57D /* NSString+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A67C7224AC62C00C6D57D /* NSString+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		625A67CB224AC62C00C6D57D /* NSString+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A67C7224AC62C00C6D57D /* NSString+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		625A67CC224AC62C00C6D57D /* NSString+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625A67C7224AC62C00C6D57D /* NSString+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		625A67CD224AC62C00C6D57D /* NSString+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67C8224AC62C00C6D57D /* NSString+Private.m */; };
+		625A67CE224AC62C00C6D57D /* NSString+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67C8224AC62C00C6D57D /* NSString+Private.m */; };
+		625A67CF224AC62C00C6D57D /* NSString+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67C8224AC62C00C6D57D /* NSString+Private.m */; };
+		625A67D0224AC62C00C6D57D /* NSString+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67C8224AC62C00C6D57D /* NSString+Private.m */; };
+		625A67D2224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67D1224ADC7700C6D57D /* HTMLQuircksMode.m */; };
+		625A67D3224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67D1224ADC7700C6D57D /* HTMLQuircksMode.m */; };
+		625A67D4224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67D1224ADC7700C6D57D /* HTMLQuircksMode.m */; };
+		625A67D5224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 625A67D1224ADC7700C6D57D /* HTMLQuircksMode.m */; };
 		625D0F031C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		625D0F041C2717DE00D7BEB0 /* HTMLNode+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		625EE4571CBAA41D00F2CC8E /* HTMLKitTestObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 625EE4561CBAA41D00F2CC8E /* HTMLKitTestObserver.m */; };
@@ -692,6 +704,9 @@
 		625A14DF19C7834100AD0C32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		625A150619C78ABA00AD0C32 /* HTMLInputStreamReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLInputStreamReader.h; path = include/HTMLInputStreamReader.h; sourceTree = "<group>"; };
 		625A150719C78ABA00AD0C32 /* HTMLInputStreamReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLInputStreamReader.m; sourceTree = "<group>"; };
+		625A67C7224AC62C00C6D57D /* NSString+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+Private.h"; path = "include/NSString+Private.h"; sourceTree = "<group>"; };
+		625A67C8224AC62C00C6D57D /* NSString+Private.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Private.m"; sourceTree = "<group>"; };
+		625A67D1224ADC7700C6D57D /* HTMLQuircksMode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLQuircksMode.m; sourceTree = "<group>"; };
 		625D0F011C2717DE00D7BEB0 /* HTMLNode+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HTMLNode+Private.h"; path = "include/HTMLNode+Private.h"; sourceTree = "<group>"; };
 		625EE4551CBAA41D00F2CC8E /* HTMLKitTestObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLKitTestObserver.h; path = HTMLKitTests/HTMLKitTestObserver.h; sourceTree = "<group>"; };
 		625EE4561CBAA41D00F2CC8E /* HTMLKitTestObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLKitTestObserver.m; path = HTMLKitTests/HTMLKitTestObserver.m; sourceTree = "<group>"; };
@@ -872,6 +887,7 @@
 				6238C9841AB8D6330006512E /* HTMLKitDOMExceptions.m */,
 				628B7CE61A080E1000602C87 /* HTMLNamespaces.h */,
 				623719431AA12EE8002E03C8 /* HTMLQuirksMode.h */,
+				625A67D1224ADC7700C6D57D /* HTMLQuircksMode.m */,
 				625D0F071C2717E400D7BEB0 /* Private */,
 			);
 			name = DOM;
@@ -1055,6 +1071,8 @@
 		628E16ED1ADAE73700B15A06 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				625A67C7224AC62C00C6D57D /* NSString+Private.h */,
+				625A67C8224AC62C00C6D57D /* NSString+Private.m */,
 				6235CE991AA509430026937B /* NSString+HTMLKit.h */,
 				6235CE9A1AA509430026937B /* NSString+HTMLKit.m */,
 				624B28C21B04190D0048D328 /* NSCharacterSet+HTMLKit.h */,
@@ -1189,6 +1207,7 @@
 				62ECBEEA1C0B69FD00AF847B /* HTMLCommentToken.h in Headers */,
 				62ECBEEB1C0B69FD00AF847B /* HTMLDOCTYPEToken.h in Headers */,
 				626BE1E21DF3819500C49514 /* HTMLDOMUtils.h in Headers */,
+				625A67C9224AC62C00C6D57D /* NSString+Private.h in Headers */,
 				62ECBEEC1C0B69FD00AF847B /* HTMLParseErrorToken.h in Headers */,
 				62ECBEED1C0B69FD00AF847B /* HTMLTagToken.h in Headers */,
 				62ECBEEE1C0B69FD00AF847B /* HTMLEOFToken.h in Headers */,
@@ -1262,6 +1281,7 @@
 				62857C841D398917008DC254 /* HTMLParser.h in Headers */,
 				62857CDB1D3989CE008DC254 /* CSSAttributeSelector.h in Headers */,
 				62857C791D398907008DC254 /* HTMLEOFToken.h in Headers */,
+				625A67CC224AC62C00C6D57D /* NSString+Private.h in Headers */,
 				626BE1E51DF3819500C49514 /* HTMLDOMUtils.h in Headers */,
 				62857CC41D3989A9008DC254 /* CSSSelectors.h in Headers */,
 				62857C731D398907008DC254 /* HTMLToken.h in Headers */,
@@ -1335,6 +1355,7 @@
 				62857D4E1D39A40A008DC254 /* HTMLTokenizerCharacters.h in Headers */,
 				62857D4D1D39A40A008DC254 /* HTMLTokenizerStates.h in Headers */,
 				62857D501D39A411008DC254 /* HTMLTokens.h in Headers */,
+				625A67CB224AC62C00C6D57D /* NSString+Private.h in Headers */,
 				626BE1E41DF3819500C49514 /* HTMLDOMUtils.h in Headers */,
 				62857D7B1D39A452008DC254 /* HTMLNamespaces.h in Headers */,
 				62857D581D39A416008DC254 /* HTMLParser.h in Headers */,
@@ -1408,6 +1429,7 @@
 				62ECBFAF1C0B6D3B00AF847B /* HTMLNodeIterator.h in Headers */,
 				62ECBFB01C0B6D3C00AF847B /* HTMLTreeWalker.h in Headers */,
 				62ECBFB21C0B6D3C00AF847B /* HTMLNodeFilter.h in Headers */,
+				625A67CA224AC62C00C6D57D /* NSString+Private.h in Headers */,
 				62567F511C0CB5750025D458 /* HTMLDOMTokenList.h in Headers */,
 				62ECBFB31C0B6D3C00AF847B /* HTMLKitDOMExceptions.h in Headers */,
 				62ECBFB41C0B6D3D00AF847B /* HTMLNamespaces.h in Headers */,
@@ -1730,6 +1752,7 @@
 				62ECBF2A1C0B6B7900AF847B /* HTMLNode.m in Sources */,
 				62ECBF2B1C0B6B7900AF847B /* HTMLDocument.m in Sources */,
 				62ECBF2C1C0B6B7900AF847B /* HTMLDocumentType.m in Sources */,
+				625A67D2224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */,
 				62ECBF2D1C0B6B7900AF847B /* HTMLDocumentFragment.m in Sources */,
 				62ECBF2E1C0B6B7900AF847B /* HTMLElement.m in Sources */,
 				62ECBF2F1C0B6B7900AF847B /* HTMLComment.m in Sources */,
@@ -1748,6 +1771,7 @@
 				62ECBF3C1C0B6B7900AF847B /* CSSInputStream.m in Sources */,
 				62ECBF3D1C0B6B7900AF847B /* CSSSelectorParser.m in Sources */,
 				62ECBF3E1C0B6B7900AF847B /* CSSNthExpressionParser.m in Sources */,
+				625A67CD224AC62C00C6D57D /* NSString+Private.m in Sources */,
 				62ECBF3F1C0B6B7900AF847B /* CSSSelector.m in Sources */,
 				62ECBF401C0B6B7900AF847B /* CSSSelectorBlock.m in Sources */,
 				62ECBF411C0B6B7900AF847B /* CSSTypeSelector.m in Sources */,
@@ -1820,6 +1844,7 @@
 				62857C811D398912008DC254 /* HTMLParseErrorToken.m in Sources */,
 				62857CD21D3989B8008DC254 /* CSSCombinatorSelector.m in Sources */,
 				62857CB91D398992008DC254 /* HTMLNodeIterator.m in Sources */,
+				625A67D5224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */,
 				62857CCF1D3989B8008DC254 /* CSSPseudoClassSelector.m in Sources */,
 				62857C7A1D398912008DC254 /* HTMLInputStreamReader.m in Sources */,
 				62857CC11D39899C008DC254 /* NSCharacterSet+HTMLKit.m in Sources */,
@@ -1838,6 +1863,7 @@
 				62857CBC1D398992008DC254 /* HTMLNodeFilter.m in Sources */,
 				62857CC01D39899C008DC254 /* NSString+HTMLKit.m in Sources */,
 				62857CCA1D3989B8008DC254 /* CSSInputStream.m in Sources */,
+				625A67D0224AC62C00C6D57D /* NSString+Private.m in Sources */,
 				62857CCE1D3989B8008DC254 /* CSSAttributeSelector.m in Sources */,
 				62857CC31D3989A3008DC254 /* HTMLOrderedDictionary.m in Sources */,
 				62857CC91D3989B8008DC254 /* CSSNthExpressionParser.m in Sources */,
@@ -1875,6 +1901,7 @@
 				62857D0F1D39A32A008DC254 /* HTMLNode.m in Sources */,
 				62857D2C1D39A334008DC254 /* CSSCombinatorSelector.m in Sources */,
 				62857D181D39A32A008DC254 /* HTMLNodeIterator.m in Sources */,
+				625A67D4224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */,
 				62857D291D39A334008DC254 /* CSSPseudoClassSelector.m in Sources */,
 				62857D011D39A324008DC254 /* HTMLInputStreamReader.m in Sources */,
 				62857D1E1D39A334008DC254 /* NSCharacterSet+HTMLKit.m in Sources */,
@@ -1893,6 +1920,7 @@
 				62857D1B1D39A32A008DC254 /* HTMLNodeFilter.m in Sources */,
 				62857D1D1D39A334008DC254 /* NSString+HTMLKit.m in Sources */,
 				62857D241D39A334008DC254 /* CSSInputStream.m in Sources */,
+				625A67CF224AC62C00C6D57D /* NSString+Private.m in Sources */,
 				62857D281D39A334008DC254 /* CSSAttributeSelector.m in Sources */,
 				62857D1F1D39A334008DC254 /* HTMLOrderedDictionary.m in Sources */,
 				62857D231D39A334008DC254 /* CSSNthExpressionParser.m in Sources */,
@@ -1965,6 +1993,7 @@
 				62ECBF721C0B6D2A00AF847B /* HTMLNode.m in Sources */,
 				62ECBF731C0B6D2A00AF847B /* HTMLDocument.m in Sources */,
 				62ECBF741C0B6D2A00AF847B /* HTMLDocumentType.m in Sources */,
+				625A67D3224ADC7700C6D57D /* HTMLQuircksMode.m in Sources */,
 				62ECBF751C0B6D2A00AF847B /* HTMLDocumentFragment.m in Sources */,
 				62ECBF761C0B6D2A00AF847B /* HTMLElement.m in Sources */,
 				62ECBF771C0B6D2A00AF847B /* HTMLComment.m in Sources */,
@@ -1983,6 +2012,7 @@
 				62ECBF841C0B6D2A00AF847B /* CSSInputStream.m in Sources */,
 				62ECBF851C0B6D2A00AF847B /* CSSSelectorParser.m in Sources */,
 				62ECBF861C0B6D2A00AF847B /* CSSNthExpressionParser.m in Sources */,
+				625A67CE224AC62C00C6D57D /* NSString+Private.m in Sources */,
 				62ECBF871C0B6D2A00AF847B /* CSSSelector.m in Sources */,
 				62ECBF881C0B6D2A00AF847B /* CSSSelectorBlock.m in Sources */,
 				62ECBF891C0B6D2A00AF847B /* CSSTypeSelector.m in Sources */,

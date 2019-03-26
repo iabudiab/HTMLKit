@@ -7,7 +7,7 @@
 //
 
 #import "HTMLDocumentType.h"
-#import "NSString+HTMLKit.h"
+#import "NSString+Private.h"
 #import "HTMLNode+Private.h"
 
 NS_INLINE BOOL nilOrEqual(id first, id second) {

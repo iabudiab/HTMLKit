@@ -61,7 +61,7 @@
 		}
 		case CSSAttributeSelectorIncludes:
 		{
-			NSArray *components = [element[_name] componentsSeparatedByCharactersInSet:[NSCharacterSet HTMLWhitespaceCharacterSet]];
+			NSArray *components = [element[_name] componentsSeparatedByCharactersInSet:[NSCharacterSet htmlkit_HTMLWhitespaceCharacterSet]];
 			return [components containsObject:_value];
 		}
 		case CSSAttributeSelectorBegins:

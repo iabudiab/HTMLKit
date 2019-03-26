@@ -8,7 +8,7 @@
 
 #import "CSSNthExpressionParser.h"
 #import "CSSCodePoints.h"
-#import "NSString+HTMLKit.h"
+#import "NSString+Private.h"
 #import "NSCharacterSet+HTMLKit.h"
 
 @implementation CSSNthExpressionParser
@@ -26,7 +26,7 @@
 		return CSSNthExpressionEven;
 	}
 
-	NSCharacterSet *set = [[NSCharacterSet CSSNthExpressionCharacterSet] invertedSet];
+	NSCharacterSet *set = [[NSCharacterSet htmlkit_CSSNthExpressionCharacterSet] invertedSet];
 	if ([string rangeOfCharacterFromSet:set].location != NSNotFound) {
 		return CSSNthExpressionMake(0, 0);
 	}

@@ -8,7 +8,7 @@
 
 #import "CSSTypeSelector.h"
 #import "HTMLElement.h"
-#import "NSString+HTMLKit.h"
+#import "NSString+Private.h"
 
 @interface CSSTypeSelector ()
 {
