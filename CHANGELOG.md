@@ -1,5 +1,14 @@
 # Change Log
 
+## [3.0.0](https://github.com/iabudiab/HTMLKit/releases/tag/3.0.0) 
+
+Released on 2019.03.28
+
+### Breaking Change
+
+- Introduce prefix for `NSString` and `NSCharacterSet` categories to prevent collision with existing code (issue #35)
+
+
 ## [2.1.5](https://github.com/iabudiab/HTMLKit/releases/tag/2.1.5) 
 
 Released on 2018.07.16
