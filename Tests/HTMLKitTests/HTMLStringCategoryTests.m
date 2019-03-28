@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "NSString+Private.h"
 #import "NSString+HTMLKit.h"
 
 @interface HTMLKitStringCategoryTests : XCTestCase
@@ -50,33 +51,33 @@
 
 - (void)testIsHTMLWhitespaceString
 {
-	XCTAssertTrue([@" " isHTMLWhitespaceString]);
-	XCTAssertTrue([@"\t" isHTMLWhitespaceString]);
-	XCTAssertTrue([@"\n" isHTMLWhitespaceString]);
-	XCTAssertTrue([@"\f" isHTMLWhitespaceString]);
-	XCTAssertTrue([@"\r" isHTMLWhitespaceString]);
-	XCTAssertTrue([@" \t\n\f\r" isHTMLWhitespaceString]);
-	XCTAssertTrue([@"\t\n\f\r " isHTMLWhitespaceString]);
-	XCTAssertTrue([@" \t \n \f \r" isHTMLWhitespaceString]);
-	XCTAssertFalse([@"html kit" isHTMLWhitespaceString]);
+	XCTAssertTrue([@" " htmlkit_isHTMLWhitespaceString]);
+	XCTAssertTrue([@"\t" htmlkit_isHTMLWhitespaceString]);
+	XCTAssertTrue([@"\n" htmlkit_isHTMLWhitespaceString]);
+	XCTAssertTrue([@"\f" htmlkit_isHTMLWhitespaceString]);
+	XCTAssertTrue([@"\r" htmlkit_isHTMLWhitespaceString]);
+	XCTAssertTrue([@" \t\n\f\r" htmlkit_isHTMLWhitespaceString]);
+	XCTAssertTrue([@"\t\n\f\r " htmlkit_isHTMLWhitespaceString]);
+	XCTAssertTrue([@" \t \n \f \r" htmlkit_isHTMLWhitespaceString]);
+	XCTAssertFalse([@"html kit" htmlkit_isHTMLWhitespaceString]);
 }
 
 - (void)testLeadingWhitespaceLength
 {
-	XCTAssertEqual([@"" leadingHTMLWhitespaceLength], 0);
-	XCTAssertEqual([@"\0" leadingHTMLWhitespaceLength], 0);
+	XCTAssertEqual([@"" htmlkit_leadingHTMLWhitespaceLength], 0);
+	XCTAssertEqual([@"\0" htmlkit_leadingHTMLWhitespaceLength], 0);
 
-	XCTAssertEqual([@" " leadingHTMLWhitespaceLength], 1);
-	XCTAssertEqual([@"\0 " leadingHTMLWhitespaceLength], 0);
+	XCTAssertEqual([@" " htmlkit_leadingHTMLWhitespaceLength], 1);
+	XCTAssertEqual([@"\0 " htmlkit_leadingHTMLWhitespaceLength], 0);
 
-	XCTAssertEqual([@"  " leadingHTMLWhitespaceLength], 2);
-	XCTAssertEqual([@" \0 " leadingHTMLWhitespaceLength], 1);
+	XCTAssertEqual([@"  " htmlkit_leadingHTMLWhitespaceLength], 2);
+	XCTAssertEqual([@" \0 " htmlkit_leadingHTMLWhitespaceLength], 1);
 
-	XCTAssertEqual([@"\t\r\n\f" leadingHTMLWhitespaceLength], 4);
-	XCTAssertEqual([@"\t\r\n\0\f" leadingHTMLWhitespaceLength], 3);
+	XCTAssertEqual([@"\t\r\n\f" htmlkit_leadingHTMLWhitespaceLength], 4);
+	XCTAssertEqual([@"\t\r\n\0\f" htmlkit_leadingHTMLWhitespaceLength], 3);
 
-	XCTAssertEqual([@"\t\r\n\f " leadingHTMLWhitespaceLength], 5);
-	XCTAssertEqual([@"\t\r\n\f\0 " leadingHTMLWhitespaceLength], 4);
+	XCTAssertEqual([@"\t\r\n\f " htmlkit_leadingHTMLWhitespaceLength], 5);
+	XCTAssertEqual([@"\t\r\n\f\0 " htmlkit_leadingHTMLWhitespaceLength], 4);
 }
 
 @end

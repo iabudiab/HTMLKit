@@ -12,7 +12,7 @@
 
 #import	"HTMLElement.h"
 #import "HTMLNamespaces.h"
-#import "NSString+HTMLKit.h"
+#import "NSString+Private.h"
 
 NS_INLINE BOOL IsNodeMathMLTextIntegrationPoint(HTMLElement *node)
 {

@@ -10,7 +10,7 @@
 
 @implementation NSCharacterSet (HTMLKit)
 
-+ (instancetype)HTMLWhitespaceCharacterSet
++ (instancetype)htmlkit_HTMLWhitespaceCharacterSet
 {
 	static NSCharacterSet *set = nil;
 	static dispatch_once_t onceToken;
@@ -20,7 +20,7 @@
 	return set;
 }
 
-+ (instancetype)HTMLHexNumberCharacterSet
++ (instancetype)htmlkit_HTMLHexNumberCharacterSet
 {
 	static NSCharacterSet *set = nil;
 	static dispatch_once_t onceToken;
@@ -30,7 +30,7 @@
 	return set;
 }
 
-+ (instancetype)CSSNthExpressionCharacterSet
++ (instancetype)htmlkit_CSSNthExpressionCharacterSet
 {
 	static NSCharacterSet *set = nil;
 	static dispatch_once_t onceToken;

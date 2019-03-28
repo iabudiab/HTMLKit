@@ -9,7 +9,7 @@
 #import "CSSStructuralPseudoSelectors.h"
 #import "CSSSelectors.h"
 #import "HTMLElement.h"
-#import "NSString+HTMLKit.h"
+#import "NSString+Private.h"
 
 #pragma mark - Elements
 

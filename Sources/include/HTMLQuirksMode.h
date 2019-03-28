@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 BrainCookie. All rights reserved.
 //
 
-#import "NSString+HTMLKit.h"
-
 /**
  HTML quirks modes
  https://html.spec.whatwg.org/multipage/infrastructure.html#quirks-mode
@@ -82,12 +80,4 @@ static NSString * HTMLQuirksModePrefixes[] = {
 #undef QUIRKS_ENTRY
 };
 
-NS_INLINE BOOL QuirksModePrefixMatch(NSString *publicIdentifier)
-{
-	for (int i = 0; i < sizeof(HTMLQuirksModePrefixes) / sizeof(HTMLQuirksModePrefixes[0]); i++) {
-		if ([publicIdentifier hasPrefixIgnoringCase:HTMLQuirksModePrefixes[i]]) {
-			return YES;
-		}
-	}
-	return NO;
-}
+extern BOOL QuirksModePrefixMatch(NSString *publicIdentifier);

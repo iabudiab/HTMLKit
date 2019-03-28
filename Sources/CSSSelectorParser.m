@@ -10,7 +10,7 @@
 #import "CSSInputStream.h"
 #import "CSSCodePoints.h"
 #import "CSSSelectors.h"
-#import "NSString+HTMLKit.h"
+#import "NSString+Private.h"
 #import "NSCharacterSet+HTMLKit.h"
 #import "CSSNthExpressionParser.h"
 #import "CSSCompoundSelector.h"
