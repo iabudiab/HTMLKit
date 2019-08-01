@@ -12,6 +12,10 @@
 
 #import "HTMLNode.h"
 
+@class HTMLText;
+@class HTMLComment;
+@class HTMLDocumentType;
+
 /**
  Private HTML Node methods which are not intended for public API.
  */
@@ -43,6 +47,21 @@
  Casts this node to a HTML Element. This cast should only be performed after the appropriate check.
  */
 - (HTMLElement *)asElement;
+
+/**
+ Casts this node to a HTML Text. This cast should only be performed after the appropriate check.
+ */
+- (HTMLText *)asText;
+
+/**
+ Casts this node to a HTML Comment. This cast should only be performed after the appropriate check.
+ */
+- (HTMLComment *)asComment;
+
+/**
+ Casts this node to a HTML Document Type. This cast should only be performed after the appropriate check.
+ */
+- (HTMLDocumentType *)asDocumentType;
 
 /**
  Returns the same string representation of the DOM tree rooted at this node that is used by html5lib-tests.

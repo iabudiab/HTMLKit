@@ -355,6 +355,14 @@
 		62D91C281DE218A500BEFADE /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D91C221DE218A500BEFADE /* HTMLRange.m */; };
 		62D91C291DE218A500BEFADE /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D91C221DE218A500BEFADE /* HTMLRange.m */; };
 		62D91C2A1DE218A500BEFADE /* HTMLRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D91C221DE218A500BEFADE /* HTMLRange.m */; };
+		62E0917F22EDEB9D00C61073 /* HTMLSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 62E0917D22EDEB9D00C61073 /* HTMLSerializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62E0918022EDEB9D00C61073 /* HTMLSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 62E0917D22EDEB9D00C61073 /* HTMLSerializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62E0918122EDEB9D00C61073 /* HTMLSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 62E0917D22EDEB9D00C61073 /* HTMLSerializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62E0918222EDEB9D00C61073 /* HTMLSerializer.h in Headers */ = {isa = PBXBuildFile; fileRef = 62E0917D22EDEB9D00C61073 /* HTMLSerializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		62E0918322EDEB9D00C61073 /* HTMLSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E0917E22EDEB9D00C61073 /* HTMLSerializer.m */; };
+		62E0918422EDEB9D00C61073 /* HTMLSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E0917E22EDEB9D00C61073 /* HTMLSerializer.m */; };
+		62E0918522EDEB9D00C61073 /* HTMLSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E0917E22EDEB9D00C61073 /* HTMLSerializer.m */; };
+		62E0918622EDEB9D00C61073 /* HTMLSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E0917E22EDEB9D00C61073 /* HTMLSerializer.m */; };
 		62E0BA971E25456700E4D193 /* HTMLCharacterDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E0BA961E25456700E4D193 /* HTMLCharacterDataTests.m */; };
 		62E0BA981E25456700E4D193 /* HTMLCharacterDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E0BA961E25456700E4D193 /* HTMLCharacterDataTests.m */; };
 		62E0BA991E25456700E4D193 /* HTMLCharacterDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E0BA961E25456700E4D193 /* HTMLCharacterDataTests.m */; };
@@ -770,6 +778,8 @@
 		62D8345819FB1AC4009205A9 /* HTML5LibTokenizerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTML5LibTokenizerTest.m; path = HTMLKitTests/HTML5LibTokenizerTest.m; sourceTree = "<group>"; };
 		62D91C211DE218A500BEFADE /* HTMLRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HTMLRange.h; path = include/HTMLRange.h; sourceTree = "<group>"; };
 		62D91C221DE218A500BEFADE /* HTMLRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLRange.m; sourceTree = "<group>"; };
+		62E0917D22EDEB9D00C61073 /* HTMLSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLSerializer.h; path = include/HTMLSerializer.h; sourceTree = "<group>"; };
+		62E0917E22EDEB9D00C61073 /* HTMLSerializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLSerializer.m; sourceTree = "<group>"; };
 		62E0BA961E25456700E4D193 /* HTMLCharacterDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HTMLCharacterDataTests.m; path = HTMLKitTests/HTMLCharacterDataTests.m; sourceTree = "<group>"; };
 		62E1A3B41E610E5300C41C3B /* Fixtures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fixtures; sourceTree = "<group>"; };
 		62E7CAAE19CDFFB500465A83 /* HTMLTokenizerCharacters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLTokenizerCharacters.h; path = include/HTMLTokenizerCharacters.h; sourceTree = "<group>"; };
@@ -1017,6 +1027,7 @@
 				62AE593219F97CCA0043F069 /* Tokenizing */,
 				628E16EC1ADAE71700B15A06 /* Parsing */,
 				623719441AA1472B002E03C8 /* DOM */,
+				62E0917C22EDEB8700C61073 /* Serializing */,
 				628E16ED1ADAE73700B15A06 /* Categories */,
 				628E16EE1ADAE75300B15A06 /* Structures */,
 				62079BE61AF5656600D3B402 /* CSS */,
@@ -1157,6 +1168,15 @@
 			name = Parser;
 			sourceTree = "<group>";
 		};
+		62E0917C22EDEB8700C61073 /* Serializing */ = {
+			isa = PBXGroup;
+			children = (
+				62E0917D22EDEB9D00C61073 /* HTMLSerializer.h */,
+				62E0917E22EDEB9D00C61073 /* HTMLSerializer.m */,
+			);
+			name = Serializing;
+			sourceTree = "<group>";
+		};
 		62ECBEDF1C0B671000AF847B /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
@@ -1259,6 +1279,7 @@
 				62ECBEF81C0B69FE00AF847B /* HTMLDocument.h in Headers */,
 				62ECBEF91C0B69FE00AF847B /* HTMLDocumentType.h in Headers */,
 				62ECBEFA1C0B69FE00AF847B /* HTMLDocumentFragment.h in Headers */,
+				62E0917F22EDEB9D00C61073 /* HTMLSerializer.h in Headers */,
 				62ECBEFC1C0B69FE00AF847B /* HTMLComment.h in Headers */,
 				62ECBEFD1C0B69FE00AF847B /* HTMLText.h in Headers */,
 				62ECBEFE1C0B69FE00AF847B /* HTMLTemplate.h in Headers */,
@@ -1335,6 +1356,7 @@
 				621CC4A81DEA721A00D1992A /* HTMLParser+Private.h in Headers */,
 				62857CAF1D398977008DC254 /* HTMLNodeTraversal.h in Headers */,
 				62857C771D398907008DC254 /* HTMLParseErrorToken.h in Headers */,
+				62E0918222EDEB9D00C61073 /* HTMLSerializer.h in Headers */,
 				62857CDC1D3989CE008DC254 /* CSSPseudoClassSelector.h in Headers */,
 				62857CC21D3989A1008DC254 /* HTMLOrderedDictionary.h in Headers */,
 				62857C761D398907008DC254 /* HTMLDOCTYPEToken.h in Headers */,
@@ -1411,6 +1433,7 @@
 				621CC4A71DEA721A00D1992A /* HTMLParser+Private.h in Headers */,
 				62857D8F1D39A47F008DC254 /* CSSCombinatorSelector.h in Headers */,
 				62857D5C1D39A41D008DC254 /* HTMLElementAdjustment.h in Headers */,
+				62E0918122EDEB9D00C61073 /* HTMLSerializer.h in Headers */,
 				62857D891D39A47F008DC254 /* CSSSelectorBlock.h in Headers */,
 				62857D6D1D39A44E008DC254 /* HTMLDOM.h in Headers */,
 				62857D751D39A44E008DC254 /* HTMLTemplate.h in Headers */,
@@ -1487,6 +1510,7 @@
 				62ECBFC11C0B6D4100AF847B /* CSSTypeSelector.h in Headers */,
 				62ECBFC21C0B6D4100AF847B /* CSSAttributeSelector.h in Headers */,
 				62ECBFC31C0B6D4100AF847B /* CSSPseudoClassSelector.h in Headers */,
+				62E0918022EDEB9D00C61073 /* HTMLSerializer.h in Headers */,
 				62ECBFC41C0B6D4200AF847B /* CSSNthExpressionSelector.h in Headers */,
 				62ECBFC51C0B6D4200AF847B /* CSSPseudoFunctionSelector.h in Headers */,
 				62ECBFC61C0B6D4300AF847B /* CSSCombinatorSelector.h in Headers */,
@@ -1784,6 +1808,7 @@
 				62ECBF251C0B6B7900AF847B /* HTMLEOFToken.m in Sources */,
 				62ECBF261C0B6B7900AF847B /* HTMLParser.m in Sources */,
 				62ECBF271C0B6B7900AF847B /* HTMLStackOfOpenElements.m in Sources */,
+				62E0918322EDEB9D00C61073 /* HTMLSerializer.m in Sources */,
 				62ECBF281C0B6B7900AF847B /* HTMLListOfActiveFormattingElements.m in Sources */,
 				6295FB0B22F0E770005C6DE8 /* HTMLNodeVisitor.m in Sources */,
 				62ECBF291C0B6B7900AF847B /* HTMLMarker.m in Sources */,
@@ -1879,6 +1904,7 @@
 				62857C7B1D398912008DC254 /* HTMLTokenizer.m in Sources */,
 				62857CB21D398992008DC254 /* HTMLDocument.m in Sources */,
 				62857CBD1D398992008DC254 /* HTMLKitDOMExceptions.m in Sources */,
+				62E0918622EDEB9D00C61073 /* HTMLSerializer.m in Sources */,
 				62857CD11D3989B8008DC254 /* CSSPseudoFunctionSelector.m in Sources */,
 				6295FB0E22F0E770005C6DE8 /* HTMLNodeVisitor.m in Sources */,
 				62857C7F1D398912008DC254 /* HTMLCommentToken.m in Sources */,
@@ -1938,6 +1964,7 @@
 				62857D061D39A324008DC254 /* HTMLCommentToken.m in Sources */,
 				62857D111D39A32A008DC254 /* HTMLDocumentType.m in Sources */,
 				62857D1C1D39A32A008DC254 /* HTMLKitDOMExceptions.m in Sources */,
+				62E0918522EDEB9D00C61073 /* HTMLSerializer.m in Sources */,
 				62857D2B1D39A334008DC254 /* CSSPseudoFunctionSelector.m in Sources */,
 				6295FB0D22F0E770005C6DE8 /* HTMLNodeVisitor.m in Sources */,
 				62857D081D39A324008DC254 /* HTMLParseErrorToken.m in Sources */,
@@ -2033,6 +2060,7 @@
 				62ECBF6D1C0B6D2A00AF847B /* HTMLEOFToken.m in Sources */,
 				62ECBF6E1C0B6D2A00AF847B /* HTMLParser.m in Sources */,
 				62ECBF6F1C0B6D2A00AF847B /* HTMLStackOfOpenElements.m in Sources */,
+				62E0918422EDEB9D00C61073 /* HTMLSerializer.m in Sources */,
 				62ECBF701C0B6D2A00AF847B /* HTMLListOfActiveFormattingElements.m in Sources */,
 				6295FB0C22F0E770005C6DE8 /* HTMLNodeVisitor.m in Sources */,
 				62ECBF711C0B6D2A00AF847B /* HTMLMarker.m in Sources */,

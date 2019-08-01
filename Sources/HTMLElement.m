@@ -149,42 +149,6 @@
 	return copy;
 }
 
-#pragma mark - Serialization
-
-- (NSString *)outerHTML
-{
-	NSMutableString *result = [NSMutableString string];
-
-	[result appendFormat:@"<%@", self.tagName];
-	[self.attributes enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
-		NSMutableString *escaped = [value mutableCopy];
-		[escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, escaped.length)];
-		[escaped replaceOccurrencesOfString:@"0x00A0" withString:@"&nbsp;" options:0 range:NSMakeRange(0, escaped.length)];
-		[escaped replaceOccurrencesOfString:@"\"" withString:@"&quot;" options:0 range:NSMakeRange(0, escaped.length)];
-
-		[result appendFormat:@" %@=\"%@\"", key, escaped];
-	}];
-
-	[result appendString:@">"];
-
-	if ([self.tagName isEqualToAny:@"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed",
-		 @"frame", @"hr", @"img", @"input", @"keygen", @"link", @"menuitem", @"meta", @"param", @"source",
-		 @"track", @"wbr", nil]) {
-		return result;
-	}
-
-	if ([self.tagName isEqualToAny:@"pre", @"textarea", @"listing", nil] && self.firstChild.nodeType == HTMLNodeText) {
-		HTMLText *textNode = (HTMLText *)self.firstChild;
-		if ([textNode.data hasPrefix:@"\n"]) {
-			[result appendString:@"\n"];
-		}
-	}
-	[result appendString:self.innerHTML];
-	[result appendFormat:@"</%@>", self.tagName];
-
-	return result;
-}
-
 #pragma mark - Description
 
 - (NSString *)description
