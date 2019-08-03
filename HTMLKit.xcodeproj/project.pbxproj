@@ -759,7 +759,7 @@
 		6295FB0622F0E770005C6DE8 /* HTMLNodeVisitor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLNodeVisitor.m; sourceTree = "<group>"; };
 		6295FB0F22F0ECEE005C6DE8 /* HTMLTreeVisitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HTMLTreeVisitor.h; path = include/HTMLTreeVisitor.h; sourceTree = "<group>"; };
 		6295FB1022F0ECEE005C6DE8 /* HTMLTreeVisitor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeVisitor.m; sourceTree = "<group>"; };
-		6295FB1922F0F309005C6DE8 /* HTMLTreeVisitorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLTreeVisitorTests.m; sourceTree = "<group>"; };
+		6295FB1922F0F309005C6DE8 /* HTMLTreeVisitorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HTMLTreeVisitorTests.m; path = HTMLKitTests/HTMLTreeVisitorTests.m; sourceTree = "<group>"; };
 		62A95A4C1FB0FBFC0009FF26 /* HTMLSerializationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HTMLSerializationTests.m; path = HTMLKitTests/HTMLSerializationTests.m; sourceTree = "<group>"; };
 		62ACB8DB1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSSPseudoFunctionSelector.h; path = include/CSSPseudoFunctionSelector.h; sourceTree = "<group>"; };
 		62ACB8DC1BC5C13E00E283C1 /* CSSPseudoFunctionSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSPseudoFunctionSelector.m; sourceTree = "<group>"; };
@@ -952,7 +952,6 @@
 				62EC7AE51AEEAC6F0015D3BE /* HTMLMutationAlgorithmsTests.m */,
 				62EC0A841E158BD80007786B /* HTMLRangeTests.m */,
 				62E0BA961E25456700E4D193 /* HTMLCharacterDataTests.m */,
-				62A95A4C1FB0FBFC0009FF26 /* HTMLSerializationTests.m */,
 			);
 			name = DOM;
 			sourceTree = "<group>";
@@ -1054,6 +1053,7 @@
 				6236738C1AC0CD2400FF89B3 /* Tokenizer */,
 				623975581AC362A5007E26F1 /* Tree Construction */,
 				62C82E0B20FD2FCB008497A8 /* Parser */,
+				629621A222F5A24400F81B5A /* Serialization */,
 				624B9FB71AE072CB00646C4C /* DOM */,
 				624B9FB81AE072D500646C4C /* Categories */,
 				624E1A2D1B1D1C8A00E66AAC /* Structures */,
@@ -1128,6 +1128,14 @@
 				623424871AB467B200726190 /* HTMLOrderedDictionary.m */,
 			);
 			name = Structures;
+			sourceTree = "<group>";
+		};
+		629621A222F5A24400F81B5A /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				62A95A4C1FB0FBFC0009FF26 /* HTMLSerializationTests.m */,
+			);
+			name = Serialization;
 			sourceTree = "<group>";
 		};
 		62AE593219F97CCA0043F069 /* Tokenizing */ = {
