@@ -2112,10 +2112,10 @@
 	@autoreleasepool {
 		HTMLRange *range = [[HTMLRange alloc] initWithDocument:document];
 		[range cloneContents];
-		XCTAssertEqual(1, ranges.count);
+		XCTAssertEqual(1, ranges.allObjects.count);
 	}
 
-	XCTAssertEqual(0, ranges.count);
+	XCTAssertEqual(0, ranges.allObjects.count);
 }
 
 @end
