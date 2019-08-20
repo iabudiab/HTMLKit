@@ -141,7 +141,7 @@
 
 - (void)detachNodeIterator:(HTMLNodeIterator *)iterator
 {
-	[_nodeIterators removeObject:iterator];
+	// NOOP
 }
 
 #pragma mark - Ranges
@@ -153,7 +153,7 @@
 
 - (void)detachRange:(HTMLRange *)range
 {
-	[_ranges removeObject:range];
+	// NOOP
 }
 
 - (void)didRemoveCharacterDataInNode:(HTMLCharacterData *)node atOffset:(NSUInteger)offset withLength:(NSUInteger)length

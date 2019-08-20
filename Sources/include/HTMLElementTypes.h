@@ -10,6 +10,7 @@
 /// HTMLKit private header
 ///------------------------------------------------------
 
+#import "HTMLNode+Private.h"
 #import	"HTMLElement.h"
 #import "HTMLNamespaces.h"
 #import "NSString+Private.h"
@@ -52,3 +53,14 @@ NS_INLINE BOOL IsSpecialElement(HTMLElement *element)
 	}
 	return NO;
 }
+
+NS_INLINE BOOL DoesNodeSerializeAsVoid(HTMLNode *node)
+{
+	if (node.nodeType != HTMLNodeElement) {
+		return false;
+	}
+
+	return [node.asElement.tagName isEqualToAny:@"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed",
+			@"frame", @"hr", @"img", @"input", @"keygen", @"link", @"meta", @"param", @"source", @"track", @"wbr", nil];
+}
+

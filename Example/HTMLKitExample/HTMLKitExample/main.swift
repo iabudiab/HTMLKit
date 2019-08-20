@@ -112,7 +112,7 @@ do {
 	try scraper.load()
 
 	// Parse the selector
-	let repositoryContent = try CSSSelectorParser.parseSelector("[role='main'] .repository-content > .file-wrap > .files tr.js-navigation-item")
+	let repositoryContent = try CSSSelectorParser.parseSelector(".repository-content > .file-wrap > table.files tr.js-navigation-item")
 
 	// Query matching elements
 	let files =  try scraper.listElements(matching: repositoryContent)
@@ -132,12 +132,9 @@ do {
 	// can be defined in type-safe manner:
 	let selector = allOf([
 		descendantOfElementSelector(
-			attributeSelector(.exactMatch, "role", "main")
-		),
-		descendantOfElementSelector(
 			allOf([
 				typeSelector("div"),
-				classSelector("file")
+				classSelector("repository-content")
 			])
 		),
 		descendantOfElementSelector(

@@ -21,13 +21,6 @@
 	return [super initWithName:@"#comment" type:HTMLNodeComment data:data];
 }
 
-#pragma mark - Serialization
-
-- (NSString *)outerHTML
-{
-	return [NSString stringWithFormat:@"<!--%@-->", self.data];
-}
-
 #pragma mark - Description
 
 - (NSString *)description

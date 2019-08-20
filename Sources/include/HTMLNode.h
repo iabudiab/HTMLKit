@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "HTMLNodeIterator.h"
+#import "HTMLTreeVisitor.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

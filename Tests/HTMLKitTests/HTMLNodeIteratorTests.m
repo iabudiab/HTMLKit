@@ -580,19 +580,20 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
 	XCTAssertNotNil(body);
 
 	// iterator should be deallocated and detached at this point
-	XCTAssertEqual(0, nodeIterators.count);
+	XCTAssertEqual(0, nodeIterators.allObjects.count);
 
 	// iterator should be autoreleased, deallocated and detached after autoreleasepool
 	@autoreleasepool {
 		HTMLNodeIterator *iterator = [[HTMLNodeIterator alloc] initWithNode:body];
 		[iterator nextNode];
-		XCTAssertEqual(1, nodeIterators.count);
+		XCTAssertEqual(1, nodeIterators.allObjects.count);
 	}
 
-	XCTAssertEqual(0, nodeIterators.count);
+	XCTAssertEqual(0, nodeIterators.allObjects.count);
 }
 
-- (void)testBugFix_Issue_22 {
+- (void)testBugFix_Issue_22
+{
     // The issue is applicable only for devices. On simulator the test is passed.
     HTMLDocument *document = [HTMLDocument documentWithString:@"<div id=\"id\"></div>"];
     
@@ -608,7 +609,8 @@ static HTMLNode * (^ LastDescendant)(HTMLNode *) = ^ HTMLNode * (HTMLNode *node)
     XCTAssertTrue([element.elementId isEqualToString:divId]);
 }
 
-- (void)testBugFix_Issue_28 {
+- (void)testBugFix_Issue_28
+{
     HTMLDocument *document = self.document;
     HTMLNodeIterator *iterator = document.body.nodeIterator;
     

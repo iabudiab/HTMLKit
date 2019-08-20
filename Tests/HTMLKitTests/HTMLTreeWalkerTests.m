@@ -7,7 +7,6 @@
 	//
 
 #import <XCTest/XCTest.h>
-#import "HTMLTreeWalker.h"
 #import "HTMLDOM.h"
 #import "HTMLNode+Private.h"
 

@@ -66,23 +66,6 @@ NS_INLINE void CheckValidOffset(HTMLNode *node, NSUInteger offset, NSString *cmd
 	return newNode;
 }
 
-#pragma mark - Serialization
-
-- (NSString *)outerHTML
-{
-	if ([self.parentElement.tagName isEqualToAny:@"style", @"script", @"xmp", @"iframe", @"noembed", @"noframes",
-		 @"plaintext", @"noscript", nil]) {
-		return self.data;
-	} else {
-		NSMutableString *escaped = [self.data mutableCopy];
-		[escaped replaceOccurrencesOfString:@"&" withString:@"&amp;" options:0 range:NSMakeRange(0, escaped.length)];
-		[escaped replaceOccurrencesOfString:@"\00A0" withString:@"&nbsp;" options:0 range:NSMakeRange(0, escaped.length)];
-		[escaped replaceOccurrencesOfString:@"<" withString:@"&lt;" options:0 range:NSMakeRange(0, escaped.length)];
-		[escaped replaceOccurrencesOfString:@">" withString:@"&gt;" options:0 range:NSMakeRange(0, escaped.length)];
-		return escaped;
-	}
-}
-
 #pragma mark - Description
 
 - (NSString *)description

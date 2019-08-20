@@ -1,5 +1,20 @@
 # Change Log
 
+## [3.1.0](https://github.com/iabudiab/HTMLKit/releases/tag/3.1.0)
+
+Release on 2019.08.20
+
+### Added
+
+- `HTMLTreeVisitor` that walks the DOM in tree order
+- New HTML serialization implementation based on visitor pattern
+
+### Fixes
+
+- HTML serialization for deeply nested DOM trees (issue #33)
+- Occasional Internal Consistency exceptions when deallocating node iterator (issue #36)
+
+
 ## [3.0.0](https://github.com/iabudiab/HTMLKit/releases/tag/3.0.0) 
 
 Released on 2019.03.28
