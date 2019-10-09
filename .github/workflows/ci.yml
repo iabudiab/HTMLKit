@@ -1,0 +1,12 @@
+name: HTMLKit CI
+
+on: [push]
+
+jobs:
+  macOS:
+    name: Test macOS 
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1    
+      - name: macOS
+        run: xcodebuild -workspace "HTMLKit.xcworkspace" -scheme "HTMLKit-macOS" -destination "platform=macOS" clean test
