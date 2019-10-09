@@ -8,7 +8,7 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1   
-      - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@2.0.0
+        with:
+          submodules: recursive  
       - name: macOS
         run: xcodebuild -workspace "HTMLKit.xcworkspace" -scheme "HTMLKit-macOS" -destination "platform=macOS" clean test
