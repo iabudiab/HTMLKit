@@ -18,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface HTMLTemplate : HTMLElement
 
+/**
+Decalration override for `NS_UNAVAILABLE` declared in `HTMLNode`
+*/
+- (instancetype)init;
+
 /** 
  The content of the template.
  

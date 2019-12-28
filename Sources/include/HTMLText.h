@@ -16,6 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HTMLText : HTMLCharacterData
 
 /**
+Decalration override for `NS_UNAVAILABLE` declared in `HTMLNode`
+*/
+- (instancetype)init;
+
+/**
  Initializes a new HTML text node.
 
  @param data The text string.

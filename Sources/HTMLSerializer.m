@@ -54,11 +54,11 @@
 	[_result setString:@""];
 
 	HTMLNodeVisitorBlock *nodeVisitor = [HTMLNodeVisitorBlock visitorWithEnterBlock:^(HTMLNode * node) {
-		if (scope == HTMLSerializationScopeChildrenOnly && node == _root) {
+        if (scope == HTMLSerializationScopeChildrenOnly && node == self->_root) {
 			return;
 		}
 
-		if (_ignore > 0) {
+        if (self->_ignore > 0) {
 			return;
 		}
 
@@ -79,7 +79,7 @@
 				break;
 		}
 	} leaveBlock:^(HTMLNode * _Nonnull node) {
-		if (scope == HTMLSerializationScopeChildrenOnly && node == _root) {
+        if (scope == HTMLSerializationScopeChildrenOnly && node == self->_root) {
 			return;
 		}
 
@@ -88,7 +88,7 @@
 				if ([node.asElement.tagName isEqualToAny:@"area", @"base", @"basefont", @"bgsound", @"br", @"col", @"embed",
 					 @"frame", @"hr", @"img", @"input", @"keygen", @"link", @"menuitem", @"meta", @"param", @"source",
 					 @"track", @"wbr", nil]) {
-					_ignore--;
+                    self->_ignore--;
 					break;
 				}
 				[self closeElement:node.asElement];

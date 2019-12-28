@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HTMLDocumentFragment : HTMLNode
 
 /**
+Decalration override for `NS_UNAVAILABLE` declared in `HTMLNode`
+*/
+- (instancetype)init;
+
+/**
  Initializes a new document fragment with the given document as owner.
  
  @param document The owner document.

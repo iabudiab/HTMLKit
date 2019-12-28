@@ -1308,7 +1308,7 @@
 		_framesetOkFlag = NO;
 	} else if ([tagName isEqualToString:@"a"]) {
 		HTMLElement *element = ^ HTMLElement * {
-			for (HTMLElement *element in _listOfActiveFormattingElements.reverseObjectEnumerator) {
+            for (HTMLElement *element in self->_listOfActiveFormattingElements.reverseObjectEnumerator) {
 				if ([element isEqual:[HTMLMarker marker]]) return nil;
 				if ([element.tagName isEqualToString:@"a"]) {
 					return element;
@@ -1776,7 +1776,7 @@
 - (void)HTMLInsertionModeInCaption:(HTMLToken *)token
 {
 	void (^ common) (BOOL) = ^ (BOOL reprocess) {
-		if (![_stackOfOpenElements hasElementInTableScopeWithTagName:@"caption"]) {
+        if (![self->_stackOfOpenElements hasElementInTableScopeWithTagName:@"caption"]) {
 			[self emitParseError:@"Unexpected end tag </caption> for misnested element in <caption>"];
 			return;
 		}
@@ -1784,8 +1784,8 @@
 		if (![self.currentNode.tagName isEqualToString:@"caption"]) {
 			[self emitParseError:@"Misnested <caption> element in <caption>"];
 		}
-		[_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"caption"];
-		[_listOfActiveFormattingElements clearUptoLastMarker];
+        [self->_stackOfOpenElements popElementsUntilElementPoppedWithTagName:@"caption"];
+        [self->_listOfActiveFormattingElements clearUptoLastMarker];
 		[self switchInsertionMode:HTMLInsertionModeInTable];
 
 		if (reprocess) {
@@ -1890,12 +1890,12 @@
 - (void)HTMLInsertionModeInTableBody:(HTMLToken *)token
 {
 	void (^ common) (BOOL) = ^ (BOOL reprocess) {
-		if (![_stackOfOpenElements hasElementInTableScopeWithAnyOfTagNames:@[@"tbody", @"tfoot", @"thead"]]) {
+        if (![self->_stackOfOpenElements hasElementInTableScopeWithAnyOfTagNames:@[@"tbody", @"tfoot", @"thead"]]) {
 			[self emitParseError:@"Unexpected tag '%@' for misnested element in <tbody>", token.asTagToken.tagName];
 			return;
 		} else {
-			[_stackOfOpenElements clearBackToTableBodyContext];
-			[_stackOfOpenElements popCurrentNode];
+            [self->_stackOfOpenElements clearBackToTableBodyContext];
+            [self->_stackOfOpenElements popCurrentNode];
 			[self switchInsertionMode:HTMLInsertionModeInTable];
 		}
 
@@ -1946,12 +1946,12 @@
 - (void)HTMLInsertionModeInRow:(HTMLToken *)token
 {
 	void (^ common) (NSString *, BOOL) = ^ (NSString *elementTagName, BOOL reprocess) {
-		if (![_stackOfOpenElements hasElementInTableScopeWithTagName:elementTagName]) {
+        if (![self->_stackOfOpenElements hasElementInTableScopeWithTagName:elementTagName]) {
 			[self emitParseError:@"Unexpected tag '%@' for misnested element <%@> in <tr>", token.asTagToken.tagName, elementTagName];
 			return;
 		} else {
-			[_stackOfOpenElements clearBackToTableRowContext];
-			[_stackOfOpenElements popCurrentNode];
+            [self->_stackOfOpenElements clearBackToTableRowContext];
+            [self->_stackOfOpenElements popCurrentNode];
 			[self switchInsertionMode:HTMLInsertionModeInTableBody];
 		}
 
@@ -2516,7 +2516,7 @@
 											if ([substring isEqualToString:@"\uFFFD"]) {
 												[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
 											} else if (!substring.htmlkit_isHTMLWhitespaceString) {
-												_framesetOkFlag = NO;
+                                                self->_framesetOkFlag = NO;
 											}
 											[self insertCharacters:substring];
 										}];
@@ -2541,20 +2541,20 @@
 				}
 				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.htmlNamespace];
 				if (token.asTagToken.selfClosing) {
-					[_stackOfOpenElements popCurrentNode];
+                    [self->_stackOfOpenElements popCurrentNode];
 				}
 			};
 
 			void (^ matchedCase)(void) = ^ {
 				[self emitParseError:@"Unexpected start tag <%@> in foreign content", token.asTagToken.tagName];
-				if (_fragmentParsingAlgorithm) {
+                if (self->_fragmentParsingAlgorithm) {
 					anythingElse();
 				} else {
-					[_stackOfOpenElements popCurrentNode];
+                    [self->_stackOfOpenElements popCurrentNode];
 					while (!IsNodeMathMLTextIntegrationPoint(self.currentNode) &&
 						   !IsNodeHTMLIntegrationPoint(self.currentNode) &&
 						   self.currentNode.htmlNamespace != HTMLNamespaceHTML) {
-						[_stackOfOpenElements popCurrentNode];
+                        [self->_stackOfOpenElements popCurrentNode];
 					}
 					[self reprocessToken:token];
 				}

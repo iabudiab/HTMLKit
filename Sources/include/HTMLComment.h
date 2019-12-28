@@ -16,6 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HTMLComment : HTMLCharacterData
 
 /**
+Decalration override for `NS_UNAVAILABLE` declared in `HTMLNode`
+*/
+- (instancetype)init;
+
+/**
  Initializes a new HTML comment node.
 
  @param data The comment string.

@@ -79,6 +79,11 @@ typedef NS_ENUM(short, HTMLDocumentReadyState)
 + (instancetype)documentWithString:(NSString *)string;
 
 /**
+Decalration override for `NS_UNAVAILABLE` declared in `HTMLNode`
+*/
+- (instancetype)init;
+
+/**
  Adopts a given node into this document, i.e. the document becomes the new owner of the node. Raises a HTMLKitNotSupportedError
  exception if node is an instance of HTMLDocument.
  

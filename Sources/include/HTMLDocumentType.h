@@ -32,6 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *systemIdentifier;
 
 /**
+Decalration override for `NS_UNAVAILABLE` declared in `HTMLNode`
+*/
+- (instancetype)init;
+
+/**
  Initializes and returns a new isntance of a Document Type node.
 
  @param name The name.
