@@ -7,8 +7,22 @@ jobs:
     name: Test macOS 
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v1   
+      - uses: actions/checkout@v2
         with:
-          submodules: recursive  
+          submodules: recursive
       - name: macOS
-        run: xcodebuild -workspace "HTMLKit.xcworkspace" -scheme "HTMLKit-macOS" -destination "platform=macOS" clean test
+        run: xcodebuild -workspace "HTMLKit.xcworkspace" -scheme "HTMLKit-macOS" -destination "platform=macOS" clean test | xcpretty
+  iOS:
+    name: Test iOS 
+    runs-on: macOS-latest
+    env: 
+      DEVELOPER_DIR: /Applications/Xcode_11.5.app/Contents/Developer
+    strategy:
+      matrix:
+        destination: ["OS=13.5,name=iPhone 11 Pro", "OS=12.4,name=iPhone XS", "OS=11.4,name=iPhone X"]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: iOS - ${{ matrix.destination }}
+        run: xcodebuild -workspace "HTMLKit.xcworkspace" -scheme "HTMLKit-iOS" -destination "${{ matrix.destination }}" clean test | xcpretty
