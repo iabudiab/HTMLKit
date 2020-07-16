@@ -1,5 +1,15 @@
 # Change Log
 
+## [4.0.0](https://github.com/iabudiab/HTMLKit/releases/tag/4.0.0)
+
+Release on 2020.07.16
+
+### Breaking Change
+
+- Swift package version updated to 5.1
+
+
+
 ## [3.1.0](https://github.com/iabudiab/HTMLKit/releases/tag/3.1.0)
 
 Release on 2019.08.20
