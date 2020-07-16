@@ -11,7 +11,9 @@ jobs:
         with:
           submodules: recursive
       - name: macOS
-        run: xcodebuild -workspace "HTMLKit.xcworkspace" -scheme "HTMLKit-macOS" -destination "platform=macOS" clean test | xcpretty
+        run: xcodebuild -workspace "HTMLKit.xcworkspace" -scheme "HTMLKit-macOS" -destination "platform=macOS" -configuration Debug ONLY_ACTIVE_ARCH=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty
+      - name: code coverage
+        uses: codecov/codecov-action@v1
   iOS:
     name: Test iOS 
     runs-on: macOS-latest
