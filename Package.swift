@@ -1,7 +1,9 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(
 	name: "HTMLKit",
-	exclude: ["Example", "Tests/Fixtures", "Tests/css-tests", "Tests/html5lib-tests"]
+	products: [.library(name: "HTMLKit", targets: ["HTMLKit"])],
+	targets: [.target(name: "HTMLKit", dependencies: [], path: "Sources")],
+	swiftLanguageVersions: [.v5]
 )
