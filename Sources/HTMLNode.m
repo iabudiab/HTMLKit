@@ -383,16 +383,16 @@ NSString * const RemoveChildNode = @"-removeChildNode:";
 	}
 
 	if (self.ownerDocument != otherNode.ownerDocument) {
-		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
-				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
+		return ((HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
+				self.hash < otherNode.hash) ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
 	}
 
 	NSArray *ancestors1 = GetAncestorNodes(self);
 	NSArray *ancestors2 = GetAncestorNodes(otherNode);
 
 	if (ancestors1.lastObject != ancestors2.lastObject) {
-		return (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
-				self.hash < otherNode.hash ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
+		return ((HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
+				self.hash < otherNode.hash) ? HTMLDocumentPositionPreceding : HTMLDocumentPositionFollowing);
 	}
 
 	NSUInteger index1 = ancestors1.count;
