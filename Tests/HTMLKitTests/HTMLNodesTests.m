@@ -495,9 +495,7 @@
 	XCTAssertTrue([paragraph compareDocumentPositionWithNode:paragraph] == HTMLDocumentPositionEquivalent);
 
 	HTMLElement *element = [HTMLElement new];
-	XCTAssertTrue([paragraph compareDocumentPositionWithNode:element] ==
-				  (HTMLDocumentPositionDisconnected | HTMLDocumentPositionImplementationSpecific |
-				   paragraph.hash < element.hash ? HTMLDocumentPositionPreceding: HTMLDocumentPositionFollowing));
+	XCTAssertTrue([paragraph compareDocumentPositionWithNode:element] == HTMLDocumentPositionPreceding);
 
 	XCTAssertTrue([paragraph compareDocumentPositionWithNode:image] == HTMLDocumentPositionPreceding);
 	XCTAssertTrue([anchor compareDocumentPositionWithNode:image] == HTMLDocumentPositionPreceding);
