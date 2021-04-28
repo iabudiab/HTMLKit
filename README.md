@@ -77,7 +77,7 @@ To add `HTMLKit` as a dependency into your project using CocoaPods just add the 
 
 ```ruby
 target 'MyTarget' do
-  pod 'HTMLKit', '~> 4.0'
+  pod 'HTMLKit', '~> 4.1'
 end
 ```
 
