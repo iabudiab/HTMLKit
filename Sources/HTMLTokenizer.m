@@ -2413,6 +2413,7 @@
 						  usingComparator:^ NSComparisonResult (id obj1, id obj2) { return [obj1 compare:obj2]; }];
 
 		if (searchIndex >= entities.count || ![[entities objectAtIndex:searchIndex] hasPrefix:name]) {
+			[name setString:[name substringToIndex:name.length -1]];
 			break;
 		}
 

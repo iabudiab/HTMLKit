@@ -1308,7 +1308,7 @@
 		_framesetOkFlag = NO;
 	} else if ([tagName isEqualToString:@"a"]) {
 		HTMLElement *element = ^ HTMLElement * {
-            for (HTMLElement *element in self->_listOfActiveFormattingElements.reverseObjectEnumerator) {
+			for (HTMLElement *element in self->_listOfActiveFormattingElements.reverseObjectEnumerator) {
 				if ([element isEqual:[HTMLMarker marker]]) return nil;
 				if ([element.tagName isEqualToString:@"a"]) {
 					return element;
@@ -2513,13 +2513,13 @@
 			[characters enumerateSubstringsInRange:NSMakeRange(0, characters.length)
 										   options:NSStringEnumerationByComposedCharacterSequences
 										usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-											if ([substring isEqualToString:@"\uFFFD"]) {
-												[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
-											} else if (!substring.htmlkit_isHTMLWhitespaceString) {
-                                                self->_framesetOkFlag = NO;
-											}
-											[self insertCharacters:substring];
-										}];
+				if ([substring isEqualToString:@"\uFFFD"]) {
+					[self emitParseError:@"Unexpected Character (0x0000) in foreign content"];
+				} else if (!substring.htmlkit_isHTMLWhitespaceString) {
+					self->_framesetOkFlag = NO;
+				}
+				[self insertCharacters:substring];
+			}];
 
 			return;
 		}
@@ -2541,23 +2541,19 @@
 				}
 				[self insertForeignElementForToken:token.asTagToken inNamespace:self.adjustedCurrentNode.htmlNamespace];
 				if (token.asTagToken.selfClosing) {
-                    [self->_stackOfOpenElements popCurrentNode];
+					[self->_stackOfOpenElements popCurrentNode];
 				}
 			};
 
 			void (^ matchedCase)(void) = ^ {
 				[self emitParseError:@"Unexpected start tag <%@> in foreign content", token.asTagToken.tagName];
-                if (self->_fragmentParsingAlgorithm) {
-					anythingElse();
-				} else {
-                    [self->_stackOfOpenElements popCurrentNode];
-					while (!IsNodeMathMLTextIntegrationPoint(self.currentNode) &&
-						   !IsNodeHTMLIntegrationPoint(self.currentNode) &&
-						   self.currentNode.htmlNamespace != HTMLNamespaceHTML) {
-                        [self->_stackOfOpenElements popCurrentNode];
-					}
-					[self reprocessToken:token];
+
+				while (!IsNodeMathMLTextIntegrationPoint(self.currentNode) &&
+					   !IsNodeHTMLIntegrationPoint(self.currentNode) &&
+					   self.currentNode.htmlNamespace != HTMLNamespaceHTML) {
+					[self->_stackOfOpenElements popCurrentNode];
 				}
+				[self processToken:token byApplyingRulesForInsertionMode:HTMLInsertionModeInBody];
 			};
 
 			if ([token.asTagToken.tagName isEqualToAny:@"b", @"big", @"blockquote", @"body", @"br",
