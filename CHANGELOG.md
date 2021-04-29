@@ -1,5 +1,11 @@
 # Change Log
 
+## [4.2.0](https://github.com/iabudiab/HTMLKit/releases/tag/4.1.0)
+
+- Fix test compilation under Xcode 12.5 (issue #43)
+- Updated HTML5Lib-Tests submodule (082a4be)
+- Updated parser and tokenizer for latest spec changes to pass test suite
+
 ## [4.1.0](https://github.com/iabudiab/HTMLKit/releases/tag/4.1.0)
 
 - Updated project for Xcode 12.5
