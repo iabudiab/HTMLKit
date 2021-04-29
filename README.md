@@ -4,11 +4,10 @@
 
 An Objective-C framework for your everyday HTML needs.
 
-[![Build Status](https://img.shields.io/travis/iabudiab/HTMLKit/main.svg?style=flat)](https://travis-ci.org/iabudiab/HTMLKit)
+[![HTMLKit CI](https://github.com/iabudiab/HTMLKit/actions/workflows/ci.yml/badge.svg)](https://github.com/iabudiab/HTMLKit/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/iabudiab/HTMLKit/branch/main/graph/badge.svg)](https://codecov.io/gh/iabudiab/HTMLKit)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/HTMLKit.svg?style=flat)](https://cocoapods.org/pods/HTMLKit)
-[![CocoaDocs](https://img.shields.io/cocoapods/metrics/doc-percent/HTMLKit.svg?style=flat)](http://cocoadocs.org/docsets/HTMLKit)
 [![Platform](https://img.shields.io/cocoapods/p/HTMLKit.svg?style=flat)](http://cocoadocs.org/docsets/HTMLKit)
 [![License MIT](https://img.shields.io/badge/license-MIT-4481C7.svg?style=flat)](https://opensource.org/licenses/MIT)
 
