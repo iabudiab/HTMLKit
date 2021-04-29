@@ -51,7 +51,7 @@
 	[_cases addObject:_currentCase];
 }
 
-- (void)testCase:(XCTestCase *)testCase didFailWithDescription:(NSString *)description inFile:(NSString *)filePath atLine:(NSUInteger)lineNumber
+- (void)testCase:(XCTestCase *)testCase didRecordIssue:(XCTIssue *)issue
 {
 	_currentCase[@"status"]	= @"Failed";
 }

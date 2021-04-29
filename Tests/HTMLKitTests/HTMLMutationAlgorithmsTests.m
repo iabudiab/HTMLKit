@@ -28,7 +28,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	parent = [HTMLDocumentFragment new];
 	XCTAssertNoThrow([parent appendNode:element]);
 
-	parent = [HTMLElement new];
+	parent = [[HTMLElement alloc] initWithTagName:@"div"];
 	XCTAssertNoThrow([parent appendNode:element]);
 
 	parent = [HTMLTemplate new];
@@ -54,7 +54,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	parent = [HTMLDocumentFragment new];
 	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
 
-	parent = [HTMLElement new];
+	parent = [[HTMLElement alloc] initWithTagName:@"div"];
 	XCTAssertNoThrow([parent insertNode:element beforeChildNode:nil]);
 
 	parent = [HTMLTemplate new];
@@ -115,9 +115,9 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 	XCTAssertNoThrow([document appendNode:[HTMLDocumentFragment new]]);
 	XCTAssertNoThrow([document appendNode:[HTMLDocumentType new]]);
-	XCTAssertNoThrow([document appendNode:[HTMLElement new]]);
+	XCTAssertNoThrow([document appendNode:[[HTMLElement alloc] initWithTagName:@"div"]]);
 
-	HTMLElement *element = [HTMLElement new];
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
 
 	XCTAssertNoThrow([element appendNode:[HTMLTemplate new]]);
 	XCTAssertNoThrow([element appendNode:[HTMLComment new]]);
@@ -132,7 +132,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 	XCTAssertThrows([[HTMLDocumentFragment new] appendNode:doctype]);
 	XCTAssertThrows([[HTMLDocumentType new] appendNode:doctype]);
-	XCTAssertThrows([[HTMLElement new] appendNode:doctype]);
+	XCTAssertThrows([[[HTMLElement alloc] initWithTagName:@"div"] appendNode:doctype]);
 	XCTAssertThrows([[HTMLTemplate new] appendNode:doctype]);
 	XCTAssertThrows([[HTMLComment new] appendNode:doctype]);
 	XCTAssertThrows([[HTMLText new] appendNode:doctype]);
@@ -148,7 +148,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	XCTAssertThrows([[HTMLText new] appendNode:text]);
 
 	XCTAssertNoThrow([[HTMLDocumentFragment new] appendNode:text]);
-	XCTAssertNoThrow([[HTMLElement new] appendNode:text]);
+	XCTAssertNoThrow([[[HTMLElement alloc] initWithTagName:@"div"] appendNode:text]);
 	XCTAssertNoThrow([[HTMLTemplate new] appendNode:text]);
 }
 
@@ -172,8 +172,8 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 * Fragment has more than one Element child
 	 */
 	reset();
-	[fragment appendNode:[HTMLElement new]];
-	[fragment appendNode:[HTMLElement new]];
+	[fragment appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
+	[fragment appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	XCTAssertThrows([document appendNode:fragment]);
 
 
@@ -182,8 +182,8 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 * Document has an Element child
 	 */
 	reset();
-	[fragment appendNode:[HTMLElement new]];
-	[document appendNode:[HTMLElement new]];
+	[fragment appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
+	[document appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	XCTAssertThrows([document appendNode:fragment]);
 
 	/**
@@ -192,7 +192,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 */
 	reset();
 	HTMLDocumentType *doctype = [HTMLDocumentType new];
-	[fragment appendNode:[HTMLElement new]];
+	[fragment appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	[document appendNode:doctype];
 	XCTAssertThrows([document insertNode:fragment beforeChildNode:doctype]);
 
@@ -202,7 +202,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 */
 	reset();
 	HTMLComment *doctypePreviousSibling = [HTMLComment new];
-	[fragment appendNode:[HTMLElement new]];
+	[fragment appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	[document appendNode:doctypePreviousSibling];
 	[document appendNode:doctype];
 	XCTAssertThrows([document insertNode:fragment beforeChildNode:doctypePreviousSibling]);
@@ -211,7 +211,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 - (void)testValidElementInsertionIntoDocument
 {
 	HTMLDocument *document = [HTMLDocument new];
-	HTMLElement *element = [HTMLElement new];
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
 
 	void (^ reset)(void) = ^ {
 		[element removeAllChildNodes];
@@ -221,7 +221,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	/**
 	 * Document has an Element child
 	 */
-	[document appendNode:[HTMLElement new]];
+	[document appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	XCTAssertThrows([document appendNode:element]);
 
 	/**
@@ -262,7 +262,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 */
 	reset();
 	HTMLComment *secondChild = [HTMLComment new];
-	[document appendNode:[HTMLElement new]];
+	[document appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	[document appendNode:secondChild];
 	XCTAssertThrows([document insertNode:doctype beforeChildNode:secondChild]);
 
@@ -270,7 +270,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 * Document has an Element child
 	 */
 	reset();
-	[document appendNode:[HTMLElement new]];
+	[document appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	XCTAssertThrows([document appendNode:doctype]);
 }
 
@@ -296,8 +296,8 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 * Replacement Fragment has more than one Element child
 	 */
 	reset();
-	[replacement appendNode:[HTMLElement new]];
-	[replacement appendNode:[HTMLElement new]];
+	[replacement appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
+	[replacement appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
 
 	/**
@@ -305,8 +305,8 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 * Document has an Element child that is not the Replacement
 	 */
 	reset();
-	[replacement appendNode:[HTMLElement new]];
-	[document appendNode:[HTMLElement new]];
+	[replacement appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
+	[document appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
 
 	/**
@@ -315,7 +315,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 */
 	reset();
 	HTMLDocumentType *doctype = [HTMLDocumentType new];
-	[replacement appendNode:[HTMLElement new]];
+	[replacement appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	[document appendNode:doctype];
 	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
 }
@@ -324,7 +324,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 {
 	HTMLDocument *document = [HTMLDocument new];
 	HTMLComment *child = [HTMLComment new];
-	HTMLElement *replacement = [HTMLElement new];
+	HTMLElement *replacement = [[HTMLElement alloc] initWithTagName:@"div"];
 
 	void (^ reset)(void) = ^ {
 		[replacement removeAllChildNodes];
@@ -335,7 +335,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	/**
 	 * Docment has an Element child that is not replacement
 	 */
-	[document appendNode:[HTMLElement new]];
+	[document appendNode:[[HTMLElement alloc] initWithTagName:@"div"]];
 	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
 
 	/**
@@ -369,7 +369,7 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	 * An Element is preceding the child node
 	 */
 	reset();
-	[document insertNode:[HTMLElement new] beforeChildNode:child];
+	[document insertNode:[[HTMLElement alloc] initWithTagName:@"div"] beforeChildNode:child];
 	XCTAssertThrows([document replaceChildNode:child withNode:replacement]);
 }
 

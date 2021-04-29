@@ -53,8 +53,8 @@
 	XCTAssertEqual(element.childNodesCount, 1);
 	XCTAssertEqual(element.firstChild, comment);
 
-	HTMLElement *firstElement = [HTMLElement new];
-	HTMLElement *secondElement = [HTMLElement new];
+	HTMLElement *firstElement = [[HTMLElement alloc] initWithTagName:@"div"];
+	HTMLElement *secondElement = [[HTMLElement alloc] initWithTagName:@"div"];
 	NSArray *nodes = @[firstElement, secondElement];
 
 	[element appendNodes:nodes];
@@ -76,8 +76,8 @@
 	XCTAssertEqual(element.childNodesCount, 2);
 	XCTAssertEqual(element.firstChild, comment);
 
-	HTMLElement *firstElement = [HTMLElement new];
-	HTMLElement *secondElement = [HTMLElement new];
+	HTMLElement *firstElement = [[HTMLElement alloc] initWithTagName:@"div"];
+	HTMLElement *secondElement = [[HTMLElement alloc] initWithTagName:@"div"];
 	NSArray *nodes = @[firstElement, secondElement];
 
 	[element prependNodes:nodes];
@@ -94,8 +94,8 @@
 	[element appendNode:comment];
 
 	HTMLDocumentFragment *fragment = [HTMLDocumentFragment new];
-	HTMLElement *firstChild = [HTMLElement new];
-	HTMLElement *secondChild = [HTMLElement new];
+	HTMLElement *firstChild = [[HTMLElement alloc] initWithTagName:@"div"];
+	HTMLElement *secondChild = [[HTMLElement alloc] initWithTagName:@"div"];
 	[fragment appendNode:firstChild];
 	[fragment appendNode:secondChild];
 
@@ -494,7 +494,7 @@
 
 	XCTAssertTrue([paragraph compareDocumentPositionWithNode:paragraph] == HTMLDocumentPositionEquivalent);
 
-	HTMLElement *element = [HTMLElement new];
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
 	XCTAssertTrue([paragraph compareDocumentPositionWithNode:element] == HTMLDocumentPositionPreceding);
 
 	XCTAssertTrue([paragraph compareDocumentPositionWithNode:image] == HTMLDocumentPositionPreceding);
@@ -556,7 +556,7 @@
 #pragma mark - Bug Fixes
 
 - (void)testBugFix_Issue_20 {
-	HTMLElement *element = [HTMLElement new];
+	HTMLElement *element = [[HTMLElement alloc] initWithTagName:@"div"];
 	element.elementId = @"originalId";
 
 	HTMLElement *clone = [element cloneNodeDeep:YES];

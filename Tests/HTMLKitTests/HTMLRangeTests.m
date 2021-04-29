@@ -103,7 +103,7 @@
 {
 	HTMLRange *range = [[HTMLRange alloc] initWithDocument:_document];
 
-	XCTAssertThrows([range setStartNode:[HTMLElement new] startOffset:0], @"Cannot set boundary to a node outside of the range's document");
+	XCTAssertThrows([range setStartNode:[[HTMLElement alloc] initWithTagName:@"div"] startOffset:0], @"Cannot set boundary to a node outside of the range's document");
 	XCTAssertThrows([range setStartNode:[HTMLDocumentType new] startOffset:0], @"DOCTYPE as range boundary is invalid");
 	XCTAssertThrows([range setStartNode:_firstText startOffset:_firstText.length + 1], @"Offset is outside the boundary node");
 
